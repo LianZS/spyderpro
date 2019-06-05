@@ -9,6 +9,11 @@ from spyderpro.Connect.InternetConnect import Connect
 class Fund(Connect):
 
     def __init__(self, user_agent: str = None):
+        """
+
+        :type user_agent: str
+        :param user_agent:浏览器
+        """
         self.request = requests.Session()
 
         self.headers = dict()
@@ -29,13 +34,16 @@ class Fund(Connect):
         }
 
     def get_real_time_fund(self, page: int, enddate: str = time.strftime('%Y-%m-%d', time.localtime())):
-        """开放式基金实时数据"""
-        '''
-        yield {"基金代码": , "基金简称": , "今天累计净值": , "今天基金净值": ,
+        """
+            获取开放式基金数据
+        :param page: 第几页面
+        :param enddate:哪天的数据
+        :rtype: list[dict]
+        :return:list[{"基金代码": , "基金简称": , "今天累计净值": , "今天基金净值": ,
                    "昨天累计净值": , "昨天基金净值": , "日涨跌": , "今年回报率": ,
-                   "购买状态": , " 赎回状态": }
+                   "购买状态": , " 赎回状态": },,,,,]
+        """
 
-        '''
         pre_url = 'http://jingzhi.funds.hexun.com/jz/JsonData/KaifangJingz.aspx?'
         parameters = self.query_string_parameters
         parameters['enddate'] = enddate

@@ -1,6 +1,4 @@
 import requests
-import json
-import re
 from urllib.parse import urlencode
 from spyderpro.Connect.InternetConnect import Connect
 
@@ -13,8 +11,11 @@ from spyderpro.Connect.InternetConnect import Connect
 class Stock(Connect):
 
     def __init__(self, user_agent: str = None):
-        """请求参数初始化"""
-        # user_agent：浏览器
+        """请求参数初始化
+        :type user_agent: str
+        :param:浏览器
+        """
+
         self.request = requests.Session()
 
         self.headers = dict()
@@ -34,12 +35,18 @@ class Stock(Connect):
             'number': '',  # 一次返回对数据量，最大100，即两页
         }
 
-    def get_real_time_a_stock(self, page: int, block: int = 2, number: int = 50):
-        """获取泸深A股实时数据"""
-        '''page::表示第几页数据，page范围为1-43
-        # 返回迭代器字典数据：{"代码": , '名称': , "最新价": , '涨跌幅': , '昨收': , '今开': ,
-        #            '最高': , '最低': , '成交量': , '成交额': , '换手': ,
-        #               '振幅': , '量比': }'''
+    def get_real_time_a_stock(self, page: int, block: int = 2, number: int = 50) -> list:
+        """获取泸深A股实时数据
+        :rtype: list[dict]
+        :param page: 第几页,范围为1-43
+        :param block: 请求类型，默认2，暂且支持2
+        :param number: 一次请求返回多少条数据，建议默认值50
+        :return:list[{"代码": code, '名称': name, "最新价": price, '涨跌幅': updownrate, '昨收': lastclose, '今开': todayopen,
+                   '最高': high, '最低': low, '成交量': volume, '成交额': priceweight, '换手': exchangeratio,
+                   '振幅': vibration_ratio, '量比': volumeratio
+                   },,,,,]
+        """
+
         assert isinstance(page, int)
         if page < 1 or page > 43:
             raise TypeError("page参数有误")
@@ -77,8 +84,16 @@ class Stock(Connect):
                    '振幅': vibration_ratio, '量比': volumeratio
                    }
 
-    def get_real_time_gb_hk_stock(self, page: int, block: int = 259, number: int = 50):
-        """获取泸深港股实时数据"""
+    def get_real_time_gb_hk_stock(self, page: int, block: int = 259, number: int = 50) -> list:
+        """获取泸深港股实时数据
+        :rtype: list
+        :param page:
+        :param block:
+        :param number:
+        :return:list[{"代码": , '名称': , "最新价": , '涨跌幅': , '昨收': , '今开': ,
+                            '最高': , '最低': , '成交额': ,
+                            },,,,,,]
+        """
         '''page::表示第几页数据，page范围为1-41
          返回迭代器字典数据：{"代码": , '名称': , "最新价": , '涨跌幅': , '昨收': , '今开': ,
                             '最高': , '最低': , '成交额': ,
@@ -112,4 +127,3 @@ class Stock(Connect):
             yield {"代码": code, '名称': name, "最新价": price, '涨跌幅': updownrate, '昨收': lastclose, '今开': todayopen,
                    '最高': high, '最低': low, '成交额': priceweight,
                    }
-
