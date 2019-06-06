@@ -5,10 +5,9 @@ import requests
 from spyderpro.Connect.InternetConnect import Connect
 from urllib.parse import urlencode
 
-'''获取位置流量趋势'''
 
-
-class PlaceTraffic(Connect):
+class PlaceTrend(Connect):
+    """获取位置流量趋势"""
     instance = None
     instance_flag: bool = False
 
@@ -17,7 +16,7 @@ class PlaceTraffic(Connect):
             cls.instance = super().__new__(cls)
         return cls.instance
 
-    def __init__(self, date_begin: str, date_end: str, intervallong: int = 1):
+    def __init__(self, date_begin: str, date_end: str, intervallong: int = 1, user_agent=None):
         """
         时间段最长15天，最小时间间隔是1分钟range，开始时间最早2016-07-18
         :type date_begin: str
@@ -33,14 +32,17 @@ class PlaceTraffic(Connect):
         self.intervallong = intervallong
         self.date_begin = "2019-04-23"  # 开始日期
         self.date_end = "2019-04-24"  # 结束日期
-        if not PlaceTraffic.instance_flag:
-            PlaceTraffic.instance_flag = True
-            self.headers = {
-                'Host': 'heat.qq.com',
-                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) '
-                              'Chrome/71.0.3578.98 Safari/537.36'
+        if not PlaceTrend.instance_flag:
+            PlaceTrend.instance_flag = True
+            self.headers = dict()
+            if user_agent is None:
+                self.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
+                                             '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
 
-            }
+            else:
+                self.headers['User-Agent'] = user_agent
+            self.headers['Host'] = 'heat.qq.com'
+
             self.request = requests.Session()
 
     # 获取所有省份
@@ -158,12 +160,3 @@ class PlaceTraffic(Connect):
 
         for date in datelist:
             yield {"景点": region_name, "日期": date, "数据": g[date]}
-
-
-p = PlaceTraffic('', '')
-d = p.get_allprovince()[0]
-r = p.get_alllcity(d)[0]
-h = p.get_regions_bycity(r['省份'], r["城市"])
-for i in h:
-    d = p.getlocations(i['景点'], i['id'])
-    print(d.__next__())

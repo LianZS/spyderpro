@@ -111,3 +111,5 @@ class KeyWord(Connect):
         return {"1688采购指数": pur1688 if pur1688flag else None, "淘宝采购指数": taobao if taobaoflag else None,
                 "1688供应指数": supply1688 if supplyflag else None, "最近时间": lastdate,
                 "最远时间": olddate}
+
+
