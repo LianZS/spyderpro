@@ -36,7 +36,7 @@ class UserHabit:
         if endmonth is not None:
             assert isinstance(endmonth, int)
         pre_url = 'http://mi.talkingdata.com/market-profile.json?'
-        monthlist = self.__monthlist(year, startmonth, endmonth)  # 请求列表
+        monthlist = self.monthset(year, startmonth, endmonth)  # 请求列表
         for date in monthlist:
             query_string_parameters = {
                 'date': date
@@ -68,9 +68,9 @@ class UserHabit:
                 name = preference['name']  # 应用偏好
                 share = preference['share']  # 占比
                 yield {"应用偏好": name, "占比": share}
-            for provinces in provinces:
-                name = provinces['name']  # 区域热度
-                share = provinces['share']  # 占比
+            for province in provinces:
+                name = province['name']  # 区域热度
+                share = province['share']  # 占比
                 yield {"区域热度 ": name, "占比": share}
 
     def get_user_behavior(self, year: int, endmonth: int = None) -> list:
@@ -83,7 +83,7 @@ class UserHabit:
         assert isinstance(year, int)
         assert isinstance(endmonth, int)
         pre_url = 'http://mi.talkingdata.com/behavior.json?'
-        monthlist = self.__monthlist(year, startmonth=endmonth)  # 以endmonth为结束点7个月每个月人均安装应用
+        monthlist = self.monthset(year, startmonth=endmonth)  # 以endmonth为结束点7个月每个月人均安装应用
         for date in monthlist:
             query_string_parameters = {
                 'dateType': 'm',
@@ -101,7 +101,14 @@ class UserHabit:
                 install = app['install']  # 人均安装应用
                 yield {"日期": date, "人均安装应用": install, "人均启动应用": active}
 
-    def __monthlist(self, year: int, startmonth: int, endmonth: int = None) -> list:
+    @staticmethod
+    def monthset(year: int, startmonth: int, endmonth: int = None) -> list:
+        """
+        获取月份列表
+        :param year: 年份
+        :param endmonth:结束月份
+        :type startmonth: int
+        """
         monthlist = []  # 请求列表
         if year < 2014:
             raise TypeError("超过最低年限2014")
@@ -115,8 +122,8 @@ class UserHabit:
         elif startmonth > endmonth:
             raise TypeError("startmonth不能大于endmonth")
         else:
-            seq = endmonth - startmonth + 1
-            for i in range(seq):
-                date = datetime.date(year, startmonth + i, 1)
+            seq: int = endmonth - startmonth + 1
+            for month in range(seq):
+                date = datetime.date(year, startmonth + month, 1)
                 monthlist.append(date)
         return monthlist
