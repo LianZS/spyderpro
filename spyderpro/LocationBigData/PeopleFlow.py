@@ -18,12 +18,12 @@ class ScencePeopleFlow(Connect):
     def peopleflow_info(self, peoplepid):
         # type键 1 表示今天 2 表示昨天 3表示最近的节日
         pre_url = 'http://jiaotong.baidu.com/trafficindex/dashboard/curve?'
-        u = {
+        query_string_parameters = {
             'type': '1',
             "area_type": "1",
             'area_id': str(peoplepid)
         }
-        url = pre_url + urlencode(u)
+        url = pre_url + urlencode(query_string_parameters)
         par: str = None
         g = self.connect(par, url=url)
 

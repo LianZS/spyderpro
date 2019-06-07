@@ -47,7 +47,7 @@ class KeyWord(Connect):
         """
 
         url = "http://index.chinaz.com/index/" + keyword
-        par = "eval\((.*?)\);"
+        par = "eval\\((.*?)\\);"
         g: dict = self.connect(par, url)
         for baidu_value, haosou_value, sougou_value in zip(g['baidu'], g['haosou'], g['sogou']):
             baidu_update = baidu_value.get("update")  # 百度最近关键词收编时间
@@ -77,6 +77,7 @@ class KeyWord(Connect):
 
         获取淘宝，1688某商品用户采购总数量，返回一年的数据
 
+        :return:
         :rtype:dict
         :param keyword:商品关键词
         :param pur1688flag:是否返回1688采购指数
@@ -88,12 +89,12 @@ class KeyWord(Connect):
         """
 
         url = 'http://index.1688.com/alizs/market.htm'
-        post = {
+        query_string_parameters = {
             'keywords': keyword,
             'n': 'y',
             'categoryId': '',
         }
-        response = requests.post(url=url, data=post)
+        response = requests.post(url=url, data=query_string_parameters)
         if response.status_code != 200:
             raise ConnectionError("网络请求"
                                   "出问题")
@@ -111,5 +112,3 @@ class KeyWord(Connect):
         return {"1688采购指数": pur1688 if pur1688flag else None, "淘宝采购指数": taobao if taobaoflag else None,
                 "1688供应指数": supply1688 if supplyflag else None, "最近时间": lastdate,
                 "最远时间": olddate}
-
-

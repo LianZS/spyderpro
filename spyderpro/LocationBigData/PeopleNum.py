@@ -16,19 +16,21 @@ class PeoplePositionin(Connect):
         :param rank: 第几块数据文件
         :param max_num: 把数据文件分割成几块
         :return list[dict,,,,,]
+        注意，返回的第一个元素是搜索时间  {"搜索时间": realtime}
         """
         assert isinstance(max_num, int)
         assert isinstance(rank, int)
         href = 'https://xingyun.map.qq.com/api/getXingyunPoints'
 
-        data = {
+        query_string_parameters = {
             'count': max_num,  # 将整个数据文件切割成几份
             'rank': rank  # 设置请求第几个数据文件
         }
 
-        response = requests.post(url=href, headers=self.headers, data=json.dumps(data))
+        response = requests.post(url=href, headers=self.headers, data=json.dumps(query_string_parameters))
         g = json.loads(response.text)
-        realtime = g['time']  # 目前的时间
+        realtime = g['time']  # 目前定位时间
+        yield {"搜索时间": realtime}
         flag = 0
         lat: float = None
         lon: float = None
@@ -46,5 +48,3 @@ class PeoplePositionin(Connect):
                 num = int(item)  # 人数
                 yield {"纬度": lat, "经度": lon, "人数": num}
                 flag = 0
-
-
