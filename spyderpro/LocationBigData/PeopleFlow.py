@@ -15,18 +15,23 @@ class ScencePeopleFlow(Connect):
             self.headers['User-Agent'] = user_agent
         self.headers['Host'] = 'jiaotong.baidu.com'
 
-    def peopleflow_info(self, peoplepid):
-        # type键 1 表示今天 2 表示昨天 3表示最近的节日
+    def peopleflow_info(self, peoplepid, historytype: int = 1):
+        """
+        获取景区客流量
+        :param peoplepid: 景区id
+        :param historytype: 1表示现在的数据，2表示昨日数据，3表示最近的节假日数据
+        :return: Generator[Dict[str, int], Any, None]
+        """
+        #
         pre_url = 'http://jiaotong.baidu.com/trafficindex/dashboard/curve?'
         query_string_parameters = {
-            'type': '1',
+            'type': historytype,
             "area_type": "1",
             'area_id': str(peoplepid)
         }
         url = pre_url + urlencode(query_string_parameters)
         par: str = None
         g = self.connect(par, url=url)
-
         for item in g["data"]['list']:
             detailtime = item["data_time"].split(" ")[1]
             num = int(item['count'])
