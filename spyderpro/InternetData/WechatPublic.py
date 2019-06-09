@@ -2,7 +2,7 @@ import requests
 import re
 import json
 from selenium import webdriver
-
+from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 from spyderpro.Connect.InternetConnect import Connect
 from urllib.parse import urlencode
@@ -112,8 +112,11 @@ class WechatPublic(Connect):
         response = driver.page_source
         soup = BeautifulSoup(response, 'lxml')
         href = soup.find(name='a', attrs={"href": re.compile("/details/postRead?")}).get('href')  # 获取链接
+        pid = re.search("id=(.*)", href, re.I).group(1)
+        self.get_public_keyword(pid)  # ''''''这里进行分块
         url = "https://data.wxb.com" + href
-        return self.request_public_data(driver, url)
+        read_info = self.request_public_data(driver, url)  # ''''''这里进行分块
+        return read_info
 
     def request_public_data(self, driver, url):
         """获取该公众号的详细数据：平均阅读量，最高阅读量，平均点赞，最高点赞等"""
@@ -144,6 +147,16 @@ class WechatPublic(Connect):
         responsedata['历史数据'] = datalist
         driver.close()
         return responsedata
+
+    def get_public_keyword(self, pid):
+        """获取关键词列表"""
+        href = "https://data.wxb.com/account/content/" + pid
+        response = self.request.get(url=href, headers=self.headers)
+        g = json.loads(response.text)
+        keywords = list()
+        for keyword in g['data']['hot_words']:
+            keywords.append(keyword)
+        return keywords
 
     @staticmethod
     def chrome():
