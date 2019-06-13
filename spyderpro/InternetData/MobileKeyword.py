@@ -26,7 +26,7 @@ class MobileKeyWord:
     def get_mobile_type_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> list:
         """
         获取某个时段的中国境内各手机机型的占有率
-        :rtype:list[dict]
+        :rtype:iterable
         :param year:年份
         :param startmonth: 开始月份
         :param endmonth:结束月份
@@ -43,10 +43,12 @@ class MobileKeyWord:
     def get_mobile_brand_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> list:
         """
         获取某时段中国境内各手机品牌占用率
-        :rtype: object
+        :rtype: iterable
         :param year: 年份
         :param startmonth:开始月份
         :param endmonth: 结束月份
+        :return :iterable[{"品牌": value['k'], "占有率": value['r']},,,,,,]
+
         """
         assert isinstance(year, int)
         assert isinstance(startmonth, int)
@@ -59,11 +61,11 @@ class MobileKeyWord:
     def get_mobile_resolution_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> list:
         """
         获取某时段中国境内各手机分辨率占用率
-        :rtype: list
+        :rtype: iterable
         :param year: 年份
         :param startmonth:开始月份
         :param endmonth: 结束月份
-        """
+        :return :iterable[{"分辨率": value['k'], "占有率": value['r']},,,,,,]        """
         assert isinstance(year, int)
         assert isinstance(startmonth, int)
         if endmonth is not None:
@@ -75,10 +77,12 @@ class MobileKeyWord:
     def get_mobile_system_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> list:
         """
         获取某时段中国境内各手机系统版本占用率
-        :rtype: list
+        :rtype: iterable
         :param year: 年份
         :param startmonth:开始月份
         :param endmonth: 结束月份
+        :return :iterable[{"操作系统": value['k'], "占有率": value['r']},,,,,,]
+
         """
         assert isinstance(year, int)
         assert isinstance(startmonth, int)
@@ -95,6 +99,8 @@ class MobileKeyWord:
         :param year: 年份
         :param startmonth:开始月份
         :param endmonth: 结束月份
+        :return :iterable[{"运营商": value['k'], "占有率": value['r']},,,,,,]
+
         """
         assert isinstance(year, int)
         assert isinstance(startmonth, int)
@@ -107,10 +113,12 @@ class MobileKeyWord:
     def get_mobile_network_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> list:
         """
         获取某时段中国境内各手机网络占用率
-        :rtype: list
+        :rtype: ite
         :param year: 年份
         :param startmonth:开始月份
         :param endmonth: 结束月份
+        :return :iterable[{"网络": value['k'], "占有率": value['r']},,,,,,]
+
         """
         assert isinstance(year, int)
         assert isinstance(startmonth, int)
@@ -129,7 +137,7 @@ class MobileKeyWord:
         :param year:年份
         :param startmonth:开始月份
         :param endmonth:结束月份
-        :rtype: list
+        :rtype: iterable
         """
         monthlist = []  # 请求列表
         if year < 2014:

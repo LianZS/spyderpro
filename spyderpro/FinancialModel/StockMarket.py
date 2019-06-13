@@ -37,11 +37,11 @@ class Stock(Connect):
 
     def get_real_time_a_stock(self, page: int, block: int = 2, number: int = 50) -> list:
         """获取泸深A股实时数据
-        :rtype: list[dict]
+        :rtype: iterable[dict]
         :param page: 第几页,范围为1-43
         :param block: 请求类型，默认2，暂且支持2
         :param number: 一次请求返回多少条数据，建议默认值50
-        :return:list[{"代码": code, '名称': name, "最新价": price, '涨跌幅': updownrate, '昨收': lastclose, '今开': todayopen,
+        :return:iterable[{"代码": code, '名称': name, "最新价": price, '涨跌幅': updownrate, '昨收': lastclose, '今开': todayopen,
                    '最高': high, '最低': low, '成交量': volume, '成交额': priceweight, '换手': exchangeratio,
                    '振幅': vibration_ratio, '量比': volumeratio
                    },,,,,]
@@ -86,11 +86,11 @@ class Stock(Connect):
 
     def get_real_time_gb_hk_stock(self, page: int, block: int = 259, number: int = 50) -> list:
         """获取泸深港股实时数据
-        :rtype: list
+        :rtype: iterable
         :param page:
         :param block:
         :param number:
-        :return:list[{"代码": , '名称': , "最新价": , '涨跌幅': , '昨收': , '今开': ,
+        :return:iterable[{"代码": , '名称': , "最新价": , '涨跌幅': , '昨收': , '今开': ,
                             '最高': , '最低': , '成交额': ,
                             },,,,,,]
         """

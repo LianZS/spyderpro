@@ -1,7 +1,5 @@
 import requests
 import time
-import json
-import re
 from urllib.parse import urlencode
 from spyderpro.Connect.InternetConnect import Connect
 
