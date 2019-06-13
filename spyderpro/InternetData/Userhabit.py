@@ -30,7 +30,9 @@ class UserHabit:
         :param year:年份
         :param startmonth:开始月份
         :param endmonth:结束月份
-        :rtype: list        """
+        :rtype: iterable
+        :return iterable[{"区域热度 ": name, "占比": share}]
+               """
         assert isinstance(year, int)
         assert isinstance(startmonth, int)
         if endmonth is not None:
@@ -78,8 +80,10 @@ class UserHabit:
         获取用户行为---人均安装应用趋势，人均启动应用趋势
 
         :param year:年份
+        :param startmonth:开始月份
         :param endmonth:结束月份
-        :rtype: list        """
+        :rtype: iterable
+        :return iterable[{"日期": date, "人均安装应用": install, "人均启动应用": active}]     """
         assert isinstance(year, int)
         assert isinstance(endmonth, int)
         pre_url = 'http://mi.talkingdata.com/behavior.json?'

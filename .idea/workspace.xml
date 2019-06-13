@@ -2,16 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ce88f83-d355-4299-8834-5d606a7aee1f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/spyderpro/FinancialModel/read.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spyderpro/InternetData/read.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spyderpro/LocationBigData/read.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/Connect/InternetConnect.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/Connect/InternetConnect.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/FinancialModel/FundModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/FinancialModel/FundModel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/FinancialModel/StockMarket.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/FinancialModel/StockMarket.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/InternetData/MobileKeyword.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/InternetData/MobileKeyword.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/InternetData/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/Connect/read.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/testdata/image.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spyderpro/InternetData/Userhabit.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/InternetData/Userhabit.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spyderpro/InternetData/WechatPublic.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/InternetData/WechatPublic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spyderpro/InternetData/read.md" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/InternetData/read.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,38 +32,26 @@
     <SUITE FILE_PATH="coverage/SpyderPro$WechatPublic.coverage" NAME="WechatPublic Coverage Results" MODIFIED="1560073164145" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/InternetData" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spyderpro/FinancialModel/read.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="200">
-                <caret line="30" column="27" lean-forward="true" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="27" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/read.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="254">
-                <caret line="82" column="18" selection-start-line="82" selection-end-line="83" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/MobileKeyword.py">
+        <entry file="file://$PROJECT_DIR$/spyderpro/LocationBigData/read.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="435">
+                <caret line="29" column="38" selection-start-line="29" selection-start-column="38" selection-end-line="29" selection-end-column="38" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/spyderpro/LocationBigData/PlacePeople.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="201">
-              <caret line="83" column="8" selection-start-line="83" selection-start-column="8" selection-end-line="83" selection-end-column="8" />
+            <state relative-caret-position="326">
+              <caret line="56" column="30" selection-start-line="56" selection-start-column="22" selection-end-line="56" selection-end-column="30" />
               <folding>
-                <element signature="e#0#15#0" expanded="true" />
+                <element signature="e#0#11#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -86,8 +69,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>asse</find>
-      <find>para</find>
       <find>self.s</find>
       <find>print</find>
       <find>2019-</find>
@@ -116,6 +97,8 @@
       <find>非头条平均阅读量0最近30天</find>
       <find>209</find>
       <find>query</find>
+      <find>get_public_keyword</find>
+      <find>connect</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -125,7 +108,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/spyderpro/LocationBigData/LocationData.py" />
-        <option value="$PROJECT_DIR$/spyderpro/InternetData/Userhabit.py" />
         <option value="$PROJECT_DIR$/spyderpro/LocationBigData/PlaceTraffic.py" />
         <option value="$PROJECT_DIR$/spyderpro/LocationBigData/PlacePeople.py" />
         <option value="$PROJECT_DIR$/spyderpro/LocationBigData/PeopleNum.py" />
@@ -133,8 +115,6 @@
         <option value="$PROJECT_DIR$/spyderpro/test.py" />
         <option value="$PROJECT_DIR$/spyderpro/test_main.py" />
         <option value="$PROJECT_DIR$/spyderpro/test/test_main.py" />
-        <option value="$PROJECT_DIR$/spyderpro/LocationBigData/PeopleFlow.py" />
-        <option value="$PROJECT_DIR$/spyderpro/InternetData/WechatPublic.py" />
         <option value="$PROJECT_DIR$/spyderpro/test/__init__.py" />
         <option value="$PROJECT_DIR$/spyderpro/testdata/测试成绩统计.csv" />
         <option value="$PROJECT_DIR$/spyderpro/LocationBigData/__init__.py" />
@@ -150,8 +130,12 @@
         <option value="$PROJECT_DIR$/spyderpro/FinancialModel/StockMarket.py" />
         <option value="$PROJECT_DIR$/spyderpro/FinancialModel/read.md" />
         <option value="$PROJECT_DIR$/spyderpro/InternetData/Keyword.py" />
-        <option value="$PROJECT_DIR$/spyderpro/InternetData/read.md" />
         <option value="$PROJECT_DIR$/spyderpro/InternetData/MobileKeyword.py" />
+        <option value="$PROJECT_DIR$/spyderpro/InternetData/Userhabit.py" />
+        <option value="$PROJECT_DIR$/spyderpro/InternetData/WechatPublic.py" />
+        <option value="$PROJECT_DIR$/spyderpro/LocationBigData/PeopleFlow.py" />
+        <option value="$PROJECT_DIR$/spyderpro/InternetData/read.md" />
+        <option value="$PROJECT_DIR$/spyderpro/LocationBigData/read.md" />
       </list>
     </option>
   </component>
@@ -388,12 +372,13 @@
       <workItem from="1560301679052" duration="8367000" />
       <workItem from="1560338670570" duration="2659000" />
       <workItem from="1560421702233" duration="1750000" />
-      <workItem from="1560428651044" duration="3016000" />
+      <workItem from="1560428651044" duration="3274000" />
+      <workItem from="1560438172821" duration="2075000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="74194000" />
+    <option name="totallyTimeSpent" value="76527000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -408,12 +393,12 @@
     <frame x="0" y="22" width="1280" height="710" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24071082" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24474959" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32847896" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3511327" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.36731392" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39967638" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -436,30 +421,10 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3/itertools.pyi">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/urllib/request.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36325">
-          <caret line="2737" selection-end-line="2737" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.3/python_stubs/-1199943126/time.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="237" column="6" selection-start-line="237" selection-start-column="5" selection-end-line="237" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/LocationBigData/PlacePeople.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-536">
-          <caret line="43" column="48" lean-forward="true" selection-start-line="37" selection-start-column="12" selection-end-line="43" selection-end-column="48" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -491,20 +456,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/test.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/test.html" />
     <entry file="file://$PROJECT_DIR$/spyderpro/test.py" />
-    <entry file="file://$PROJECT_DIR$/spyderpro/LocationBigData/PeopleFlow.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="23" column="11" selection-start-line="23" selection-start-column="11" selection-end-line="23" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/testdata/image.png" />
     <entry file="file://$USER_HOME$/Library/Python/3.7/lib/python/site-packages/pytesseract/pytesseract.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -537,31 +490,14 @@
     <entry file="file://$PROJECT_DIR$/spyderpro/test/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/WechatPublic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-29">
-          <caret line="120" selection-start-line="120" selection-end-line="120" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <element signature="e#805#1233#0" />
-            <element signature="e#1301#1463#0" />
-            <element signature="e#1539#2972#0" />
-            <element signature="e#3026#3506#0" />
-            <element signature="e#3595#4207#0" />
-            <element signature="e#5811#6103#0" />
-            <element signature="e#5643#5796#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/testdata/ScenceData.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
       <provider selected="true" editor-type-id="csv-text-editor">
         <state relative-caret-position="15">
           <caret line="1" column="9" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="9" />
         </state>
+      </provider>
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/testdata/测试成绩统计.csv" />
@@ -608,16 +544,6 @@
     <entry file="file://$PROJECT_DIR$/spyderpro/h/weather_No.1.py" />
     <entry file="file://$PROJECT_DIR$/spyderpro/h/main.py" />
     <entry file="file://$PROJECT_DIR$/spyderpro/h/main2.py" />
-    <entry file="file://$PROJECT_DIR$/spyderpro/LocationBigData/PeopleNum.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="17" column="31" lean-forward="true" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/FinancialModel/FundModel.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="191">
@@ -625,16 +551,6 @@
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/Connect/read.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="90">
-            <caret line="6" column="61" selection-start-line="6" selection-start-column="42" selection-end-line="6" selection-end-column="61" />
-          </first_editor>
-          <second_editor />
         </state>
       </provider>
     </entry>
@@ -658,20 +574,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/FinancialModel/read.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="200">
-            <caret line="30" column="27" lean-forward="true" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="27" />
-          </first_editor>
-          <second_editor />
+    <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/MobileKeyword.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-389">
+          <caret line="119" column="8" selection-start-line="119" selection-start-column="8" selection-end-line="119" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/Keyword.py">
+    <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/Userhabit.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="79" column="8" selection-start-line="79" selection-start-column="8" selection-end-line="87" selection-end-column="32" />
+        <state relative-caret-position="196">
+          <caret line="114" column="11" lean-forward="true" selection-start-line="114" selection-start-column="11" selection-end-line="114" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/WechatPublic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="373">
+          <caret line="164" column="25" lean-forward="true" selection-start-line="161" selection-start-column="8" selection-end-line="164" selection-end-column="25" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
@@ -681,20 +607,80 @@
     <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/read.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="254">
-            <caret line="82" column="18" selection-start-line="82" selection-end-line="83" />
+          <first_editor relative-caret-position="464">
+            <caret line="185" column="31" selection-start-line="185" selection-start-column="31" selection-end-line="185" selection-end-column="31" />
           </first_editor>
           <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/MobileKeyword.py">
+    <entry file="file://$PROJECT_DIR$/spyderpro/FinancialModel/read.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="269">
+            <caret line="30" column="23" lean-forward="true" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/Keyword.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="83" column="8" selection-start-line="83" selection-start-column="8" selection-end-line="83" selection-end-column="8" />
+        <state relative-caret-position="213">
+          <caret line="98" column="25" selection-start-line="98" selection-start-column="18" selection-end-line="98" selection-end-column="25" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/Connect/read.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="90">
+            <caret line="6" column="61" selection-start-line="6" selection-start-column="42" selection-end-line="6" selection-end-column="61" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/LocationBigData/PeopleFlow.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="23" column="11" lean-forward="true" selection-start-line="23" selection-start-column="11" selection-end-line="23" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/LocationBigData/PeopleNum.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-13">
+          <caret line="18" column="44" lean-forward="true" selection-start-line="12" selection-start-column="7" selection-end-line="18" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/LocationBigData/PlacePeople.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="56" column="30" selection-start-line="56" selection-start-column="22" selection-end-line="56" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/LocationBigData/read.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="435">
+            <caret line="29" column="38" selection-start-line="29" selection-start-column="38" selection-end-line="29" selection-end-column="38" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>

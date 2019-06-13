@@ -2,7 +2,6 @@ import requests
 import re
 import json
 from selenium import webdriver
-from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 from spyderpro.Connect.InternetConnect import Connect
 from urllib.parse import urlencode
@@ -33,7 +32,7 @@ class WechatPublic(Connect):
         :param start: 从第几个公众号开始
         :param end: 到第几个公众号结束
         :param seq: 间隔
-        :return list[{'信息':{"公众号": name, "微信号": public_pid},'文章列表':datalist},,,,,]
+        :return iterable[{'信息':{"公众号": name, "微信号": public_pid},'文章列表':datalist},,,,,]
         """
 
         for pid in range(start, end, seq):
@@ -43,9 +42,11 @@ class WechatPublic(Connect):
 
     def reuqest_public(self, pid: int, url: str) -> dict:
         """
-        请求公众号数据借口
+        请求公众号数据接口
         :param pid:公众号数字id
         :param url: 首页链接
+        :return  dict
+
         """
         result = self.get_detail_public_info(pid, url)
         return result
@@ -102,7 +103,11 @@ class WechatPublic(Connect):
             yield {"标题": title, "链接": href}
 
     def search_public(self, public_pid: str):
-        """在微小宝搜索公众号"""
+        """在微小宝搜索公众号
+        :param public_pid:公众号账号
+        :return {"总概况":,"历史数据":,}
+
+        """
         query_string_parameters = {
             "kw": public_pid,
             "page": 1
@@ -119,7 +124,13 @@ class WechatPublic(Connect):
         return read_info
 
     def request_public_data(self, driver, url):
-        """获取该公众号的详细数据：平均阅读量，最高阅读量，平均点赞，最高点赞等"""
+        """获取该公众号的详细数据：平均阅读量，最高阅读量，平均点赞，最高点赞等
+        :param driver:实例
+        :param url:链接
+        :return   {"总概况":{"头条平均阅读量": average_read, "最高阅读量": hight_read, "头条平均点赞数": average_like,
+                               "最高点赞数": hight_like},"历史数据":[{"日期": day, "总阅读数": read_num_total, "总点赞数": top_like_num_total, "发表文章数":
+                articles_total}]}
+        """
         driver.get(url=url)
         response = driver.page_source
         soup = BeautifulSoup(response, 'lxml')
@@ -149,7 +160,10 @@ class WechatPublic(Connect):
         return responsedata
 
     def get_public_keyword(self, pid):
-        """获取关键词列表"""
+        """获取关键词列表
+        :param pid ：公众号id
+        :return list[关键词]
+        """
         href = "https://data.wxb.com/account/content/" + pid
         response = self.request.get(url=href, headers=self.headers)
         g = json.loads(response.text)
