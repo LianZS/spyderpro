@@ -103,10 +103,9 @@ class WechatPublic(Connect):
             yield {"标题": title, "链接": href}
 
     def search_public(self, public_pid: str):
-        """在微小宝搜索公众号
+        """在微小宝搜索公众号详细信息入口的信息
         :param public_pid:公众号账号
-        :return {"总概况":,"历史数据":,}
-
+        :return dict->{"pid": pid, "href": href, "driver": driver}
         """
         query_string_parameters = {
             "kw": public_pid,
@@ -118,10 +117,9 @@ class WechatPublic(Connect):
         soup = BeautifulSoup(response, 'lxml')
         href = soup.find(name='a', attrs={"href": re.compile("/details/postRead?")}).get('href')  # 获取链接
         pid = re.search("id=(.*)", href, re.I).group(1)
-        self.get_public_keyword(pid)  # ''''''这里进行分块
         url = "https://data.wxb.com" + href
-        read_info = self.request_public_data(driver, url)  # ''''''这里进行分块
-        return read_info
+        info = {"pid": pid, "url": url, "driver": driver}
+        return info
 
     def request_public_data(self, driver, url):
         """获取该公众号的详细数据：平均阅读量，最高阅读量，平均点赞，最高点赞等

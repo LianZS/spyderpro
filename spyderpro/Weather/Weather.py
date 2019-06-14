@@ -2,6 +2,7 @@ import requests
 import time
 import re
 import json
+from urllib.parse import urlencode
 
 
 class Weather:
@@ -67,3 +68,25 @@ class Weather:
                         dic['wind'] = wind
                     index += 1
                 yield dic
+
+    def getWeatherId(self, name):
+        """
+        搜索该地方的天气id
+        :param name: 地方名
+        :return: str->id
+        """
+        parameter = {
+            'cityname': name,
+
+        }
+        headers = {
+            'Host': 'toy1.weather.com.cn',
+            'Referer': 'http: // www.weather.com.cn / weather / 101310201.shtml',
+
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'
+        }
+
+        href = 'http://toy1.weather.com.cn/search?' + urlencode(parameter)
+        response = self.s.get(url=href, headers=headers).text
+        ID = re.search("(\d+\w)", response).group(1)
+        return ID

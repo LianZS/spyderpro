@@ -164,10 +164,10 @@ A.类WechatPublic
         :return list[dict->{"标题": title, "链接": href}]
         若网络失败，抛出ConnectionError
         
-5.search_public(self, public_pid: str):在微小宝搜索公众号
+5.search_public(self, public_pid: str):在微小宝搜索公众号详细信息入口的信息
 
-        :param public_pid:公众号账号
-        :return {"总概况":,"历史数据":,}
+       :param public_pid:公众号账号
+        :return dict->{"pid": pid, "href": href, "driver": driver}
         若网络失败，抛出ConnectionError
         
 6.request_public_data(self, driver, url): 获取该公众号的详细数据：平均阅读量，最高阅读量，平均点赞，最高点赞等
