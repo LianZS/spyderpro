@@ -8,8 +8,7 @@ from spyderpro.TrafficData.TrafficInterface import Traffic
 
 class GaodeTraffic(Traffic):
 
-    def __init__(self, db):
-        self.db = db
+    def __init__(self):
         self.s = requests.Session()
         self.headers = {
             'Host': 'report.amap.com',

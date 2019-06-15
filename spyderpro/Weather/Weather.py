@@ -24,8 +24,6 @@ class Weather:
                     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
                     '(KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134']
 
-    # 挖掘景区天气
-
     def weatherforcest(self, weatherpid: str) -> list:
         """
         获取天气数据
