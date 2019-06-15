@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8ce88f83-d355-4299-8834-5d606a7aee1f" name="Default Changelist" comment="" />
+    <list default="true" id="8ce88f83-d355-4299-8834-5d606a7aee1f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/spyderpro/Weather/WeatherHistory.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/Weather/WeatherHistory.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,8 +79,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spyderpro/Weather/WeatherHistory.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="145" lean-forward="true" selection-start-line="145" selection-end-line="145" />
+            <state relative-caret-position="79">
+              <caret line="145" column="4" selection-start-line="145" selection-start-column="4" selection-end-line="145" selection-end-column="4" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -171,6 +173,7 @@
         <option value="$PROJECT_DIR$/spyderpro/InternetData/WechatPublic.py" />
         <option value="$PROJECT_DIR$/spyderpro/InternetData/read.md" />
         <option value="$PROJECT_DIR$/spyderpro/Weather/WeatherLishi.py" />
+        <option value="$PROJECT_DIR$/spyderpro/Weather/WeatherHistory.py" />
       </list>
     </option>
   </component>
@@ -390,12 +393,12 @@
       <workItem from="1560428651044" duration="3274000" />
       <workItem from="1560438172821" duration="2606000" />
       <workItem from="1560492229841" duration="11720000" />
-      <workItem from="1560561089992" duration="4709000" />
+      <workItem from="1560561089992" duration="4973000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="93487000" />
+    <option name="totallyTimeSpent" value="93751000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -408,8 +411,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1280" height="710" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25282714" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25282714" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -425,7 +429,7 @@
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50080776" side_tool="true" weight="0.32847896" />
       <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49919224" weight="0.32847896" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32847896" />
-      <window_info active="true" anchor="bottom" id="Statistic" order="13" visible="true" weight="0.54692554" />
+      <window_info anchor="bottom" id="Statistic" order="13" visible="true" weight="0.54692554" />
       <window_info anchor="bottom" id="Database Console" order="14" weight="0.29773462" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -756,8 +760,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/Weather/WeatherHistory.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="145" lean-forward="true" selection-start-line="145" selection-end-line="145" />
+        <state relative-caret-position="79">
+          <caret line="145" column="4" selection-start-line="145" selection-start-column="4" selection-end-line="145" selection-end-column="4" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
