@@ -138,12 +138,4 @@ class WeatherData(object):
         return urllist
 
 
-def main():
-    w = WeatherData()
-    datalist = w.get_province_link()
-    datalist = w.get_city_pastlink(url=datalist[7]['url'])
-    w.get_city_allpartition(datalist[0]['url'])
 
-
-if __name__ == "__main__":
-    main()
