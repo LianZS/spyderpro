@@ -207,7 +207,7 @@ class GaodeTraffic(Traffic):
         }
 
         url = url + urlencode(req)
-        data = requests.get(url=url, headers=self.headers)
+        data = self.s.get(url=url, headers=self.headers)
         try:
             g = eval(data.text)
         except SyntaxError:

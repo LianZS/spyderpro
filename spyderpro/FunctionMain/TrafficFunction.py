@@ -76,7 +76,6 @@ class TraffciFunction(object):
         info = self.__dealwith_daily_traffic(info, citycode, db, today, yesterday)
         if len(info):
             return False
-
         for item in info:
             date = item['date']
             index = float(item['index'])
