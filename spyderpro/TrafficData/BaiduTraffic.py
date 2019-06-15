@@ -203,6 +203,5 @@ class BaiduTraffic(Traffic):
             dic['provincecode'] = provincecode
             dic['provincename'] = provincename
             datalist.append(dic)
+
         return datalist
-
-
