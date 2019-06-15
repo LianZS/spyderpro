@@ -7,8 +7,7 @@ from spyderpro.TrafficData.TrafficInterface import Traffic
 
 class BaiduTraffic(Traffic):
 
-    def __init__(self, db):
-        self.db = db
+    def __init__(self):
         self.s = requests.Session()
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -49,6 +48,7 @@ class BaiduTraffic(Traffic):
             date = time.strftime("%Y-%m-%d", time.localtime(time.time() - 3600 * 24))  # 昨天的日期
         # 含有24小时的数据
         dic = {}
+        print(href)
         for item in g['data']['list']:
             # {'index': '1.56', 'speed': '32.83', 'time': '13:45'}
             if item["time"] == '00:00':
@@ -175,3 +175,34 @@ class BaiduTraffic(Traffic):
                     bound['lon'] = locations  # 纬度
             bounds.append(bound)
         return {"data": realdata, "coords": bounds}
+
+    def getallcitycode(self) -> list:
+        """
+        获取最新的交通基本信息，比如id，省份，位置等等等
+        :return: list
+        """
+        url = "https://jiaotong.baidu.com/trafficindex/city/list?"
+        response = self.s.get(url=url, headers=self.headers)
+        g = json.loads(response.text)
+        datalist = list()
+        for value in g['data']['list']:
+            citycode = value['citycode']  # id
+            cityname = value['cityname']  # 城市名
+            city_coords = value['city_coords']
+            coords = eval(city_coords)
+            lat = coords[1] / 100000  # 纬度
+            lon = coords[0] / 100000  # 经度
+
+            provincecode = value['provincecode']  # 省份id
+            provincename = value['provincename']  # 省份
+            dic = dict()
+            dic['citycode'] = citycode
+            dic['cityname'] = cityname
+            dic['lat'] = lat
+            dic['lon'] = lon
+            dic['provincecode'] = provincecode
+            dic['provincename'] = provincename
+            datalist.append(dic)
+        return datalist
+
+
