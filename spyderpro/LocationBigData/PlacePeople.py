@@ -16,7 +16,7 @@ class PlaceTrend(Connect):
             cls.instance = super().__new__(cls)
         return cls.instance
 
-    def __init__(self, date_begin: str, date_end: str, intervallong: int = 1, user_agent=None):
+    def __init__(self, date_begin: str = None, date_end: str = None, intervallong: int = 1, user_agent: str = None):
         """
         时间段最长15天，最小时间间隔是1分钟range，开始时间最早2016-07-18
         :type date_begin: str
@@ -30,8 +30,6 @@ class PlaceTrend(Connect):
         self.date_begin = date_begin
         self.date_end = date_end
         self.intervallong = intervallong
-        self.date_begin = "2019-04-23"  # 开始日期
-        self.date_end = "2019-04-24"  # 结束日期
         if not PlaceTrend.instance_flag:
             PlaceTrend.instance_flag = True
             self.headers = dict()
@@ -54,15 +52,15 @@ class PlaceTrend(Connect):
         href = "https://heat.qq.com/api/getAllProvince.php?sub_domain="
         par: str = None
         g = self.connect(par, href)
-        return [item["province"] for item in g]
-        # [self.getAllCity(item["province"]) for item in g]
+        result = [value["province"] for value in g]
+        return result
 
     # 所有城市
-    def get_alllcity(self, province: str) -> list:
+    def get_allcity(self, province: str) -> list:
         """
         获取省份下所有城市
         :param province: 省份名
-        :return: list[{"省份": , "城市":}，，]
+        :return: list[{"province": , "city":}，，]
         """
         # 这里不需要quote中文转url，因为后面的urlencode自动会转
 
@@ -73,11 +71,9 @@ class PlaceTrend(Connect):
         href = "https://heat.qq.com/api/getCitysByProvince.php?" + urlencode(parameter)
         par: str = None
         g = self.connect(par, href)
+        results = [{"province": province, "city": value["city"]} for value in g]
+        return results
 
-        return [{"省份": province, "城市": item["city"]} for item in g]
-        # [self.getRegionsByCity(province, item["city"]) for item in g]
-
-    # 获取城市下所有景区
     def get_regions_bycity(self, province: str, city: str) -> list:
         """
         获取城市下所有景点信息
@@ -86,7 +82,7 @@ class PlaceTrend(Connect):
         :type city:str
         :param province:省份
         :param city:城市
-        :return  list[{"景点": , "id": },,,,]
+        :return  list[{"place": , "id": },,,,]
         """
         assert isinstance(province, str)
         assert isinstance(city, str)
@@ -100,18 +96,22 @@ class PlaceTrend(Connect):
 
         par: str = None
         g = self.connect(par, href)
+        datalist = list()
         for value in g:
             placename = value['name']  # 景点
             placeid = value["id"]  # id
-            yield {"景点": placename, "id": placeid}
+            dic = {"place": placename, "id": placeid}
+            datalist.append(dic)
+        return datalist
+        # range表示数据间隔，最小1,region_name是地点名字,id是景区pid
 
-    # range表示数据间隔，最小1,region_name是景区名字,id是景区pid
     def getlocations(self, region_name: str, pid: int):
         """
+        获取地点的位置流量趋势指数，返回list({地点, 日期，趋势列表},,,)
+        :param region_name:  地点
+        :param pid: 地点id
 
-        :param region_name: 景区
-        :param pid: 景区id
-        :return  list[{"景点": region_name, "日期": date, "数据": g[date]},,,,,]
+        :return  list[{"place": region_name, "date": date, "data": g[date]},,,,,]
         """
         parameter = {
             'region': pid,
@@ -157,6 +157,18 @@ class PlaceTrend(Connect):
                 datetime.date(end.tm_year, end.tm_mon, day) for day in range(1, interval - critical)]
             l1.extend(l2)
             [datelist.append(date.isoformat()) for date in l1]
-
+        assert len(datelist) < 15, " time interval is must  less than 15 day"
         for date in datelist:
-            yield {"景点": region_name, "日期": date, "数据": g[date]}
+            yield {"place": region_name, "date": date, "data": g[date]}
+
+
+if __name__ == "__main__":
+    place = PlaceTrend(date_begin='2019-06-11', date_end='2019-06-13')
+    result = place.get_allcity("广东省")
+    for info in result:
+        cityinfo = place.get_regions_bycity(info['province'], info['city'])
+        for item in cityinfo:
+            for i in place.getlocations(item['place'], item['id']):
+                print(i)
+            break
+        exit(0)

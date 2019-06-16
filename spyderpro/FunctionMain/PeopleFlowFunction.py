@@ -1,20 +1,26 @@
-import pymysql
+import re
+from concurrent import futures
 from spyderpro.Connect.MysqlConnect import MysqlOperation
 from spyderpro.LocationBigData.PeopleNum import PeoplePositionin
+from spyderpro.LocationBigData.PlacePeople import PlaceTrend
 
 
 class PeopleFucntion(MysqlOperation):
     def positioning_people_num(self, max_num: int = 8):
+        assert isinstance(max_num, int)
+
         """
         获取定位数据
         :param max_num:
         :return:
         """
+        executor = futures.ThreadPoolExecutor(max_workers=4)
+        result = executor.map(self.request_positioning_num, range(max_num))
+        for reponse in result:
+            yield reponse
 
-        for rank in range(max_num):
-            yield self.request_positioning_num(rank)
-
-    def request_positioning_num(self, rank) -> list:
+    def request_positioning_num(self, rank: int) -> list:
+        assert isinstance(rank, int)
         """
         请求定位数据
         :param rank:
@@ -35,7 +41,7 @@ class PeopleFucntion(MysqlOperation):
         """清空数据库，只保留目前爬去的数据"""
         pass
 
-    def get_the_scope_of_pace_data(self, start_lat: float, start_lon: float, end_lat: float, end_lon: float) -> list:
+    def get_the_scope_of_pace_data(self, start_lat: float, start_lon: float, end_lat: float, end_lon: float):
         """
         从数据中提取出在范围内的数据
         :param start_lat: 开始的纬度
@@ -44,6 +50,15 @@ class PeopleFucntion(MysqlOperation):
         :param end_lon: 结束的经度
         :return:list[[lat,lon]]
         """
+
+        def type_check(param):
+            assert isinstance(param, float), "type of param is wrong, please into the type of float"
+
+        type_check(start_lat)
+        type_check(start_lon)
+        type_check(end_lon)
+        type_check(end_lat)
+
         result = self.positioning_people_num()
         count = 0
         for response in result:
@@ -53,6 +68,73 @@ class PeopleFucntion(MysqlOperation):
                 num = data[2]
                 if start_lat <= lat <= end_lat and start_lon <= lon <= end_lon:
                     count += num
-        # print(count)
+        print(count)
 
-# PeopleFucntion().get_the_scope_of_pace_data(start_lat=23,start_lon=110,end_lat=30,end_lon=113)
+
+class Place_Flow_Trend(MysqlOperation):
+    """
+    位置流量趋势
+    """
+
+    def get_all_province(self) -> list:
+        """获取可以监测的省份
+        :return 省份列表 [广东省，广西省.....]
+        """
+        place = PlaceTrend(date_begin=None, date_end=None)
+        provinces = place.get_allprovince()
+        return provinces
+
+    def get_all_city(self, province: str) -> list:
+        """获取该省份下可以监测的城市
+            :return 城市列表
+        """
+        assert re.match("\w{2,10}省$", province), 'the format of province is wrong ,the right format such as "广东省" '
+
+        place = PlaceTrend(date_begin=None, date_end=None)
+        citys = place.get_allcity(province)
+        return citys
+
+    def get_all_place(self, province: str, city: str) -> list:
+        """
+          获取城市下所有景点信息
+
+        :type province: str
+        :type city:str
+        :param province:省份
+        :param city:城市
+
+        :return: list[dict]
+        dict->{'place': '荔香公园', 'id': '18343'}
+        """
+        assert re.match("\w{2,10}省$", province) and re.match("\w{2,10}市$", city), \
+            'the format of  param is wrong the right format such as "广东省,深圳市" '
+
+        place = PlaceTrend(date_begin=None, date_end=None)
+        datalist = place.get_regions_bycity(province, city)
+        return datalist
+
+    def get_place_index(self, name: str, placeid: int, date_start: str, date_end: str):
+        """
+        获取地点某段时间的流量趋势指数
+        :param name:地点
+        :param placeid:id
+        :param date_start:开始日期
+        :param date_end:结束日期
+        :return:iterable(dict)
+        dict->{'place': '深圳欢乐谷', 'date': '2019-05-23', 'data': [0.19, 0.19, 0.1.....]}
+        """
+
+        assert re.match("\d{4}-\d{2}-\d{2}", date_start) and re.match("\d{4}-\d{2}-\d{2}", date_end), \
+            "date format is wrong,please input the format such as '2019-06-12'"
+        place = PlaceTrend(date_begin=date_start, date_end=date_end)
+        data_iterable = place.getlocations(name, placeid)
+
+        return data_iterable
+
+
+if __name__ == "__main__":
+    PeopleFucntion().get_the_scope_of_pace_data(start_lat=23.2, start_lon=110.2, end_lat=30.2, end_lon=113.2)
+    Place_Flow_Trend().get_all_province()
+    Place_Flow_Trend().get_all_place("广东省", "深圳市")
+    Place_Flow_Trend().get_place_index('深圳欢乐谷', 6, '2019-05-19', '2019-06-01')
+    Place_Flow_Trend().get_all_city("广东省")

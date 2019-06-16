@@ -31,19 +31,21 @@ A.类PlaceTrend
 2.get_alllcity(self, province: str) :获取省份下所有城市
         
         :param province: 省份名
-        :return: list[{"省份": , "城市":}，，]
+        :return: list[{"province": , "city":}，，]
         
-3.get_regions_bycity(self, province: str, city: str) :获取城市下所有景点信息
+3.get_regions_bycity(self, province: str, city: str) :获取城市下所有地点信息
 
 
         :type province: str
         :type city:str
         :param province:省份
         :param city:城市
-        :return  iterable[{"景点": , "id": },,,,]
+        :return  list[{"place": , "id": },,,,]
         
-4.getlocations(self, region_name: str, pid: int):获取景区流量趋势
+4.getlocations(self, region_name: str, pid: int):获取地点的位置流量趋势指数，返回list({地点, 日期，趋势列表},,,)
 
-        :param region_name: 景区
-        :param pid: 景区id
-        :return  iterable[{"景点": region_name, "日期": date, "数据": g[date]},,,,,]
+        
+
+        :param region_name: 地点
+        :param pid: 地点id
+        :return  iterable[{"place": region_name, "date": date, "data": g[date]},,,,,]

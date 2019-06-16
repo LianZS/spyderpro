@@ -20,7 +20,6 @@ class PeoplePositionin(Connect):
 
             }
             PeoplePositionin.instance_flag = False
-            print("ok")
 
     def get_people_positionin_data(self, rank: int, max_num=4) -> list:
         """
@@ -40,6 +39,8 @@ class PeoplePositionin(Connect):
         }
 
         response = requests.post(url=href, headers=self.headers, data=json.dumps(query_string_parameters))
+        if response.status_code != 200:
+            return None
         g = json.loads(response.text)
         # realtime = g['time']  # 目前定位时间
         # yield {"搜索时间": realtime}
