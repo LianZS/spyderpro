@@ -3,7 +3,7 @@ import time
 import csv
 
 from spyderpro.LocationBigData.PeopleFlow import ScencePeopleFlow
-from spyderpro.Weather import Weather
+from spyderpro.WeatherModel.Weather import WeatherForect
 from spyderpro.TrafficData.BaiduTraffic import BaiduTraffic
 from spyderpro.TrafficData.GaodeTraffic import GaodeTraffic
 
@@ -106,7 +106,7 @@ class ScenceFunction(MysqlOperation):
         return True
 
     # 检查数据库是否存在部分数据，存在则不再插入
-    def __dealwith_peopleflow(self, db, info, date, peopletablepid) -> list:
+    def __dealwith_peopleflow(self, db, info: list, date, peopletablepid: int) -> list:
         """
         检查数据库是否存在部分数据，存在则不再插入
         :param db:  数据库实例
@@ -164,7 +164,7 @@ class ScenceFunction(MysqlOperation):
             return False
         weathertablepid = cursor.fetchone()[0]
         cursor.close()
-        wea = Weather()
+        wea = WeatherForect()
         info = wea.weatherforcest(weatherpid)
 
         # 每次爬取都是获取未来7天的数据，所以再次爬取时只需要以此刻为起点，看看数据库存不存在7天后的数据
@@ -316,7 +316,7 @@ class ScenceFunction(MysqlOperation):
         info = lis
         return info
 
-    # 处理返回执行sdb返回cursor
+    # 处理返回执行db返回cursor
     @staticmethod
     def get_cursor(db, sql):
 

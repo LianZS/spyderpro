@@ -1,7 +1,7 @@
 import csv
 import time
 from spyderpro.LocationBigData.PeopleFlow import ScencePeopleFlow
-from spyderpro.Weather.WeatherLishi import WeatherData
+from spyderpro.WeatherModel.WeatherLishi import WeatherData
 
 
 def test_weather():

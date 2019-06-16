@@ -20,7 +20,7 @@ class ScencePeopleFlow(Connect):
         获取景区客流量
         :param peoplepid: 景区id
         :param historytype: 1表示现在的数据，2表示昨日数据，3表示最近的节假日数据
-        :return: Generator[Dict[str, int], Any, None]
+        :return: Generator[时刻, 客流量]
         """
         #
         pre_url = 'http://jiaotong.baidu.com/trafficindex/dashboard/curve?'
@@ -35,4 +35,5 @@ class ScencePeopleFlow(Connect):
         for item in g["data"]['list']:
             detailtime = item["data_time"].split(" ")[1]
             num = int(item['count'])
-            yield {"时刻": detailtime, "客流量": num}
+            yield detailtime, num
+            # yield {"时刻": detailtime, "客流量": num}

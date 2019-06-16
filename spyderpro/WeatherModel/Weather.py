@@ -5,7 +5,7 @@ import json
 from urllib.parse import urlencode
 
 
-class Weather:
+class WeatherForect:
 
     def __init__(self):
 

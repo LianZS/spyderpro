@@ -4,13 +4,25 @@ from spyderpro.Connect.InternetConnect import Connect
 
 
 class PeoplePositionin(Connect):
+    instance = None
+    instance_flag = False
+
+    def __new__(cls, *args, **kwargs):
+        if cls.instance is None:
+            cls.instance = super().__new__(cls)
+            cls.instance_flag = True
+        return cls.instance
+
     def __init__(self):
-        self.headers = {
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'
+        if PeoplePositionin.instance_flag:
+            self.headers = {
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'
 
-        }
+            }
+            PeoplePositionin.instance_flag = False
+            print("ok")
 
-    def get_PeoplePositionin_data(self, rank: int, max_num=4) -> list:
+    def get_people_positionin_data(self, rank: int, max_num=4) -> list:
         """
 
         :param rank: 第几块数据文件
@@ -29,12 +41,12 @@ class PeoplePositionin(Connect):
 
         response = requests.post(url=href, headers=self.headers, data=json.dumps(query_string_parameters))
         g = json.loads(response.text)
-        realtime = g['time']  # 目前定位时间
-        yield {"搜索时间": realtime}
+        # realtime = g['time']  # 目前定位时间
+        # yield {"搜索时间": realtime}
         flag = 0
         lat: float = None
         lon: float = None
-        num: int = None
+        # num: int = None
         for item in iter(g['locs'].split(',')):
             flag += 1
             if flag == 1:
