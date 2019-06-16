@@ -12,20 +12,30 @@ class PeopleFucntion(MysqlOperation):
         """
 
         for rank in range(max_num):
-            self.request_positioning_num(rank)
+            yield self.request_positioning_num(rank)
 
-    def request_positioning_num(self, rank):
+    def request_positioning_num(self, rank) -> list:
+        """
+        请求定位数据
+        :param rank:
+        :return: list(data)->data:[纬度,经度,人数]
+        """
         positioning = PeoplePositionin()
         response = positioning.get_people_positionin_data(rank)
-
+        datalist = list()
         for item in response:
-            pass
+            data = list()
+            data.append(item['纬度'])
+            data.append(item['经度'])
+            data.append(item['人数'])
+            datalist.append(data)
+        return datalist
 
     def __dealwith_positioning(self):
         """清空数据库，只保留目前爬去的数据"""
         pass
 
-    def __get_the_scope_of_pace_data(self, start_lat: float, start_lon: float, end_lat: float, end_lon: float) -> list:
+    def get_the_scope_of_pace_data(self, start_lat: float, start_lon: float, end_lat: float, end_lon: float) -> list:
         """
         从数据中提取出在范围内的数据
         :param start_lat: 开始的纬度
@@ -34,8 +44,15 @@ class PeopleFucntion(MysqlOperation):
         :param end_lon: 结束的经度
         :return:list[[lat,lon]]
         """
-        pass
+        result = self.positioning_people_num()
+        count = 0
+        for response in result:
+            for data in response:
+                lat = data[0]
+                lon = data[1]
+                num = data[2]
+                if start_lat <= lat <= end_lat and start_lon <= lon <= end_lon:
+                    count += num
+        # print(count)
 
-
-
-PeopleFucntion().positioning_people_num()
+# PeopleFucntion().get_the_scope_of_pace_data(start_lat=23,start_lon=110,end_lat=30,end_lon=113)
