@@ -26,6 +26,7 @@ class GaodeTraffic(Traffic):
     #
     # @deco
     def citytraffic(self, citycode: int) -> list:
+
         """获取实时交通状态，包括日期，拥堵指数，具体时刻
 
         :param citycode:城市id

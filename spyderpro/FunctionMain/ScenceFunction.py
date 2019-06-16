@@ -12,13 +12,8 @@ from spyderpro.FunctionMain.setting import *
 from spyderpro.Connect.MysqlConnect import MysqlOperation
 
 
-class ScenceFunction(MysqlOperation):
-    # 待更改为信号量来实现多线程操作数据库
-    instance = None
-    db = pymysql.connect(host=host, user=user, password=password, database=scencedatabase,
-                         port=port)
+class Parent(MysqlOperation):
 
-    # 录入数据库景区数据库信息
     @staticmethod
     def initdatabase():
         """
@@ -59,6 +54,46 @@ class ScenceFunction(MysqlOperation):
         cursor.close()
         db.close()
         return True
+
+    # 处理返回执行db返回cursor
+    @staticmethod
+    def get_cursor(db, sql):
+
+        cursor = db.cursor()
+        try:
+            cursor.execute(sql)
+            db.commit()
+        except Exception as e:
+            print("查询错误%s" % e)
+            db.rollback()
+            cursor.close()
+            return None
+        return cursor
+
+    @staticmethod
+    def programmerpool(func, pidlist):
+        tasklist = []
+
+        threadpool = ThreadPoolExecutor(max_workers=6)
+
+        for pid in pidlist:
+            task = threadpool.submit(func, pid)
+            tasklist.append(task)
+        while [item.done() for item in tasklist].count(False):
+            pass
+
+    '''过滤器'''
+
+    @staticmethod
+    def filter(info, date, detailtime):
+        for i in range(len(info)):
+            if info[i].get(str(date)) and info[i].get(detailtime):
+                info.pop(i)
+                return
+
+
+class People(Parent):
+    """"""
 
     @classmethod
     def people_flow(cls, peoplepidlist):
@@ -134,97 +169,8 @@ class ScenceFunction(MysqlOperation):
         for detailTime, num in dic.items():
             yield detailTime, num
 
-    @classmethod
-    def weather(cls, weatherpidlist):
-        """
-        获取天气数据
-        :param weatherpidlist: 天气id列表
-        :return:
-        """
-        while True:
-            if cls.instance is None:
-                cls.instance = super().__new__(cls)
-            cls.instance.programmerpool(cls.instance.getweather, weatherpidlist)
-            time.sleep(4 * 3600)
 
-    def getweather(self, weatherpid):
-        """
-        获取天气数据
-        :param weatherpid:
-        :return:
-        """
-        db = pymysql.connect(host=host, user=user, password=password, database=scencedatabase,
-                             port=port)
-
-        sql = "select WeatherTablePid from webdata.ScenceInfoData where  WeatherPid=" \
-              + "'" + weatherpid + "';"
-
-        cursor = self.get_cursor(db, sql)
-        if cursor is None:
-            return False
-        weathertablepid = cursor.fetchone()[0]
-        cursor.close()
-        wea = WeatherForect()
-        info = wea.weatherforcest(weatherpid)
-
-        # 每次爬取都是获取未来7天的数据，所以再次爬取时只需要以此刻为起点，看看数据库存不存在7天后的数据
-        date = time.strftime('%Y-%m-%d', time.localtime(
-            time.time() + 7 * 3600 * 24))
-        info = self.__dealwith_weather(info, db, weathertablepid, date)
-        for item in info:
-            date = item['date']
-            detailtime = item['detailTime']
-            state = item['state']
-            temperature = item['temperature']
-            wind = item['wind']
-            sql = "insert into  webdata.weather(pid_id,date,detailTime,state,temperature,wind) " \
-                  "values('%d','%s','%s','%s','%s','%s');" % (
-                      weathertablepid, date, detailtime, state, temperature, wind)
-            if not self.loaddatabase(db, sql):
-                print("插入失败！")
-                continue
-
-        db.close()
-        print("success")
-        return True
-
-    # 有bug
-    def __dealwith_weather(self, info, db, pid, date) -> list:
-        """
-        过滤已存在天气数据
-        :param info:
-        :param db:
-        :param pid:
-        :param date:
-        :return:list
-        """
-
-        sql = "select  date,detailTime from webdata.weather where pid_id=" + str(
-            pid) + " and date =str_to_date('" + date + "','%Y-%m-%d');"
-        cursor = self.get_cursor(db, sql)
-        if cursor is None:
-            cursor.close()
-            return info
-        data = cursor.fetchall()
-
-        if len(data) == 0:
-            cursor.close()
-            return info
-        lis = []
-
-        for item in info:
-            if item['date'] != date:
-                continue
-            lis.append(dict(zip(item.values(), item.keys())))
-        info = lis
-        for olddata in data:
-            self.filter(info, olddata[0], olddata[1])
-        lis = []
-        for item in info:
-            lis.append(dict(zip(item.values(), item.keys())))
-        info = lis
-        return info
-
+class Traffic(Parent):
     @classmethod
     def traffic(cls, citycodelist):
         """
@@ -316,38 +262,95 @@ class ScenceFunction(MysqlOperation):
         info = lis
         return info
 
-    # 处理返回执行db返回cursor
-    @staticmethod
-    def get_cursor(db, sql):
 
-        cursor = db.cursor()
-        try:
-            cursor.execute(sql)
-            db.commit()
-        except Exception as e:
-            print("查询错误%s" % e)
-            db.rollback()
+class Weather(Parent):
+    @classmethod
+    def weather(cls, weatherpidlist):
+        """
+        获取天气数据
+        :param weatherpidlist: 天气id列表
+        :return:
+        """
+        while True:
+            if cls.instance is None:
+                cls.instance = super().__new__(cls)
+            cls.instance.programmerpool(cls.instance.getweather, weatherpidlist)
+            time.sleep(4 * 3600)
+
+    def getweather(self, weatherpid):
+        """
+        获取天气数据
+        :param weatherpid:
+        :return:
+        """
+        db = pymysql.connect(host=host, user=user, password=password, database=scencedatabase,
+                             port=port)
+
+        sql = "select WeatherTablePid from webdata.ScenceInfoData where  WeatherPid=" \
+              + "'" + weatherpid + "';"
+
+        cursor = self.get_cursor(db, sql)
+        if cursor is None:
+            return False
+        weathertablepid = cursor.fetchone()[0]
+        cursor.close()
+        wea = WeatherForect()
+        info = wea.weatherforcest(weatherpid)
+
+        # 每次爬取都是获取未来7天的数据，所以再次爬取时只需要以此刻为起点，看看数据库存不存在7天后的数据
+        date = time.strftime('%Y-%m-%d', time.localtime(
+            time.time() + 7 * 3600 * 24))
+        info = self.__dealwith_weather(info, db, weathertablepid, date)
+        for item in info:
+            date = item['date']
+            detailtime = item['detailTime']
+            state = item['state']
+            temperature = item['temperature']
+            wind = item['wind']
+            sql = "insert into  webdata.weather(pid_id,date,detailTime,state,temperature,wind) " \
+                  "values('%d','%s','%s','%s','%s','%s');" % (
+                      weathertablepid, date, detailtime, state, temperature, wind)
+            if not self.loaddatabase(db, sql):
+                print("插入失败！")
+                continue
+
+        db.close()
+        print("success")
+        return True
+
+    # 有bug
+    def __dealwith_weather(self, info, db, pid, date) -> list:
+        """
+        过滤已存在天气数据
+        :param info:
+        :param db:
+        :param pid:
+        :param date:
+        :return:list
+        """
+
+        sql = "select  date,detailTime from webdata.weather where pid_id=" + str(
+            pid) + " and date =str_to_date('" + date + "','%Y-%m-%d');"
+        cursor = self.get_cursor(db, sql)
+        if cursor is None:
             cursor.close()
-            return None
-        return cursor
+            return info
+        data = cursor.fetchall()
 
-    @staticmethod
-    def programmerpool(func, pidlist):
-        tasklist = []
+        if len(data) == 0:
+            cursor.close()
+            return info
+        lis = []
 
-        threadpool = ThreadPoolExecutor(max_workers=6)
-
-        for pid in pidlist:
-            task = threadpool.submit(func, pid)
-            tasklist.append(task)
-        while [item.done() for item in tasklist].count(False):
-            pass
-
-    '''过滤器'''
-
-    @staticmethod
-    def filter(info, date, detailtime):
-        for i in range(len(info)):
-            if info[i].get(str(date)) and info[i].get(detailtime):
-                info.pop(i)
-                return
+        for item in info:
+            if item['date'] != date:
+                continue
+            lis.append(dict(zip(item.values(), item.keys())))
+        info = lis
+        for olddata in data:
+            self.filter(info, olddata[0], olddata[1])
+        lis = []
+        for item in info:
+            lis.append(dict(zip(item.values(), item.keys())))
+        info = lis
+        return info

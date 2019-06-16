@@ -52,8 +52,8 @@ class PlaceTrend(Connect):
         href = "https://heat.qq.com/api/getAllProvince.php?sub_domain="
         par: str = None
         g = self.connect(par, href)
-        result = [value["province"] for value in g]
-        return result
+        data = [value["province"] for value in g]
+        return data
 
     # 所有城市
     def get_allcity(self, province: str) -> list:
@@ -98,7 +98,7 @@ class PlaceTrend(Connect):
         g = self.connect(par, href)
         datalist = list()
         for value in g:
-            placename = value['name']  # 景点
+            placename = value['name']  # 地点
             placeid = value["id"]  # id
             dic = {"place": placename, "id": placeid}
             datalist.append(dic)

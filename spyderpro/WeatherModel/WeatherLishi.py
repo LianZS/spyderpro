@@ -1,12 +1,9 @@
+import random
 import requests
 import re
-import csv
 from concurrent import futures
 from bs4 import BeautifulSoup
-from multiprocessing import Pool as MP
 
-import time, random
-from threading import Lock
 
 '''获取2k多个城市的历史天气情况'''
 
