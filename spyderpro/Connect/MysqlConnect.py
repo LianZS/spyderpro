@@ -22,3 +22,17 @@ class MysqlOperation():
             cursor.close()
             return False
         return True
+
+    @staticmethod
+    def get_cursor(db, sql):
+
+        cursor = db.cursor()
+        try:
+            cursor.execute(sql)
+            db.commit()
+        except Exception as e:
+            print("查询错误%s" % e)
+            db.rollback()
+            cursor.close()
+            return None
+        return cursor

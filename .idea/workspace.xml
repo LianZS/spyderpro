@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ce88f83-d355-4299-8834-5d606a7aee1f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/spyderpro/FunctionMain/KeyWordFunction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spyderpro/Connect/MysqlConnect.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/Connect/MysqlConnect.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spyderpro/FunctionMain/PeopleFlowFunction.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/FunctionMain/PeopleFlowFunction.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/spyderpro/FunctionMain/ScenceFunction.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/FunctionMain/ScenceFunction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/LocationBigData/PlacePeople.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/LocationBigData/PlacePeople.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/TrafficData/GaodeTraffic.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/TrafficData/GaodeTraffic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/WeatherModel/WeatherLishi.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/WeatherModel/WeatherLishi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/main/__main__.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/main/__main__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spyderpro/InternetData/Keyword.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/InternetData/Keyword.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -79,11 +80,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spyderpro/FunctionMain/ScenceFunction.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-627">
-              <caret line="16" column="17" lean-forward="true" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
+            <state relative-caret-position="63">
+              <caret line="17" column="21" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -94,10 +95,28 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spyderpro/FunctionMain/PeopleFlowFunction.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1050">
-              <caret line="70" column="19" selection-start-line="70" selection-start-column="14" selection-end-line="70" selection-end-column="19" />
+            <state relative-caret-position="194">
+              <caret line="80" selection-start-line="80" selection-end-line="80" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/spyderpro/FunctionMain/KeyWordFunction.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="269">
+              <caret line="35" column="74" lean-forward="true" selection-start-line="35" selection-start-column="74" selection-end-line="35" selection-end-column="74" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/Keyword.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="258">
+              <caret line="78" column="13" selection-start-line="78" selection-end-line="79" />
               <folding>
-                <element signature="e#0#6#0" expanded="true" />
+                <element signature="e#0#15#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -170,7 +189,6 @@
         <option value="$PROJECT_DIR$/spyderpro/Connect/read.md" />
         <option value="$PROJECT_DIR$/spyderpro/FinancialModel/StockMarket.py" />
         <option value="$PROJECT_DIR$/spyderpro/FinancialModel/read.md" />
-        <option value="$PROJECT_DIR$/spyderpro/InternetData/Keyword.py" />
         <option value="$PROJECT_DIR$/spyderpro/InternetData/Userhabit.py" />
         <option value="$PROJECT_DIR$/spyderpro/test/__init__.py" />
         <option value="$PROJECT_DIR$/spyderpro/InternetData/WechatPublic.py" />
@@ -180,7 +198,6 @@
         <option value="$PROJECT_DIR$/spyderpro/test/test_main.py" />
         <option value="$PROJECT_DIR$/spyderpro/TrafficData/BaiduTraffic.py" />
         <option value="$PROJECT_DIR$/spyderpro/Weather/Weather.py" />
-        <option value="$PROJECT_DIR$/spyderpro/Connect/MysqlConnect.py" />
         <option value="$PROJECT_DIR$/spyderpro/FunctionMain/TrafficFunction.py" />
         <option value="$PROJECT_DIR$/spyderpro/LocationBigData/PeopleFlow.py" />
         <option value="$PROJECT_DIR$/spyderpro/WeatherModel/Weather.py" />
@@ -192,9 +209,12 @@
         <option value="$PROJECT_DIR$/spyderpro/TrafficData/GaodeTraffic.py" />
         <option value="$PROJECT_DIR$/spyderpro/WeatherModel/WeatherLishi.py" />
         <option value="$PROJECT_DIR$/spyderpro/LocationBigData/PlacePeople.py" />
-        <option value="$PROJECT_DIR$/spyderpro/FunctionMain/PeopleFlowFunction.py" />
         <option value="$PROJECT_DIR$/spyderpro/main/__main__.py" />
+        <option value="$PROJECT_DIR$/spyderpro/Connect/MysqlConnect.py" />
         <option value="$PROJECT_DIR$/spyderpro/FunctionMain/ScenceFunction.py" />
+        <option value="$PROJECT_DIR$/spyderpro/FunctionMain/PeopleFlowFunction.py" />
+        <option value="$PROJECT_DIR$/spyderpro/InternetData/Keyword.py" />
+        <option value="$PROJECT_DIR$/spyderpro/FunctionMain/KeyWordFunction.py" />
       </list>
     </option>
   </component>
@@ -472,12 +492,12 @@
       <workItem from="1560661331510" duration="58000" />
       <workItem from="1560661399365" duration="176000" />
       <workItem from="1560661637811" duration="3531000" />
-      <workItem from="1560680577217" duration="8703000" />
+      <workItem from="1560680577217" duration="9427000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="111579000" />
+    <option name="totallyTimeSpent" value="112303000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -545,7 +565,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/spyderpro/h/weather_No.4.py" />
     <entry file="file://$PROJECT_DIR$/spyderpro/h/weather_No.1.py" />
     <entry file="file://$PROJECT_DIR$/spyderpro/h/main.py" />
     <entry file="file://$PROJECT_DIR$/spyderpro/h/main2.py" />
@@ -695,13 +714,6 @@
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/0d738728-82bf-4eb1-b31e-34d550135eca/console.sql">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/Connect/MysqlConnect.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="8" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/FunctionMain/TrafficFunction.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -770,16 +782,6 @@
             <caret line="42" column="21" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
           </first_editor>
           <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/Keyword.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="14">
-          <caret line="98" column="25" selection-start-line="98" selection-start-column="18" selection-end-line="98" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -901,23 +903,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/FunctionMain/PeopleFlowFunction.py">
+    <entry file="file://$PROJECT_DIR$/spyderpro/FunctionMain/ScenceFunction.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1050">
-          <caret line="70" column="19" selection-start-line="70" selection-start-column="14" selection-end-line="70" selection-end-column="19" />
+        <state relative-caret-position="63">
+          <caret line="17" column="21" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
           <folding>
-            <element signature="e#0#6#0" expanded="true" />
+            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/FunctionMain/ScenceFunction.py">
+    <entry file="file://$PROJECT_DIR$/spyderpro/FunctionMain/PeopleFlowFunction.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-627">
-          <caret line="16" column="17" lean-forward="true" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
+        <state relative-caret-position="194">
+          <caret line="80" selection-start-line="80" selection-end-line="80" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/Connect/MysqlConnect.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="37" column="21" lean-forward="true" selection-start-line="37" selection-start-column="21" selection-end-line="37" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/Keyword.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="258">
+          <caret line="78" column="13" selection-start-line="78" selection-end-line="79" />
           <folding>
-            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#0#15#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/FunctionMain/KeyWordFunction.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="269">
+          <caret line="35" column="74" lean-forward="true" selection-start-line="35" selection-start-column="74" selection-end-line="35" selection-end-column="74" />
         </state>
       </provider>
     </entry>

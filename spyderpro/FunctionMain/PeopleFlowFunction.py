@@ -5,7 +5,10 @@ from spyderpro.LocationBigData.PeopleNum import PeoplePositionin
 from spyderpro.LocationBigData.PlacePeople import PlaceTrend
 
 
-class PeopleFucntion(MysqlOperation):
+class People_Positioning(MysqlOperation):
+    def __init__(self):
+        pass
+
     def positioning_people_num(self, max_num: int = 8):
         assert isinstance(max_num, int)
 
@@ -76,6 +79,9 @@ class Place_Flow_Trend(MysqlOperation):
     位置流量趋势
     """
 
+    def __init__(self):
+        pass
+
     def get_all_province(self) -> list:
         """获取可以监测的省份
         :return 省份列表 [广东省，广西省.....]
@@ -133,7 +139,7 @@ class Place_Flow_Trend(MysqlOperation):
 
 
 if __name__ == "__main__":
-    PeopleFucntion().get_the_scope_of_pace_data(start_lat=23.2, start_lon=110.2, end_lat=30.2, end_lon=113.2)
+    People_Positioning().get_the_scope_of_pace_data(start_lat=23.2, start_lon=110.2, end_lat=30.2, end_lon=113.2)
     Place_Flow_Trend().get_all_province()
     Place_Flow_Trend().get_all_place("广东省", "深圳市")
     Place_Flow_Trend().get_place_index('深圳欢乐谷', 6, '2019-05-19', '2019-06-01')

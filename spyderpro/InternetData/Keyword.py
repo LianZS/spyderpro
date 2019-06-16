@@ -26,6 +26,7 @@ class KeyWord(Connect):
 
     def get_keyword_search_index(self, keyword: str, baidu: bool = True, haosou: bool = True, sougou: bool = True,
                                  pc: bool = True, modile: bool = True) -> list:
+
         """
         能够获取各大浏览器关键词搜索次数，返回30天的搜索数据
 

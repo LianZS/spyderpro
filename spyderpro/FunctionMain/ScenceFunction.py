@@ -55,21 +55,6 @@ class Parent(MysqlOperation):
         db.close()
         return True
 
-    # 处理返回执行db返回cursor
-    @staticmethod
-    def get_cursor(db, sql):
-
-        cursor = db.cursor()
-        try:
-            cursor.execute(sql)
-            db.commit()
-        except Exception as e:
-            print("查询错误%s" % e)
-            db.rollback()
-            cursor.close()
-            return None
-        return cursor
-
     @staticmethod
     def programmerpool(func, pidlist):
         tasklist = []
