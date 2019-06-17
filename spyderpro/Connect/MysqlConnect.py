@@ -15,11 +15,11 @@ class MysqlOperation():
             cursor.execute(sql)
             db.commit()
             cursor.close()
+
         except Exception as e:
 
             print("error:%s" % e)
             db.rollback()
-            cursor.close()
             return False
         return True
 
@@ -30,9 +30,10 @@ class MysqlOperation():
         try:
             cursor.execute(sql)
             db.commit()
+            cursor.close()
+
         except Exception as e:
             print("查询错误%s" % e)
             db.rollback()
-            cursor.close()
             return None
         return cursor

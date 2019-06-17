@@ -4,11 +4,10 @@ import re
 from concurrent import futures
 from bs4 import BeautifulSoup
 
-
 '''获取2k多个城市的历史天气情况'''
 
 
-class WeatherData(object):
+class WeatherHistory(object):
     def __init__(self):
         self.s = requests.Session()
         self.headers = {
@@ -24,7 +23,7 @@ class WeatherData(object):
                     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                     'Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134']
 
-    def get_province_link(self):
+    def get_province_link(self) -> list:
         """
         获取进入每个城市具体的区域--***省份***---链接入口
         :return:
@@ -49,11 +48,11 @@ class WeatherData(object):
             # self.get_city_pastlink(url)
         return datalist
 
-    def get_city_pastlink(self, url) -> list:
+    def get_city_past_link(self, url) -> list:
         """
         获取省份下所有城市分区链接
         :param url: 省份链接入口
-        :return:list
+        :return:list[{'url':,"city"}]
         """
 
         data = self.s.get(url=url, headers=self.headers)
@@ -64,15 +63,16 @@ class WeatherData(object):
         datalist = list()
         for res in sounp.find_all(name='dd'):
             res = res.find_all(name='a')
-            dic = dict()
             for info in res:
+                dic = dict()
+
                 cityname = info.string  # 城市名字
                 url_lis = list()
                 url_lis.append(pre_url)
                 url_lis.append(info['href'])
                 url = ''.join(url_lis)  # 城区天气历史链接
                 dic['url'] = url
-                dic['city'] = cityname
+                dic['city'] = cityname.strip(' ')
                 datalist.append(dic)
         return datalist
         #
@@ -81,7 +81,7 @@ class WeatherData(object):
         # pool.join()
 
     # 获取城市分区下所有月份的历史天气链接
-    def get_city_allpartition(self, url) -> list:
+    def get_city_all_partition(self, url) -> list:
         """
                请求获取区域10多年来多每个月的天气数据链接
                :param url:
@@ -89,8 +89,6 @@ class WeatherData(object):
                """
         result = self.__into_area(url)
         return result
-
-    # 进入每个
 
     def __into_area(self, url) -> list:
         """
@@ -133,6 +131,3 @@ class WeatherData(object):
                 url = pre_url + href
             urllist.append(url)
         return urllist
-
-
-
