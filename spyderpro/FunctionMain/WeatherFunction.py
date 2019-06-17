@@ -2,13 +2,14 @@ import pymysql
 from spyderpro.Connect.MysqlConnect import MysqlOperation
 from spyderpro.WeatherModel.WeatherLishi import WeatherHistory
 from spyderpro.FunctionMain.setting import *
+from concurrent import futures
 
 
 class WeatherOperation(MysqlOperation):
     def __init__(self):
-        pass
+        self.excutor = futures.ProcessPoolExecutor(max_workers=4)
 
-    def wirte_province(self):
+    def get_and_wirte_province(self):
         """
         将数据写入province数据库里
         :return:
@@ -17,6 +18,13 @@ class WeatherOperation(MysqlOperation):
                              port=port)
         db.connect()
         result = self.get_provinces()
+        flag = self.write_province(db=db, result=result)
+        if flag:
+            print("success")
+        else:
+            print("fail")
+
+    def write_province(self, db, result):
         for vlaue, pid in zip(result, range(1, len(result) + 1)):
             province = vlaue['province']
             href = vlaue['url']
@@ -26,8 +34,9 @@ class WeatherOperation(MysqlOperation):
             flag = self.loaddatabase(db=db, sql=sql)
             if not flag:
                 print("写入失败")
+        return True
 
-    def write_citys(self, province: str):
+    def get_and_write_citys(self, province: str):
         """
         将数据写入city数据库里
         :param province:
@@ -79,32 +88,30 @@ class WeatherOperation(MysqlOperation):
         data = WeatherHistory().get_city_past_link(url)
         return {"data": data, "pid": pid}
 
-    def get_histroy_hrefs(self, city):
+    @staticmethod
+    def get_histroy_hrefs(url: str, pid: int):
         """
-        获取该城市下所有
+        获取该城市下所有月份的链接
         :param url:
-        :return:
+        :return:{"data": data->list, "pid": pid}
         """
-        db = pymysql.connect(host=host, user=user, password=password, database=weatherdatabase,
-                             port=port)
-        db.connect()
-
-        sql = "select href,citypid from weather.city where name='" + city + "'"
-        cursor = self.get_cursor(db=db, sql=sql)
-        find = cursor.fetchone()
-        url = find[0]
-        pid = find[1]
         history = WeatherHistory()
-        data = history.get_city_all_partition(url)
+        try:
+            data = history.get_city_all_partition(url)
+        except Exception:
+            return None
         return {"data": data, "pid": pid}
 
-    def write_historyhrefs(self, city: str):
+    def write_historyhrefs(self, data: list, pid: int):
+        """
+        将链接写入数据库
+        :param url:城市入口链接
+        """
+
         db = pymysql.connect(host=host, user=user, password=password, database=weatherdatabase,
                              port=port)
         db.connect()
-        result = self.get_histroy_hrefs(city)
-        pid = result['pid']
-        data = result['data']
+
         for href in data:
             sql = "insert into weather.historylist (pid_id,href) values ('%d','%s')" % (
                 pid, href)
@@ -112,11 +119,31 @@ class WeatherOperation(MysqlOperation):
             if not flag:
                 print("写入失败")
 
+        db.close()
+        return True
+
+    def get_and_write_historyhref(self):
+        db = pymysql.connect(host=host, user=user, password=password, database=weatherdatabase,
+                             port=port)
+        db.connect()
+
+        sql = "select name,citypid,href from weather.city"
+        cursor = self.get_cursor(db, sql)
+        all = cursor.fetchall()
+        cursor.close()
+        db.close()
+        urllist = [item[2] for item in all]
+        pidlist = [item[1] for item in all]
+        tasks = self.excutor.map(self.get_histroy_hrefs, urllist, pidlist,
+                                 chunksize=4)
+        for task in tasks:
+            data = task['data']
+            pid = task['pid']
+            flag = self.write_historyhrefs(data=data, pid=pid)
+            if not flag:
+                print("%d写入失败" % pid)
+            print("%d ok" % pid)
+
 
 if __name__ == "__main__":
     w = WeatherOperation()
-    # w.wirte_province()
-    # for province in w.get_provinces():
-    #     w.write_citys(province['province'])
-
-    # w.get_histroy_hrefs('昌平 ')
