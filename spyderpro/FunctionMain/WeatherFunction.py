@@ -105,7 +105,8 @@ class WeatherOperation(MysqlOperation):
     def write_historyhrefs(self, data: list, pid: int):
         """
         将链接写入数据库
-        :param url:城市入口链接
+        :param data:数据列表
+        :return bool
         """
 
         db = pymysql.connect(host=host, user=user, password=password, database=weatherdatabase,
@@ -123,6 +124,10 @@ class WeatherOperation(MysqlOperation):
         return True
 
     def get_and_write_historyhref(self):
+        """
+        获取历史数据链接并写入数据库
+        :return:
+        """
         db = pymysql.connect(host=host, user=user, password=password, database=weatherdatabase,
                              port=port)
         db.connect()
@@ -144,6 +149,58 @@ class WeatherOperation(MysqlOperation):
                 print("%d写入失败" % pid)
             print("%d ok" % pid)
 
+    @staticmethod
+    def get_weather_state(url: str, pid: int):
+        """
+        获取历史天气数据
+        :param url:
+        :return:{"data": data, "pid": pid}
+        """
+
+        history = WeatherHistory()
+        data = history.get_weather_detail(url)
+        return {"data": data, "pid": pid}
+
+    def write_weather_state(self, data: list, pid: int):
+        """
+        历史天气数据写入数据库
+        """
+        db = pymysql.connect(host=host, user=user, password=password, database=weatherdatabase,
+                             port=port)
+        db.connect()
+        for status in data:
+            date = status['date']
+            state = status['state']
+            temperature = status['temperature']
+            wind = status['wind']
+            sql = "insert into weather.history (date, state, temperature, wind, pid_id) " \
+                  "value('%s','%s','%s','%s','%d')" % (date, state, temperature, wind, pid)
+            flag = self.loaddatabase(db=db, sql=sql)
+            if not flag:
+                print("写入失败")
+
+        db.close()
+        return True
+
+    def get_and_write_weather_state(self):
+        db = pymysql.connect(host=host, user=user, password=password, database=weatherdatabase,
+                             port=port)
+        db.connect()
+        sql = "select pid_id,href from weather.historylist "
+        cursor = self.get_cursor(db, sql)
+        all = cursor.fetchall()
+        pids = [item[0] for item in all]
+        hrefs = [href[1] for href in all]
+        tasks = self.excutor.map(self.get_weather_state, hrefs, pids, chunksize=4)
+        for task in tasks:
+            data = task['data']
+            pid = task['pid']
+            flag = self.write_weather_state(data, pid)
+            if not flag:
+                print("%d写入失败" % pid)
+            print("%d ok" % pid)
+
 
 if __name__ == "__main__":
     w = WeatherOperation()
+    w.get_and_write_weather_state()

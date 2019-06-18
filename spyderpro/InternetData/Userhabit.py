@@ -31,7 +31,7 @@ class UserHabit:
         :param startmonth:开始月份
         :param endmonth:结束月份
         :rtype: iterable
-        :return iterable[{"区域热度 ": name, "占比": share}]
+        :return iterable[性别分布 ，年龄分布，消费偏好，区域热度，应用偏好.....{"区域热度 ": name, "占比": share}]
                """
         assert isinstance(year, int)
         assert isinstance(startmonth, int)
@@ -39,11 +39,13 @@ class UserHabit:
             assert isinstance(endmonth, int)
         pre_url = 'http://mi.talkingdata.com/market-profile.json?'
         monthlist = self.monthset(year, startmonth, endmonth)  # 请求列表
+
         for date in monthlist:
             query_string_parameters = {
                 'date': date
             }
             url = pre_url + urlencode(query_string_parameters)
+            print(url)
             response = self.request.get(url=url, headers=self.headers)
             if response.status_code != 200:
                 raise ConnectionError("网络请求"
@@ -54,6 +56,7 @@ class UserHabit:
             genders: list = result['gender']  # 性别分布
             preferences: list = result['preferences']  # 应用偏好
             provinces: list = result['provinces']  # 区域热度
+            print(result)
             for age in ages:
                 name = age['name']  # 年龄段
                 share = age['share']  # 占比
@@ -80,8 +83,7 @@ class UserHabit:
         获取用户行为---人均安装应用趋势，人均启动应用趋势
 
         :param year:年份
-        :param startmonth:开始月份
-        :param endmonth:结束月份
+        :param endmonth:月份
         :rtype: iterable
         :return iterable[{"日期": date, "人均安装应用": install, "人均启动应用": active}]     """
         assert isinstance(year, int)
@@ -131,3 +133,24 @@ class UserHabit:
                 date = datetime.date(year, startmonth + month, 1)
                 monthlist.append(date)
         return monthlist
+
+    def get_app_importance_info(self, appname):
+        """
+        获取app的核心数据
+        参考http://mi.talkingdata.com/app/trend/5.html
+        :param appname:
+        :return:
+        """
+        pass
+
+    def get_app_active(self, appname):
+        """
+        获取app的用户画像数据
+        参考http://mi.talkingdata.com/app/trend/appRank.json?appId=5&dateType=m&date=2018-11-01&typeId=101000
+        :return:
+        """
+
+# d = UserHabit().get_user_portrait(2017, 1, 2)
+#
+# for i in d:
+#     print(i)
