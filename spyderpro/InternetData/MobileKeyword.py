@@ -32,10 +32,7 @@ class MobileKeyWord:
         :param endmonth:结束月份
         :return :list[{"机型": value['k'], "占有率": value['r']},,,,,,]
         """
-        assert isinstance(year, int)
-        assert isinstance(startmonth, int)
-        if endmonth is not None:
-            assert isinstance(endmonth, int)
+        self.__type_check(year, startmonth, endmonth)
 
         return self.__mobile_rate(kw="机型", year=year, startmonth=startmonth, endmonth=endmonth, platform=2,
                                   terminaltype=2)
@@ -50,10 +47,7 @@ class MobileKeyWord:
         :return :iterable[{"品牌": value['k'], "占有率": value['r']},,,,,,]
 
         """
-        assert isinstance(year, int)
-        assert isinstance(startmonth, int)
-        if endmonth is not None:
-            assert isinstance(endmonth, int)
+        self.__type_check(year, startmonth, endmonth)
 
         return self.__mobile_rate(kw="品牌", year=year, startmonth=startmonth, endmonth=endmonth, platform=3,
                                   terminaltype=1)
@@ -66,10 +60,7 @@ class MobileKeyWord:
         :param startmonth:开始月份
         :param endmonth: 结束月份
         :return :iterable[{"分辨率": value['k'], "占有率": value['r']},,,,,,]        """
-        assert isinstance(year, int)
-        assert isinstance(startmonth, int)
-        if endmonth is not None:
-            assert isinstance(endmonth, int)
+        self.__type_check(year, startmonth, endmonth)
 
         return self.__mobile_rate(kw="分辨率", year=year, startmonth=startmonth, endmonth=endmonth, platform=2,
                                   terminaltype=3)
@@ -84,10 +75,7 @@ class MobileKeyWord:
         :return :iterable[{"操作系统": value['k'], "占有率": value['r']},,,,,,]
 
         """
-        assert isinstance(year, int)
-        assert isinstance(startmonth, int)
-        if endmonth is not None:
-            assert isinstance(endmonth, int)
+        self.__type_check(year, startmonth, endmonth)
 
         return self.__mobile_rate(kw="操作系统", year=year, startmonth=startmonth, endmonth=endmonth, platform=2,
                                   terminaltype=4)
@@ -102,10 +90,7 @@ class MobileKeyWord:
         :return :iterable[{"运营商": value['k'], "占有率": value['r']},,,,,,]
 
         """
-        assert isinstance(year, int)
-        assert isinstance(startmonth, int)
-        if endmonth is not None:
-            assert isinstance(endmonth, int)
+        self.__type_check(year, startmonth, endmonth)
 
         return self.__mobile_rate(kw="运营商", year=year, startmonth=startmonth, endmonth=endmonth, platform=2,
                                   terminaltype=5)
@@ -120,10 +105,7 @@ class MobileKeyWord:
         :return :iterable[{"网络": value['k'], "占有率": value['r']},,,,,,]
 
         """
-        assert isinstance(year, int)
-        assert isinstance(startmonth, int)
-        if endmonth is not None:
-            assert isinstance(endmonth, int)
+        self.__type_check(year, startmonth, endmonth)
 
         return self.__mobile_rate(kw="网络", year=year, startmonth=startmonth, endmonth=endmonth, platform=2,
                                   terminaltype=6)
@@ -175,3 +157,9 @@ class MobileKeyWord:
 
             for value in result:
                 yield {kw: value['k'], "占有率": value['r']}
+
+    def __type_check(self, year, startmonth, endmonth):
+        assert isinstance(year, int), 'year is not type of int'
+        assert isinstance(startmonth, int), 'startmonth is not type of int'
+        if endmonth is not None:
+            assert isinstance(endmonth, int), 'endmonth is not type of int'

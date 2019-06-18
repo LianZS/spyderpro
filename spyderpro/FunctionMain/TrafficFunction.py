@@ -1,13 +1,16 @@
 import time
 import csv
 import pymysql
+from pymysql.connections import Connection
+
 from spyderpro.TrafficData.BaiduTraffic import BaiduTraffic
 from spyderpro.TrafficData.GaodeTraffic import GaodeTraffic
 from spyderpro.FunctionMain.setting import *
 from concurrent.futures import ThreadPoolExecutor
+from spyderpro.Connect.MysqlConnect import MysqlOperation
 
 
-class TraffciFunction(object):
+class TraffciFunction(MysqlOperation):
     instance = None
 
     @staticmethod
@@ -56,16 +59,16 @@ class TraffciFunction(object):
         :param citycode:
         :return:bool
         """
-        db = pymysql.connect(host=host, user=user, password=password,
-                             database=trafficdatabase,
-                             port=port)
+        db: Connection = pymysql.connect(host=host, user=user, password=password,
+                                         database=trafficdatabase,
+                                         port=port)
 
         if citycode > 1000:
-            traffic = GaodeTraffic(db)
+            traffic = GaodeTraffic()
 
         elif 0 < citycode < 1000:
 
-            traffic = BaiduTraffic(db)
+            traffic = BaiduTraffic()
         else:
             return False
         t = time.time()
@@ -142,9 +145,9 @@ class TraffciFunction(object):
         detailtime = time.strftime("%H:%M", t)
         g = None
         if citycode > 1000:
-            g = GaodeTraffic(db)
+            g = GaodeTraffic()
         elif citycode < 1000:
-            g = BaiduTraffic(db)
+            g = BaiduTraffic()
         result = g.roaddata(citycode)
         if result is None:
             return False
@@ -167,9 +170,9 @@ class TraffciFunction(object):
         yearpid = self.__search_yearpid(citycode, db)
         g = None
         if yearpid > 1000:
-            g = GaodeTraffic(db)
+            g = GaodeTraffic()
         elif yearpid < 1000:
-            g = BaiduTraffic(db)
+            g = BaiduTraffic()
         name = self.find_name(citycode, db)
         result = g.yeartraffic(yearpid, name)
         result = self.__dealwith_year_traffic(result, citycode, db,
@@ -223,23 +226,6 @@ class TraffciFunction(object):
             if info[i]['date'] == result:
                 break
         return info[i + 1:]
-
-    # 写入数据库
-    @staticmethod
-    def loaddatabase(db, sql):
-
-        cursor = db.cursor()
-        try:
-            cursor.execute(sql)
-            db.commit()
-            cursor.close()
-        except Exception as e:
-
-            print("error:%s" % e)
-            db.rollback()
-            cursor.close()
-            return False
-        return True
 
     # 性能提升
     @staticmethod

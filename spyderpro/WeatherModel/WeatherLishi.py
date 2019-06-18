@@ -1,19 +1,14 @@
+import random
 import requests
 import re
-import csv
-from concurrent import futures
 from bs4 import BeautifulSoup
-from multiprocessing import Pool as MP
-
-import time, random
-from threading import Lock
 
 '''获取2k多个城市的历史天气情况'''
 
 
-class WeatherData(object):
+class WeatherHistory(object):
     def __init__(self):
-        self.s = requests.Session()
+        self.request = requests.Session()
         self.headers = {
             'Host': 'www.tianqihoubao.com',
             'User-Agent': 'Mozilla/5.0 (Macinto¬sh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -27,13 +22,13 @@ class WeatherData(object):
                     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                     'Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134']
 
-    def get_province_link(self):
+    def get_province_link(self) -> list:
         """
         获取进入每个城市具体的区域--***省份***---链接入口
         :return:
         """
         url = 'http://www.tianqihoubao.com/lishi/'
-        data = self.s.get(url=url, headers=self.headers)
+        data = self.request.get(url=url, headers=self.headers)
         pre_url = 'http://www.tianqihoubao.com/'
         sounp = BeautifulSoup(data.content, 'lxml')  # 此处不要使用data.text，会出现乱码，改用response保证原有样子
         sounp.prettify()
@@ -52,39 +47,35 @@ class WeatherData(object):
             # self.get_city_pastlink(url)
         return datalist
 
-    def get_city_pastlink(self, url) -> list:
+    def get_city_past_link(self, url) -> list:
         """
         获取省份下所有城市分区链接
         :param url: 省份链接入口
-        :return:list
+        :return:list[{'url':,"city"}]
         """
 
-        data = self.s.get(url=url, headers=self.headers)
+        data = self.request.get(url=url, headers=self.headers)
         pre_url = 'http://www.tianqihoubao.com/'
         sounp = BeautifulSoup(data.content, 'lxml')  # 此处不要使用data.text，会出现乱码，改用response保证原有样子
         sounp.prettify()
-        # pool = MP(processes=4)
         datalist = list()
         for res in sounp.find_all(name='dd'):
             res = res.find_all(name='a')
-            dic = dict()
             for info in res:
+                dic = dict()
+
                 cityname = info.string  # 城市名字
                 url_lis = list()
                 url_lis.append(pre_url)
                 url_lis.append(info['href'])
                 url = ''.join(url_lis)  # 城区天气历史链接
                 dic['url'] = url
-                dic['city'] = cityname
+                dic['city'] = cityname.strip(' ')
                 datalist.append(dic)
         return datalist
-        #
-        #         pool.apply_async(func=self.getAllCity_Partition, args=(l,))
-        # pool.close()  # 记得是写在最外层，否则会引起pool error
-        # pool.join()
 
     # 获取城市分区下所有月份的历史天气链接
-    def get_city_allpartition(self, url) -> list:
+    def get_city_all_partition(self, url) -> list:
         """
                请求获取区域10多年来多每个月的天气数据链接
                :param url:
@@ -92,8 +83,6 @@ class WeatherData(object):
                """
         result = self.__into_area(url)
         return result
-
-    # 进入每个
 
     def __into_area(self, url) -> list:
         """
@@ -136,6 +125,42 @@ class WeatherData(object):
                 url = pre_url + href
             urllist.append(url)
         return urllist
+
+    def get_weather_detail(self, url) -> list:
+        """
+        请求历史月份历史数据，'日期', '天气状况', '气温', '风力风向'
+        :param url:
+        :return: list[{'date', 'state', 'temperature', 'wind'}]
+        {'date', 'state', 'temperature', 'wind'}->{'日期', '天气状况', '气温', '风力风向'}
+        """
+
+        response = self.request.get(url=url, headers=self.headers)
+        if response.status_code != 200:
+            print("%s请求--失败" % url)
+            return None
+            # raise ConnectionError('网络连接中断')
+        soup = BeautifulSoup(response.text, 'lxml')
+        table = soup.find(name="table")
+        tr = table.find_all(name="tr")
+        datalist = list()
+        key = ['date', 'state', 'temperature', 'wind']
+
+        dates = table.find_all(name='a')
+        for tds, date in zip(tr, dates):
+
+            value = list()
+            date = date.text
+            date = re.sub("\s", '', date)
+            value.append(date)
+            for td in tds:
+                text = td.string
+                if text is None:
+                    continue
+                text = re.sub("\s", '', text)
+                value.append(text)
+            dic = dict(zip(key, value))
+            datalist.append(dic)
+        return datalist
 
 
 

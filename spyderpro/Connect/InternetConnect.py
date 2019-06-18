@@ -22,7 +22,6 @@ class Connect:
                 result = data.text
         except UnicodeDecodeError:
             result = re.findall(par, data.text, re.S)[0]
-
         data = json.loads(result)
         assert isinstance(data, (dict, list))
         return data

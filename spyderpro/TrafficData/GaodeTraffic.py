@@ -8,8 +8,7 @@ from spyderpro.TrafficData.TrafficInterface import Traffic
 
 class GaodeTraffic(Traffic):
 
-    def __init__(self, db):
-        self.db = db
+    def __init__(self):
         self.s = requests.Session()
         self.headers = {
             'Host': 'report.amap.com',
@@ -27,6 +26,7 @@ class GaodeTraffic(Traffic):
     #
     # @deco
     def citytraffic(self, citycode: int) -> list:
+
         """获取实时交通状态，包括日期，拥堵指数，具体时刻
 
         :param citycode:城市id

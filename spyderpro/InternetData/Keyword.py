@@ -26,8 +26,9 @@ class KeyWord(Connect):
 
     def get_keyword_search_index(self, keyword: str, baidu: bool = True, haosou: bool = True, sougou: bool = True,
                                  pc: bool = True, modile: bool = True) -> list:
+
         """
-        能够获取各大浏览器关键词搜索次数，返回30天的搜索数据
+        能够获取浏览器的关键词搜索频率
 
         :rtype: list[dict]
         :param keyword:搜索关键词
@@ -112,3 +113,7 @@ class KeyWord(Connect):
         return {"1688采购指数": pur1688 if pur1688flag else None, "淘宝采购指数": taobao if taobaoflag else None,
                 "1688供应指数": supply1688 if supplyflag else None, "最近时间": lastdate,
                 "最远时间": olddate}
+
+
+# d = KeyWord().get_alibaba_keyword_buy_index("数据线")
+# print(d)

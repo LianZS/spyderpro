@@ -5,7 +5,7 @@ import json
 from urllib.parse import urlencode
 
 
-class Weather:
+class WeatherForect:
 
     def __init__(self):
 
@@ -23,8 +23,6 @@ class Weather:
                     'Chrome/71.0.3578.98 Safari/537.36',
                     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
                     '(KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134']
-
-    # 挖掘景区天气
 
     def weatherforcest(self, weatherpid: str) -> list:
         """

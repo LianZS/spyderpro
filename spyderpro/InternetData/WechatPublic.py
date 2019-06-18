@@ -153,7 +153,7 @@ class WechatPublic(Connect):
             day = key  # 日期
             datalist.append({"日期": day, "总阅读数": read_num_total, "总点赞数": top_like_num_total, "发表文章数":
                 articles_total})
-        responsedata['历史数据'] = datalist
+        responsedata['历史数据'] = datalist  # -> 一个月的数据量
         driver.close()
         return responsedata
 
