@@ -3,6 +3,7 @@ import re
 
 
 class Connect:
+
     def connect(self, par: str, url: str) -> dict:
         """网络连接
         :param par:正则表达式

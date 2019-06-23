@@ -183,6 +183,10 @@ class WeatherOperation(MysqlOperation):
         return True
 
     def get_and_write_weather_state(self):
+        """
+        获取并写入历史天气数据入数据库
+        :return:
+        """
         db = pymysql.connect(host=host, user=user, password=password, database=weatherdatabase,
                              port=port)
         db.connect()

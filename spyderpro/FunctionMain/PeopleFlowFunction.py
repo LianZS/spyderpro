@@ -3,14 +3,13 @@ from concurrent import futures
 from spyderpro.Connect.MysqlConnect import MysqlOperation
 from spyderpro.LocationBigData.PeopleNum import PeoplePositionin
 from spyderpro.LocationBigData.PlacePeople import PlaceTrend
+from spyderpro.Connect.ParamCheck import ParamTypeCheck
 
 
-class People_Positioning(MysqlOperation):
-    def __init__(self):
-        pass
+class People_Positioning(MysqlOperation, ParamTypeCheck):
 
     def positioning_people_num(self, max_num: int = 8):
-        assert isinstance(max_num, int)
+        self.type_check(max_num, int)
 
         """
         获取定位数据
@@ -23,7 +22,9 @@ class People_Positioning(MysqlOperation):
             yield reponse
 
     def request_positioning_num(self, rank: int) -> list:
-        assert isinstance(rank, int)
+
+        self.type_check(rank, int)
+
         """
         请求定位数据
         :param rank:
@@ -54,13 +55,11 @@ class People_Positioning(MysqlOperation):
         :return:list[[lat,lon]]
         """
 
-        def type_check(param):
-            assert isinstance(param, float), "type of param is wrong, please into the type of float"
 
-        type_check(start_lat)
-        type_check(start_lon)
-        type_check(end_lon)
-        type_check(end_lat)
+        self.type_check(start_lat,float)
+        self.type_check(start_lon,float)
+        self.type_check(end_lon,float)
+        self.type_check(end_lat,float)
 
         result = self.positioning_people_num()
         count = 0
@@ -78,9 +77,6 @@ class Place_Flow_Trend(MysqlOperation):
     """
     位置流量趋势
     """
-
-    def __init__(self):
-        pass
 
     def get_all_province(self) -> list:
         """获取可以监测的省份

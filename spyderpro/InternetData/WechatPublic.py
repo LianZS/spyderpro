@@ -112,6 +112,8 @@ class WechatPublic(Connect):
             "page": 1
         }
         driver = self.chrome()
+        print("https://data.wxb.com/searchResult?" + urlencode(query_string_parameters))
+
         driver.get("https://data.wxb.com/searchResult?" + urlencode(query_string_parameters))
         response = driver.page_source
         soup = BeautifulSoup(response, 'lxml')

@@ -25,7 +25,7 @@ class KeyWord(Connect):
             self.headers['User-Agent'] = user_agent
 
     def get_keyword_search_index(self, keyword: str, baidu: bool = True, haosou: bool = True, sougou: bool = True,
-                                 pc: bool = True, modile: bool = True) -> list:
+                                 pc: bool = True, modile: bool = True) :
 
         """
         能够获取浏览器的关键词搜索频率
@@ -37,7 +37,7 @@ class KeyWord(Connect):
         :param sougou: 是否返回搜狗相关搜索量
         :param pc: 是否返回pc端相关搜索量
         :param modile: 是否返回移动端相关搜索量
-        :return:[{"百度最新统计时间": baidu_update, "PC端": baidu_pc, "移动端": baidu_mobile, "整体": baidu_all}
+        :return:iterable[{"百度最新统计时间": baidu_update, "PC端": baidu_pc, "移动端": baidu_mobile, "整体": baidu_all}
                    if baidu else None,
                    {"360最新统计时间": haosou_update, "PC端": haosou_pc, "移动端": haosou_mobile,
                     "整体": haosou_all}

@@ -11,7 +11,6 @@ from concurrent.futures import ThreadPoolExecutor
 from spyderpro.FunctionMain.setting import *
 from spyderpro.Connect.MysqlConnect import MysqlOperation
 
-
 class Parent(MysqlOperation):
 
     @staticmethod

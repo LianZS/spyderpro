@@ -9,3 +9,4 @@ city_file_path = os.getcwd() + "/DataFiles/CityInformation.csv"
 trafficdatabase = 'trafficdatabase'
 scencedatabase = 'webdata'
 weatherdatabase = "weather"
+internetdata = "internetdata"

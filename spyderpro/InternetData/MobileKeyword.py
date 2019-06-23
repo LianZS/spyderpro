@@ -30,7 +30,7 @@ class MobileKeyWord:
         :param year:年份
         :param startmonth: 开始月份
         :param endmonth:结束月份
-        :return :list[{"机型": value['k'], "占有率": value['r']},,,,,,]
+        :return :list[{"机型": value['k'], "占有率": value['r'],'日期'：},,,,,,]
         """
         self.__type_check(year, startmonth, endmonth)
 
@@ -154,9 +154,8 @@ class MobileKeyWord:
                 raise ConnectionError("网络请求"
                                       "出问题")
             result = json.loads(response.text)
-
             for value in result:
-                yield {kw: value['k'], "占有率": value['r']}
+                yield {kw: value['k'], "占有率": value['r'], "日期": date}
 
     def __type_check(self, year, startmonth, endmonth):
         assert isinstance(year, int), 'year is not type of int'
