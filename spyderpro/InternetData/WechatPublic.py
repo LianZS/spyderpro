@@ -8,6 +8,8 @@ from urllib.parse import urlencode
 
 
 class WechatPublic(Connect):
+    # *****注意，微小宝请求方式发生了更改，还未修改相关数据获取
+
     def __init__(self, user_agent=None):
         """
 

@@ -5,6 +5,8 @@ from urllib.parse import urlencode
 
 
 class MobileKeyWord:
+
+    # *****注意，还未完成IOS相关数据获取
     def __init__(self, user_agent=None):
         """
 

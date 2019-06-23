@@ -2,19 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ce88f83-d355-4299-8834-5d606a7aee1f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/spyderpro/Connect/ParamCheck.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/Connect/InternetConnect.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/Connect/InternetConnect.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/FunctionMain/KeyWordFunction.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/FunctionMain/KeyWordFunction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/FunctionMain/PeopleFlowFunction.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/FunctionMain/PeopleFlowFunction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/FunctionMain/ScenceFunction.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/FunctionMain/ScenceFunction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/FunctionMain/WeatherFunction.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/FunctionMain/WeatherFunction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/FunctionMain/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/FunctionMain/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/FunctionMain/setting.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/FunctionMain/setting.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/InternetData/Keyword.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/InternetData/Keyword.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/spyderpro/InternetData/MobileKeyword.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/InternetData/MobileKeyword.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/spyderpro/InternetData/WechatPublic.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/InternetData/WechatPublic.py" afterDir="false" />
     </list>
@@ -106,11 +93,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spyderpro/FunctionMain/KeyWordFunction.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="77">
-              <caret line="200" column="25" selection-start-line="200" selection-start-column="25" selection-end-line="200" selection-end-column="25" />
+            <state relative-caret-position="167">
+              <caret line="206" column="28" lean-forward="true" selection-start-line="206" selection-start-column="28" selection-end-line="206" selection-end-column="28" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
                 <element signature="e#230#234#0" />
@@ -136,8 +123,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/MobileKeyword.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="80">
-              <caret line="97" column="102" selection-start-line="97" selection-start-column="102" selection-end-line="97" selection-end-column="102" />
+            <state relative-caret-position="120">
+              <caret line="8" column="27" lean-forward="true" selection-start-line="8" selection-end-line="9" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/WechatPublic.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="10" column="31" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -238,10 +237,10 @@
         <option value="$PROJECT_DIR$/spyderpro/FunctionMain/ScenceFunction.py" />
         <option value="$PROJECT_DIR$/spyderpro/FunctionMain/WeatherFunction.py" />
         <option value="$PROJECT_DIR$/spyderpro/FunctionMain/setting.py" />
-        <option value="$PROJECT_DIR$/spyderpro/InternetData/WechatPublic.py" />
         <option value="$PROJECT_DIR$/spyderpro/InternetData/__init__.py" />
-        <option value="$PROJECT_DIR$/spyderpro/InternetData/MobileKeyword.py" />
         <option value="$PROJECT_DIR$/spyderpro/FunctionMain/KeyWordFunction.py" />
+        <option value="$PROJECT_DIR$/spyderpro/InternetData/MobileKeyword.py" />
+        <option value="$PROJECT_DIR$/spyderpro/InternetData/WechatPublic.py" />
       </list>
     </option>
   </component>
@@ -492,12 +491,12 @@
       <workItem from="1560866090192" duration="606000" />
       <workItem from="1560869618688" duration="35000" />
       <workItem from="1560914093203" duration="729000" />
-      <workItem from="1561279780899" duration="11582000" />
+      <workItem from="1561279780899" duration="11834000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="152422000" />
+    <option name="totallyTimeSpent" value="152674000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -512,7 +511,7 @@
     <frame x="0" y="23" width="1280" height="710" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20678514" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20678514" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -534,7 +533,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="SciView" order="3" />
-      <window_info active="true" anchor="right" id="Database" order="4" visible="true" weight="0.23344104" />
+      <window_info anchor="right" id="Database" order="4" visible="true" weight="0.23344104" />
     </layout>
     <layout-to-restore>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24474959" />
@@ -871,16 +870,6 @@
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/bdd29f5c-e514-4a99-a695-cd707173d8aa/console.sql">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/WechatPublic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="241">
-          <caret line="180" lean-forward="true" selection-start-line="180" selection-end-line="180" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/FunctionMain/setting.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -952,20 +941,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/MobileKeyword.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="97" column="102" selection-start-line="97" selection-start-column="102" selection-end-line="97" selection-end-column="102" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/FunctionMain/KeyWordFunction.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="77">
-          <caret line="200" column="25" selection-start-line="200" selection-start-column="25" selection-end-line="200" selection-end-column="25" />
+        <state relative-caret-position="167">
+          <caret line="206" column="28" lean-forward="true" selection-start-line="206" selection-start-column="28" selection-end-line="206" selection-end-column="28" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <element signature="e#230#234#0" />
@@ -983,6 +962,26 @@
             <element signature="e#4627#4985#0" />
             <element signature="e#9943#10295#0" />
             <element signature="e#11092#11446#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/MobileKeyword.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="27" lean-forward="true" selection-start-line="8" selection-end-line="9" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/WechatPublic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="31" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
