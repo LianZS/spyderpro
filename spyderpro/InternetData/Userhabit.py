@@ -1,7 +1,9 @@
 import requests
 import json
 import datetime
+import re
 from urllib.parse import urlencode
+from bs4 import BeautifulSoup
 
 
 class UserHabit:
@@ -45,7 +47,6 @@ class UserHabit:
                 'date': date
             }
             url = pre_url + urlencode(query_string_parameters)
-            print(url)
             response = self.request.get(url=url, headers=self.headers)
             if response.status_code != 200:
                 raise ConnectionError("网络请求"
@@ -56,7 +57,6 @@ class UserHabit:
             genders: list = result['gender']  # 性别分布
             preferences: list = result['preferences']  # 应用偏好
             provinces: list = result['provinces']  # 区域热度
-            print(result)
             for age in ages:
                 name = age['name']  # 年龄段
                 share = age['share']  # 占比
@@ -134,14 +134,41 @@ class UserHabit:
                 monthlist.append(date)
         return monthlist
 
-    def get_app_importance_info(self, appname):
+    def get_similarapp_info(self, appname) -> list:
         """
-        获取app的核心数据
+        获取与该app名字相似的列表
         参考http://mi.talkingdata.com/app/trend/5.html
         :param appname:
-        :return:
+        :return:list
         """
-        pass
+        url = "http://mi.talkingdata.com/search.html?keyword=" + appname
+        response = self.request.get(url=url, headers=self.headers)
+        soup = BeautifulSoup(response.text, 'lxml')
+        hrefs = soup.find_all(name='a', attrs={"href": re.compile("http://mi.talkingdata.com/app/")})
+        datalist = list()
+        for item in hrefs:
+            name = item.get("title")
+            href = item.get("href")
+            dic = dict()
+            dic['name'] = name
+            dic['href'] = href
+            datalist.append(dic)
+        return datalist
+
+    def request_app_data(self, url, start_date, end_date):
+        response = self.request.get(url=url, headers=self.headers)
+        soup = BeautifulSoup(response.text, 'lxml')
+        element = soup.find(name='li', attrs={"td-data": re.compile("\d+")})
+        typeIds = element.get("td-data")
+        query_string_parameters = {
+            'typeIds': typeIds,
+            "dateType": 'm',
+            'endDate': end_date,
+            'startDate': start_date
+        }
+        url = re.sub(".html", "/", url) +"allKpi.json?"+ urlencode(query_string_parameters)
+        response = self.request.get(url=url, headers=self.headers)
+        datalist = json.loads(response.text)
 
     def get_app_active(self, appname):
         """
@@ -150,7 +177,5 @@ class UserHabit:
         :return:
         """
 
-# d = UserHabit().get_user_portrait(2017, 1, 2)
-#
-# for i in d:
-#     print(i)
+
+UserHabit().request_app_data("http://mi.talkingdata.com/app/trend/5.html","2018-12-01","2019-05-01")
