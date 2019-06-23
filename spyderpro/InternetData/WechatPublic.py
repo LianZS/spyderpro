@@ -105,74 +105,104 @@ class WechatPublic(Connect):
             yield {"标题": title, "链接": href}
 
     def search_public(self, public_pid: str):
-        """在微小宝搜索公众号详细信息入口的信息
+        """在微小宝搜索公众号详细信息入口pid的信息
         :param public_pid:公众号账号
-        :return dict->{"pid": pid, "href": href, "driver": driver}
+        :return dict->{"pid": pid}
         """
-        query_string_parameters = {
-            "kw": public_pid,
-            "page": 1
-        }
-        driver = self.chrome()
-        print("https://data.wxb.com/searchResult?" + urlencode(query_string_parameters))
 
-        driver.get("https://data.wxb.com/searchResult?" + urlencode(query_string_parameters))
+        driver = self.chrome()
+        driver.get("https://data.wxb.com/")
+        element = driver.find_element_by_class_name("ant-input")
+        element.send_keys(public_pid)
+        driver.find_element_by_class_name("ant-btn-icon-only").click()
+        # driver.get("https://data.wxb.com/searchResult?" + urlencode(query_string_parameters))
         response = driver.page_source
+        driver.close()
         soup = BeautifulSoup(response, 'lxml')
         href = soup.find(name='a', attrs={"href": re.compile("/details/postRead?")}).get('href')  # 获取链接
         pid = re.search("id=(.*)", href, re.I).group(1)
-        url = "https://data.wxb.com" + href
-        info = {"pid": pid, "url": url, "driver": driver}
+        info = {"pid": pid}
         return info
 
-    def request_public_data(self, driver, url):
+    def request_public_data(self, pid):
+
         """获取该公众号的详细数据：平均阅读量，最高阅读量，平均点赞，最高点赞等
         :param driver:实例
         :param url:链接
-        :return   {"总概况":{"头条平均阅读量": average_read, "最高阅读量": hight_read, "头条平均点赞数": average_like,
-                               "最高点赞数": hight_like},"历史数据":[{"日期": day, "总阅读数": read_num_total, "总点赞数": top_like_num_total, "发表文章数":
-                articles_total}]}
+        :return   {"头条平均阅读量": average_read, "最高阅读量": hight_read, "头条平均点赞数": average_like,
+                               "最高点赞数": hight_like,"发文数":count_article,"fans_num":粉丝数，"历史数据":data}
+
         """
-        driver.get(url=url)
-        response = driver.page_source
-        soup = BeautifulSoup(response, 'lxml')
-        average_read = int(soup.find(name="div", attrs={"data-reactid": "209"}).text)  # 头条平均阅读量
-        hight_read = int(soup.find(name="div", attrs={"data-reactid": "217"}).text)  # 最高阅读量
-        average_like = int(soup.find(name="div", attrs={"data-reactid": "225"}).text)  # 头条平均点赞数
-        hight_like = int(soup.find(name="div", attrs={"data-reactid": "229"}).text)  # 最高点赞数
-        responsedata = dict()
-        responsedata['总概况'] = {"头条平均阅读量": average_read, "最高阅读量": hight_read, "头条平均点赞数": average_like,
-                               "最高点赞数": hight_like}
 
-        echartsData = re.search('"echartsData(.*?)}}', response, re.S).group(0)
-        echartsData = "{%s}" % echartsData
-        g = eval(echartsData)
-        datas = g['echartsData']
+        url = "https://data.wxb.com/account/stat/" + pid
+        response = self.request.get(url=url, headers=self.headers).text
+        g = json.loads(response)
+        data = g['data']
+        count_article_latest = data['count_article_latest_30']  # 发文次数
+
+        fans_num_estimate = data['fans_num_estimate']  # 预估粉丝数
+
+        max_read_latest = data['max_read_latest_30']  # 最高阅读数
+
+        max_like_latest = data['max_like_latest_30']  # 最高在看数
+
+        avg_read_num = data['avg_read_num_idx1']  # 头条平均阅读数
+
+        avg_like_num = data['avg_like_num_idx1']  # 头条平均在看数
+
+        datalist = self.request_public_data(pid)
+
+        return {"average_read": avg_read_num, "average_like": avg_like_num, "hight_read": max_read_latest,
+                "hight_like": max_like_latest, "count_article": count_article_latest, "fans_num": fans_num_estimate,
+                "data": datalist}
+
+    def request_history_data(self, pid) -> list:
+        """
+        获取文章相关历史数据，比如阅读量等
+        :param pid:
+        :return:
+        """
+        query_string_parameters = {
+            'period': '30',
+            'start_date': '',
+            'end_date': '',
+            'is_new': '1'
+        }
+        url = "https://data.wxb.com/account/statChart/" + pid + "?" + urlencode(query_string_parameters)
+        response = self.request.get(url=url, headers=self.headers)
+        g = json.loads(response.text)
+        data = g['data']
         datalist = list()
-        for key in datas.keys():
-            data = datas[key]
-            read_num_total = int(data['read_num_total'])  # 总阅读数
-            top_like_num_total = int(data['top_like_num_total'])  # 总点赞数
-            articles_total = int(data['articles_total'])  # 该天发表文章数
-            day = key  # 日期
-            datalist.append({"日期": day, "总阅读数": read_num_total, "总点赞数": top_like_num_total, "发表文章数":
-                articles_total})
-        responsedata['历史数据'] = datalist  # -> 一个月的数据量
-        driver.close()
-        return responsedata
+        for key in g['data'].keys():
+            value = data[key]
+            read_num_total = value['read_num_total']  # 总阅读量
+            like_num_total = value['like_num_total']  # 在看量
+            date = key
+            dic = dict()
+            dic['总阅读量'] = read_num_total
+            dic['在看量'] = like_num_total
+            dic['日期'] = date
+            datalist.append(dic)
+        return datalist
 
-    def get_public_keyword(self, pid):
+    def request_public_keyword(self, pid):
         """获取关键词列表
         :param pid ：公众号id
-        :return list[关键词]
+        :return list[{"name":关键词,"value":热度]}
         """
-        href = "https://data.wxb.com/account/content/" + pid
-        response = self.request.get(url=href, headers=self.headers)
+        url = "https://data.wxb.com/account/content/" + pid
+        response = self.request.get(url=url, headers=self.headers)
         g = json.loads(response.text)
-        keywords = list()
-        for keyword in g['data']['hot_words']:
-            keywords.append(keyword)
-        return keywords
+        data = g['data']['article_keywords']
+        datalist = list()
+        for item in data:
+            name = item['name']
+            value = item['value']
+            dic = dict()
+            dic['name'] = name
+            dic['value'] = value
+            datalist.append(dic)
+        return datalist
 
     @staticmethod
     def chrome():
@@ -180,3 +210,6 @@ class WechatPublic(Connect):
         option.add_argument('headless')
         driver = webdriver.Chrome(chrome_options=option)
         return driver
+
+
+d = WechatPublic().search_public("headline_today")
