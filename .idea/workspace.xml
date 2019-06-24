@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ce88f83-d355-4299-8834-5d606a7aee1f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/spyderpro/InternetData/Userhabit.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/InternetData/Userhabit.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -31,7 +32,7 @@
     <SUITE FILE_PATH="coverage/SpyderPro$BaiduTraffic.coverage" NAME="BaiduTraffic Coverage Results" MODIFIED="1560500233950" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/TrafficData" />
     <SUITE FILE_PATH="coverage/SpyderPr$WechatPublic.coverage" NAME="WechatPublic Coverage Results" MODIFIED="1561306469436" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/InternetData" />
     <SUITE FILE_PATH="coverage/SpyderPr$BaiduTraffic.coverage" NAME="BaiduTraffic Coverage Results" MODIFIED="1560569291354" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/TrafficData" />
-    <SUITE FILE_PATH="coverage/SpyderPr$Userhabit.coverage" NAME="Userhabit Coverage Results" MODIFIED="1561310940377" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/InternetData" />
+    <SUITE FILE_PATH="coverage/SpyderPr$Userhabit.coverage" NAME="Userhabit Coverage Results" MODIFIED="1561387976834" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/InternetData" />
     <SUITE FILE_PATH="coverage/SpyderPro$No_4.coverage" NAME="No.4 Coverage Results" MODIFIED="1560422706697" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/h" />
     <SUITE FILE_PATH="coverage/SpyderPro$PeopleFlow.coverage" NAME="PeopleFlow Coverage Results" MODIFIED="1559818009673" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/LocationBigData" />
     <SUITE FILE_PATH="coverage/SpyderPro$__init____2_.coverage" NAME="__init__ (2) Coverage Results" MODIFIED="1560339297167" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro" />
@@ -92,24 +93,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spyderpro/FunctionMain/KeyWordFunction.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3000">
-              <caret line="206" column="28" selection-start-line="206" selection-start-column="28" selection-end-line="206" selection-end-column="28" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-                <element signature="e#4515#5236#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/Userhabit.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="101">
-              <caret line="171" column="27" selection-start-line="171" selection-start-column="27" selection-end-line="171" selection-end-column="27" />
+            <state relative-caret-position="194">
+              <caret line="255" selection-start-line="255" selection-end-line="257" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -227,46 +215,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="SpyderPr" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SpyderPr" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SpyderPr" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SpyderPr" type="462c0819:PsiDirectoryNode" />
-              <item name="spyderpro" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SpyderPr" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SpyderPr" type="462c0819:PsiDirectoryNode" />
-              <item name="spyderpro" type="462c0819:PsiDirectoryNode" />
-              <item name="Connect" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SpyderPr" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SpyderPr" type="462c0819:PsiDirectoryNode" />
-              <item name="spyderpro" type="462c0819:PsiDirectoryNode" />
-              <item name="FunctionMain" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SpyderPr" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SpyderPr" type="462c0819:PsiDirectoryNode" />
-              <item name="spyderpro" type="462c0819:PsiDirectoryNode" />
-              <item name="InternetData" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SpyderPr" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SpyderPr" type="462c0819:PsiDirectoryNode" />
-              <item name="venv" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="Scope" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -465,12 +415,13 @@
       <workItem from="1560869618688" duration="35000" />
       <workItem from="1560914093203" duration="729000" />
       <workItem from="1561279780899" duration="12015000" />
-      <workItem from="1561295962957" duration="9673000" />
+      <workItem from="1561295962957" duration="9831000" />
+      <workItem from="1561384073644" duration="3348000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="162528000" />
+    <option name="totallyTimeSpent" value="166034000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -485,7 +436,7 @@
     <frame x="0" y="22" width="1280" height="710" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21001616" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21324718" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -878,17 +829,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/FunctionMain/KeyWordFunction.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3000">
-          <caret line="206" column="28" selection-start-line="206" selection-start-column="28" selection-end-line="206" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-            <element signature="e#4515#5236#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/MobileKeyword.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -937,10 +877,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/FunctionMain/KeyWordFunction.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="541">
+          <caret line="206" column="28" selection-start-line="206" selection-start-column="28" selection-end-line="206" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#4515#5236#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/InternetData/Userhabit.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="101">
-          <caret line="171" column="27" selection-start-line="171" selection-start-column="27" selection-end-line="171" selection-end-column="27" />
+        <state relative-caret-position="194">
+          <caret line="255" selection-start-line="255" selection-end-line="257" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>

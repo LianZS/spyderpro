@@ -136,10 +136,10 @@ class UserHabit:
 
     def get_similarapp_info(self, appname) -> list:
         """
-        获取与该app名字相似的列表
+        获取与该app名字相似的列表,及对应链接
         参考http://mi.talkingdata.com/app/trend/5.html
-        :param appname:
-        :return:list
+        :param appname:app名字
+        :return:list[{"name":app名字,"href"：对应链接},,,]
         """
         url = "http://mi.talkingdata.com/search.html?keyword=" + appname
         response = self.request.get(url=url, headers=self.headers)
@@ -155,7 +155,17 @@ class UserHabit:
             datalist.append(dic)
         return datalist
 
-    def request_app_data(self, url, start_date, end_date):
+    def request_app_data(self, appname, start_date, end_date):
+        """
+        获取该app的月活跃数，活跃用户率，时间列表，行业基准，行业均值
+        :param appname:app名字
+        :param start_date:开始月份 ，如2019-01-01，注意，日必须是月首日
+        :param end_date:结束月份 ，如2019-04-01，注意，日必须是月首日
+        :return:{'date': ['2018-12-01', ,,,], 'active': [660621779,,,,], 'active_rate': [0.4188573,,,,],
+         'rate_hight': [0.0380731,,,], 'rate_low': [0.0007499, ,,,]}
+
+        """
+        url = self.get_similarapp_info(appname)[0]['href']
         response = self.request.get(url=url, headers=self.headers)
         soup = BeautifulSoup(response.text, 'lxml')
         element = soup.find(name='li', attrs={"td-data": re.compile("\d+")})
@@ -166,16 +176,82 @@ class UserHabit:
             'endDate': end_date,
             'startDate': start_date
         }
-        url = re.sub(".html", "/", url) +"allKpi.json?"+ urlencode(query_string_parameters)
+        url = re.sub(".html", "/", url) + "allKpi.json?" + urlencode(query_string_parameters)
         response = self.request.get(url=url, headers=self.headers)
-        datalist = json.loads(response.text)
+        data = json.loads(response.text)[0]
+        active = data['active']  # 活跃用户数
+        active_rate = data['activeRate']  # 活跃用户率
+        datelist = data['date']  # 时间列表
 
-    def get_app_active(self, appname):
+        active_rate_benchmark_hight = data['activeRateBenchmarkH']  # 行业基准
+        coverage_rate_ben_chmark_low = data['coverageRateBenchmarkL']  # 行业均值
+        dic = dict()
+        dic['date'] = datelist
+        dic['active'] = active
+        dic['active_rate'] = active_rate
+        dic['rate_hight'] = active_rate_benchmark_hight
+        dic['rate_low'] = coverage_rate_ben_chmark_low
+        return dic
+
+    def get_app_userhabit(self, appname, start_date):
+
         """
-        获取app的用户画像数据
+        获取app的用户画像数据,性别占比,年龄分布,省份覆盖率,app用户关键词
         参考http://mi.talkingdata.com/app/trend/appRank.json?appId=5&dateType=m&date=2018-11-01&typeId=101000
-        :return:
+        :return:list[{gender:性别占比},{age"年龄分布},{:province省份覆盖率},{preference:app用户关键词}]
         """
+        url = self.get_similarapp_info(appname)[0]['href']
+        query_string_parameters = {
+            "startTime": start_date
+        }
+        url = re.sub(".html", "", url) + ".json?" + urlencode(query_string_parameters)
+        url = re.sub("trend", "profile", url)
+        response = self.request.get(url=url, headers=self.headers).text
+        data = json.loads(response)
+        i = 0
+        datalist = list()
+        for appinfo in data:
+            dl = list()
+            profile_value = appinfo['profileValue']
+            for item in profile_value:
+                dic = dict()
+                name = None  # 名称
+                share = None  # 比例
+                if i == 0:
+                    continue
+                elif i == 1:  # 性别占比
+                    name = item['name']  # 性别
+                    share = item['share']  # 比例
+                elif i == 2:  # 年龄分布
+                    name = item['name']  # 年龄
+                    share = item['share']  # 比例
+                elif i == 3:  # 省份覆盖率
+                    name = item['code']  # 省份
+                    share = item['share']  # 比例
+                elif i == 4:
+                    continue
+                elif i == 5:
+                    continue
+                elif i == 6:  # app用户关键词
+                    name = item['name']  # 关键词
+                    share = item['share']  # 比例
+                if name is not  None:
+                    dic['name'] = name
+                    dic['share'] = share
+                dl.append(dic)
+            if len(dl)>0:
+                if i==1:
+                    datalist.append({"gender":dl})
+                elif i==2:
+                    datalist.append({"age":dl})
+                elif i==3:
+                    datalist.append({"province":dl})
+                elif i==6:
+                    datalist.append({"preference":dl})
+
+            i += 1
+        return datalist
 
 
-UserHabit().request_app_data("http://mi.talkingdata.com/app/trend/5.html","2018-12-01","2019-05-01")
+# d = UserHabit().get_app_userhabit('QQ', '2018-11-01')
+# print(d)
