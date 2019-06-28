@@ -1,11 +1,8 @@
 import csv
 import datetime
-from spyderpro.LocationBigData.PeopleFlow import ScencePeopleFlow
-from spyderpro.WeatherModel.WeatherLishi import WeatherHistory
-from spyderpro.WeatherModel.Weather import WeatherForect
+from spyderpro.models.WeatherModel import WeatherHistory
 from concurrent import futures
-from spyderpro.LocationBigData.PlacePeople import PlaceFlow
-from spyderpro.TrafficData.BaiduTraffic import BaiduTraffic
+from spyderpro.models.LocationBigData import PlaceFlow
 
 
 def test_weather():
