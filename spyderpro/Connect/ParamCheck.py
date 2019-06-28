@@ -3,6 +3,7 @@ class ParamTypeCheck():
     def type_check(param, param_type):
         """
         参数类型检查
+        :rtype:
         :param param:
         :param param_type:
         :return:

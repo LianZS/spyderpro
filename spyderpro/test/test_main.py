@@ -16,7 +16,9 @@ def test_weather():
 
 def test_placeflow():
     p = PlaceFlow()
-    p.get_heatdata_bytime("2019-01-10","22",12)
+    it = p.complete_heatdata("2019-06-28", "13:00:00", 5381)
+    for i in it:
+        print(i)
 
 
 if __name__ == "__main__":

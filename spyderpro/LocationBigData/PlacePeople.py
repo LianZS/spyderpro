@@ -5,6 +5,8 @@ import requests
 import os
 import csv
 import re
+import json
+import sys
 from urllib.parse import urlencode
 from concurrent import futures
 from spyderpro.Connect.InternetConnect import Connect
@@ -190,12 +192,69 @@ class PlaceFlow(PlaceInterface):
 
             self.request = requests.Session()
 
-    def get_heatdata_bytime(self, date: str, datetime: str, region_id: int):
-        self.date_format_check(date)
+    def request_heatdata(self, url: str):
+        """
+        网络请求
+        :param url:
+        :return:json
+        """
+        response = self.request.get(url=url, headers=self.headers)
+        g = json.loads(response.text)
+        return g
 
-    
+    def __get_heatdata_bytime(self, date: str, datetime: str, region_id: int):
+        self.date_format_check(date)
+        self.time_format_check(datetime)
+        self.type_check(region_id, int)
+        paramer = {
+            'region_id': region_id,
+            'datetime': "".join([date, ' ', datetime]),
+            'sub_domain': ''
+        }
+        url = "https://heat.qq.com/api/getHeatDataByTime.php?" + urlencode(paramer)
+        g = self.request_heatdata(url)
+        return g
+
+    def count_headdata(self, date: str, datetime: str, region_id: int):
+        """
+        某一时刻的人数有多少
+        :param date:日期：格式yyyy-mm-dd
+        :param datetime:时间：格式hh:MM:SS
+        :param region_id:地区唯一表示
+        :return:总人数
+        """
+
+        g = self.__get_heatdata_bytime(date, datetime, region_id)
+        count = sum(g.values())  # 总人数
+        return count
+
+    def complete_heatdata(self, date: str, datetime: str, region_id: int):
+        """
+           某一时刻的人数以及分布情况
+           :param date:日期：格式yyyy-mm-dd
+           :param datetime:时间：格式hh:MM:SS
+           :param region_id:地区唯一表示
+           :return:dict格式：{"lat": lat, "lng": lng, "num": num}->与中心经纬度的距离与相应人数
+           """
+        g = self.__get_heatdata_bytime(date, datetime, region_id)
+        coords = map(self.deal_coordinates, g.keys())  # 围绕中心经纬度加减向四周扩展
+        numlist = iter(g.values())
+        for xy, num in zip(coords, numlist):
+            lat = xy[0]
+            lng = xy[1]
+            yield {"lat": lat, "lng": lng, "num": num}
+
+    @staticmethod
+    def deal_coordinates(coord):
+        return eval(coord)
+
     def date_format_check(self, param):
         check = re.match("^\d{4}-\d{2}-\d{2}$", param)
+
+        self.type_check(check, re.Match)
+
+    def time_format_check(self, param):
+        check = re.match("^\d{2}:\d{2}:\d{2}$", param)
 
         self.type_check(check, re.Match)
 
