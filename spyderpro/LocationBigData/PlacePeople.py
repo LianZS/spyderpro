@@ -5,8 +5,8 @@ import requests
 import os
 import csv
 import re
-import json
 import sys
+import json
 from urllib.parse import urlencode
 from concurrent import futures
 from spyderpro.Connect.InternetConnect import Connect
@@ -179,8 +179,8 @@ class PlaceFlow(PlaceInterface):
 
     def __init__(self, user_agent: str = None):
 
-        if not PlaceTrend.instance_flag:
-            PlaceTrend.instance_flag = True
+        if not PlaceFlow.instance_flag:
+            PlaceFlow.instance_flag = True
             self.headers = dict()
             if user_agent is None:
                 self.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
@@ -200,35 +200,37 @@ class PlaceFlow(PlaceInterface):
         """
         response = self.request.get(url=url, headers=self.headers)
         g = json.loads(response.text)
+        print()
         return g
 
-    def __get_heatdata_bytime(self, date: str, datetime: str, region_id: int):
+    def __get_heatdata_bytime(self, date: str, datetim: str, region_id: int):
         self.date_format_check(date)
-        self.time_format_check(datetime)
-        self.type_check(region_id, int)
+        self.time_format_check(datetim)
+        # self.type_check(region_id, int)
         paramer = {
             'region_id': region_id,
-            'datetime': "".join([date, ' ', datetime]),
+            'datetime': "".join([date, ' ', datetim]),
             'sub_domain': ''
         }
         url = "https://heat.qq.com/api/getHeatDataByTime.php?" + urlencode(paramer)
         g = self.request_heatdata(url)
         return g
 
-    def count_headdata(self, date: str, datetime: str, region_id: int):
+    def count_headdata(self, date: str, datetim: str, region_id: int):
+
         """
         某一时刻的人数有多少
         :param date:日期：格式yyyy-mm-dd
-        :param datetime:时间：格式hh:MM:SS
+        :param datetim:时间：格式hh:MM:SS
         :param region_id:地区唯一表示
         :return:总人数
         """
 
-        g = self.__get_heatdata_bytime(date, datetime, region_id)
+        g = self.__get_heatdata_bytime(date, datetim, region_id)
         count = sum(g.values())  # 总人数
-        return count
+        return {"date": "".join([date, ' ', datetim]), "num": count}
 
-    def complete_heatdata(self, date: str, datetime: str, region_id: int):
+    def complete_heatdata(self, date: str, datetim: str, region_id: int):
         """
            某一时刻的人数以及分布情况
            :param date:日期：格式yyyy-mm-dd
@@ -236,7 +238,7 @@ class PlaceFlow(PlaceInterface):
            :param region_id:地区唯一表示
            :return:dict格式：{"lat": lat, "lng": lng, "num": num}->与中心经纬度的距离与相应人数
            """
-        g = self.__get_heatdata_bytime(date, datetime, region_id)
+        g = self.__get_heatdata_bytime(date, datetim, region_id)
         coords = map(self.deal_coordinates, g.keys())  # 围绕中心经纬度加减向四周扩展
         numlist = iter(g.values())
         for xy, num in zip(coords, numlist):
