@@ -2,12 +2,16 @@ import time
 import datetime
 import calendar
 import requests
-from spyderpro.Connect.InternetConnect import Connect
+import os
+import csv
+import re
 from urllib.parse import urlencode
+from concurrent import futures
+from spyderpro.Connect.InternetConnect import Connect
+from spyderpro.Connect.ParamCheck import ParamTypeCheck
 
 
-class PlaceTrend(Connect):
-    """获取位置流量趋势"""
+class PlaceInterface(Connect, ParamTypeCheck):
     instance = None
     instance_flag: bool = False
 
@@ -15,33 +19,6 @@ class PlaceTrend(Connect):
         if cls.instance is None:
             cls.instance = super().__new__(cls)
         return cls.instance
-
-    def __init__(self, date_begin: str = None, date_end: str = None, intervallong: int = 1, user_agent: str = None):
-        """
-        时间段最长15天，最小时间间隔是1分钟range，开始时间最早2016-07-18
-        :type date_begin: str
-        :type date_end:str
-        :type intervallong:int
-        :param intervallong:数据间隔时间，最小为1分钟
-
-        :param date_begin:开始搜索时间
-        :param date_end:结束搜索时间
-        """
-        self.date_begin = date_begin
-        self.date_end = date_end
-        self.intervallong = intervallong
-        if not PlaceTrend.instance_flag:
-            PlaceTrend.instance_flag = True
-            self.headers = dict()
-            if user_agent is None:
-                self.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
-                                             '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
-
-            else:
-                self.headers['User-Agent'] = user_agent
-            self.headers['Host'] = 'heat.qq.com'
-
-            self.request = requests.Session()
 
     # 获取所有省份
     def get_allprovince(self) -> list:
@@ -76,7 +53,7 @@ class PlaceTrend(Connect):
 
     def get_regions_bycity(self, province: str, city: str) -> list:
         """
-        获取城市下所有景点信息
+        获取城市下所有地区信息标识，关键id
 
         :type province: str
         :type city:str
@@ -84,8 +61,8 @@ class PlaceTrend(Connect):
         :param city:城市
         :return  list[{"place": , "id": },,,,]
         """
-        assert isinstance(province, str)
-        assert isinstance(city, str)
+        self.type_check(province, str)
+        self.type_check(city, str)
         parameter = {
             'province': province,
             'city': city,
@@ -104,6 +81,37 @@ class PlaceTrend(Connect):
             datalist.append(dic)
         return datalist
         # range表示数据间隔，最小1,region_name是地点名字,id是景区pid
+
+
+class PlaceTrend(PlaceInterface):
+    """获取位置流量趋势"""
+
+    def __init__(self, date_begin: str = None, date_end: str = None, intervallong: int = 1, user_agent: str = None):
+        """
+        时间段最长15天，最小时间间隔是1分钟range，开始时间最早2016-07-18
+        :type date_begin: str
+        :type date_end:str
+        :type intervallong:int
+        :param intervallong:数据间隔时间，最小为1分钟
+
+        :param date_begin:开始搜索时间
+        :param date_end:结束搜索时间
+        """
+        self.date_begin = date_begin
+        self.date_end = date_end
+        self.intervallong = intervallong
+        if not PlaceTrend.instance_flag:
+            PlaceTrend.instance_flag = True
+            self.headers = dict()
+            if user_agent is None:
+                self.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
+                                             '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+
+            else:
+                self.headers['User-Agent'] = user_agent
+            self.headers['Host'] = 'heat.qq.com'
+
+            self.request = requests.Session()
 
     def getlocations(self, region_name: str, pid: int):
         """
@@ -162,8 +170,58 @@ class PlaceTrend(Connect):
             yield {"place": region_name, "date": date, "data": g[date]}
 
 
+class PlaceFlow(PlaceInterface):
+    """
+    获取地区人口分布情况数据
+    """
+
+    def __init__(self, user_agent: str = None):
+
+        if not PlaceTrend.instance_flag:
+            PlaceTrend.instance_flag = True
+            self.headers = dict()
+            if user_agent is None:
+                self.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
+                                             '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+
+            else:
+                self.headers['User-Agent'] = user_agent
+            self.headers['Host'] = 'heat.qq.com'
+
+            self.request = requests.Session()
+
+    def get_heatdata_bytime(self, date: str, datetime: str, region_id: int):
+        self.date_format_check(date)
+
+    
+    def date_format_check(self, param):
+        check = re.match("^\d{4}-\d{2}-\d{2}$", param)
+
+        self.type_check(check, re.Match)
+
+
+def writeinfo():
+    place = PlaceTrend()
+
+    executor = futures.ThreadPoolExecutor(max_workers=4)
+    provinces = place.get_allprovince()
+    tasklist = executor.map(place.get_allcity, provinces)
+    filepath = os.path.join(os.path.pardir, "testdata/region_id.csv")
+    f = open(filepath, "a+", newline="")
+    w = csv.writer(f)
+    w.writerow(['地区', "id"])
+
+    for task in tasklist:
+        resultlist = executor.map(lambda value: place.get_regions_bycity(value['province'], value['city']), task)
+        for result in resultlist:
+            writeresult = map(lambda item: w.writerow([item['place'], item['id']]), result)
+            set(writeresult)
+    f.close()
+
+
 if __name__ == "__main__":
     place = PlaceTrend(date_begin='2019-06-11', date_end='2019-06-13')
+
     result = place.get_allcity("广东省")
     for info in result:
         cityinfo = place.get_regions_bycity(info['province'], info['city'])
