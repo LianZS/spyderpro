@@ -2,6 +2,7 @@ import requests
 import json
 import datetime
 from urllib.parse import urlencode
+from spyderpro.Instances.keyword_obj import Mobile_Info
 
 
 class MobileKeyWord:
@@ -121,7 +122,7 @@ class MobileKeyWord:
         :param year:年份
         :param startmonth:开始月份
         :param endmonth:结束月份
-        :rtype: iterable
+        :rtype: iterable[obj]
         """
         monthlist = []  # 请求列表
         if year < 2014:
@@ -157,10 +158,16 @@ class MobileKeyWord:
                                       "出问题")
             result = json.loads(response.text)
             for value in result:
-                yield {kw: value['k'], "占有率": value['r'], "日期": date}
+                info = Mobile_Info(kw, value['k'], value['r'], date)
+                yield info
+
+                # yield {kw: value['k'], "占有率": value['r'], "日期": date}
 
     def __type_check(self, year, startmonth, endmonth):
         assert isinstance(year, int), 'year is not type of int'
         assert isinstance(startmonth, int), 'startmonth is not type of int'
         if endmonth is not None:
             assert isinstance(endmonth, int), 'endmonth is not type of int'
+# d = MobileKeyWord().get_mobile_network_rate(2018,5,8)
+# for i in d:
+#     print(i.type_kw,i.value)

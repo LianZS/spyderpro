@@ -2,45 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ce88f83-d355-4299-8834-5d606a7aee1f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/spyderpro/Instances/userportrait.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/Connect/InternetConnect.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/portconnect/InternetConnect.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/Connect/MysqlConnect.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/portconnect/MysqlConnect.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/Connect/ParamCheck.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/portconnect/ParamCheck.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/Connect/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/Instances/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/Connect/read.md" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/portconnect/read.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/FinancialModel/FundModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/models/FinancialModel/FundModel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/FinancialModel/StockMarket.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/models/FinancialModel/StockMarket.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/FinancialModel/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/Instances/keyword_obj.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/FinancialModel/read.md" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/models/FinancialModel/read.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/FunctionMain/KeyWordFunction.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/function/KeyWordFunction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/FunctionMain/PeopleFlowFunction.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/function/PeopleFlowFunction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/FunctionMain/ScenceFunction.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/function/ScenceFunction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/FunctionMain/TrafficFunction.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/function/TrafficFunction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/FunctionMain/WeatherFunction.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/function/WeatherFunction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/FunctionMain/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/function/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/FunctionMain/setting.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/function/setting.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/InternetData/Keyword.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/InternetData/MobileKeyword.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/InternetData/Userhabit.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/InternetData/WechatPublic.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/InternetData/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/InternetData/read.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/LocationBigData/PeopleFlow.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/LocationBigData/PeopleNum.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/LocationBigData/PlacePeople.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/LocationBigData/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/models/FinancialModel/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/LocationBigData/read.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/TrafficData/BaiduTraffic.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/TrafficData/GaodeTraffic.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/TrafficData/MulThread.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/TrafficData/TrafficInterface.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/TrafficData/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/TrafficData/read.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/WeatherModel/Weather.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/WeatherModel/WeatherLishi.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/WeatherModel/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/portconnect/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/main/__main__.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/main/__main__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/test/test_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/test/test_main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spyderpro/Instances/keyword_obj.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/Instances/keyword_obj.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spyderpro/models/InternetData/Keyword.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/models/InternetData/Keyword.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spyderpro/models/InternetData/MobileKeyword.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/models/InternetData/MobileKeyword.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spyderpro/models/InternetData/Userhabit.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/models/InternetData/Userhabit.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -70,18 +37,18 @@
     <SUITE FILE_PATH="coverage/SpyderPr$test_main.coverage" NAME="test_main Coverage Results" MODIFIED="1561708565853" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
     <SUITE FILE_PATH="coverage/SpyderPro$BaiduTraffic.coverage" NAME="BaiduTraffic Coverage Results" MODIFIED="1560500233950" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/TrafficData" />
     <SUITE FILE_PATH="coverage/SpyderPr$WechatPublic.coverage" NAME="WechatPublic Coverage Results" MODIFIED="1561306469436" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/InternetData" />
-    <SUITE FILE_PATH="coverage/SpyderPr$Userhabit.coverage" NAME="Userhabit Coverage Results" MODIFIED="1561387976834" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/InternetData" />
     <SUITE FILE_PATH="coverage/SpyderPr$BaiduTraffic.coverage" NAME="BaiduTraffic Coverage Results" MODIFIED="1561462628491" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/TrafficData" />
+    <SUITE FILE_PATH="coverage/SpyderPr$Userhabit.coverage" NAME="Userhabit Coverage Results" MODIFIED="1561743461185" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/InternetData" />
     <SUITE FILE_PATH="coverage/SpyderPro$No_4.coverage" NAME="No.4 Coverage Results" MODIFIED="1560422706697" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/h" />
     <SUITE FILE_PATH="coverage/SpyderPro$PeopleFlow.coverage" NAME="PeopleFlow Coverage Results" MODIFIED="1559818009673" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/LocationBigData" />
     <SUITE FILE_PATH="coverage/SpyderPro$__init____2_.coverage" NAME="__init__ (2) Coverage Results" MODIFIED="1560339297167" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro" />
     <SUITE FILE_PATH="coverage/SpyderPro$TrafficFunction.coverage" NAME="TrafficFunction Coverage Results" MODIFIED="1560501206987" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/FunctionMain" />
     <SUITE FILE_PATH="coverage/SpyderPr$KeyWordFunction.coverage" NAME="KeyWordFunction Coverage Results" MODIFIED="1561293326479" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/FunctionMain" />
     <SUITE FILE_PATH="coverage/SpyderPr$InternetConnect.coverage" NAME="InternetConnect Coverage Results" MODIFIED="1560683226639" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/Connect" />
-    <SUITE FILE_PATH="coverage/SpyderPr$MobileKeyword.coverage" NAME="MobileKeyword Coverage Results" MODIFIED="1561283695697" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/InternetData" />
+    <SUITE FILE_PATH="coverage/SpyderPr$MobileKeyword.coverage" NAME="MobileKeyword Coverage Results" MODIFIED="1561741397394" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/InternetData" />
     <SUITE FILE_PATH="coverage/SpyderPro$WeatherLishi.coverage" NAME="WeatherLishi Coverage Results" MODIFIED="1560503772635" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/Weather" />
     <SUITE FILE_PATH="coverage/SpyderPr$PeopleFlowFunction.coverage" NAME="PeopleFlowFunction Coverage Results" MODIFIED="1560687892350" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/FunctionMain" />
-    <SUITE FILE_PATH="coverage/SpyderPr$Keyword.coverage" NAME="Keyword Coverage Results" MODIFIED="1561740577105" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/InternetData" />
+    <SUITE FILE_PATH="coverage/SpyderPr$Keyword.coverage" NAME="Keyword Coverage Results" MODIFIED="1561740737690" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/InternetData" />
     <SUITE FILE_PATH="coverage/SpyderPr$people.coverage" NAME="people Coverage Results" MODIFIED="1561707925608" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro" />
     <SUITE FILE_PATH="coverage/SpyderPro$GaodeTraffic.coverage" NAME="GaodeTraffic Coverage Results" MODIFIED="1560498563224" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/TrafficData" />
     <SUITE FILE_PATH="coverage/SpyderPr$WeatherFunction.coverage" NAME="WeatherFunction Coverage Results" MODIFIED="1560787596227" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/FunctionMain" />
@@ -126,13 +93,28 @@
       <content type="file-editors">
         <state>
           <leaf>
-            <file pinned="false" current-in-tab="true">
-              <entry file="file://$PROJECT_DIR$/spyderpro/models/InternetData/Keyword.py">
+            <file pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/spyderpro/models/InternetData/MobileKeyword.py">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="848">
-                    <caret line="118" lean-forward="true" selection-start-line="118" selection-end-line="118" />
+                  <state relative-caret-position="158">
+                    <caret line="126" column="22" selection-start-line="126" selection-start-column="22" selection-end-line="126" selection-end-column="22" />
                     <folding>
                       <element signature="e#0#15#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/spyderpro/models/InternetData/Userhabit.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="1500">
+                    <caret line="270" column="27" lean-forward="true" selection-start-line="270" selection-start-column="27" selection-end-line="271" selection-end-column="10" />
+                    <folding>
+                      <element signature="e#0#15#0" expanded="true" />
+                      <element signature="e#3032#3041#0" />
+                      <element signature="e#3012#4148#0" />
+                      <element signature="e#4252#5088#0" />
                     </folding>
                   </state>
                 </provider>
@@ -146,22 +128,19 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spyderpro/models/LocationBigData/PlacePeople.py">
+        <entry file="file://$PROJECT_DIR$/spyderpro/Instances/keyword_obj.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="169" column="27" selection-start-line="169" selection-start-column="27" selection-end-line="169" selection-end-column="27" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="165">
+              <caret line="11" column="18" lean-forward="true" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/spyderpro/Instances/keyword_obj.py">
+        <entry file="file://$PROJECT_DIR$/spyderpro/Instances/userportrait.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+            <state relative-caret-position="198">
+              <caret line="32" column="19" selection-start-line="32" selection-start-column="19" selection-end-line="32" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -178,7 +157,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>vivo</find>
       <find>op</find>
       <find>今日</find>
       <find>today</find>
@@ -208,6 +186,7 @@
       <find>get_count</find>
       <find>item['num']</find>
       <find>,</find>
+      <find>request_app_data</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -216,10 +195,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/spyderpro/InternetData/test.html" />
-        <option value="$PROJECT_DIR$/spyderpro/test.py" />
-        <option value="$PROJECT_DIR$/spyderpro/test_main.py" />
-        <option value="$PROJECT_DIR$/spyderpro/testdata/测试成绩统计.csv" />
         <option value="$PROJECT_DIR$/spyderpro/LocationBigData/__init__.py" />
         <option value="$PROJECT_DIR$/spyderpro/__init__.py" />
         <option value="$PROJECT_DIR$/spyderpro/h/No.2.py" />
@@ -265,8 +240,12 @@
         <option value="$PROJECT_DIR$/static/people.py" />
         <option value="$PROJECT_DIR$/spyderpro/test/test_main.py" />
         <option value="$PROJECT_DIR$/spyderpro/models/LocationBigData/PlacePeople.py" />
-        <option value="$PROJECT_DIR$/spyderpro/Instances/keyword_obj.py" />
         <option value="$PROJECT_DIR$/spyderpro/models/InternetData/Keyword.py" />
+        <option value="$PROJECT_DIR$/spyderpro/Instances/keyword_obj.py" />
+        <option value="$PROJECT_DIR$/spyderpro/models/InternetData/MobileKeyword.py" />
+        <option value="$PROJECT_DIR$/spyderpro/Instances/UserPortrait.py" />
+        <option value="$PROJECT_DIR$/spyderpro/Instances/userportrait.py" />
+        <option value="$PROJECT_DIR$/spyderpro/models/InternetData/Userhabit.py" />
       </list>
     </option>
   </component>
@@ -343,7 +322,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Keyword">
+  <component name="RunManager" selected="Python.Userhabit">
     <configuration name="Keyword" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SpyderPro" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -366,7 +345,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="PlacePeople" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="MobileKeyword" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SpyderPro" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -374,12 +353,34 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spyderpro/LocationBigData" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spyderpro/models/InternetData" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spyderpro/LocationBigData/PlacePeople.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spyderpro/models/InternetData/MobileKeyword.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Userhabit" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="SpyderPro" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spyderpro/models/InternetData" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spyderpro/models/InternetData/Userhabit.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -402,28 +403,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spyderpro/Instances/keyword_obj.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="people (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="SpyderPro" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/static" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/static/people.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -456,11 +435,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Userhabit" />
+        <item itemvalue="Python.MobileKeyword" />
         <item itemvalue="Python.Keyword" />
         <item itemvalue="Python.keyword_obj" />
         <item itemvalue="Python.test_main" />
-        <item itemvalue="Python.PlacePeople" />
-        <item itemvalue="Python.people (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -516,12 +495,12 @@
       <workItem from="1561628489840" duration="1033000" />
       <workItem from="1561691010185" duration="9219000" />
       <workItem from="1561702722667" duration="9168000" />
-      <workItem from="1561738952355" duration="1618000" />
+      <workItem from="1561738952355" duration="4722000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="200007000" />
+    <option name="totallyTimeSpent" value="203111000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -534,7 +513,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="30" width="1280" height="706" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16397415" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -602,13 +580,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/spyderpro/function/setting.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="29" lean-forward="true" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="das://bdd29f5c-e514-4a99-a695-cd707173d8aa/schema/internetdata/table/internet_mobiletyperate">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
@@ -737,26 +708,6 @@
             <element signature="e#1343#1528#0" />
             <element signature="e#1604#3037#0" />
             <element signature="e#3091#3571#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/models/InternetData/Userhabit.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="238" column="38" lean-forward="true" selection-start-line="238" selection-start-column="38" selection-end-line="238" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/models/InternetData/MobileKeyword.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="161" column="28" selection-start-line="161" selection-start-column="28" selection-end-line="161" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -966,10 +917,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/models/InternetData/Keyword.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="848">
+          <caret line="118" lean-forward="true" selection-start-line="118" selection-end-line="118" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/models/InternetData/MobileKeyword.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="158">
+          <caret line="126" column="22" selection-start-line="126" selection-start-column="22" selection-end-line="126" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/models/LocationBigData/PlacePeople.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="169" column="27" selection-start-line="169" selection-start-column="27" selection-end-line="169" selection-end-column="27" />
+        <state relative-caret-position="569">
+          <caret line="178" lean-forward="true" selection-start-line="178" selection-end-line="178" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
@@ -978,18 +949,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/Instances/keyword_obj.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+        <state relative-caret-position="165">
+          <caret line="11" column="18" lean-forward="true" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/models/InternetData/Keyword.py">
+    <entry file="file://$PROJECT_DIR$/spyderpro/models/InternetData/Userhabit.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="848">
-          <caret line="118" lean-forward="true" selection-start-line="118" selection-end-line="118" />
+        <state relative-caret-position="1500">
+          <caret line="270" column="27" lean-forward="true" selection-start-line="270" selection-start-column="27" selection-end-line="271" selection-end-column="10" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#3032#3041#0" />
+            <element signature="e#3012#4148#0" />
+            <element signature="e#4252#5088#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/Instances/userportrait.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="32" column="19" selection-start-line="32" selection-start-column="19" selection-end-line="32" selection-end-column="19" />
         </state>
       </provider>
     </entry>

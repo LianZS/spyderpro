@@ -4,6 +4,7 @@ import datetime
 import re
 from urllib.parse import urlencode
 from bs4 import BeautifulSoup
+from spyderpro.Instances.userportrait import UserPortrait, UserBehavior, AppRateBenchmark
 
 
 class UserHabit:
@@ -57,26 +58,36 @@ class UserHabit:
             genders: list = result['gender']  # 性别分布
             preferences: list = result['preferences']  # 应用偏好
             provinces: list = result['provinces']  # 区域热度
-            for age in ages:
-                name = age['name']  # 年龄段
-                share = age['share']  # 占比
-                yield {"年龄段": name, "占比": share}
-            for consum in consumption:
-                name = consum['name']  # 消费偏好关键词
-                share = consum['share']  # 占比
-                yield {"消费偏好关键词": name, "占比": share}
-            for gender in genders:
-                name = gender['name']  # 性别
-                share = gender['share']  # 占比
-                yield {"性别": name, "占比": share}
-            for preference in preferences:
-                name = preference['name']  # 应用偏好
-                share = preference['share']  # 占比
-                yield {"应用偏好": name, "占比": share}
-            for province in provinces:
-                name = province['name']  # 区域热度
-                share = province['share']  # 占比
-                yield {"区域热度 ": name, "占比": share}
+            map_age = map(lambda x: self.__map_filter(x, "age"), ages)
+            map_consum = map(lambda x: self.__map_filter(x, "consum"), consumption)
+            map_gender = map(lambda x: self.__map_filter(x, "sex"), genders)
+            map_prefer = map(lambda x: self.__map_filter(x, "prefer"), preferences)
+            map_provcince = map(lambda x: self.__map_filter(x, "province"), provinces)
+            protrait = UserPortrait(map_age, map_consum, map_gender, map_prefer, map_provcince)
+            yield protrait
+            # for age in ages:
+            #     name = age['name']  # 年龄段
+            #     share = age['share']  # 占比
+            #     yield {"年龄段": name, "占比": share}
+            # for consum in consumption:
+            #     name = consum['name']  # 消费偏好关键词
+            #     share = consum['share']  # 占比
+            #     yield {"消费偏好关键词": name, "占比": share}
+            # for gender in genders:
+            #     name = gender['name']  # 性别
+            #     share = gender['share']  # 占比
+            #     yield {"性别": name, "占比": share}
+            # for preference in preferences:
+            #     name = preference['name']  # 应用偏好
+            #     share = preference['share']  # 占比
+            #     yield {"应用偏好": name, "占比": share}
+            # for province in provinces:
+            #     name = province['name']  # 区域热度
+            #     share = province['share']  # 占比
+            #     yield {"区域热度 ": name, "占比": share}
+
+    def __map_filter(self, param, param_name):
+        return {param_name: param['name'], "value": param['share']}
 
     def get_user_behavior(self, year: int, endmonth: int = None) -> list:
         """
@@ -105,7 +116,9 @@ class UserHabit:
                 active = app['active']  # 人均启动应用
                 date = app['date']  # 日期
                 install = app['install']  # 人均安装应用
-                yield {"日期": date, "人均安装应用": install, "人均启动应用": active}
+                behavior = UserBehavior(active, install, date)
+                yield behavior
+                # yield {"日期": date, "人均安装应用": install, "人均启动应用": active}
 
     @staticmethod
     def monthset(year: int, startmonth: int, endmonth: int = None) -> list:
@@ -185,13 +198,15 @@ class UserHabit:
 
         active_rate_benchmark_hight = data['activeRateBenchmarkH']  # 行业基准
         coverage_rate_ben_chmark_low = data['coverageRateBenchmarkL']  # 行业均值
-        dic = dict()
-        dic['date'] = datelist
-        dic['active'] = active
-        dic['active_rate'] = active_rate
-        dic['rate_hight'] = active_rate_benchmark_hight
-        dic['rate_low'] = coverage_rate_ben_chmark_low
-        return dic
+        # dic = dict()
+        # dic['date'] = datelist
+        # dic['active'] = active
+        # dic['active_rate'] = active_rate
+        # dic['rate_hight'] = active_rate_benchmark_hight
+        # dic['rate_low'] = coverage_rate_ben_chmark_low
+        appmark = AppRateBenchmark(appname, datelist, active, active_rate, active_rate_benchmark_hight,
+                                   coverage_rate_ben_chmark_low)
+        return appmark
 
     def get_app_userhabit(self, appname, start_date):
 
@@ -235,19 +250,19 @@ class UserHabit:
                 elif i == 6:  # app用户关键词
                     name = item['name']  # 关键词
                     share = item['share']  # 比例
-                if name is not  None:
+                if name is not None:
                     dic['name'] = name
                     dic['share'] = share
                 dl.append(dic)
-            if len(dl)>0:
-                if i==1:
-                    datalist.append({"gender":dl})
-                elif i==2:
-                    datalist.append({"age":dl})
-                elif i==3:
-                    datalist.append({"province":dl})
-                elif i==6:
-                    datalist.append({"preference":dl})
+            if len(dl) > 0:
+                if i == 1:
+                    datalist.append({"gender": dl})
+                elif i == 2:
+                    datalist.append({"age": dl})
+                elif i == 3:
+                    datalist.append({"province": dl})
+                elif i == 6:
+                    datalist.append({"preference": dl})
 
             i += 1
         return datalist

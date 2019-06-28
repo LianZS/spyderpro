@@ -115,4 +115,5 @@ class KeyWord(Connect):
                 "最远时间": olddate}
 
 
-d = KeyWord().get_keyword_search_index("微信")
+# d = KeyWord().get_keyword_search_index("微信")
+
