@@ -4,7 +4,7 @@ import datetime
 import re
 from urllib.parse import urlencode
 from bs4 import BeautifulSoup
-from spyderpro.Instances.userportrait import UserPortrait, UserBehavior, AppRateBenchmark
+from spyderpro.Instances.userportrait import UserPortrait, UserBehavior, AppRateBenchmark, AppUserHabit
 
 
 class UserHabit:
@@ -224,7 +224,12 @@ class UserHabit:
         response = self.request.get(url=url, headers=self.headers).text
         data = json.loads(response)
         i = 0
-        datalist = list()
+        # datalist = list()
+        ages = None
+        gender = None
+        preference = None
+        province = None
+
         for appinfo in data:
             dl = list()
             profile_value = appinfo['profileValue']
@@ -256,17 +261,21 @@ class UserHabit:
                 dl.append(dic)
             if len(dl) > 0:
                 if i == 1:
-                    datalist.append({"gender": dl})
+                    # datalist.append({"gender": dl})
+                    gender = dl
                 elif i == 2:
-                    datalist.append({"age": dl})
+                    ages = dl
+                # datalist.append({"age": dl})
                 elif i == 3:
-                    datalist.append({"province": dl})
+                    province = dl
+                # datalist.append({"province": dl})
                 elif i == 6:
-                    datalist.append({"preference": dl})
+                    preference = dl
+            # datalist.append({"preference": dl})
 
             i += 1
-        return datalist
-
+        app_habit = AppUserHabit(ages, gender, preference, province)
+        return app_habit
 
 # d = UserHabit().get_app_userhabit('QQ', '2018-11-01')
 # print(d)

@@ -31,7 +31,10 @@ class AppRateBenchmark:
 
 
 class AppUserHabit:
-    __slots__ = ['s']
+    __slots__ = ['age', 'gender', 'preference', 'province']
 
-    def __init__(self):
-        pass
+    def __init__(self, age, gender, preference, province):
+        self.age = age  # 性别占比列表
+        self.gender = gender  # 年龄分布列表
+        self.preference = preference  # app用户关键词列表
+        self.province = province  # 省份覆盖率列表

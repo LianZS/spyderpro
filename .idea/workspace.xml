@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ce88f83-d355-4299-8834-5d606a7aee1f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/spyderpro/Instances/userportrait.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/Instances/keyword_obj.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/Instances/keyword_obj.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/models/InternetData/Keyword.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/models/InternetData/Keyword.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/models/InternetData/MobileKeyword.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/models/InternetData/MobileKeyword.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spyderpro/Instances/userportrait.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/Instances/userportrait.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/spyderpro/models/InternetData/Userhabit.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/models/InternetData/Userhabit.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -108,8 +104,8 @@
             <file pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/spyderpro/models/InternetData/Userhabit.py">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="1500">
-                    <caret line="270" column="27" lean-forward="true" selection-start-line="270" selection-start-column="27" selection-end-line="271" selection-end-column="10" />
+                  <state relative-caret-position="310">
+                    <caret line="247" column="37" selection-start-line="247" selection-start-column="32" selection-end-line="247" selection-end-column="37" />
                     <folding>
                       <element signature="e#0#15#0" expanded="true" />
                       <element signature="e#3032#3041#0" />
@@ -139,8 +135,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spyderpro/Instances/userportrait.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="32" column="19" selection-start-line="32" selection-start-column="19" selection-end-line="32" selection-end-column="19" />
+            <state relative-caret-position="318">
+              <caret line="39" column="43" lean-forward="true" selection-start-line="39" selection-start-column="43" selection-end-line="39" selection-end-column="43" />
             </state>
           </provider>
         </entry>
@@ -244,8 +240,8 @@
         <option value="$PROJECT_DIR$/spyderpro/Instances/keyword_obj.py" />
         <option value="$PROJECT_DIR$/spyderpro/models/InternetData/MobileKeyword.py" />
         <option value="$PROJECT_DIR$/spyderpro/Instances/UserPortrait.py" />
-        <option value="$PROJECT_DIR$/spyderpro/Instances/userportrait.py" />
         <option value="$PROJECT_DIR$/spyderpro/models/InternetData/Userhabit.py" />
+        <option value="$PROJECT_DIR$/spyderpro/Instances/userportrait.py" />
       </list>
     </option>
   </component>
@@ -495,12 +491,12 @@
       <workItem from="1561628489840" duration="1033000" />
       <workItem from="1561691010185" duration="9219000" />
       <workItem from="1561702722667" duration="9168000" />
-      <workItem from="1561738952355" duration="4722000" />
+      <workItem from="1561738952355" duration="5270000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="203111000" />
+    <option name="totallyTimeSpent" value="203659000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -513,6 +509,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="30" width="1280" height="706" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16397415" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -956,8 +953,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/models/InternetData/Userhabit.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1500">
-          <caret line="270" column="27" lean-forward="true" selection-start-line="270" selection-start-column="27" selection-end-line="271" selection-end-column="10" />
+        <state relative-caret-position="310">
+          <caret line="247" column="37" selection-start-line="247" selection-start-column="32" selection-end-line="247" selection-end-column="37" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
             <element signature="e#3032#3041#0" />
@@ -969,8 +966,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/Instances/userportrait.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="32" column="19" selection-start-line="32" selection-start-column="19" selection-end-line="32" selection-end-column="19" />
+        <state relative-caret-position="318">
+          <caret line="39" column="43" lean-forward="true" selection-start-line="39" selection-start-column="43" selection-end-line="39" selection-end-column="43" />
         </state>
       </provider>
     </entry>
