@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ce88f83-d355-4299-8834-5d606a7aee1f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/spyderpro/Instances/userportrait.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/Instances/userportrait.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/models/InternetData/Userhabit.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/models/InternetData/Userhabit.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -84,59 +83,31 @@
     </expand>
     <select />
   </component>
-  <component name="DockManager">
-    <window id="1">
-      <content type="file-editors">
-        <state>
-          <leaf>
-            <file pinned="false" current-in-tab="false">
-              <entry file="file://$PROJECT_DIR$/spyderpro/models/InternetData/MobileKeyword.py">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="158">
-                    <caret line="126" column="22" selection-start-line="126" selection-start-column="22" selection-end-line="126" selection-end-column="22" />
-                    <folding>
-                      <element signature="e#0#15#0" expanded="true" />
-                    </folding>
-                  </state>
-                </provider>
-              </entry>
-            </file>
-            <file pinned="false" current-in-tab="true">
-              <entry file="file://$PROJECT_DIR$/spyderpro/models/InternetData/Userhabit.py">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="310">
-                    <caret line="247" column="37" selection-start-line="247" selection-start-column="32" selection-end-line="247" selection-end-column="37" />
-                    <folding>
-                      <element signature="e#0#15#0" expanded="true" />
-                      <element signature="e#3032#3041#0" />
-                      <element signature="e#3012#4148#0" />
-                      <element signature="e#4252#5088#0" />
-                    </folding>
-                  </state>
-                </provider>
-              </entry>
-            </file>
-          </leaf>
-        </state>
-      </content>
-    </window>
-  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spyderpro/Instances/keyword_obj.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="165">
-              <caret line="11" column="18" lean-forward="true" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
+              <caret line="11" column="18" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/spyderpro/Instances/userportrait.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="327">
+              <caret line="30" selection-start-line="30" selection-end-line="30" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/spyderpro/Instances/userportrait.py">
+        <entry file="file://$PROJECT_DIR$/spyderpro/people.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="318">
-              <caret line="39" column="43" lean-forward="true" selection-start-line="39" selection-start-column="43" selection-end-line="39" selection-end-column="43" />
+            <state relative-caret-position="404">
+              <caret line="238" column="15" lean-forward="true" selection-start-line="238" selection-start-column="15" selection-end-line="238" selection-end-column="15" />
             </state>
           </provider>
         </entry>
@@ -153,7 +124,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>op</find>
       <find>今日</find>
       <find>today</find>
       <find>头条</find>
@@ -183,6 +153,7 @@
       <find>item['num']</find>
       <find>,</find>
       <find>request_app_data</find>
+      <find>count</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -231,7 +202,6 @@
         <option value="$PROJECT_DIR$/spyderpro/testdata/region_id.csv" />
         <option value="$PROJECT_DIR$/spyderpro/Connect/ParamCheck.py" />
         <option value="$PROJECT_DIR$/spyderpro/InternetData/__init__.py" />
-        <option value="$PROJECT_DIR$/spyderpro/people.py" />
         <option value="$PROJECT_DIR$/spyderpro/LocationBigData/PlacePeople.py" />
         <option value="$PROJECT_DIR$/static/people.py" />
         <option value="$PROJECT_DIR$/spyderpro/test/test_main.py" />
@@ -242,6 +212,7 @@
         <option value="$PROJECT_DIR$/spyderpro/Instances/UserPortrait.py" />
         <option value="$PROJECT_DIR$/spyderpro/models/InternetData/Userhabit.py" />
         <option value="$PROJECT_DIR$/spyderpro/Instances/userportrait.py" />
+        <option value="$PROJECT_DIR$/spyderpro/people.py" />
       </list>
     </option>
   </component>
@@ -267,12 +238,6 @@
               <item name="SpyderPr" type="b2602c69:ProjectViewProjectNode" />
               <item name="SpyderPr" type="462c0819:PsiDirectoryNode" />
               <item name="spyderpro" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SpyderPr" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SpyderPr" type="462c0819:PsiDirectoryNode" />
-              <item name="spyderpro" type="462c0819:PsiDirectoryNode" />
-              <item name="Instances" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -491,12 +456,13 @@
       <workItem from="1561628489840" duration="1033000" />
       <workItem from="1561691010185" duration="9219000" />
       <workItem from="1561702722667" duration="9168000" />
-      <workItem from="1561738952355" duration="5270000" />
+      <workItem from="1561738952355" duration="5434000" />
+      <workItem from="1561786872746" duration="296000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="203659000" />
+    <option name="totallyTimeSpent" value="204119000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -508,15 +474,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="30" width="1280" height="706" extended-state="6" />
+    <frame x="0" y="22" width="1280" height="706" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16397415" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16639742" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32736155" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.33224756" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.33224756" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39739415" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -793,19 +759,19 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/testdata/ScenceData.csv">
+      <provider selected="true" editor-type-id="csv-text-editor" />
       <provider editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/testdata/region_id.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
       <provider selected="true" editor-type-id="csv-text-editor">
         <state relative-caret-position="5010">
           <caret line="334" column="10" lean-forward="true" selection-start-line="334" selection-start-column="10" selection-end-line="334" selection-end-column="10" />
         </state>
+      </provider>
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/portconnect/MysqlConnect.py">
@@ -825,7 +791,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/people.py" />
     <entry file="file://$PROJECT_DIR$/spyderpro/portconnect/ParamCheck.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -944,17 +909,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/Instances/keyword_obj.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="18" lean-forward="true" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/models/InternetData/Userhabit.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="247" column="37" selection-start-line="247" selection-start-column="32" selection-end-line="247" selection-end-column="37" />
+        <state relative-caret-position="280">
+          <caret line="245" column="45" lean-forward="true" selection-start-line="245" selection-start-column="45" selection-end-line="245" selection-end-column="45" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
             <element signature="e#3032#3041#0" />
@@ -964,10 +922,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/Instances/keyword_obj.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="18" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/Instances/userportrait.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="39" column="43" lean-forward="true" selection-start-line="39" selection-start-column="43" selection-end-line="39" selection-end-column="43" />
+        <state relative-caret-position="327">
+          <caret line="30" selection-start-line="30" selection-end-line="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/people.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="404">
+          <caret line="238" column="15" lean-forward="true" selection-start-line="238" selection-start-column="15" selection-end-line="238" selection-end-column="15" />
         </state>
       </provider>
     </entry>
