@@ -4,6 +4,7 @@ import datetime
 
 import json
 import csv
+import sys
 from concurrent import futures
 
 from urllib.parse import urlencode
@@ -150,20 +151,18 @@ class PlaceFlow(PlaceInterface):
         return g
 
     def __get_heatdata_bytime(self, date: str, datetim: str, region_id: int):
-
         # self.type_check(region_id, int)
-
         paramer = {
             'region_id': region_id,
             'datetime': "".join([date, ' ', datetim]),
             'sub_domain': ''
         }
+
         url = "https://heat.qq.com/api/getHeatDataByTime.php?" + urlencode(paramer)
         g = self.request_heatdata(url)
         return g
 
     def count_headdata(self, date: str, datetim: str, region_id: int):
-
         """
         某一时刻的人数有多少
         :param date:日期：格式yyyy-mm-dd
@@ -171,10 +170,11 @@ class PlaceFlow(PlaceInterface):
         :param region_id:地区唯一表示
         :return:总人数
         """
-
         g = self.__get_heatdata_bytime(date, datetim, region_id)
         count = sum(g.values())  # 总人数
-        return {"date": "".join([date, ' ', datetim]), "num": count}
+        data = {"date": "".join([date, ' ', datetim]), "num": count}
+
+        return data
 
     def complete_heatdata(self, date: str, datetim: str, region_id: int):
         """
@@ -198,21 +198,26 @@ class PlaceFlow(PlaceInterface):
 
 
 def get_count(name, region_id):
-    executor = futures.ThreadPoolExecutor(max_workers=4)
+    executor = futures.ThreadPoolExecutor(max_workers=2)
     p = PlaceFlow()
     datelist = dateiter(region_id)
-    f = open('/data/Flow/static/' + name + ".csv", 'a+', newline="")
-    w = csv.writer(f)
-    print(f)
-    for x in datelist:
-        result = p.count_headdata(str(x[0]), str(x[1]), x[2])
+    # f = open('/data/Flow/static/' + name + ".csv", 'a+', newline="")
+    # w = csv.writer(f)
+    # print(f)
 
-        num = result['num']
-        if num == 0:
-            continue
-        date = result['date']
-        write(w, date, num)
-        f.flush()
+    tasks = executor.map(lambda x: p.count_headdata(x[0], x[1]
+                                                    , x[2]), datelist)
+    for t in tasks:
+        print(t)
+    # for x in datelist:
+    #     result = p.count_headdata(str(x[0]), str(x[1]), x[2])
+    #
+    #     num = result['num']
+    #     if num == 0:
+    #         continue
+    #     date = result['date']
+    # write(w, date, num)
+    # f.flush()
 
 
 def write(writeobj, date, num):
@@ -226,11 +231,11 @@ def dateiter(region_id):
         inittime = inittime + timedelta
         if inittime.year == 2019 and inittime.month == 6 and inittime.day == 28:
             break
-        yield inittime.date(), inittime.time(), region_id
+        yield str(inittime.date()), str(inittime.time()), region_id
 
 
 if __name__ == "__main__":
-    file = open("/data/Flow/region_id.csv", "r")
+    file = open("/Users/darkmoon/Project/SpyderPr/spyderpro/testdata/region_id.csv", "r")
     r = csv.reader(file)
     r.__next__()
     flag_count = 0

@@ -200,7 +200,6 @@ class PlaceFlow(PlaceInterface):
         """
         response = self.request.get(url=url, headers=self.headers)
         g = json.loads(response.text)
-        print()
         return g
 
     def __get_heatdata_bytime(self, date: str, datetim: str, region_id: int):
