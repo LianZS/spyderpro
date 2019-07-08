@@ -217,19 +217,22 @@ class CeleryThread(threading.Thread):
         semaphore.release()
 
 
-def get_count(name, region_id):
+def get_count(region_id):
     p = PlaceFlow()
     datelist = dateiter(region_id)
-    # f = open(os.path.join(dir_path,name+".csv"), 'a+', newline="")
-    #
-    # w = csv.writer(f)
+
+    global data_file
+
+    data_file = open(file_path, 'a+', newline="")
+    global wf
+    wf = csv.writer(data_file)
     place = PlaceFlow()
     func = place.count_headdata
     for date, datetim, region_id in datelist:
         semaphore.acquire()
         t = CeleryThread(target=func, args=(date, datetim, regin_id))
         t.start()
-
+    data_file.close()
 
 
 def write():
@@ -237,7 +240,8 @@ def write():
         data = data_queue.get()
         date = data['date']
         num = data['num']
-        print(num)
+        wf.writerow([date, num])
+        data_file.flush()
 
 
 def dateiter(region_id):
@@ -254,13 +258,19 @@ base_dir = os.getcwd()
 sys.path[0] = base_dir
 semaphore = threading.Semaphore(10)
 data_queue = Queue(maxsize=11)
+global data_file
+global wf  # csv实例
 
 if __name__ == "__main__":
-    file = open("/Users/darkmoon/Project/SpyderPr/spyderpro/testdata/region_id.csv", "r")
+    file = open(os.path.join(base_dir,"region_id.csv"), "r")
     r = csv.reader(file)
     r.__next__()
     dir_path = os.path.join(base_dir, "FILE")
-    CeleryThread(target=write,args=()).start()
+    try:
+        os.mkdir(dir_path)
+    except FileExistsError:
+        pass
+    CeleryThread(target=write, args=()).start()  #实时数据处理
     for item in r:
         name = item[0]
         regin_id = item[1]
@@ -268,4 +278,5 @@ if __name__ == "__main__":
         if os.path.exists(file_path):
             continue
         else:
-            get_count(name, regin_id)
+            print(name)
+            get_count(regin_id)

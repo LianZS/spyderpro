@@ -266,40 +266,43 @@ class PlaceFlow(PlaceInterface):
 
         self.type_check(check, re.Match)
 
-class CeleryThread(threading.Thread):
-    def __init__(self, group=None, target=None, name=None,
-                 args=(), kwargs=None, *, daemon=None):
-        threading.Thread.__init__(self)
-        self._target = target
-        self._args = args
 
-    def run(self):
-        result = self._target(*self._args)
-        data_queue.put(result)
-        semaphore.release()
-def writeinfo():
-    place = PlaceTrend()
+# class CeleryThread(threading.Thread):
+#     def __init__(self, group=None, target=None, name=None,
+#                  args=(), kwargs=None, *, daemon=None):
+#         threading.Thread.__init__(self)
+#         self._target = target
+#         self._args = args
+#
+#     def run(self):
+#         result = self._target(*self._args)
+#         data_queue.put(result)
+#         semaphore.release()
 
-    executor = futures.ThreadPoolExecutor(max_workers=4)
-    provinces = place.get_allprovince()
-    tasklist = executor.map(place.get_allcity, provinces)
-    filepath = os.path.join(os.path.pardir, "testdata/region_id.csv")
-    f = open(filepath, "a+", newline="")
-    w = csv.writer(f)
-    w.writerow(['地区', "id"])
 
-    for task in tasklist:
-        resultlist = executor.map(lambda value: place.get_regions_bycity(value['province'], value['city']), task)
-        for result in resultlist:
-            writeresult = map(lambda item: w.writerow([item['place'], item['id']]), result)
-            set(writeresult)
-    f.close()
+# def writeinfo():
+#     place = PlaceTrend()
+#
+#     executor = futures.ThreadPoolExecutor(max_workers=4)
+#     provinces = place.get_allprovince()
+#     tasklist = executor.map(place.get_allcity, provinces)
+#     filepath = os.path.join(os.path.pardir, "testdata/region_id.csv")
+#     f = open(filepath, "a+", newline="")
+#     w = csv.writer(f)
+#     w.writerow(['地区', "id"])
+#
+#     for task in tasklist:
+#         resultlist = executor.map(lambda value: place.get_regions_bycity(value['province'], value['city']), task)
+#         for result in resultlist:
+#             writeresult = map(lambda item: w.writerow([item['place'], item['id']]), result)
+#             set(writeresult)
+#     f.close()
 
 
 if __name__ == "__main__":
     place = PlaceTrend(date_begin='2019-06-11', date_end='2019-06-13')
-    semaphore = threading.Semaphore(6)  # 每次最多5个线程在执行
-    data_queue = Queue(maxsize=10)
+    # semaphore = threading.Semaphore(6)  # 每次最多6个线程在执行
+    # data_queue = Queue(maxsize=10)
     result = place.get_allcity("广东省")
     for info in result:
         cityinfo = place.get_regions_bycity(info['province'], info['city'])
