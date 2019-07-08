@@ -2,8 +2,8 @@ import requests
 import json
 import time
 from urllib.parse import urlencode
-from spyderpro.models.TrafficData.MulThread import MulitThread
-from spyderpro.models.TrafficData.TrafficInterface import Traffic
+from spyderpro.models.traffic.MulThread import MulitThread
+from spyderpro.models.traffic.TrafficInterface import Traffic
 
 
 class GaodeTraffic(Traffic):

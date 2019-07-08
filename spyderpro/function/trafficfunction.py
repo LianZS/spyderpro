@@ -3,8 +3,8 @@ import csv
 import pymysql
 from pymysql.connections import Connection
 
-from spyderpro.models.TrafficData import BaiduTraffic
-from spyderpro.models.TrafficData import GaodeTraffic
+from spyderpro.models.traffic import BaiduTraffic
+from spyderpro.models.traffic import GaodeTraffic
 from spyderpro.function.setting import *
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.portconnect.MysqlConnect import MysqlOperation

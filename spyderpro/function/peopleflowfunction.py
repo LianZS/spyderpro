@@ -1,8 +1,8 @@
 import re
 from concurrent import futures
 from spyderpro.portconnect.MysqlConnect import MysqlOperation
-from spyderpro.models.LocationBigData.PeopleNum import PeoplePositionin
-from spyderpro.models.LocationBigData import PlaceTrend
+from spyderpro.models.locationdata.PeopleNum import PeoplePositionin
+from spyderpro.models.locationdata import PlaceTrend
 from spyderpro.portconnect.ParamCheck import ParamTypeCheck
 
 

@@ -2,7 +2,7 @@ import requests
 import json
 import time
 from urllib.parse import urlencode
-from spyderpro.models.TrafficData.TrafficInterface import Traffic
+from spyderpro.models.traffic.TrafficInterface import Traffic
 
 
 class BaiduTraffic(Traffic):

@@ -5,9 +5,11 @@ import datetime
 import json
 import csv
 import sys
-from concurrent import futures
-
+import os
+import time
 from urllib.parse import urlencode
+
+import threading
 
 
 class Connect:
@@ -131,8 +133,8 @@ class PlaceFlow(PlaceInterface):
             PlaceFlow.instance_flag = True
             self.headers = dict()
             if user_agent is None:
-                self.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
-                                             '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+                self.headers[
+                    'User-Agent'] = 'Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11'
 
             else:
                 self.headers['User-Agent'] = user_agent
@@ -160,6 +162,7 @@ class PlaceFlow(PlaceInterface):
 
         url = "https://heat.qq.com/api/getHeatDataByTime.php?" + urlencode(paramer)
         g = self.request_heatdata(url)
+
         return g
 
     def count_headdata(self, date: str, datetim: str, region_id: int):
@@ -185,8 +188,10 @@ class PlaceFlow(PlaceInterface):
            :return:dict格式：{"lat": lat, "lng": lng, "num": num}->与中心经纬度的距离与相应人数
            """
         g = self.__get_heatdata_bytime(date, datetim, region_id)
+
         coords = map(self.deal_coordinates, g.keys())  # 围绕中心经纬度加减向四周扩展
         numlist = iter(g.values())
+
         for xy, num in zip(coords, numlist):
             lat = xy[0]
             lng = xy[1]
@@ -194,30 +199,61 @@ class PlaceFlow(PlaceInterface):
 
     @staticmethod
     def deal_coordinates(coord):
-        return eval(coord)
+        if coord == ',':
+            return (0, 0)
+        escape = eval(coord)
+
+        return escape
+
+
+class InterneThread(threading.Thread):
+    def __init__(self, group=None, target=None, name=None,
+                 args=(), kwargs=None, *, daemon=None):
+        threading.Thread.__init__(self)
+        self._target = target
+        self._args = args
+
+    def run(self):
+        self.result = self._target(*self._args)
+
+        semaphore.release()
+
+    def request_result(self):
+
+        return self.result
 
 
 def get_count(name, region_id):
-    executor = futures.ThreadPoolExecutor(max_workers=2)
     p = PlaceFlow()
     datelist = dateiter(region_id)
     # f = open('/data/Flow/static/' + name + ".csv", 'a+', newline="")
     # w = csv.writer(f)
     # print(f)
+    place = PlaceFlow()
+    func = place.complete_heatdata
+    tasks = list()
+    for date, datetim, region_id in datelist:
+        semaphore.acquire()
+        t = InterneThread(target=func, args=(date, datetim, regin_id))
+        t.start()
+        tasks.append(t)
+       
 
-    tasks = executor.map(lambda x: p.count_headdata(x[0], x[1]
-                                                    , x[2]), datelist)
-    for t in tasks:
-        print(t)
-    # for x in datelist:
-    #     result = p.count_headdata(str(x[0]), str(x[1]), x[2])
-    #
-    #     num = result['num']
-    #     if num == 0:
-    #         continue
-    #     date = result['date']
-    # write(w, date, num)
-    # f.flush()
+
+
+
+
+
+
+# for x in datelist:
+#     result = p.count_headdata(str(x[0]), str(x[1]), x[2])
+#
+#     num = result['num']
+#     if num == 0:
+#         continue
+#     date = result['date']
+# write(w, date, num)
+# f.flush()
 
 
 def write(writeobj, date, num):
@@ -234,16 +270,21 @@ def dateiter(region_id):
         yield str(inittime.date()), str(inittime.time()), region_id
 
 
+base_dir = os.getcwd()
+sys.path[0] = base_dir
+semaphore = threading.Semaphore(10)  # 每次最多5个线程在执行
+
+
 if __name__ == "__main__":
     file = open("/Users/darkmoon/Project/SpyderPr/spyderpro/testdata/region_id.csv", "r")
     r = csv.reader(file)
     r.__next__()
-    flag_count = 0
+    dir_path = os.path.join(base_dir, "FILE")
     for item in r:
-        flag_count += 1
-        if flag_count <= 200:
-            continue
         name = item[0]
-        pid = item[1]
-        print(name)
-        get_count(name, pid)
+        regin_id = item[1]
+        file_path = os.path.join(dir_path, name + ".csv")
+        if os.path.exists(file_path):
+            continue
+        else:
+            get_count(name, regin_id)
