@@ -7,6 +7,9 @@ import csv
 import re
 import sys
 import json
+from queue import Queue
+import threading
+from queue import Queue
 from urllib.parse import urlencode
 from concurrent import futures
 from spyderpro.portconnect.InternetConnect import Connect
@@ -247,7 +250,11 @@ class PlaceFlow(PlaceInterface):
 
     @staticmethod
     def deal_coordinates(coord):
-        return eval(coord)
+        if coord == ',':
+            return (0, 0)
+        escape = eval(coord)
+
+        return escape
 
     def date_format_check(self, param):
         check = re.match("^\d{4}-\d{2}-\d{2}$", param)
@@ -259,7 +266,17 @@ class PlaceFlow(PlaceInterface):
 
         self.type_check(check, re.Match)
 
+class CeleryThread(threading.Thread):
+    def __init__(self, group=None, target=None, name=None,
+                 args=(), kwargs=None, *, daemon=None):
+        threading.Thread.__init__(self)
+        self._target = target
+        self._args = args
 
+    def run(self):
+        result = self._target(*self._args)
+        data_queue.put(result)
+        semaphore.release()
 def writeinfo():
     place = PlaceTrend()
 
@@ -281,7 +298,8 @@ def writeinfo():
 
 if __name__ == "__main__":
     place = PlaceTrend(date_begin='2019-06-11', date_end='2019-06-13')
-
+    semaphore = threading.Semaphore(6)  # 每次最多5个线程在执行
+    data_queue = Queue(maxsize=10)
     result = place.get_allcity("广东省")
     for info in result:
         cityinfo = place.get_regions_bycity(info['province'], info['city'])

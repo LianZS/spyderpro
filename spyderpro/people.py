@@ -6,10 +6,9 @@ import json
 import csv
 import sys
 import os
-import time
-from urllib.parse import urlencode
-
 import threading
+from queue import Queue
+from urllib.parse import urlencode
 
 
 class Connect:
@@ -176,7 +175,6 @@ class PlaceFlow(PlaceInterface):
         g = self.__get_heatdata_bytime(date, datetim, region_id)
         count = sum(g.values())  # 总人数
         data = {"date": "".join([date, ' ', datetim]), "num": count}
-
         return data
 
     def complete_heatdata(self, date: str, datetim: str, region_id: int):
@@ -206,7 +204,7 @@ class PlaceFlow(PlaceInterface):
         return escape
 
 
-class InterneThread(threading.Thread):
+class CeleryThread(threading.Thread):
     def __init__(self, group=None, target=None, name=None,
                  args=(), kwargs=None, *, daemon=None):
         threading.Thread.__init__(self)
@@ -214,50 +212,32 @@ class InterneThread(threading.Thread):
         self._args = args
 
     def run(self):
-        self.result = self._target(*self._args)
-
+        result = self._target(*self._args)
+        data_queue.put(result)
         semaphore.release()
-
-    def request_result(self):
-
-        return self.result
 
 
 def get_count(name, region_id):
     p = PlaceFlow()
     datelist = dateiter(region_id)
-    # f = open('/data/Flow/static/' + name + ".csv", 'a+', newline="")
+    # f = open(os.path.join(dir_path,name+".csv"), 'a+', newline="")
+    #
     # w = csv.writer(f)
-    # print(f)
     place = PlaceFlow()
-    func = place.complete_heatdata
-    tasks = list()
+    func = place.count_headdata
     for date, datetim, region_id in datelist:
         semaphore.acquire()
-        t = InterneThread(target=func, args=(date, datetim, regin_id))
+        t = CeleryThread(target=func, args=(date, datetim, regin_id))
         t.start()
-        tasks.append(t)
-       
 
 
 
-
-
-
-
-# for x in datelist:
-#     result = p.count_headdata(str(x[0]), str(x[1]), x[2])
-#
-#     num = result['num']
-#     if num == 0:
-#         continue
-#     date = result['date']
-# write(w, date, num)
-# f.flush()
-
-
-def write(writeobj, date, num):
-    writeobj.writerow([date, num])
+def write():
+    while True:
+        data = data_queue.get()
+        date = data['date']
+        num = data['num']
+        print(num)
 
 
 def dateiter(region_id):
@@ -265,21 +245,22 @@ def dateiter(region_id):
     timedelta = datetime.timedelta(minutes=5)
     while 1:
         inittime = inittime + timedelta
-        if inittime.year == 2019 and inittime.month == 6 and inittime.day == 28:
+        if inittime.year == 2019 and inittime.month == 7 and inittime.day == 8:
             break
         yield str(inittime.date()), str(inittime.time()), region_id
 
 
 base_dir = os.getcwd()
 sys.path[0] = base_dir
-semaphore = threading.Semaphore(10)  # 每次最多5个线程在执行
-
+semaphore = threading.Semaphore(10)
+data_queue = Queue(maxsize=11)
 
 if __name__ == "__main__":
     file = open("/Users/darkmoon/Project/SpyderPr/spyderpro/testdata/region_id.csv", "r")
     r = csv.reader(file)
     r.__next__()
     dir_path = os.path.join(base_dir, "FILE")
+    CeleryThread(target=write,args=()).start()
     for item in r:
         name = item[0]
         regin_id = item[1]

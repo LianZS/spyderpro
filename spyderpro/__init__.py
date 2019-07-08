@@ -7,7 +7,7 @@ import random
 
 class Stu:
     def f(self):
-        time.sleep(2+random.randint(3))
+        time.sleep(2)
 
         return iter([i for i in range(10000)])
 
@@ -20,7 +20,7 @@ class MyThread(threading.Thread):
 
     def run(self):
         self.d = self.func()
-
+        q.put(self.d)
         semaphore.release()
 
     def result(self):
@@ -34,15 +34,15 @@ def write():
         print("get")
         for i in data:
             pass
-        print("ok")
+        print(data)
 
 
 import  queue
 
 if __name__ == "__main__":
     functionsa = Stu().f
-    semaphore = threading.Semaphore(2)  # 每次最多5个线程在执行
-    q = queue.Queue(maxsize=5)
+    semaphore = threading.Semaphore(6)  # 每次最多5个线程在执行
+    q = queue.Queue(maxsize=10)
 
     MyThread(write,args=()).start()
     for i in range(1000):
