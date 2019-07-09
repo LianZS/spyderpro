@@ -1,6 +1,7 @@
 import requests
 import json
 from spyderpro.portconnect.Internetconnect import Connect
+from spyderpro.instances.lbs import Geographi
 
 
 class PeoplePositionin(Connect):
@@ -59,5 +60,7 @@ class PeoplePositionin(Connect):
                 lon = float(item) / 100  # 经度
             if flag == 3:
                 num = int(item)  # 人数
-                yield {"纬度": lat, "经度": lon, "人数": num}
                 flag = 0
+
+                yield Geographi(latitude=lat, longitude=lon, number=num)
+                # yield {"纬度": lat, "经度": lon, "人数": num}
