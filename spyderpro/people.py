@@ -147,9 +147,14 @@ class PlaceFlow(PlaceInterface):
         :param url:
         :return:json
         """
-        response = self.request.get(url=url, headers=self.headers)
-        g = json.loads(response.text)
-        return g
+
+        response = self.request.get(url=url, headers=self.headers,timeout=2)
+        if response.status_code==200:
+            g = json.loads(response.text)
+            return g
+        else:
+            return None
+
 
     def __get_heatdata_bytime(self, date: str, datetim: str, region_id: int):
         # self.type_check(region_id, int)
@@ -162,6 +167,7 @@ class PlaceFlow(PlaceInterface):
         url = "https://heat.qq.com/api/getHeatDataByTime.php?" + urlencode(paramer)
         g = self.request_heatdata(url)
 
+
         return g
 
     def count_headdata(self, date: str, datetim: str, region_id: int):
@@ -173,6 +179,8 @@ class PlaceFlow(PlaceInterface):
         :return:总人数
         """
         g = self.__get_heatdata_bytime(date, datetim, region_id)
+        if not g:
+            return None
         count = sum(g.values())  # 总人数
         data = {"date": "".join([date, ' ', datetim]), "num": count}
         return data
@@ -213,7 +221,8 @@ class CeleryThread(threading.Thread):
 
     def run(self):
         result = self._target(*self._args)
-        data_queue.put(result)
+        if  result:
+            data_queue.put(result)
         semaphore.release()
 
 
@@ -261,6 +270,7 @@ data_queue = Queue(maxsize=11)
 global data_file
 global wf  # csv实例
 
+
 if __name__ == "__main__":
     file = open(os.path.join(base_dir,"region_id.csv"), "r")
     r = csv.reader(file)
@@ -278,5 +288,7 @@ if __name__ == "__main__":
         if os.path.exists(file_path):
             continue
         else:
+
             print(name)
             get_count(regin_id)
+
