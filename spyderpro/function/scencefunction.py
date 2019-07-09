@@ -9,7 +9,7 @@ from spyderpro.models.traffic import GaodeTraffic
 
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.function.setting import *
-from spyderpro.portconnect.MysqlConnect import MysqlOperation
+from spyderpro.portconnect.sqlconnect import MysqlOperation
 
 class Parent(MysqlOperation):
 

@@ -1,5 +1,5 @@
 import pymysql
-from spyderpro.portconnect.MysqlConnect import MysqlOperation
+from spyderpro.portconnect.sqlconnect import MysqlOperation
 from spyderpro.models.weather import WeatherHistory
 from spyderpro.function.setting import *
 from concurrent import futures

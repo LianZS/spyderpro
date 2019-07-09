@@ -12,8 +12,8 @@ import threading
 from queue import Queue
 from urllib.parse import urlencode
 from concurrent import futures
-from spyderpro.portconnect.InternetConnect import Connect
-from spyderpro.portconnect.ParamCheck import ParamTypeCheck
+from spyderpro.portconnect.Internetconnect import Connect
+from spyderpro.portconnect.paramchecks import ParamTypeCheck
 
 
 class PlaceInterface(Connect, ParamTypeCheck):
@@ -202,8 +202,11 @@ class PlaceFlow(PlaceInterface):
         :return:json
         """
         response = self.request.get(url=url, headers=self.headers)
-        g = json.loads(response.text)
-        return g
+        if response.status_code==200:
+            g = json.loads(response.text)
+            return g
+        else:
+            return None
 
     def __get_heatdata_bytime(self, date: str, datetim: str, region_id: int):
         self.date_format_check(date)
@@ -229,6 +232,8 @@ class PlaceFlow(PlaceInterface):
         """
 
         g = self.__get_heatdata_bytime(date, datetim, region_id)
+        if not  g:
+            return None
         count = sum(g.values())  # 总人数
         return {"date": "".join([date, ' ', datetim]), "num": count}
 

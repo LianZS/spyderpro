@@ -1,4 +1,7 @@
 class UserPortrait:
+    """
+    用户画像
+    """
     __slots__ = ['ages', 'consumption', 'genders', 'preferences', 'provinces']
 
     def __init__(self, ages, consumption, genders, preferences, provinces):
@@ -10,6 +13,9 @@ class UserPortrait:
 
 
 class UserBehavior:
+    """
+    用户行为
+    """
     __slots__ = ['active_num', 'date', 'install']
 
     def __init__(self, active_num, install, date):
@@ -19,6 +25,9 @@ class UserBehavior:
 
 
 class AppRateBenchmark:
+    """
+    app画像
+    """
     __slots__ = ['app_name', 'date', 'active_num', 'active_rate', 'rate_hight', 'rate_low']
 
     def __init__(self, name, date, active_num, active_rate, rate_hight, rate_low):
@@ -31,6 +40,9 @@ class AppRateBenchmark:
 
 
 class AppUserHabit:
+    """
+    app用户画像
+    """
     __slots__ = ['age', 'gender', 'preference', 'province']
 
     def __init__(self, age, gender, preference, province):

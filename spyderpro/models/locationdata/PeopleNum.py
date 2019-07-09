@@ -1,6 +1,6 @@
 import requests
 import json
-from spyderpro.portconnect.InternetConnect import Connect
+from spyderpro.portconnect.Internetconnect import Connect
 
 
 class PeoplePositionin(Connect):

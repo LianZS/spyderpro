@@ -2,7 +2,7 @@ import requests
 import json
 import datetime
 from urllib.parse import urlencode
-from spyderpro.Instances.keyword_obj import Mobile_Info
+from spyderpro.instances.keyword_obj import Mobile_Info
 
 
 class MobileKeyWord:
@@ -105,7 +105,7 @@ class MobileKeyWord:
         :param year: 年份
         :param startmonth:开始月份
         :param endmonth: 结束月份
-        :return :iterable[{"网络": value['k'], "占有率": value['r']},,,,,,]
+        :return :iterable[Mobile_Info("网络": value['k'], "占有率": value['r']),,,,,,]
 
         """
         self.__type_check(year, startmonth, endmonth)

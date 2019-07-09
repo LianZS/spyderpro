@@ -3,8 +3,8 @@ import json
 import sys
 import time
 from bs4 import BeautifulSoup
-from spyderpro.portconnect.InternetConnect import Connect
-from spyderpro.Instances.keyword_obj import KeyWordObject
+from spyderpro.portconnect.Internetconnect import Connect
+from spyderpro.instances.keyword_obj import KeyWordObject
 
 
 class KeyWord(Connect):

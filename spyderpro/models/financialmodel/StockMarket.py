@@ -1,6 +1,6 @@
 import requests
 from urllib.parse import urlencode
-from spyderpro.portconnect.InternetConnect import Connect
+from spyderpro.portconnect.Internetconnect import Connect
 
 """股票模块"""
 '''

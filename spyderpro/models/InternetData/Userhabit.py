@@ -4,7 +4,7 @@ import datetime
 import re
 from urllib.parse import urlencode
 from bs4 import BeautifulSoup
-from spyderpro.Instances.userportrait import UserPortrait, UserBehavior, AppRateBenchmark, AppUserHabit
+from spyderpro.instances.userportrait import UserPortrait, UserBehavior, AppRateBenchmark, AppUserHabit
 
 
 class UserHabit:
