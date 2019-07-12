@@ -12,7 +12,7 @@ import threading
 from queue import Queue
 from urllib.parse import urlencode
 from concurrent import futures
-from spyderpro.portconnect.Internetconnect import Connect
+from spyderpro.portconnect.internetconnect import Connect
 from spyderpro.portconnect.paramchecks import ParamTypeCheck
 
 

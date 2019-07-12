@@ -1,7 +1,7 @@
 import requests
 import time
 from urllib.parse import urlencode
-from spyderpro.portconnect.Internetconnect import Connect
+from spyderpro.portconnect.internetconnect import Connect
 
 
 class Fund(Connect):

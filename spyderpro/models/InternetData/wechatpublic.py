@@ -4,7 +4,7 @@ import json
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from urllib.parse import urlencode
-from spyderpro.portconnect.Internetconnect import Connect
+from spyderpro.portconnect.internetconnect import Connect
 from spyderpro.instances.wechat import WechatPublic_Info, ArticleInfo, WechatSituation, ArticleKeyWord
 
 

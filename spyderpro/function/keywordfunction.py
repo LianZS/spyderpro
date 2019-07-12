@@ -1,6 +1,6 @@
 import pymysql
-from spyderpro.models.InternetData.Keyword import KeyWord
-from spyderpro.models.InternetData.MobileKeyword import MobileKeyWord
+from spyderpro.models.InternetData.keyword import KeyWord
+from spyderpro.models.InternetData.mobilekeyword import MobileKeyWord
 
 from spyderpro.portconnect.sqlconnect import MysqlOperation
 from spyderpro.portconnect.paramchecks import ParamTypeCheck

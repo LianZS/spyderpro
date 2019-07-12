@@ -22,11 +22,11 @@ CELERY_QUEUES = (
 )  # 自定义队列
 CELERY_TASK_DEFAULT_QUEUE = 'default'  # 默认队列
 CELERY_ROUTES = {
-    'celerytask.task1.*': 'financial',
-    'celerytask.task2.*': 'Internet',
-    'celerytask.task3.*': 'location',
-    'celerytask.task4.*': 'traffic',
-    'celerytask.task5.*': 'weather',
+    'celerytask.task1.*': {'queue': 'financial'},
+    'celerytask.task2.*': {'queue': 'Internet'},
+    'celerytask.task3.*': {'queue': 'location'},
+    'celerytask.task4.*': {'queue': 'traffic'},
+    'celerytask.task5.*': {'queue': 'weather'},
 
 }  # 路由器列表
 CELERYD_CONCURRENCY = 4  # 设置并发的worker数量

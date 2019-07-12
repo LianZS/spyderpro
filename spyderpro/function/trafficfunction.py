@@ -3,8 +3,8 @@ import csv
 import pymysql
 from pymysql.connections import Connection
 
-from spyderpro.models.traffic import BaiduTraffic
-from spyderpro.models.traffic import GaodeTraffic
+from spyderpro.models.traffic import baidutraffic
+from spyderpro.models.traffic import gaodetraffic
 from spyderpro.function.setting import *
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.portconnect.sqlconnect import MysqlOperation
@@ -64,11 +64,11 @@ class TraffciFunction(MysqlOperation):
                                          port=port)
 
         if citycode > 1000:
-            traffic = GaodeTraffic()
+            traffic = gaodetraffic()
 
         elif 0 < citycode < 1000:
 
-            traffic = BaiduTraffic()
+            traffic = baidutraffic()
         else:
             return False
         t = time.time()
@@ -145,9 +145,9 @@ class TraffciFunction(MysqlOperation):
         detailtime = time.strftime("%H:%M", t)
         g = None
         if citycode > 1000:
-            g = GaodeTraffic()
+            g = gaodetraffic()
         elif citycode < 1000:
-            g = BaiduTraffic()
+            g = baidutraffic()
         result = g.roaddata(citycode)
         if result is None:
             return False
@@ -170,9 +170,9 @@ class TraffciFunction(MysqlOperation):
         yearpid = self.__search_yearpid(citycode, db)
         g = None
         if yearpid > 1000:
-            g = GaodeTraffic()
+            g = gaodetraffic()
         elif yearpid < 1000:
-            g = BaiduTraffic()
+            g = baidutraffic()
         name = self.find_name(citycode, db)
         result = g.yeartraffic(yearpid, name)
         result = self.__dealwith_year_traffic(result, citycode, db,

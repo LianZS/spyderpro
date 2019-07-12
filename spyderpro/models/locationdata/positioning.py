@@ -1,6 +1,6 @@
 import requests
 import json
-from spyderpro.portconnect.Internetconnect import Connect
+from spyderpro.portconnect.internetconnect import Connect
 from spyderpro.instances.lbs import Geographi
 
 

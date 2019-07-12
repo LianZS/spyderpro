@@ -3,7 +3,7 @@ import json
 import sys
 import time
 from bs4 import BeautifulSoup
-from spyderpro.portconnect.Internetconnect import Connect
+from spyderpro.portconnect.internetconnect import Connect
 from spyderpro.instances.keyword_obj import KeyWordObject
 
 

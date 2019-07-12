@@ -4,8 +4,8 @@ import csv
 
 from spyderpro.models.locationdata.scencepeople import ScencePeopleFlow
 from spyderpro.models.weather.weather import WeatherForect
-from spyderpro.models.traffic import BaiduTraffic
-from spyderpro.models.traffic import GaodeTraffic
+from spyderpro.models.traffic import baidutraffic
+from spyderpro.models.traffic import gaodetraffic
 
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.function.setting import *
@@ -188,10 +188,10 @@ class Traffic(Parent):
         cursor.close()
 
         if citycode > 1000:
-            traffic = GaodeTraffic()
+            traffic = gaodetraffic()
 
         elif 0 < citycode < 1000:
-            traffic = BaiduTraffic()
+            traffic = baidutraffic()
 
         else:
             return False

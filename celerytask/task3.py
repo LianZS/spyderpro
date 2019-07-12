@@ -1,7 +1,7 @@
 from .loads import *
 
 
-@app.task(bind=True, queue='location')
+@app.task(queue='location')
 def monitoring_scencepeople():
     """
     监控景区人流
@@ -11,7 +11,7 @@ def monitoring_scencepeople():
     pass
 
 
-@app.task(bind=True, queue='location')
+@app.task(queue='location')
 def monitoring_scencepeople_trend():
     """
     监控地区人口趋势
@@ -20,7 +20,7 @@ def monitoring_scencepeople_trend():
     pass
 
 
-@app.task(bind=True, queue='location')
+@app.task(queue='location')
 def monitoring_scencepeople_change():
     """
     监控地区人口变化
@@ -29,11 +29,10 @@ def monitoring_scencepeople_change():
     pass
 
 
-@app.task(bind=True, queue='location')
+@app.task(queue='location')
 def people_positioning():
     """
     人口定位数据
    
     """
     pass
-
