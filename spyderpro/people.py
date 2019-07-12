@@ -266,7 +266,7 @@ def dateiter(region_id):
 base_dir = os.getcwd()
 sys.path[0] = base_dir
 semaphore = threading.Semaphore(10)
-data_queue = Queue(maxsize=11)
+data_queue = Queue(maxsize=20)
 global data_file
 global wf  # csv实例
 
