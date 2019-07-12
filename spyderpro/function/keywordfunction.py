@@ -13,14 +13,14 @@ class Parent(MysqlOperation, ParamTypeCheck):
 
 class Search_KeyWord(Parent):
 
-    def browser_keyword_frequency(self, keyword: str, baidu: bool = True, haosou: bool = True, sougou: bool = True,
+    def browser_keyword_frequency(self, keyword: str, baidu: bool = True, weixin=True,
                                   pc: bool = True, modile: bool = True) -> list:
         """
-        获取3大浏览器关键词搜索频率
+        获取浏览器关键词搜索频率
         :param keyword:关键词
         :param baidu:是否使用百度引擎
-        :param haosou:是否使用好搜引擎
-        :param sougou:是否使用搜狗引擎
+        :param weixin:是否使用微信搜索
+
         :param pc:是否获取pc端数据
         :param modile:是否移动端水
         :return:
@@ -137,7 +137,7 @@ class MobileKey(Parent):
 
     def request_mobile_brand_rate(self, year: int, startmonth: int = None, endmonth: int = None):
         """
-        2014年开始
+        2014年开始,获取某时段中国境内各手机品牌占用率
         :param year:
         :param startmonth:
         :param endmonth:
@@ -162,6 +162,13 @@ class MobileKey(Parent):
         return True
 
     def request_mobile_system_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> list:
+        """
+        获取某时段中国境内各手机系统版本占用率
+        :param year: 201x
+        :param startmonth:1<=x<12
+        :param endmonth:  x<=12
+        :return:
+        """
         mobile = MobileKeyWord()
         result = mobile.get_mobile_system_rate(year=year, startmonth=startmonth, endmonth=endmonth)
         return list(result)
@@ -180,6 +187,13 @@ class MobileKey(Parent):
         return True
 
     def request_mobile_operator_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> list:
+        """
+        获取某时段中国境内各手机运营商占用率
+        :param year:
+        :param startmonth:
+        :param endmonth:
+        :return:
+        """
         mobile = MobileKeyWord()
         result = mobile.get_mobile_operator_rate(year=year, startmonth=startmonth, endmonth=endmonth)
 
@@ -199,6 +213,13 @@ class MobileKey(Parent):
         return True
 
     def request_mobile_network_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> list:
+        """
+        获取某时段中国境内各手机网络占用率
+        :param year:
+        :param startmonth:
+        :param endmonth:
+        :return:
+        """
         mobile = MobileKeyWord()
         result = mobile.get_mobile_network_rate(year=year, startmonth=startmonth, endmonth=endmonth)
 
@@ -227,6 +248,12 @@ class MobileKey(Parent):
             print("success")
 
     def get_and_write_mobile_brand_rate(self, year: int, startmonth: int = None, endmonth: int = None):
+        """
+
+        :param year:
+        :param startmonth: 开始月份
+        :param endmonth: #结束月份
+        """
         data = self.request_mobile_brand_rate(year=year, startmonth=startmonth, endmonth=endmonth)
         db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
                              port=port)

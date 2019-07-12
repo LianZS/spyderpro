@@ -2,14 +2,15 @@ import pymysql
 import time
 import csv
 
-from spyderpro.models.locationdata import ScencePeopleFlow
-from spyderpro.models.weather import WeatherForect
+from spyderpro.models.locationdata.scencepeople import ScencePeopleFlow
+from spyderpro.models.weather.weather import WeatherForect
 from spyderpro.models.traffic import BaiduTraffic
 from spyderpro.models.traffic import GaodeTraffic
 
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.function.setting import *
 from spyderpro.portconnect.sqlconnect import MysqlOperation
+
 
 class Parent(MysqlOperation):
 

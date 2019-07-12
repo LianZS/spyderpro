@@ -1,6 +1,6 @@
 import pymysql
 from spyderpro.portconnect.sqlconnect import MysqlOperation
-from spyderpro.models.weather import WeatherHistory
+from spyderpro.models.weather.historyweather import WeatherHistory
 from spyderpro.function.setting import *
 from concurrent import futures
 
@@ -12,7 +12,6 @@ class WeatherOperation(MysqlOperation):
     def get_and_wirte_province(self):
         """
         将数据写入province数据库里
-        :return:
         """
         db = pymysql.connect(host=host, user=user, password=password, database=weatherdatabase,
                              port=port)

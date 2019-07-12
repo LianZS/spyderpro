@@ -1,17 +1,18 @@
 import ssl
+from celery import Celery
 from kombu import Queue, Exchange
-from celerytask import task1, task2, task3, task4, task5
 
+app = Celery()
 BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/1'
 CELERY_IMPORTS = (
-'celerytask.task1', 'celerytask.task2', 'celerytask.task3', 'celerytask.task4', 'celerytask.task5')  # 导入指定任务墨模块
+    'celerytask.task1', 'celerytask.task2', 'celerytask.task3', 'celerytask.task4', 'celerytask.task5')  # 导入指定任务墨模块
 
 CELERYBEAT_SCHEDULE = {
 
 }  # 默认的定时调度程序
 CELERY_QUEUES = (
-    Queue('default', exchange=Exchange('default', type='direct')),
+    Queue('default', exchange=Exchange('default', type='direct', delivery_mode=1, durable=False)),
     Queue('financial', routing_key='celerytask.task1.#', exchange=Exchange('task1', type='direct')),
     Queue('Internet', routing_key='celerytask.task2.#', exchange=Exchange('task2', type='direct')),
     Queue('location', routing_key='celerytask.task3.#', exchange=Exchange('task3', type='direct')),
