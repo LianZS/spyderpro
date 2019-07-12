@@ -4,7 +4,8 @@ from celerytask import task1, task2, task3, task4, task5
 
 BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/1'
-CELERY_IMPORTS = (task1, task2, task3, task4, task5)  # 导入指定任务墨模块
+CELERY_IMPORTS = (
+'celerytask.task1', 'celerytask.task2', 'celerytask.task3', 'celerytask.task4', 'celerytask.task5')  # 导入指定任务墨模块
 
 CELERYBEAT_SCHEDULE = {
 
