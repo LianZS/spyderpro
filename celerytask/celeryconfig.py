@@ -15,11 +15,16 @@ CELERY_QUEUES = (
     Queue('Internet', routing_key='celerytask.task2.#', exchange=Exchange('task2', type='direct')),
     Queue('location', routing_key='celerytask.task3.#', exchange=Exchange('task3', type='direct')),
     Queue('traffic', routing_key='celerytask.task4.#', exchange=Exchange('task4', type='direct')),
-    Queue('weather', routing_key='celerytask.task4.#', exchange=Exchange('task4', type='direct')),
+    Queue('weather', routing_key='celerytask.task5.#', exchange=Exchange('task5', type='direct')),
 
 )  # 自定义队列
 CELERY_TASK_DEFAULT_QUEUE = 'default'  # 默认队列
 CELERY_ROUTES = {
+    'celerytask.task1.*': 'financial',
+    'celerytask.task2.*': 'Internet',
+    'celerytask.task3.*': 'location',
+    'celerytask.task4.*': 'traffic',
+    'celerytask.task5.*': 'weather',
 
 }  # 路由器列表
 CELERYD_CONCURRENCY = 4  # 设置并发的worker数量
