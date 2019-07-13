@@ -1,6 +1,8 @@
 from spyderpro.managerfunction.setting import *
 from spyderpro.function.scencefunction import People
-from spyderpro.function.peopleflowfunction import PositioningTrend, PositioningSituation, PositioningPeople
+from spyderpro.function.peoplefunction.positioningtrend import PositioningTrend
+from spyderpro.function.peoplefunction.positioningsituation import PositioningSituation
+from spyderpro.function.peoplefunction.monitoring_area import PositioningPeople
 
 
 class ManagerScence(People, PositioningTrend, PositioningSituation, PositioningPeople):
