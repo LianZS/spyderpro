@@ -25,7 +25,7 @@ class PlaceInterface(Connect, ParamTypeCheck):
         return cls.instance
 
     # 获取所有省份
-    def get_allprovince(self) -> list:
+    def get_provinces(self) -> list:
         """
         获取所有省份
         :return: list
@@ -37,7 +37,7 @@ class PlaceInterface(Connect, ParamTypeCheck):
         return data
 
     # 所有城市
-    def get_allcity(self, province: str) -> list:
+    def get_citys(self, province: str) -> list:
         """
         获取省份下所有城市
         :param province: 省份名
@@ -327,7 +327,7 @@ if __name__ == "__main__":
     place = PlaceTrend(date_begin='2019-06-11', date_end='2019-06-13')
     semaphore = threading.Semaphore(6)  # 每次最多6个线程在执行
     data_queue = Queue(maxsize=10)
-    result = place.get_allcity("广东省")
+    result = place.get_citys("广东省")
     for info in result:
         cityinfo = place.get_regions_bycity(info['province'], info['city'])
         for item in cityinfo:

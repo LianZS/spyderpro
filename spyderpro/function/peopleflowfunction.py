@@ -6,9 +6,9 @@ from spyderpro.models.locationdata.placepeople import PlaceTrend, PlaceFlow
 from spyderpro.portconnect.paramchecks import ParamTypeCheck
 
 
-class People_Positioning(MysqlOperation, ParamTypeCheck):
+class PositioningPeople(MysqlOperation, ParamTypeCheck):
 
-    def positioning_people_num(self, max_num: int = 8):
+    def positioning_people_num(self, max_num: int = 10):
         self.type_check(max_num, int)
 
         """
@@ -16,10 +16,9 @@ class People_Positioning(MysqlOperation, ParamTypeCheck):
         :param max_num:
         :return:
         """
-        executor = futures.ThreadPoolExecutor(max_workers=4)
-        result = executor.map(self.request_positioning_num, range(max_num))
-        for reponse in result:
-            yield reponse
+        for rank in range(max_num):
+            response = self.request_positioning_num(rank)
+            yield response
 
     def request_positioning_num(self, rank: int) -> list:
 
@@ -28,18 +27,18 @@ class People_Positioning(MysqlOperation, ParamTypeCheck):
         """
         请求定位数据
         :param rank:
-        :return: list(data)->data:[纬度,经度,人数]
+        :return: iter(Geographi....)
         """
         positioning = PeoplePositionin()
-        response = positioning.get_people_positionin_data(rank)
-        datalist = list()
-        for item in response:
-            data = list()
-            data.append(item['纬度'])
-            data.append(item['经度'])
-            data.append(item['人数'])
-            datalist.append(data)
-        return datalist
+        response = positioning.get_people_positionin_data(rank, max_num=10)
+        # datalist = list()
+        # for item in response:
+        #     data = list()
+        #     data.append(item['纬度'])
+        #     data.append(item['经度'])
+        #     data.append(item['人数'])
+        #     datalist.append(data)
+        return response
 
     def __dealwith_positioning(self):
         """清空数据库，只保留目前爬去的数据"""
@@ -60,29 +59,26 @@ class People_Positioning(MysqlOperation, ParamTypeCheck):
         self.type_check(end_lon, float)
         self.type_check(end_lat, float)
 
-        result = self.positioning_people_num()
+        result = self.positioning_people_num(max_num=10)
         count = 0
+        # 下面必须使用高并发来计算
         for response in result:
-            for data in response:
-                lat = data[0]
-                lon = data[1]
-                num = data[2]
+            for info in response:
+                lat = info.latitude
+                lon = info.longitude
+                num = info.number
                 if start_lat <= lat <= end_lat and start_lon <= lon <= end_lon:
                     count += num
         print(count)
 
 
-class Positioning_Trend(MysqlOperation):
-    """
-    位置流量趋势
-    """
-
+class PositiongParent(MysqlOperation):
     def get_all_province(self) -> list:
         """获取可以监测的省份
         :return 省份列表 [广东省，广西省.....]
         """
         place = PlaceTrend(date_begin=None, date_end=None)
-        provinces = place.get_allprovince()
+        provinces = place.get_provinces()
         return provinces
 
     def get_all_city(self, province: str) -> list:
@@ -92,7 +88,7 @@ class Positioning_Trend(MysqlOperation):
         assert re.match("\w{2,10}省$", province), 'the format of province is wrong ,the right format such as "广东省" '
 
         place = PlaceTrend(date_begin=None, date_end=None)
-        citys = place.get_allcity(province)
+        citys = place.get_citys(province)
         return citys
 
     def get_all_place(self, province: str, city: str) -> list:
@@ -114,6 +110,12 @@ class Positioning_Trend(MysqlOperation):
         datalist = place.get_regions_bycity(province, city)
         return datalist
 
+
+class PositioningTrend(PositiongParent):
+    """
+    位置流量趋势
+    """
+
     def get_place_index(self, name: str, placeid: int, date_start: str, date_end: str):
         """
         获取地点某段时间的流量趋势指数
@@ -133,14 +135,28 @@ class Positioning_Trend(MysqlOperation):
         return data_iterable
 
 
-class Positioning_Situation(MysqlOperation):
+class PositioningSituation(PositiongParent):
     def get_count(self, date: str, dateTime: str, region_id: int):
+        """
+        某一时刻的人数有多少
+        :param date:日期：格式yyyy-mm-dd
+        :param dateTime:时间：格式hh:MM:SS
+        :param region_id:地区唯一表示
+
+        """
         p = PlaceFlow()
         data_obj = p.count_headdata(date, dateTime,
                                     region_id)
         return data_obj
 
     def get_distribution_situation(self, date: str, dateTime: str, region_id: int):
+        """
+        某一时刻的人数以及分布情况
+           :param date:日期：格式yyyy-mm-dd
+           :param dateTime:时间：格式hh:MM:SS
+           :param region_id:地区唯一表示
+
+        """
         p = PlaceFlow()
         data_obj = p.complete_heatdata(date, dateTime, region_id)
         return data_obj
@@ -154,8 +170,11 @@ if __name__ == "__main__":
     # for i in d:
     #     print(i)
     # Positioning_Trend().get_all_city("广东省")
-    d = Positioning_Situation().get_count('2019-05-19', '10:15:00', 6)
-    g = Positioning_Situation().get_distribution_situation('2019-05-19', '10:15:00', 6)
-    print(d)
-    for i in g:
-        print(i)
+    # d = PositioningSituation().get_count('2019-05-19', '10:15:00', 6)
+    # g = PositioningSituation().get_distribution_situation('2019-05-19', '10:15:00', 6)
+    # print(d)
+    # for i in g:
+    #     print(i)
+    d = PositioningPeople().positioning_people_num(max_num=10)
+    for i in d:
+        print(len(list(i)))

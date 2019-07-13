@@ -26,7 +26,7 @@ class Geographi:
         self.number = number
 
     def __str__(self):
-        return "Geographi----距离中心偏差： 维度：{0},经度:{1}，人数:{2}".format(self.latitude, self.longitude, self.number)
+        return "Geographi： 维度：{0},经度:{1}，人数:{2}".format(self.latitude, self.longitude, self.number)
 
 
 class Positioning:
@@ -44,4 +44,4 @@ class Positioning:
 
     def __str__(self):
         return "Positioning:标识:{0},日期:{1},具体时间:{2},数量:{3}".format(self.region_id, self.date, self.detailTime,
-                                                                   self.num)
+                                                                  self.num)
