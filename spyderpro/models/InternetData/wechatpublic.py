@@ -1,6 +1,7 @@
 import requests
 import re
 import json
+import time
 from threading import Thread, Semaphore
 from queue import Queue
 from selenium import webdriver
@@ -22,6 +23,10 @@ class WechatPublic(Connect):
         self.request = requests.Session()
 
         self.headers = dict()
+        self.errorqueue = Queue(5)  # 错误处理队列
+        self.semaphore = Semaphore(10)  # 任务信号量
+        self.q = Queue(20)  # 数据队列
+        self.wait = Semaphore(2)  # 每次只允许2个公众号运行
 
         if user_agent is None:
             self.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
@@ -44,18 +49,29 @@ class WechatPublic(Connect):
         :return  dict
 
         """
+        self.wait.acquire()
         result: WechatPublic_Info = self.get_detail_public_info(pid, url)
         return result
 
-    def get_detail_public_info(self, pid: int, url: str) -> WechatPublic_Info:
+    def get_detail_public_info(self, pid: int, url: str):
         """
         获取文章标题和链接
         :param pid:公众号数字id
         :param url: 首页链接
         :return  WechatPublic_Info
         """
+        response = None
+        try:
+            response = self.request.get(url=url, headers=self.headers)
+        except Exception:
+            print("coonect error")
+            self.errorqueue.put(1)
+            time.sleep(10)
+            self.get_detail_public_info(pid, url)
+        if not self.errorqueue.empty():  # 任务恢复正常
+            while self.errorqueue.qsize():
+                self.errorqueue.get()
 
-        response = self.request.get(url=url, headers=self.headers)
         soup = BeautifulSoup(response.text, "lxml")
         keyword = soup.find(name="meta", attrs={"name": "keywords"}).get("content")
         info: list = keyword.split(",")
@@ -73,18 +89,28 @@ class WechatPublic(Connect):
             title = value.text  # 标题
             datalist.append({"标题": title, "链接": href})
         wechatinfo = WechatPublic_Info(page=1, name=name, public_pid=public_pid, pid=pid, articlelist=iter(datalist))
-        yield wechatinfo
+        self.q.put(wechatinfo)
+
         ''''第2页开始'''
-        for page in range(2, pages):
+
+        def requests_next(nextpage, pid):
             datalist = []
 
-            url = 'https://www.wxnmh.com/user-{0}-{1}.htm'.format(pid, page)
+            url = 'https://www.wxnmh.com/user-{0}-{1}.htm'.format(pid, nextpage)
             result = self.get_all_article(url)
             for item in result:
                 datalist.append(item)
-            wechatinfo = WechatPublic_Info(page=page, name=name, public_pid=public_pid, pid=pid, articlelist=iter(
+            wechatinfo = WechatPublic_Info(page=nextpage, name=name, public_pid=public_pid, pid=pid, articlelist=iter(
                 datalist))
-            yield wechatinfo
+            self.q.put(wechatinfo)
+            self.semaphore.release()
+
+        for page in range(2, pages):
+            self.semaphore.acquire()
+
+            Thread(target=requests_next, args=(page, pid,)).start()
+
+        self.wait.release()
 
     def get_all_article(self, url) -> list:
         """
@@ -100,6 +126,7 @@ class WechatPublic(Connect):
         for value in articles:
             href = value.get("href")
             title = value.text
+
             yield {"title": title, "href": href}
 
     """
