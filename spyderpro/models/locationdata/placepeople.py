@@ -12,6 +12,7 @@ from queue import Queue
 from urllib.parse import urlencode
 from spyderpro.portconnect.internetconnect import Connect
 from spyderpro.portconnect.paramchecks import ParamTypeCheck
+from spyderpro.instances.lbs import Trend, Geographi, Positioning
 
 
 class PlaceInterface(Connect, ParamTypeCheck):
@@ -118,11 +119,12 @@ class PlaceTrend(PlaceInterface):
 
     def get_trend(self, region_name: str, pid: int):
         """
+
         获取地点的位置流量趋势指数，返回list({地点, 日期，趋势列表},,,)
-        :param region_name:  地点
+        :param region_name:  地名
         :param pid: 地点id
 
-        :return  list[{"place": region_name, "date": date, "data": g[date]},,,,,]
+        :return  iterator
         """
         parameter = {
             'region': pid,
@@ -170,8 +172,8 @@ class PlaceTrend(PlaceInterface):
         #     [datelist.append(date.isoformat()) for date in l1]
         # assert len(datelist) < 15, " time interval is must  less than 15 day"
         for date in self.dateiter():
-            print(date)
-            yield {"place": region_name, "date": date, "data": g[date]}
+            trend = Trend(place=region_name, date=date, data=g[date])
+            yield trend
 
     def dateiter(self):
         formatdate = time.strptime(self.date_begin, "%Y-%m-%d")
@@ -245,8 +247,11 @@ class PlaceFlow(PlaceInterface):
         g = self.__get_heatdata_bytime(date, dateTime, region_id)
         if not g:
             return None
-        count = sum(g.values())  # 总人数
-        return {"date": "".join([date, ' ', dateTime]), "num": count}
+        num = sum(g.values())  # 总人数
+
+        positioning = Positioning(region_id=region_id, date=date, detailtime=dateTime, num=num)
+        return positioning
+        # return {"date": "".join([date, ' ', dateTime]), "num": count}
 
     def complete_heatdata(self, date: str, dateTime: str, region_id: int):
         """
@@ -262,7 +267,8 @@ class PlaceFlow(PlaceInterface):
         for xy, num in zip(coords, numlist):
             lat = xy[0]
             lng = xy[1]
-            yield {"lat": lat, "lng": lng, "num": num}
+            geographi = Geographi(latitude=float(lat) / 1000, longitude=float(lng) / 1000, number=int(num))
+            yield geographi
 
     @staticmethod
     def deal_coordinates(coord):
@@ -316,9 +322,11 @@ class PlaceFlow(PlaceInterface):
 
 
 if __name__ == "__main__":
+    p = PlaceFlow().complete_heatdata('2019-06-01', "15:20:00", 6)
+
     place = PlaceTrend(date_begin='2019-06-11', date_end='2019-06-13')
-    # semaphore = threading.Semaphore(6)  # 每次最多6个线程在执行
-    # data_queue = Queue(maxsize=10)
+    semaphore = threading.Semaphore(6)  # 每次最多6个线程在执行
+    data_queue = Queue(maxsize=10)
     result = place.get_allcity("广东省")
     for info in result:
         cityinfo = place.get_regions_bycity(info['province'], info['city'])
@@ -326,4 +334,4 @@ if __name__ == "__main__":
             for i in place.get_trend(item['place'], item['id']):
                 print(i)
             break
-        exit(0)
+    exit(0)

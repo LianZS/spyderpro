@@ -2,7 +2,7 @@ import re
 from concurrent import futures
 from spyderpro.portconnect.sqlconnect import MysqlOperation
 from spyderpro.models.locationdata.positioning import PeoplePositionin
-from spyderpro.models.locationdata.placepeople import PlaceTrend
+from spyderpro.models.locationdata.placepeople import PlaceTrend, PlaceFlow
 from spyderpro.portconnect.paramchecks import ParamTypeCheck
 
 
@@ -55,11 +55,10 @@ class People_Positioning(MysqlOperation, ParamTypeCheck):
         :return:list[[lat,lon]]
         """
 
-
-        self.type_check(start_lat,float)
-        self.type_check(start_lon,float)
-        self.type_check(end_lon,float)
-        self.type_check(end_lat,float)
+        self.type_check(start_lat, float)
+        self.type_check(start_lon, float)
+        self.type_check(end_lon, float)
+        self.type_check(end_lat, float)
 
         result = self.positioning_people_num()
         count = 0
@@ -106,7 +105,7 @@ class Positioning_Trend(MysqlOperation):
         :param city:城市
 
         :return: list[dict]
-        dict->{'place': '荔香公园', 'id': '18343'}
+        get_all_place->list[{'place': '荔香公园', 'id': '18343'},,,,]
         """
         assert re.match("\w{2,10}省$", province) and re.match("\w{2,10}市$", city), \
             'the format of  param is wrong the right format such as "广东省,深圳市" '
@@ -120,8 +119,8 @@ class Positioning_Trend(MysqlOperation):
         获取地点某段时间的流量趋势指数
         :param name:地点
         :param placeid:id
-        :param date_start:开始日期
-        :param date_end:结束日期
+        :param date_start:开始日期，日期：格式yyyy-mm-dd
+        :param date_end:结束日期，日期：格式yyyy-mm-dd
         :return:iterable(dict)
         dict->{'place': '深圳欢乐谷', 'date': '2019-05-23', 'data': [0.19, 0.19, 0.1.....]}
         """
@@ -129,14 +128,34 @@ class Positioning_Trend(MysqlOperation):
         assert re.match("\d{4}-\d{2}-\d{2}", date_start) and re.match("\d{4}-\d{2}-\d{2}", date_end), \
             "date format is wrong,please input the format such as '2019-06-12'"
         place = PlaceTrend(date_begin=date_start, date_end=date_end)
-        data_iterable = place.getlocations(name, placeid)
+        data_iterable = place.get_trend(name, placeid)
 
         return data_iterable
 
 
+class Positioning_Situation(MysqlOperation):
+    def get_count(self, date: str, dateTime: str, region_id: int):
+        p = PlaceFlow()
+        data_obj = p.count_headdata(date, dateTime,
+                                    region_id)
+        return data_obj
+
+    def get_distribution_situation(self, date: str, dateTime: str, region_id: int):
+        p = PlaceFlow()
+        data_obj = p.complete_heatdata(date, dateTime, region_id)
+        return data_obj
+
+
 if __name__ == "__main__":
-    People_Positioning().get_the_scope_of_pace_data(start_lat=23.2, start_lon=110.2, end_lat=30.2, end_lon=113.2)
-    Positioning_Trend().get_all_province()
-    Positioning_Trend().get_all_place("广东省", "深圳市")
-    Positioning_Trend().get_place_index('深圳欢乐谷', 6, '2019-05-19', '2019-06-01')
-    Positioning_Trend().get_all_city("广东省")
+    # People_Positioning().get_the_scope_of_pace_data(start_lat=23.2, start_lon=110.2, end_lat=30.2, end_lon=113.2)
+    # Positioning_Trend().get_all_province()
+    # Positioning_Trend().get_all_place("广东省", "深圳市")
+    # d = Positioning_Trend().get_place_index('深圳欢乐谷', 6, '2019-05-19', '2019-06-01')
+    # for i in d:
+    #     print(i)
+    # Positioning_Trend().get_all_city("广东省")
+    d = Positioning_Situation().get_count('2019-05-19', '10:15:00', 6)
+    g = Positioning_Situation().get_distribution_situation('2019-05-19', '10:15:00', 6)
+    print(d)
+    for i in g:
+        print(i)
