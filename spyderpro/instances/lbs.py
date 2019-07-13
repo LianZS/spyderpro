@@ -1,3 +1,9 @@
+class Trend:
+    __slots__ = ['place','date',"data"]
+    def __init__(self):
+        pass
+
+
 class Geographi:
     """
     {"纬度": latitude, "经度": longitude, "人数": number}
@@ -8,6 +14,9 @@ class Geographi:
         self.longitude = longitude
         self.latitude = latitude
         self.number = number
+
+    def __str__(self):
+        return "Geographi----维度：{0},经度:{1}，人数:{2}".format(self.latitude, self.longitude, self.number)
 
 
 class Positioning:
@@ -24,5 +33,5 @@ class Positioning:
         self.num = num
 
     def __str__(self):
-        return "Positioning:标识:{0}--日期:{1}---具体时间:{2}---数量:{3}".format(self.region_id, self.date, self.detailTime,
-                                                                       self.num)
+        return "Positioning:标识:{0}--日期:{1},具体时间:{2},数量:{3}".format(self.region_id, self.date, self.detailTime,
+                                                                   self.num)

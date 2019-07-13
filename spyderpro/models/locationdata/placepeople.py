@@ -1,5 +1,4 @@
 import time
-import datetime
 import calendar
 import requests
 import os
@@ -7,11 +6,10 @@ import csv
 import re
 import sys
 import json
-from queue import Queue
+from datetime import datetime, timedelta
 import threading
 from queue import Queue
 from urllib.parse import urlencode
-from concurrent import futures
 from spyderpro.portconnect.internetconnect import Connect
 from spyderpro.portconnect.paramchecks import ParamTypeCheck
 
@@ -118,7 +116,7 @@ class PlaceTrend(PlaceInterface):
 
             self.request = requests.Session()
 
-    def getlocations(self, region_name: str, pid: int):
+    def get_trend(self, region_name: str, pid: int):
         """
         获取地点的位置流量趋势指数，返回list({地点, 日期，趋势列表},,,)
         :param region_name:  地点
@@ -137,42 +135,55 @@ class PlaceTrend(PlaceInterface):
         href = "https://heat.qq.com/api/getLocation_uv_percent_new.php?" + urlencode(parameter)
         par: str = None
         g = self.connect(par, href)
-        start = time.strptime(self.date_begin, "%Y-%m-%d")
-        end = time.strptime(self.date_end, "%Y-%m-%d")
+        # start = time.strptime(self.date_begin, "%Y-%m-%d")
+        # end = time.strptime(self.date_end, "%Y-%m-%d")
         # interval    间隔天数
 
         '''获取间隔日期 ----仅限于最大周期15天'''
         datelist = []  # 计算保存日期列表---作为键来获取数据
-        if not end.tm_year - start.tm_year:  # 同一年
-            interval: int = end.tm_yday - start.tm_yday
-            startday: int = start.tm_mday
-            if not end.tm_mon - start.tm_mon:  # 同一月
-                [datelist.append(date.isoformat()) for date in  # 获取时间列表
-                 [datetime.date(start.tm_year, start.tm_mon, startday + day) for day in range(0, interval)]]
-            else:
-                monthdays: int = calendar.monthrange(start.tm_year, start.tm_mon)[1]  # 本月日数
-                critical: int = monthdays - start.tm_mday  # 本月剩下几天
-                l1: list = [datetime.date(start.tm_year, start.tm_mon, startday + day) for day in range(0, interval + 1)
-                            if
-                            day <= critical]
-                l2: list = [
-                    datetime.date(start.tm_year, end.tm_mon, day) for day in range(1, interval - critical)]
-                l1.extend(l2)
-                [datelist.append(date.isoformat()) for date in l1]
-
-        else:  # 跨年
-            interval = end.tm_mday + 31 - start.tm_mday
-            startday = start.tm_mday
-            critical = 31 - start.tm_mday  # 本月剩下几天
-            l1 = [datetime.date(start.tm_year, start.tm_mon, startday + day) for day in range(0, interval + 1) if
-                  day <= critical]
-            l2 = [
-                datetime.date(end.tm_year, end.tm_mon, day) for day in range(1, interval - critical)]
-            l1.extend(l2)
-            [datelist.append(date.isoformat()) for date in l1]
-        assert len(datelist) < 15, " time interval is must  less than 15 day"
-        for date in datelist:
+        # if not end.tm_year - start.tm_year:  # 同一年
+        #     interval: int = end.tm_yday - start.tm_yday
+        #     startday: int = start.tm_mday
+        #     if not end.tm_mon - start.tm_mon:  # 同一月
+        #         [datelist.append(date.isoformat()) for date in  # 获取时间列表
+        #          [datetime.date(start.tm_year, start.tm_mon, startday + day) for day in range(0, interval)]]
+        #     else:
+        #         monthdays: int = calendar.monthrange(start.tm_year, start.tm_mon)[1]  # 本月日数
+        #         critical: int = monthdays - start.tm_mday  # 本月剩下几天
+        #         l1: list = [datetime.date(start.tm_year, start.tm_mon, startday + day) for day in range(0, interval + 1)
+        #                     if
+        #                     day <= critical]
+        #         l2: list = [
+        #             datetime.date(start.tm_year, end.tm_mon, day) for day in range(1, interval - critical)]
+        #         l1.extend(l2)
+        #         [datelist.append(date.isoformat()) for date in l1]
+        #
+        # else:  # 跨年
+        #     interval = end.tm_mday + 31 - start.tm_mday
+        #     startday = start.tm_mday
+        #     critical = 31 - start.tm_mday  # 本月剩下几天
+        #     l1 = [datetime.date(start.tm_year, start.tm_mon, startday + day) for day in range(0, interval + 1) if
+        #           day <= critical]
+        #     l2 = [
+        #         datetime.date(end.tm_year, end.tm_mon, day) for day in range(1, interval - critical)]
+        #     l1.extend(l2)
+        #     [datelist.append(date.isoformat()) for date in l1]
+        # assert len(datelist) < 15, " time interval is must  less than 15 day"
+        for date in self.dateiter():
+            print(date)
             yield {"place": region_name, "date": date, "data": g[date]}
+
+    def dateiter(self):
+        formatdate = time.strptime(self.date_begin, "%Y-%m-%d")
+        intervallong = timedelta(days=1)
+        date = datetime(formatdate.tm_year, formatdate.tm_mon, formatdate.tm_mday)
+        while 1:
+            d = str(date.date())
+            if d == self.date_end:
+                break
+            yield d
+
+            date = date + intervallong
 
 
 class PlaceFlow(PlaceInterface):
@@ -202,7 +213,7 @@ class PlaceFlow(PlaceInterface):
         :return:json
         """
         response = self.request.get(url=url, headers=self.headers)
-        if response.status_code==200:
+        if response.status_code == 200:
             g = json.loads(response.text)
             return g
         else:
@@ -232,7 +243,7 @@ class PlaceFlow(PlaceInterface):
         """
 
         g = self.__get_heatdata_bytime(date, dateTime, region_id)
-        if not  g:
+        if not g:
             return None
         count = sum(g.values())  # 总人数
         return {"date": "".join([date, ' ', dateTime]), "num": count}
@@ -312,7 +323,7 @@ if __name__ == "__main__":
     for info in result:
         cityinfo = place.get_regions_bycity(info['province'], info['city'])
         for item in cityinfo:
-            for i in place.getlocations(item['place'], item['id']):
+            for i in place.get_trend(item['place'], item['id']):
                 print(i)
             break
         exit(0)
