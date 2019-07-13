@@ -1,6 +1,7 @@
 from .setting import *
 from spyderpro.function.keywordfunction.mobilekey import MobileKey
 from spyderpro.function.keywordfunction.searchkeyword import SearchKeyword
+from spyderpro.function.keywordfunction.apphabit import AppUserhabit
 
 
 class ManagerMobileKey(MobileKey):
@@ -62,3 +63,15 @@ class ManagerMobileKey(MobileKey):
         """
         search = SearchKeyword()
         search.browser_keyword_frequency("python")
+
+    def manager_app_portrait(self):
+        app = AppUserhabit()
+        app.get_user_portrait(1, 1, 2)
+
+    def manager_user_behavior(self):
+        app = AppUserhabit()
+        app.get_user_behavior(1, 1)
+
+    def manager_app_userhabit(self):
+        app = AppUserhabit()
+        app.get_app_userhabit('qq', '2012-01-01')  # 这个功能还未修改成功

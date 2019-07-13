@@ -28,7 +28,7 @@ class UserHabit:
             self.headers['User-Agent'] = user_agent
         self.headers['Host'] = 'mi.talkingdata.com'
 
-    def get_user_portrait(self, year: int, startmonth: int = None, endmonth: int = None) -> list:
+    def get_user_portrait(self, year: int, startmonth: int = None, endmonth: int = None):
         """
         获取用户图像---性别分布 ，年龄分布，消费偏好，区域热度，应用偏好
 
@@ -44,17 +44,18 @@ class UserHabit:
             assert isinstance(endmonth, int)
         pre_url = 'http://mi.talkingdata.com/market-profile.json?'
         monthlist = self.monthset(year, startmonth, endmonth)  # 请求列表
-
         for date in monthlist:
             query_string_parameters = {
                 'date': date
             }
             url = pre_url + urlencode(query_string_parameters)
+            print(url)
             response = self.request.get(url=url, headers=self.headers)
             if response.status_code != 200:
                 raise ConnectionError("网络请求"
                                       "出问题")
             result = json.loads(response.text)
+            print(result)
             ages: list = result['age']  # 手机用户年龄段分布
             consumption: list = result['consumption']  # 消费偏好
             genders: list = result['gender']  # 性别分布
@@ -67,26 +68,6 @@ class UserHabit:
             map_provcince = map(lambda x: self.__map_filter(x, "province"), provinces)
             protrait = UserPortrait(map_age, map_consum, map_gender, map_prefer, map_provcince)
             yield protrait
-            # for age in ages:
-            #     name = age['name']  # 年龄段
-            #     share = age['share']  # 占比
-            #     yield {"年龄段": name, "占比": share}
-            # for consum in consumption:
-            #     name = consum['name']  # 消费偏好关键词
-            #     share = consum['share']  # 占比
-            #     yield {"消费偏好关键词": name, "占比": share}
-            # for gender in genders:
-            #     name = gender['name']  # 性别
-            #     share = gender['share']  # 占比
-            #     yield {"性别": name, "占比": share}
-            # for preference in preferences:
-            #     name = preference['name']  # 应用偏好
-            #     share = preference['share']  # 占比
-            #     yield {"应用偏好": name, "占比": share}
-            # for province in provinces:
-            #     name = province['name']  # 区域热度
-            #     share = province['share']  # 占比
-            #     yield {"区域热度 ": name, "占比": share}
 
     def __map_filter(self, param, param_name):
         return {param_name: param['name'], "value": param['share']}
@@ -120,7 +101,6 @@ class UserHabit:
                 install = app['install']  # 人均安装应用
                 behavior = UserBehavior(active, install, date)
                 yield behavior
-                # yield {"日期": date, "人均安装应用": install, "人均启动应用": active}
 
     @staticmethod
     def monthset(year: int, startmonth: int, endmonth: int = None) -> list:
@@ -223,19 +203,11 @@ class UserHabit:
         参考http://mi.talkingdata.com/app/trend/appRank.json?appId=5&dateType=m&date=2018-11-01&typeId=101000
         :return:list[{gender:性别占比},{age"年龄分布},{:province省份覆盖率},{preference:app用户关键词}]
         """
-        # ask = self.get_similarapp_info(appname)
-        # url = ask[0]['href']
-        #
-        # query_string_parameters = {
-        #     "startTime": start_date
-        # }
-        # url = re.sub(".html", "", url) + ".json?" + urlencode(query_string_parameters)
-        # url = re.sub("trend", "profile", url)
-        url = "http://mi.talkingdata.com/app/profile/5.json?startTime=2018-11-01"  # 后面改为从数据库提取链接
+
+        url = "http://mi.talkingdata.com/app/profile/5.json?startTime=2018-01-01"  # 后面改为从数据库提取链接
         response = self.request.get(url=url, headers=self.headers).text
         data = json.loads(response)
         i = 0
-        # datalist = list()
         ages = None
         gender = None
         preference = None
@@ -295,8 +267,14 @@ class UserHabit:
         driver = webdriver.Chrome()
         return driver
 
+    def collectapp(self, pid):
+        url = ''.join(['http://mi.talkingdata.com/app/trend/appRank.json?appId=', str(pid),
+                       '&dateType=m&date=2018-11-01&typeId=101000'])
+        d = requests.get(url=url)
+        g = json.loads(d.text)
 
-
-# d = UserHabit().get_app_userhabit('qq', '2018-11-01')
-# print(d.age)
-UserHabit().collectapp(5)
+        try:
+            result = g['appInfo']
+        except KeyError:
+            return None
+        return result['appName']

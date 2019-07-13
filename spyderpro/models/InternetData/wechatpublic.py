@@ -1,6 +1,8 @@
 import requests
 import re
 import json
+from threading import Thread, Semaphore
+from queue import Queue
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from urllib.parse import urlencode
@@ -9,7 +11,6 @@ from spyderpro.instances.wechat import WechatPublic_Info, ArticleInfo, WechatSit
 
 
 class WechatPublic(Connect):
-    # *****注意，微小宝请求方式发生了更改，还未修改相关数据获取
 
     def __init__(self, user_agent=None):
         """
@@ -29,21 +30,11 @@ class WechatPublic(Connect):
         else:
             self.headers['User-Agent'] = user_agent
 
-    def get_all_public(self, start: int, end: int, seq: int = 1):
-        """获取全网公众号到信息及文章链接
-        链接：https://www.wxnmh.com/user-pid.htm
-        :param start: 从第几个公众号开始
-        :param end: 到第几个公众号结束
-        :param seq: 间隔
-        :return iterable([WechatPublic_Info（page:页数，name:"公众号",pid "微信号",articles：'文章列表'）,,,,,])
-        """
-
+    def product_url(self, start: int, end: int, seq: int = 1):
         for pid in range(start, end, seq):
             url = 'https://www.wxnmh.com/user-{0}.htm'
             url = url.format(pid)
-            result = self.reuqest_public(pid, url)
-
-            yield result
+            yield pid, url
 
     def reuqest_public(self, pid: int, url: str) -> WechatPublic_Info:
         """
@@ -81,7 +72,7 @@ class WechatPublic(Connect):
             href = value.get("href")  # 链接
             title = value.text  # 标题
             datalist.append({"标题": title, "链接": href})
-        wechatinfo = WechatPublic_Info(page=1, name=name, public_pid=pid, articlelist=iter(datalist))
+        wechatinfo = WechatPublic_Info(page=1, name=name, public_pid=public_pid, pid=pid, articlelist=iter(datalist))
         yield wechatinfo
         ''''第2页开始'''
         for page in range(2, pages):
@@ -89,10 +80,10 @@ class WechatPublic(Connect):
 
             url = 'https://www.wxnmh.com/user-{0}-{1}.htm'.format(pid, page)
             result = self.get_all_article(url)
-
             for item in result:
                 datalist.append(item)
-            wechatinfo = WechatPublic_Info(page=page, name=name, public_pid=pid, articlelist=iter(datalist))
+            wechatinfo = WechatPublic_Info(page=page, name=name, public_pid=public_pid, pid=pid, articlelist=iter(
+                datalist))
             yield wechatinfo
 
     def get_all_article(self, url) -> list:
@@ -109,7 +100,7 @@ class WechatPublic(Connect):
         for value in articles:
             href = value.get("href")
             title = value.text
-            yield {"标题": title, "链接": href}
+            yield {"title": title, "href": href}
 
     """
     search_public--->request_public_data
@@ -166,9 +157,7 @@ class WechatPublic(Connect):
                                     hight_like=max_like_latest, count_article=count_article_latest,
                                     fans_num=fans_num_estimate,
                                     data=datalist)
-        # return {"average_read": avg_read_num, "average_like": avg_like_num, "hight_read": max_read_latest,
-        #         "hight_like": max_like_latest, "count_article": count_article_latest, "fans_num": fans_num_estimate,
-        #         "data": datalist}
+
         return situation
 
     def request_history_data(self, pid) -> list:
@@ -198,7 +187,7 @@ class WechatPublic(Connect):
             datalist.append(arcitleinfo)
         return datalist
 
-    def request_public_keyword(self, pid)->list:
+    def request_public_keyword(self, pid) -> list:
         """获取关键词列表
         :param pid ：公众号id
         :return list[ArticleKeyWord}
@@ -228,5 +217,5 @@ class WechatPublic(Connect):
 #         print(list(j.articles))
 # w = WechatPublic()
 # s = w.request_public_data('gh_41575c96fbf5')
-# print(s)
+#
 # d = w.request_public_keyword('gh_41575c96fbf5')
