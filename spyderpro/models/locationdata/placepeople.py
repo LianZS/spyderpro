@@ -221,31 +221,31 @@ class PlaceFlow(PlaceInterface):
         g = self.request_heatdata(url)
         return g
 
-    def count_headdata(self, date: str, datetim: str, region_id: int):
+    def count_headdata(self, date: str, dateTime: str, region_id: int):
 
         """
         某一时刻的人数有多少
         :param date:日期：格式yyyy-mm-dd
-        :param datetim:时间：格式hh:MM:SS
+        :param dateTime:时间：格式hh:MM:SS
         :param region_id:地区唯一表示
         :return:总人数
         """
 
-        g = self.__get_heatdata_bytime(date, datetim, region_id)
+        g = self.__get_heatdata_bytime(date, dateTime, region_id)
         if not  g:
             return None
         count = sum(g.values())  # 总人数
-        return {"date": "".join([date, ' ', datetim]), "num": count}
+        return {"date": "".join([date, ' ', dateTime]), "num": count}
 
-    def complete_heatdata(self, date: str, datetim: str, region_id: int):
+    def complete_heatdata(self, date: str, dateTime: str, region_id: int):
         """
            某一时刻的人数以及分布情况
            :param date:日期：格式yyyy-mm-dd
-           :param datetime:时间：格式hh:MM:SS
+           :param dateTime:时间：格式hh:MM:SS
            :param region_id:地区唯一表示
            :return:dict格式：{"lat": lat, "lng": lng, "num": num}->与中心经纬度的距离与相应人数
            """
-        g = self.__get_heatdata_bytime(date, datetim, region_id)
+        g = self.__get_heatdata_bytime(date, dateTime, region_id)
         coords = map(self.deal_coordinates, g.keys())  # 围绕中心经纬度加减向四周扩展
         numlist = iter(g.values())
         for xy, num in zip(coords, numlist):

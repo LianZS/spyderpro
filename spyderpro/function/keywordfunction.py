@@ -1,10 +1,9 @@
-import pymysql
 from spyderpro.models.InternetData.keyword import KeyWord
 from spyderpro.models.InternetData.mobilekeyword import MobileKeyWord
 
 from spyderpro.portconnect.sqlconnect import MysqlOperation
 from spyderpro.portconnect.paramchecks import ParamTypeCheck
-from spyderpro.function.setting import *
+from spyderpro.managerfunction.setting import *
 
 
 class Parent(MysqlOperation, ParamTypeCheck):
@@ -119,15 +118,15 @@ class MobileKey(Parent):
         return list(result)
 
     def write_mobile_type_rate(self, db, data: list) -> bool:
-        for dic in data:
-            mobile_info = dic['机型']
+        for info in data:
+            mobile_info = info.type_name
             array = mobile_info.split(" ")
             brand = array[0]
             pid = MobileKey.brand_dic[brand]
 
             mobile_type = array[1]
-            value = float(dic['占有率'])
-            date = dic['日期']
+            value = float(info.value)
+            date = info.date
             sql = "insert into internetdata.mobiletype (mobile_type, value, date, pid_id)" \
                   " VALUE('%s','%f','%s','%d')" % (mobile_type, value, date, pid)
             flag = self.loaddatabase(db, sql)
@@ -149,11 +148,11 @@ class MobileKey(Parent):
         return list(result)
 
     def write_mobile_brand_rate(self, db, data: list) -> bool:
-        for dic in data:
-            mobile_brand = dic['品牌']
+        for info in data:
+            mobile_brand = info.type_name
             pid = MobileKey.brand_dic[mobile_brand]
-            value = float(dic['占有率'])
-            date = dic['日期']
+            value = float(info.value)
+            date = info.date
             sql = "insert into internetdata.mobilebrand (pid_id, value,date)" \
                   " VALUE('%d','%s','%s')" % (pid, value, date)
             flag = self.loaddatabase(db, sql)
@@ -174,10 +173,10 @@ class MobileKey(Parent):
         return list(result)
 
     def write_mobile_system_rate(self, db, data: list) -> bool:
-        for dic in data:
-            mobile_system = dic['操作系统']
-            value = float(dic['占有率'])
-            date = dic['日期']
+        for info in data:
+            mobile_system = info.type_name
+            value = float(info.value)
+            date = info.date
             pid = MobileKey.system_dic[mobile_system]
             sql = "insert into internetdata.mobilesystem (msystem, pid, value, date)" \
                   " VALUE('%s','%d','%f','%s')" % (mobile_system, pid, value, date)
@@ -200,10 +199,10 @@ class MobileKey(Parent):
         return list(result)
 
     def write_mobile_operator_rate(self, db, data: list) -> bool:
-        for dic in data:
-            mobile_operator = dic['运营商']
-            value = float(dic['占有率'])
-            date = dic['日期']
+        for info in data:
+            mobile_operator = info.type_name
+            value = float(info.value)
+            date = info.date
             pid = MobileKey.operator_dic[mobile_operator]
             sql = "insert into internetdata.operator (operator, pid, value, date)" \
                   " VALUE('%s','%d','%f','%s')" % (mobile_operator, pid, value, date)
@@ -226,10 +225,10 @@ class MobileKey(Parent):
         return list(result)
 
     def write_mobile_network_rate(self, db, data: list) -> bool:
-        for dic in data:
-            mobile_net = dic['网络']
-            value = float(dic['占有率'])
-            date = dic['日期']
+        for info in data:
+            mobile_net = info.type_name
+            value = float(info.value)
+            date = info.date
             pid = MobileKey.network_dic[mobile_net]
             sql = "insert into internetdata.network (network, pid, value, date)" \
                   " VALUE('%s','%d','%f','%s')" % (mobile_net, pid, value, date)
@@ -238,58 +237,58 @@ class MobileKey(Parent):
                 print("写入失败")
         return True
 
-    def get_and_write_mobile_type_rate(self, year: int, startmonth: int = None, endmonth: int = None):
-        data = self.request_mobile_type_rate(year=year, startmonth=startmonth, endmonth=endmonth)
-        db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
-                             port=port)
-        db.connect()
-        flag = self.write_mobile_type_rate(db=db, data=data)
-        if flag:
-            print("success")
-
-    def get_and_write_mobile_brand_rate(self, year: int, startmonth: int = None, endmonth: int = None):
-        """
-
-        :param year:
-        :param startmonth: 开始月份
-        :param endmonth: #结束月份
-        """
-        data = self.request_mobile_brand_rate(year=year, startmonth=startmonth, endmonth=endmonth)
-        db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
-                             port=port)
-        db.connect()
-        flag = self.write_mobile_brand_rate(db=db, data=data)
-        if flag:
-            print("success")
-
-    def get_and_write_mobile_system_rate(self, year: int, startmonth: int = None, endmonth: int = None):
-        data = self.request_mobile_system_rate(year=year, startmonth=startmonth, endmonth=endmonth)
-        db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
-                             port=port)
-        db.connect()
-        flag = self.write_mobile_system_rate(db=db, data=data)
-        if flag:
-            print("success")
-
-    def get_and_write_mobile_operator_rate(self, year: int, startmonth: int = None, endmonth: int = None):
-        data = self.request_mobile_operator_rate(year=year, startmonth=startmonth, endmonth=endmonth)
-        db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
-                             port=port)
-        db.connect()
-        flag = self.write_mobile_operator_rate(db=db, data=data)
-        if flag:
-            print("success")
-
-    def get_and_write_mobile_network_rate(self, year: int, startmonth: int = None, endmonth: int = None):
-        data = self.request_mobile_network_rate(year=year, startmonth=startmonth, endmonth=endmonth)
-        db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
-                             port=port)
-        db.connect()
-        flag = self.write_mobile_network_rate(db=db, data=data)
-        if flag:
-            print("success")
+    # def get_and_write_mobile_type_rate(self, year: int, startmonth: int = None, endmonth: int = None):
+    #     data = self.request_mobile_type_rate(year=year, startmonth=startmonth, endmonth=endmonth)
+    #     db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
+    #                          port=port)
+    #     db.connect()
+    #     flag = self.write_mobile_type_rate(db=db, data=data)
+    #     if flag:
+    #         print("success")
+    #
+    # def get_and_write_mobile_brand_rate(self, year: int, startmonth: int = None, endmonth: int = None):
+    #     """
+    #
+    #     :param year:
+    #     :param startmonth: 开始月份
+    #     :param endmonth: #结束月份
+    #     """
+    #     data = self.request_mobile_brand_rate(year=year, startmonth=startmonth, endmonth=endmonth)
+    #     db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
+    #                          port=port)
+    #     db.connect()
+    #     flag = self.write_mobile_brand_rate(db=db, data=data)
+    #     if flag:
+    #         print("success")
+    #
+    # def get_and_write_mobile_system_rate(self, year: int, startmonth: int = None, endmonth: int = None):
+    #     data = self.request_mobile_system_rate(year=year, startmonth=startmonth, endmonth=endmonth)
+    #     db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
+    #                          port=port)
+    #     db.connect()
+    #     flag = self.write_mobile_system_rate(db=db, data=data)
+    #     if flag:
+    #         print("success")
+    #
+    # def get_and_write_mobile_operator_rate(self, year: int, startmonth: int = None, endmonth: int = None):
+    #     data = self.request_mobile_operator_rate(year=year, startmonth=startmonth, endmonth=endmonth)
+    #     db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
+    #                          port=port)
+    #     db.connect()
+    #     flag = self.write_mobile_operator_rate(db=db, data=data)
+    #     if flag:
+    #         print("success")
+    #
+    # def get_and_write_mobile_network_rate(self, year: int, startmonth: int = None, endmonth: int = None):
+    #     data = self.request_mobile_network_rate(year=year, startmonth=startmonth, endmonth=endmonth)
+    #     db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
+    #                          port=port)
+    #     db.connect()
+    #     flag = self.write_mobile_network_rate(db=db, data=data)
+    #     if flag:
+    #         print("success")
 
 
 if __name__ == "__main__":
     s = MobileKey()
-    s.get_and_write_mobile_network_rate(2018, 1, 2)
+    s.get_and_write_mobile_operator_rate(2018, 1, 2)

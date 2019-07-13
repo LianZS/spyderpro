@@ -1,4 +1,3 @@
-import pymysql
 import time
 import csv
 
@@ -8,8 +7,9 @@ from spyderpro.models.traffic import baidutraffic
 from spyderpro.models.traffic import gaodetraffic
 
 from concurrent.futures import ThreadPoolExecutor
-from spyderpro.function.setting import *
+from spyderpro.managerfunction.setting import *
 from spyderpro.portconnect.sqlconnect import MysqlOperation
+from spyderpro.instances.lbs import Positioning
 
 
 class Parent(MysqlOperation):
@@ -78,46 +78,17 @@ class Parent(MysqlOperation):
 
 
 class People(Parent):
-    """"""
 
-    @classmethod
-    def people_flow(cls, peoplepidlist):
+    def write_scence_situation(self, db, objs) -> bool:
         """
-        获取人流数据
-        :param peoplepidlist:id列表
+        数据库写入
+        :param db:
+        :param objs:
         :return:
         """
-        while True:
-            if cls.instance is None:
-                cls.instance = super().__new__(cls)
-            cls.instance.programmerpool(cls.instance.getpeopleflow, peoplepidlist)
-            time.sleep(1800)
-
-    def getpeopleflow(self, peoplepid) -> bool:
-        """
-        请求某个景区实时客流量
-        :param peoplepid: 景区id
-        :return: bool
-        """
-
-        db = pymysql.connect(host=host, user=user, password=password, database=scencedatabase,
-                             port=port)
-        sql = "select PeopleTablePid from webdata.ScenceInfoData where  PeoplePid=" + \
-              str(peoplepid) + ";"
-
-        cursor = self.get_cursor(db, sql)
-        if cursor is None:
-            return False
-        peopletablepid = cursor.fetchone()[0]
-        cursor.close()
-        date = time.strftime('%Y-%m-%d', time.localtime())
-        flow = ScencePeopleFlow()
-        info = flow.peopleflow_info(peoplepid)
-
-        info = self.__dealwith_peopleflow(db, info, date, peopletablepid)
-        for detailTime, num in info:
+        for info in objs:
             sql = "insert into peopleFlow(pid_id,date,num,detailTime) values ('%d','%s','%d','%s');" % (
-                peopletablepid, date, num, detailTime)
+                info.region_id, info.date, info.num, info.detailTime)
             if not self.loaddatabase(db, sql):
                 print("插入出错")
                 continue
@@ -125,34 +96,50 @@ class People(Parent):
         db.close()
         return True
 
+    def get_scence_situation(self, db, peoplepid):
+        """
+        请求某个景区实时客流量
+        :param peoplepid: 景区id
+        :return: bool
+        """
+        date = time.strftime('%Y-%m-%d', time.localtime())
+        flow = ScencePeopleFlow()
+        instances = flow.peopleflow_info(peoplepid, date)
+
+        info = self.__filter_peopleflow(db, instances, date, peoplepid)
+
+        return info
+
     # 检查数据库是否存在部分数据，存在则不再插入
-    def __dealwith_peopleflow(self, db, info: list, date, peopletablepid: int) -> list:
+    def __filter_peopleflow(self, db, objs, date, peoplepid) -> list:
         """
         检查数据库是否存在部分数据，存在则不再插入
         :param db:  数据库实例
-        :param info: 数据列表
+        :param info: Positioning迭代器
         :param date: 日期
         :param peopletablepid: 数据库查询条件
-        :return: iterable((detailTime->具体时间,num->流量))
+        :return: list(Positioning)
         """
 
         sql = "select detailTime from webdata.peopleFlow where  pid_id=" + str(
-            peopletablepid) + " and  date=str_to_date('" + str(date) + "','%Y-%m-%d');"
+            peoplepid) + " and  date=str_to_date('" + str(date) + "','%Y-%m-%d');"
         cursor = self.get_cursor(db, sql)
         if cursor is None:
-            return False
-        data = cursor.fetchall()
+            return []
+        data = cursor.fetchall()  # 从数据库获取已经存在的数据
         cursor.close()
         dic = {}
-        for detailTime, num in info:
-            dic[detailTime] = num
-        for item in data:
+        for info in objs:
+            dic[info.detailTime] = info
+
+        for item in data:  # 将存在的数据淘汰掉
             try:
                 dic.pop(item[0])
             except KeyError:
                 continue
-        for detailTime, num in dic.items():
-            yield detailTime, num
+        return list(dic.values())
+        # for detailTime, num in dic.items():  # 因为过滤后的数据少，所以直接新实例化对象，增强可读性
+        #     yield Positioning(region_id=peoplepid, date=date, detailtime=detailTime, num=num)
 
 
 class Traffic(Parent):
@@ -167,7 +154,6 @@ class Traffic(Parent):
             if cls.instance is None:
                 cls.instance = super().__new__(cls)
             cls.instance.programmerpool(cls.instance.gettraffic, citycodelist)
-            time.sleep(350)
 
     def gettraffic(self, citycode) -> bool:
         """
@@ -260,7 +246,6 @@ class Weather(Parent):
             if cls.instance is None:
                 cls.instance = super().__new__(cls)
             cls.instance.programmerpool(cls.instance.getweather, weatherpidlist)
-            time.sleep(4 * 3600)
 
     def getweather(self, weatherpid):
         """
@@ -339,3 +324,13 @@ class Weather(Parent):
             lis.append(dict(zip(item.values(), item.keys())))
         info = lis
         return info
+
+
+if __name__ == "__main__":
+    p = People()
+
+    db = pymysql.connect(host=host, user=user, password=password, database=scencedatabase,
+                         port=port)
+    data = p.get_scence_situation(db, '1174')
+
+    p.write_scence_situation(db, data)

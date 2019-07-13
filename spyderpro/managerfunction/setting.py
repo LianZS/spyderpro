@@ -1,4 +1,5 @@
 import os
+import pymysql
 
 user = 'root'
 password = 'lzs87724158'

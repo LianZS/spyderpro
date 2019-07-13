@@ -1,11 +1,10 @@
 import time
 import csv
-import pymysql
 from pymysql.connections import Connection
 
 from spyderpro.models.traffic import baidutraffic
 from spyderpro.models.traffic import gaodetraffic
-from spyderpro.function.setting import *
+from spyderpro.managerfunction.setting import *
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.portconnect.sqlconnect import MysqlOperation
 

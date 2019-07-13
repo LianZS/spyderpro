@@ -73,7 +73,7 @@ class People_Positioning(MysqlOperation, ParamTypeCheck):
         print(count)
 
 
-class Place_Flow_Trend(MysqlOperation):
+class Positioning_Trend(MysqlOperation):
     """
     位置流量趋势
     """
@@ -136,7 +136,7 @@ class Place_Flow_Trend(MysqlOperation):
 
 if __name__ == "__main__":
     People_Positioning().get_the_scope_of_pace_data(start_lat=23.2, start_lon=110.2, end_lat=30.2, end_lon=113.2)
-    Place_Flow_Trend().get_all_province()
-    Place_Flow_Trend().get_all_place("广东省", "深圳市")
-    Place_Flow_Trend().get_place_index('深圳欢乐谷', 6, '2019-05-19', '2019-06-01')
-    Place_Flow_Trend().get_all_city("广东省")
+    Positioning_Trend().get_all_province()
+    Positioning_Trend().get_all_place("广东省", "深圳市")
+    Positioning_Trend().get_place_index('深圳欢乐谷', 6, '2019-05-19', '2019-06-01')
+    Positioning_Trend().get_all_city("广东省")

@@ -1,8 +1,7 @@
 import pymysql
 import random
-import csv
 import datetime
-from spyderpro.function.setting import *
+from spyderpro.managerfunction.setting import *
 from threading import Thread
 from threading import Semaphore
 import queue

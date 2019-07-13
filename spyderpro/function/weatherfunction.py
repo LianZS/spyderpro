@@ -1,7 +1,6 @@
-import pymysql
 from spyderpro.portconnect.sqlconnect import MysqlOperation
 from spyderpro.models.weather.historyweather import WeatherHistory
-from spyderpro.function.setting import *
+from spyderpro.managerfunction.setting import *
 from concurrent import futures
 
 

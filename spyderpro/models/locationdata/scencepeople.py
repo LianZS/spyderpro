@@ -1,6 +1,7 @@
 import requests
 from urllib.parse import urlencode
 from spyderpro.portconnect.internetconnect import Connect
+from spyderpro.instances.lbs import Positioning
 
 
 class ScencePeopleFlow(Connect):
@@ -15,12 +16,12 @@ class ScencePeopleFlow(Connect):
             self.headers['User-Agent'] = user_agent
         self.headers['Host'] = 'jiaotong.baidu.com'
 
-    def peopleflow_info(self, peoplepid, historytype: int = 1):
+    def peopleflow_info(self, peoplepid: int, date: str, historytype: int = 1) :
         """
         获取景区客流量
         :param peoplepid: 景区id
         :param historytype: 1表示现在的数据，2表示昨日数据，3表示最近的节假日数据
-        :return: Generator[时刻, 客流量]
+        :return: iter[Positioning,,]
         """
         #
         pre_url = 'http://jiaotong.baidu.com/trafficindex/dashboard/curve?'
@@ -35,5 +36,6 @@ class ScencePeopleFlow(Connect):
         for item in g["data"]['list']:
             detailtime = item["data_time"].split(" ")[1]
             num = int(item['count'])
-            yield detailtime, num
+            positioning = Positioning(region_id=int(peoplepid), date=date, detailtime=detailtime, num=num)
+            yield positioning
             # yield {"时刻": detailtime, "客流量": num}
