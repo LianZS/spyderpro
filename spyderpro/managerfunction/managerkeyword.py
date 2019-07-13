@@ -1,5 +1,6 @@
 from .setting import *
-from spyderpro.function.keywordfunction import MobileKey
+from spyderpro.function.keywordfunction.mobilekey import MobileKey
+from spyderpro.function.keywordfunction.searchkeyword import SearchKeyword
 
 
 class ManagerMobileKey(MobileKey):
@@ -53,3 +54,11 @@ class ManagerMobileKey(MobileKey):
         flag = self.write_mobile_network_rate(db=db, data=data)
         if flag:
             print("success")
+
+    def manager_search(self):
+        """
+        关键词网络我搜索频率
+        :return:
+        """
+        search = SearchKeyword()
+        search.browser_keyword_frequency("python")

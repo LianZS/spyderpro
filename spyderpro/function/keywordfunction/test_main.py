@@ -1,4 +1,5 @@
 from spyderpro.function.keywordfunction.mobilekey import MobileKey
+from spyderpro.function.keywordfunction.searchkeyword import SearchKeyword
 
 
 def test1():
@@ -24,6 +25,10 @@ def test4():
 def test5():
     s = MobileKey()
     s.request_mobile_type_rate(2018, 1, 2)
+
+
+def test6():
+    SearchKeyword().browser_keyword_frequency("python")
 
 
 if __name__ == "__main__":

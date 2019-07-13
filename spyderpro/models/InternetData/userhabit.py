@@ -4,6 +4,7 @@ import datetime
 import re
 from urllib.parse import urlencode
 from bs4 import BeautifulSoup
+from selenium import webdriver
 from spyderpro.instances.userportrait import UserPortrait, UserBehavior, AppRateBenchmark, AppUserHabit
 
 
@@ -25,6 +26,7 @@ class UserHabit:
 
         else:
             self.headers['User-Agent'] = user_agent
+        self.headers['Host'] = 'mi.talkingdata.com'
 
     def get_user_portrait(self, year: int, startmonth: int = None, endmonth: int = None) -> list:
         """
@@ -154,10 +156,16 @@ class UserHabit:
         :param appname:app名字
         :return:list[{"name":app名字,"href"：对应链接},,,]
         """
-        url = "http://mi.talkingdata.com/search.html?keyword=" + appname
-        response = self.request.get(url=url, headers=self.headers)
-        soup = BeautifulSoup(response.text, 'lxml')
+
+        driver = self.chrome()
+        driver.get("http://mi.talkingdata.com/")
+        element = driver.find_element_by_xpath("/html/body/div[1]/div[1]/div[2]/div/input")
+        element.send_keys(appname)
+        driver.find_element_by_xpath('/html/body/div[1]/div[1]/div[2]/div/button').click()
+        response = driver.page_source
+        soup = BeautifulSoup(response, 'lxml')
         hrefs = soup.find_all(name='a', attrs={"href": re.compile("http://mi.talkingdata.com/app/")})
+
         datalist = list()
         for item in hrefs:
             name = item.get("title")
@@ -215,12 +223,15 @@ class UserHabit:
         参考http://mi.talkingdata.com/app/trend/appRank.json?appId=5&dateType=m&date=2018-11-01&typeId=101000
         :return:list[{gender:性别占比},{age"年龄分布},{:province省份覆盖率},{preference:app用户关键词}]
         """
-        url = self.get_similarapp_info(appname)[0]['href']
-        query_string_parameters = {
-            "startTime": start_date
-        }
-        url = re.sub(".html", "", url) + ".json?" + urlencode(query_string_parameters)
-        url = re.sub("trend", "profile", url)
+        # ask = self.get_similarapp_info(appname)
+        # url = ask[0]['href']
+        #
+        # query_string_parameters = {
+        #     "startTime": start_date
+        # }
+        # url = re.sub(".html", "", url) + ".json?" + urlencode(query_string_parameters)
+        # url = re.sub("trend", "profile", url)
+        url = "http://mi.talkingdata.com/app/profile/5.json?startTime=2018-11-01"  # 后面改为从数据库提取链接
         response = self.request.get(url=url, headers=self.headers).text
         data = json.loads(response)
         i = 0
@@ -277,5 +288,15 @@ class UserHabit:
         app_habit = AppUserHabit(ages, gender, preference, province)
         return app_habit
 
-# d = UserHabit().get_app_userhabit('QQ', '2018-11-01')
-# print(d)
+    @staticmethod
+    def chrome():
+        option = webdriver.ChromeOptions()
+        option.add_argument('headless')
+        driver = webdriver.Chrome()
+        return driver
+
+
+
+# d = UserHabit().get_app_userhabit('qq', '2018-11-01')
+# print(d.age)
+UserHabit().collectapp(5)
