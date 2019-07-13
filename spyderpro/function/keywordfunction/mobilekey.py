@@ -1,49 +1,7 @@
-from spyderpro.models.InternetData.keyword import KeyWord
 from spyderpro.models.InternetData.mobilekeyword import MobileKeyWord
+from spyderpro.function.keywordfunction.parent import Parent
 
-from spyderpro.portconnect.sqlconnect import MysqlOperation
-from spyderpro.portconnect.paramchecks import ParamTypeCheck
 from spyderpro.managerfunction.setting import *
-
-
-class Parent(MysqlOperation, ParamTypeCheck):
-    pass
-
-
-class Search_KeyWord(Parent):
-
-    def browser_keyword_frequency(self, keyword: str, baidu: bool = True, weixin=True,
-                                  pc: bool = True, modile: bool = True) -> list:
-        """
-        获取浏览器关键词搜索频率
-        :param keyword:关键词
-        :param baidu:是否使用百度引擎
-        :param weixin:是否使用微信搜索
-
-        :param pc:是否获取pc端数据
-        :param modile:是否移动端水
-        :return:
-        """
-        browser = KeyWord()
-        result = browser.get_keyword_search_index(keyword=keyword)
-        return result.__next__()
-
-    def alibaba_goods_purchased_frequency(self, keyword: str, pur1688flag: bool = True, taobaoflag: bool = True,
-                                          supplyflag: bool = True) -> dict:
-        # **************该功能目前有bug**************
-
-        """
-        获取淘宝，1688某商品用户采购总数量，返回一年的数据
-
-        :param keyword:
-        :param pur1688flag:
-        :param taobaoflag:
-        :param supplyflag:
-        :return:
-        """
-        browser = KeyWord()
-        result = browser.get_alibaba_keyword_buy_index(keyword=keyword)
-        return result
 
 
 class MobileKey(Parent):
@@ -287,8 +245,3 @@ class MobileKey(Parent):
     #     flag = self.write_mobile_network_rate(db=db, data=data)
     #     if flag:
     #         print("success")
-
-
-if __name__ == "__main__":
-    s = MobileKey()
-    s.get_and_write_mobile_operator_rate(2018, 1, 2)
