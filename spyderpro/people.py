@@ -148,13 +148,12 @@ class PlaceFlow(PlaceInterface):
         :return:json
         """
 
-        response = self.request.get(url=url, headers=self.headers,timeout=2)
-        if response.status_code==200:
+        response = self.request.get(url=url, headers=self.headers)
+        if response.status_code == 200:
             g = json.loads(response.text)
             return g
         else:
             return None
-
 
     def __get_heatdata_bytime(self, date: str, datetim: str, region_id: int):
         # self.type_check(region_id, int)
@@ -166,7 +165,6 @@ class PlaceFlow(PlaceInterface):
 
         url = "https://heat.qq.com/api/getHeatDataByTime.php?" + urlencode(paramer)
         g = self.request_heatdata(url)
-
 
         return g
 
@@ -221,7 +219,7 @@ class CeleryThread(threading.Thread):
 
     def run(self):
         result = self._target(*self._args)
-        if  result:
+        if result:
             data_queue.put(result)
         semaphore.release()
 
@@ -231,23 +229,38 @@ def get_count(region_id):
     datelist = dateiter(region_id)
 
     global data_file
-
-    data_file = open(file_path, 'a+', newline="")
     global wf
-    wf = csv.writer(data_file)
     place = PlaceFlow()
     func = place.count_headdata
+    wait.acquire()
+    fileclose.put(1)
+    print("start")
+    data_file = open(file_path, 'a+', newline="")
+    wf = csv.writer(data_file)
+
     for date, datetim, region_id in datelist:
+        print(datetim)
         semaphore.acquire()
         t = CeleryThread(target=func, args=(date, datetim, regin_id))
         t.start()
+    print("wait")
+    fileclose.join()
     data_file.close()
+    print("close")
+    wait.release()
 
 
 def write():
-    while True:
-        data = data_queue.get()
+    while 1:
+        try:
+            data = data_queue.get(timeout=5)
+        except Exception as e:
+            fileclose.get()
+            fileclose.task_done()
+
+            continue
         date = data['date']
+
         num = data['num']
         wf.writerow([date, num])
         data_file.flush()
@@ -256,23 +269,33 @@ def write():
 def dateiter(region_id):
     inittime = datetime.datetime(2017, 1, 1, 0, 0, 0)
     timedelta = datetime.timedelta(minutes=5)
+    flag = 0
+
+    if not last:
+        flag = 1
     while 1:
         inittime = inittime + timedelta
         if inittime.year == 2019 and inittime.month == 7 and inittime.day == 8:
             break
-        yield str(inittime.date()), str(inittime.time()), region_id
+        if lastdate == str(inittime.date()) and lastdatetim == str(inittime.time()) and not flag:
+            flag = 1
+            continue
+        if flag:
+            yield str(inittime.date()), str(inittime.time()), region_id
 
 
 base_dir = os.getcwd()
 sys.path[0] = base_dir
 semaphore = threading.Semaphore(10)
-data_queue = Queue(maxsize=20)
+fileclose = Queue(1)
+wait = threading.Semaphore(1)
+data_queue = Queue(maxsize=10)
 global data_file
 global wf  # csv实例
 
-
 if __name__ == "__main__":
-    file = open(os.path.join(base_dir,"region_id.csv"), "r")
+
+    file = open(os.path.join(base_dir, "region_id.csv"), "r")
     r = csv.reader(file)
     r.__next__()
     dir_path = os.path.join(base_dir, "FILE")
@@ -280,15 +303,23 @@ if __name__ == "__main__":
         os.mkdir(dir_path)
     except FileExistsError:
         pass
-    CeleryThread(target=write, args=()).start()  #实时数据处理
+    CeleryThread(target=write, args=()).start()  # 实时数据处理
     for item in r:
         name = item[0]
         regin_id = item[1]
         file_path = os.path.join(dir_path, name + ".csv")
+        last = None
+        lastdate = None
+        lastdatetim = None
         if os.path.exists(file_path):
-            continue
-        else:
+            ff = open(file_path, 'r')
+            data = csv.reader(ff)
+            for row in data:
+                last = row[0]
+            if last:
+                lastdate, lastdatetim = last.split(' ')  # 最后一行数据
+            ff.close()
 
-            print(name)
-            get_count(regin_id)
+        print(name)
+        get_count(regin_id)
 

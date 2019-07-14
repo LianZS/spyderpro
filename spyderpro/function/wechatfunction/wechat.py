@@ -19,7 +19,7 @@ class Wechat:
         Thread(target=self.wait_for_data, args=()).start()
 
         for pid, url in self.wechat.product_url(start, end, seq):  # 这里高并发还未解决
-            result = self.wechat.reuqest_public(pid, url)
+            result = self.wechat.reuqest_public(pid, url)  # 对断网处理存在漏洞
 
     def wait_for_data(self):
         while 1:
@@ -28,7 +28,6 @@ class Wechat:
                 data = self.wechat.q.get(timeout=3)  # 当3秒依旧未收到信息后，说明任务已经结束了，此时退出
             except Exception:
                 break
-            print(data)
 
 
 Wechat().get_all_public(1, 8)

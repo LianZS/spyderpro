@@ -26,7 +26,7 @@ class WechatPublic(Connect):
         self.errorqueue = Queue(5)  # 错误处理队列
         self.semaphore = Semaphore(10)  # 任务信号量
         self.q = Queue(20)  # 数据队列
-        self.wait = Semaphore(2)  # 每次只允许2个公众号运行
+        self.wait = Semaphore(1)  # 每次只允许1个公众号运行
 
         if user_agent is None:
             self.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
