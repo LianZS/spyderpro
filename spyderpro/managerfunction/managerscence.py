@@ -20,7 +20,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         for info in instances:
             sql = "insert into digitalsmart.scenceflow(pid, ddate, ttime, num) values ('%d','%d','%s','%d')" % (
                 info.region_id, info.date, info.detailTime, info.num)
-            self.write_scence_situation(db, sql)
+            self.write_data(db, sql)
         db.close()
 
     def manager_scence_trend(self):
@@ -43,7 +43,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         for item in instances:
             sql = "insert into digitalsmart.peopleposition0(pid, tmp_date, lat, lon, num) VALUES" \
                   " ('%d','%d','%f','%f','%d')" %(6,tmp_date,item.latitude, item.longitude, item.number)
-            self.write_scence_situation(db,sql)
+            self.write_data(db,sql)
 
     def manager_scenece_people_situation(self):
         """
@@ -58,7 +58,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
 
         sql = "insert into digitalsmart.scenceflow(pid, ddate, ttime, num) values ('%d','%d','%s','%d')" % (
             instance.region_id, instance.date, instance.detailTime, instance.num)
-        self.write_scence_situation(db, sql)
+        self.write_data(db, sql)
 
     def manager_china_positioning(self):
         """
@@ -72,4 +72,3 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         self.get_the_scope_of_pace_data(start_lat=23.2, start_lon=110.2, end_lat=30.2, end_lon=113.2)
 
 
-ManagerScence().manager_scenece_people_distribution()

@@ -12,46 +12,6 @@ from spyderpro.portconnect.sqlconnect import MysqlOperation
 
 class Parent(MysqlOperation):
 
-    @staticmethod
-    def initdatabase():
-        """
-        录入数据库景区数据库信息
-        :return:
-        """
-        db = pymysql.connect(host=host, user=user, password=password, database=scencedatabase,
-                             port=port)
-        db.connect()
-        cursor = db.cursor()
-        with open(scencefilepath, 'r') as f:
-            reader = csv.reader(f)
-            reader.__next__()  # 跳过表头
-            count = 0
-            for item in reader:
-                count += 1
-                name = str(item[0]).strip(' ')
-                peoplepid = int(item[1])
-                bounds_lon = float(item[2])
-                bounds_lat = float(item[3])
-                citycode = int(item[4])
-                weatherpid = str(item[5]).strip(" ")
-                peopletablepid = count
-                citytablecode = count
-                weathertablepid = count
-
-                sql = "insert into webdata.ScenceInfoData(name,bounds_lon,bounds_lat,PeoplePid,CityCode,WeatherPid," \
-                      "PeopleTablePid,CityTableCode,WeatherTablePid)" \
-                      " values ('%s','%f','%f','%d','%d','%s','%d','%d','%d')" % (
-                          name, bounds_lon, bounds_lat, peoplepid, citycode, weatherpid, peopletablepid, citytablecode,
-                          weathertablepid)
-                try:
-                    cursor.execute(sql)
-                    db.commit()
-                except Exception as e:
-                    print("error:%s" % e)
-                    db.rollback()
-        cursor.close()
-        db.close()
-        return True
 
     @staticmethod
     def programmerpool(func, pidlist):
@@ -75,21 +35,8 @@ class Parent(MysqlOperation):
                 return
 
 
+
 class ScenceFlow(Parent):
-
-    def write_scence_situation(self, db, sql) -> bool:
-        """
-        数据库写入
-        :param db:
-        :param objs:
-        :return:
-        """
-
-        if not self.loaddatabase(db, sql):
-            print("插入出错")
-            return False
-
-        return True
 
     def get_scence_situation(self, db, peoplepid):
         """

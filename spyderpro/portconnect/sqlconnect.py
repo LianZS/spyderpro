@@ -2,6 +2,20 @@ class MysqlOperation():
     def __init__(self):
         pass
 
+    def write_data(self, db, sql) -> bool:
+        """
+        数据库写入
+        :param db:数据库实例
+        :param sql:sql执行语句
+        :return:
+        """
+
+        if not self.loaddatabase(db, sql):
+            print("插入出错")
+            return False
+
+        return True
+
     @staticmethod
     def loaddatabase(db, sql) -> bool:
         """

@@ -1,12 +1,13 @@
+from typing import List
 from spyderpro.function.keywordfunction.parent import Parent
 
-from spyderpro.models.InternetData.keyword import KeyWord
+from spyderpro.models.InternetData.keyword import KeyWord, KeyWordObject
 
 
 class SearchKeyword(Parent):
 
     def browser_keyword_frequency(self, keyword: str, baidu: bool = True, weixin=True,
-                                  pc: bool = True, modile: bool = True) -> list:
+                                  pc: bool = True, modile: bool = True) -> List[KeyWordObject]:
         """
         获取浏览器关键词搜索频率
         :param keyword:关键词
@@ -15,7 +16,7 @@ class SearchKeyword(Parent):
 
         :param pc:是否获取pc端数据
         :param modile:是否移动端水
-        :return:
+        :return:[KeyWordObject,KeyWordObject]
         """
         browser = KeyWord()
         result = browser.get_keyword_search_index(keyword=keyword)

@@ -1,10 +1,10 @@
 import requests
 import json
-import sys
 import time
 from bs4 import BeautifulSoup
 from spyderpro.portconnect.internetconnect import Connect
 from spyderpro.instances.keyword_obj import KeyWordObject
+from typing import Iterable, Iterator
 
 
 class KeyWord(Connect):
@@ -26,8 +26,9 @@ class KeyWord(Connect):
         else:
             self.headers['User-Agent'] = user_agent
 
-    def get_keyword_search_index(self, keyword: str, baidu: bool = True, weixin=True,
-                                 pc: bool = True, modile: bool = True):
+    def get_keyword_search_index(self, keyword: str, baidu: bool = True, weixin: bool = True,
+                                 sougou: bool = True,
+                                 pc: bool = True, modile: bool = True) -> Iterator:
 
         """
         能够获取浏览器的关键词搜索频率
@@ -44,8 +45,8 @@ class KeyWord(Connect):
         url = "http://index.chinaz.com/index/" + keyword
         par = "eval\\((.*?)\\);"
         g: dict = self.connect(par, url)
-        for baidu_value, weixin_value in zip(g['baidu'], g['weixin']):  # 只遍历一次
-
+        for baidu_value, weixin_value, haosou_value, sougou_value in zip(g['baidu'], g['weixin'], g['haosou'],
+                                                                         g['sogou']):  # 只遍历一次
             baidu_update = baidu_value.get("update")  # 百度最近关键词收编时间
             baidu_all = iter(baidu_value['all']['index'])  # 百度30天内总的搜索次数
             baidu_pc = iter(baidu_value['pc']['index'] if pc else None)  # 百度电脑端搜索量
@@ -54,21 +55,20 @@ class KeyWord(Connect):
 
             weixin_update = weixin_value.get("update")  # 微信最近关键词收编时间
             weixin_all = iter(weixin_value['all']['index'])  # 微信30天内总的搜索次数
-            wetchat = KeyWordObject('weixin', weixin_all, None, None, weixin_update) if weixin else None
+            wetchat_instance = KeyWordObject('weixin', weixin_all, None, None, weixin_update) if weixin else None
             # haosou_update = haosou_value.get("update")  # 360最近关键词收编时间
             # haosou_all = iter(haosou_value['all']['index'])  # 360 30天内总的搜索次数
             # haosou_pc = iter(haosou_value['pc']['index'] if pc else None)  # 360 电脑端搜索量
             # haosou_mobile = iter(haosou_value['mobile']['index'] if modile else None)  # 360手机端搜索量
-            # sougou_update = sougou_value.get("update")  # 搜狗最近关键词收编时间
-            # sougou_all = iter(sougou_value['all']['index'])  # 搜狗30天内总的搜索次数
-            # sougou_pc = iter(sougou_value['pc']['index'] if pc else None)  # 搜狗电脑端搜索量
-            # sougou_mobile = iter(sougou_value['mobile']['index'] if modile else None)  # 搜狗手机端搜索量
+            sougou_update = sougou_value.get("update")  # 搜狗最近关键词收编时间
+            sougou_all = iter(sougou_value['all']['index'])  # 搜狗30天内总的搜索次数
+            sougou_pc = iter(sougou_value['pc']['index'] if pc else None)  # 搜狗电脑端搜索量
+            sougou_mobile = iter(sougou_value['mobile']['index'] if modile else None)  # 搜狗手机端搜索量
             # haosou_instance = KeyWordObject("haosou", haosou_all, haosou_pc, haosou_mobile,
             #                                 haosou_update) if haosou else None
-            # sougou_instance = KeyWordObject("sougou", sougou_all, sougou_pc, sougou_mobile,
-            #                                 sougou_update) if sougou else None
-
-            return iter([baidu_instance, wetchat])
+            sougou_instance = KeyWordObject("sougou", sougou_all, sougou_pc, sougou_mobile,
+                                            sougou_update) if sougou else None
+            yield iter([baidu_instance, wetchat_instance, sougou_instance])
             # yield [{"百度最新统计时间": baidu_update, "PC端": baidu_pc, "移动端": baidu_mobile, "整体": baidu_all}
             #        if baidu else None,
             #        {"360最新统计时间": haosou_update, "PC端": haosou_pc, "移动端": haosou_mobile,
