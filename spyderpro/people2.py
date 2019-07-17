@@ -1,7 +1,7 @@
 import requests
 import re
 import datetime
-
+import time
 import json
 import csv
 import sys
@@ -244,9 +244,11 @@ def get_count(region_id):
         t.start()
     print("wait")
     fileclose.join()
-    data_file.close()
     print("close")
     wait.release()
+    time.sleep(10)
+    data_file.close()
+    
 
 
 def write():
@@ -322,6 +324,7 @@ if __name__ == "__main__":
             ff.close()
 
         print(name)
-        if count >=200 and count<=250:
+        if count >200 and count<=250 :
             
             get_count(regin_id)
+    

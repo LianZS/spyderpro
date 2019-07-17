@@ -16,7 +16,7 @@ class ScencePeopleFlow(Connect):
             self.headers['User-Agent'] = user_agent
         self.headers['Host'] = 'jiaotong.baidu.com'
 
-    def peopleflow_info(self, peoplepid: int, date: str, historytype: int = 1) :
+    def peopleflow_info(self, peoplepid: int, ddate:int, historytype: int = 1) :
         """
         获取景区客流量
         :param peoplepid: 景区id
@@ -34,8 +34,11 @@ class ScencePeopleFlow(Connect):
         par: str = None
         g = self.connect(par, url=url)
         for item in g["data"]['list']:
-            detailtime = item["data_time"].split(" ")[1]
+
+            detailtime = item["data_time"].split(" ")[1]+":00"
+
             num = int(item['count'])
-            positioning = Positioning(region_id=int(peoplepid), date=date, detailtime=detailtime, num=num)
+            positioning = Positioning(region_id=int(peoplepid), date=ddate, detailtime=detailtime, num=num)
+
             yield positioning
             # yield {"时刻": detailtime, "客流量": num}

@@ -1,7 +1,7 @@
 import requests
 import re
 import datetime
-
+import time
 import json
 import csv
 import sys
@@ -244,9 +244,11 @@ def get_count(region_id):
         t.start()
     print("wait")
     fileclose.join()
+
+    wait.release()
+    time.sleep(10)
     data_file.close()
     print("close")
-    wait.release()
 
 
 def write():
@@ -285,7 +287,7 @@ def dateiter(region_id):
 
 base_dir = os.getcwd()
 sys.path[0] = base_dir
-semaphore = threading.Semaphore(10)
+semaphore = threading.Semaphore(5)
 fileclose = Queue(1)
 wait = threading.Semaphore(1)
 data_queue = Queue(maxsize=10)
@@ -293,7 +295,8 @@ global data_file
 global wf  # csv实例
 
 if __name__ == "__main__":
-    
+    print(sys.path)
+    # exit()
     file = open(os.path.join(base_dir, "testdata/region_id.csv"), "r")
     r = csv.reader(file)
     r.__next__()
@@ -322,6 +325,6 @@ if __name__ == "__main__":
             ff.close()
 
         print(name)
-        if count >=200 and count<=250:
+        if count >250 and count<=300 :
             
             get_count(regin_id)

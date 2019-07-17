@@ -1,6 +1,6 @@
 import time
 import csv
-
+import datetime
 from spyderpro.models.locationdata.scencepeople import ScencePeopleFlow
 from spyderpro.models.weather.weather import WeatherForect
 from spyderpro.models.traffic import baidutraffic
@@ -75,7 +75,7 @@ class Parent(MysqlOperation):
                 return
 
 
-class People(Parent):
+class ScenceFlow(Parent):
 
     def write_scence_situation(self, db, objs) -> bool:
         """
@@ -85,8 +85,8 @@ class People(Parent):
         :return:
         """
         for info in objs:
-            sql = "insert into peopleFlow(pid_id,date,num,detailTime) values ('%d','%s','%d','%s');" % (
-                info.region_id, info.date, info.num, info.detailTime)
+            sql = "insert into digitalsmart.scenceflow(pid, ddate, ttime, num) values ('%d','%d','%s','%d')" % (
+                info.region_id, info.date, info.detailTime, info.num)
             if not self.loaddatabase(db, sql):
                 print("插入出错")
                 continue
@@ -100,41 +100,47 @@ class People(Parent):
         :param peoplepid: 景区id
         :return: bool
         """
-        date = time.strftime('%Y-%m-%d', time.localtime())
+        # date = time.strftime('%Y-%m-%d', time.localtime())
+        ddate: int = int(str(datetime.datetime.today().date()).replace("-", ''))
         flow = ScencePeopleFlow()
-        instances = flow.peopleflow_info(peoplepid, date)
+        instances = flow.peopleflow_info(peoplepid, ddate)
 
-        info = self.__filter_peopleflow(db, instances, date, peoplepid)
+        info = self.__filter_peopleflow(db, instances, ddate, peoplepid)
 
         return info
 
     # 检查数据库是否存在部分数据，存在则不再插入
-    def __filter_peopleflow(self, db, objs, date, peoplepid) -> list:
+    def __filter_peopleflow(self, db, objs, ddate: int, peoplepid: int) -> list:
         """
         检查数据库是否存在部分数据，存在则不再插入
         :param db:  数据库实例
-        :param info: Positioning迭代器
-        :param date: 日期
-        :param peopletablepid: 数据库查询条件
+        :param objs: Positioning迭代器
+        :param ddate: 日期
+        :param peoplepid: 数据库查询条件
         :return: list(Positioning)
         """
 
-        sql = "select detailTime from webdata.peopleFlow where  pid_id=" + str(
-            peoplepid) + " and  date=str_to_date('" + str(date) + "','%Y-%m-%d');"
-        cursor = self.get_cursor(db, sql)
+        sql = "select ttime from digitalsmart.scenceflow where pid={0} and  ddate={1} ".format(peoplepid,
+                                                                                               ddate)
+        cursor = self.get_cursor(db, sql)  # 从数据库获取当天已存在的数据
         if cursor is None:
             return []
         data = cursor.fetchall()  # 从数据库获取已经存在的数据
+
         cursor.close()
         dic = {}
         for info in objs:
             dic[info.detailTime] = info
 
         for item in data:  # 将存在的数据淘汰掉
+            item = str(item[0])
+            # 因为从数据库取出来数据时不知为什么变为 、 0：00：00这种格式不适合
+            detailtime: str = item if len(item) == 8 else "0" + item
             try:
-                dic.pop(item[0])
+                dic.pop(detailtime)
             except KeyError:
                 continue
+
         return list(dic.values())
         # for detailTime, num in dic.items():  # 因为过滤后的数据少，所以直接新实例化对象，增强可读性
         #     yield Positioning(region_id=peoplepid, date=date, detailtime=detailTime, num=num)
@@ -325,10 +331,10 @@ class Weather(Parent):
 
 
 if __name__ == "__main__":
-    p = People()
+    p = ScenceFlow()
 
-    db = pymysql.connect(host=host, user=user, password=password, database=scencedatabase,
-                         port=port)
-    data = p.get_scence_situation(db, '1174')
-
-    p.write_scence_situation(db, data)
+    # db = pymysql.connect(host=host, user=user, password=password, database=scencedatabase,
+    #                      port=port)
+    # data = p.get_scence_situation(db, 1174)
+    # #
+    # p.write_scence_situation(db, data)

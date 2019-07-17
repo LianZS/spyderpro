@@ -1,11 +1,11 @@
 from spyderpro.managerfunction.setting import *
-from spyderpro.function.scencefunction import People
+from spyderpro.function.scencefunction import ScenceFlow
 from spyderpro.function.peoplefunction.positioningtrend import PositioningTrend
 from spyderpro.function.peoplefunction.positioningsituation import PositioningSituation
 from spyderpro.function.peoplefunction.monitoring_area import PositioningPeople
 
 
-class ManagerScence(People, PositioningTrend, PositioningSituation, PositioningPeople):
+class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, PositioningPeople):
 
     def manager_scence_situation(self):
         """
@@ -14,7 +14,7 @@ class ManagerScence(People, PositioningTrend, PositioningSituation, PositioningP
         """
         db = pymysql.connect(host=host, user=user, password=password, database=scencedatabase,
                              port=port)
-        instances = self.get_scence_situation(db=db, peoplepid=0)
+        instances = self.get_scence_situation(db=db, peoplepid=1174)
         self.write_scence_situation(db, instances)
 
     def manager_scence_trend(self):
@@ -49,3 +49,6 @@ class ManagerScence(People, PositioningTrend, PositioningSituation, PositioningP
     def manager_monitoring_area(self):
         """"""
         self.get_the_scope_of_pace_data(start_lat=23.2, start_lon=110.2, end_lat=30.2, end_lon=113.2)
+
+
+ManagerScence().manager_scence_situation()
