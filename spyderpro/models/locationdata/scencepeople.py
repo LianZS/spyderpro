@@ -5,6 +5,10 @@ from spyderpro.instances.lbs import Positioning
 
 
 class ScencePeopleFlow(Connect):
+    """
+    获取景区流量
+    """
+
     def __init__(self, user_agent: str = None):
         self.request = requests.Session()
         self.headers = dict()
@@ -16,14 +20,14 @@ class ScencePeopleFlow(Connect):
             self.headers['User-Agent'] = user_agent
         self.headers['Host'] = 'jiaotong.baidu.com'
 
-    def peopleflow_info(self, peoplepid: int, ddate:int, historytype: int = 1) :
+    def peopleflow_info(self, peoplepid: int, ddate: int, historytype: int = 1):
         """
         获取景区客流量
         :param peoplepid: 景区id
         :param historytype: 1表示现在的数据，2表示昨日数据，3表示最近的节假日数据
         :return: iter[Positioning,,]
         """
-        #
+
         pre_url = 'http://jiaotong.baidu.com/trafficindex/dashboard/curve?'
         query_string_parameters = {
             'type': historytype,
@@ -34,8 +38,7 @@ class ScencePeopleFlow(Connect):
         par: str = None
         g = self.connect(par, url=url)
         for item in g["data"]['list']:
-
-            detailtime = item["data_time"].split(" ")[1]+":00"
+            detailtime = item["data_time"].split(" ")[1] + ":00"
 
             num = int(item['count'])
             positioning = Positioning(region_id=int(peoplepid), date=ddate, detailtime=detailtime, num=num)

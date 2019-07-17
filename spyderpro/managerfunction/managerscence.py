@@ -1,3 +1,5 @@
+import time
+import datetime
 from spyderpro.managerfunction.setting import *
 from spyderpro.function.scencefunction import ScenceFlow
 from spyderpro.function.peoplefunction.positioningtrend import PositioningTrend
@@ -15,7 +17,11 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         db = pymysql.connect(host=host, user=user, password=password, database=scencedatabase,
                              port=port)
         instances = self.get_scence_situation(db=db, peoplepid=1174)
-        self.write_scence_situation(db, instances)
+        for info in instances:
+            sql = "insert into digitalsmart.scenceflow(pid, ddate, ttime, num) values ('%d','%d','%s','%d')" % (
+                info.region_id, info.date, info.detailTime, info.num)
+            self.write_scence_situation(db, sql)
+        db.close()
 
     def manager_scence_trend(self):
         """
@@ -29,7 +35,15 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         地区人口分布数据管理
         :return:
         """
-        self.get_distribution_situation('2019-05-19', '10:15:00', 6)
+        db = pymysql.connect(host=host, user=user, password=password, database=scencedatabase,
+                             port=port)
+        instances = self.get_distribution_situation('2019-05-19', '10:15:00', 6)
+        tmp_date = datetime.datetime(2019,5,19,10,15,0).timestamp()
+
+        for item in instances:
+            sql = "insert into digitalsmart.peopleposition0(pid, tmp_date, lat, lon, num) VALUES" \
+                  " ('%d','%d','%f','%f','%d')" %(6,tmp_date,item.latitude, item.longitude, item.number)
+            self.write_scence_situation(db,sql)
 
     def manager_scenece_people_situation(self):
         """
@@ -37,18 +51,25 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         :return:
 
         """
-        self.get_count('2019-05-19', '10:15:00', 6)
+        # time.strftime("%YYYY-%mm-%dd %HH:%MM:00",time.localtime())
+        db = pymysql.connect(host=host, user=user, password=password, database=scencedatabase,
+                             port=port)
+        instance = self.get_count('2019-05-19', '10:15:00', 6)
+
+        sql = "insert into digitalsmart.scenceflow(pid, ddate, ttime, num) values ('%d','%d','%s','%d')" % (
+            instance.region_id, instance.date, instance.detailTime, instance.num)
+        self.write_scence_situation(db, sql)
 
     def manager_china_positioning(self):
         """
         中国人定位数据管理
         :return:
         """
-        self.positioning_people_num(max_num=10)
+        instances = self.positioning_people_num(max_num=10)
 
     def manager_monitoring_area(self):
         """"""
         self.get_the_scope_of_pace_data(start_lat=23.2, start_lon=110.2, end_lat=30.2, end_lon=113.2)
 
 
-ManagerScence().manager_scence_situation()
+ManagerScence().manager_scenece_people_distribution()

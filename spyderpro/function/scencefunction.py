@@ -77,21 +77,18 @@ class Parent(MysqlOperation):
 
 class ScenceFlow(Parent):
 
-    def write_scence_situation(self, db, objs) -> bool:
+    def write_scence_situation(self, db, sql) -> bool:
         """
         数据库写入
         :param db:
         :param objs:
         :return:
         """
-        for info in objs:
-            sql = "insert into digitalsmart.scenceflow(pid, ddate, ttime, num) values ('%d','%d','%s','%d')" % (
-                info.region_id, info.date, info.detailTime, info.num)
-            if not self.loaddatabase(db, sql):
-                print("插入出错")
-                continue
 
-        db.close()
+        if not self.loaddatabase(db, sql):
+            print("插入出错")
+            return False
+
         return True
 
     def get_scence_situation(self, db, peoplepid):

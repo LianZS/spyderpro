@@ -1,5 +1,4 @@
 import time
-import calendar
 import requests
 import os
 import csv
@@ -234,7 +233,7 @@ class PlaceFlow(PlaceInterface):
         g = self.request_heatdata(url)
         return g
 
-    def count_headdata(self, date: str, dateTime: str, region_id: int):
+    def count_headdata(self, ddate: str, dateTime: str, region_id: int)->Positioning:
 
         """
         某一时刻的人数有多少
@@ -244,12 +243,12 @@ class PlaceFlow(PlaceInterface):
         :return:总人数
         """
 
-        g = self.__get_heatdata_bytime(date, dateTime, region_id)
+        g = self.__get_heatdata_bytime(ddate, dateTime, region_id)
         if not g:
             return None
         num = sum(g.values())  # 总人数
 
-        positioning = Positioning(region_id=region_id, date=date, detailtime=dateTime, num=num)
+        positioning = Positioning(region_id=region_id, date=int(ddate.replace("-", "")), detailtime=dateTime, num=num)
         return positioning
         # return {"date": "".join([date, ' ', dateTime]), "num": count}
 
