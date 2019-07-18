@@ -5,10 +5,12 @@ import time
 from threading import Thread, Semaphore
 from queue import Queue
 from selenium import webdriver
+from typing import Iterator
 from bs4 import BeautifulSoup
 from urllib.parse import urlencode
 from spyderpro.portconnect.internetconnect import Connect
 from spyderpro.instances.wechat import WechatPublic_Info, ArticleInfo, WechatSituation, ArticleKeyWord
+from spyderpro.instances.wechatpublic import WechatUrl
 
 
 class WechatPublic(Connect):
@@ -35,11 +37,21 @@ class WechatPublic(Connect):
         else:
             self.headers['User-Agent'] = user_agent
 
-    def product_url(self, start: int, end: int, seq: int = 1):
+    def product_url(self, start: int, end: int, seq: int = 1) -> Iterator[WechatUrl]:
+
+        """
+        产生请求链接
+        :param start:
+        :param end:
+        :param seq:
+        :return:
+        """
+        if end>153362:
+            raise AttributeError("end参数超过范围")
         for pid in range(start, end, seq):
             url = 'https://www.wxnmh.com/user-{0}.htm'
             url = url.format(pid)
-            yield pid, url
+            yield WechatUrl(pid=pid, url=url)
 
     def reuqest_public(self, pid: int, url: str) -> WechatPublic_Info:
         """
@@ -238,7 +250,18 @@ class WechatPublic(Connect):
         driver = webdriver.Chrome(chrome_options=option)
         return driver
 
-# d = WechatPublic().get_all_public(4, 6)
+    def get_detail_info(self):
+        while 1:
+            wechatinfo = self.q.get()
+            print(wechatinfo)
+
+
+if __name__ == "__main__":
+    wechat = WechatPublic()
+    Thread(target=wechat.get_detail_info, args=()).start()
+
+    for item in wechat.product_url(4, 6):
+        wechat.get_detail_public_info(item.pid, item.url)
 # for i in d:
 #     for j in i:
 #         print(list(j.articles))
