@@ -2,6 +2,7 @@ import requests
 import json
 import datetime
 from urllib.parse import urlencode
+from typing import Iterator
 from spyderpro.instances.keyword_obj import Mobile_Info
 
 
@@ -26,7 +27,7 @@ class MobileKeyWord:
         else:
             self.headers['User-Agent'] = user_agent
 
-    def get_mobile_type_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> list:
+    def get_mobile_type_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> Iterator[Mobile_Info]:
         """
         获取某个时段的中国境内各手机机型的占有率
         :rtype:iterable
@@ -40,7 +41,7 @@ class MobileKeyWord:
         return self.__mobile_rate(kw="机型", year=year, startmonth=startmonth, endmonth=endmonth, platform=2,
                                   terminaltype=2)
 
-    def get_mobile_brand_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> list:
+    def get_mobile_brand_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> Iterator[Mobile_Info]:
         """
         获取某时段中国境内各手机品牌占用率
         :rtype: iterable
@@ -55,7 +56,8 @@ class MobileKeyWord:
         return self.__mobile_rate(kw="品牌", year=year, startmonth=startmonth, endmonth=endmonth, platform=3,
                                   terminaltype=1)
 
-    def get_mobile_resolution_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> list:
+    def get_mobile_resolution_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> Iterator[
+        Mobile_Info]:
         """
         获取某时段中国境内各手机分辨率占用率
         :rtype: iterable
@@ -68,7 +70,7 @@ class MobileKeyWord:
         return self.__mobile_rate(kw="分辨率", year=year, startmonth=startmonth, endmonth=endmonth, platform=2,
                                   terminaltype=3)
 
-    def get_mobile_system_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> list:
+    def get_mobile_system_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> Iterator[Mobile_Info]:
         """
         获取某时段中国境内各手机系统版本占用率
         :rtype: iterable
@@ -83,7 +85,8 @@ class MobileKeyWord:
         return self.__mobile_rate(kw="操作系统", year=year, startmonth=startmonth, endmonth=endmonth, platform=2,
                                   terminaltype=4)
 
-    def get_mobile_operator_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> list:
+    def get_mobile_operator_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> Iterator[
+        Mobile_Info]:
         """
         获取某时段中国境内各手机运营商占用率
         :rtype: list
@@ -98,7 +101,7 @@ class MobileKeyWord:
         return self.__mobile_rate(kw="运营商", year=year, startmonth=startmonth, endmonth=endmonth, platform=2,
                                   terminaltype=5)
 
-    def get_mobile_network_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> list:
+    def get_mobile_network_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> Iterator[Mobile_Info]:
         """
         获取某时段中国境内各手机网络占用率
         :rtype: ite
@@ -114,7 +117,7 @@ class MobileKeyWord:
                                   terminaltype=6)
 
     def __mobile_rate(self, kw: str, terminaltype: int, platform: int, year: int, startmonth: int = None,
-                      endmonth: int = None) -> list:
+                      endmonth: int = None) -> Iterator[Mobile_Info]:
         """
 
         :param terminaltype: 网络请求类型

@@ -53,16 +53,7 @@ class MobileKey(Parent):
         '其他': 5,
     }
 
-    def init_mobile_database(self):
-        db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
-                             port=port)
-        db.connect()
-        for key in MobileKey.brand_dic.keys():
-            pid = MobileKey.brand_dic[key]
-            sql = "insert into internetdata.mobile (brand, pid) VALUE ('%s','%d')" % (key, pid)
-            self.loaddatabase(db, sql)
-
-    def request_mobile_type_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> list:
+    def request_mobile_type_rate(self, year: int, startmonth: int = None, endmonth: int = None):
         """
         获取某个时段的中国境内各手机机型的占有率
 
@@ -73,24 +64,7 @@ class MobileKey(Parent):
         """
         mobile = MobileKeyWord()
         result = mobile.get_mobile_type_rate(year=year, startmonth=startmonth, endmonth=endmonth)
-        return list(result)
-
-    def write_mobile_type_rate(self, db, data: list) -> bool:
-        for info in data:
-            mobile_info = info.type_name
-            array = mobile_info.split(" ")
-            brand = array[0]
-            pid = MobileKey.brand_dic[brand]
-
-            mobile_type = array[1]
-            value = float(info.value)
-            date = info.date
-            sql = "insert into internetdata.mobiletype (mobile_type, value, date, pid_id)" \
-                  " VALUE('%s','%f','%s','%d')" % (mobile_type, value, date, pid)
-            flag = self.loaddatabase(db, sql)
-            if not flag:
-                print("写入失败")
-        return True
+        return result
 
     def request_mobile_brand_rate(self, year: int, startmonth: int = None, endmonth: int = None):
         """
@@ -105,20 +79,7 @@ class MobileKey(Parent):
 
         return list(result)
 
-    def write_mobile_brand_rate(self, db, data: list) -> bool:
-        for info in data:
-            mobile_brand = info.type_name
-            pid = MobileKey.brand_dic[mobile_brand]
-            value = float(info.value)
-            date = info.date
-            sql = "insert into internetdata.mobilebrand (pid_id, value,date)" \
-                  " VALUE('%d','%s','%s')" % (pid, value, date)
-            flag = self.loaddatabase(db, sql)
-            if not flag:
-                print("写入失败")
-        return True
-
-    def request_mobile_system_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> list:
+    def request_mobile_system_rate(self, year: int, startmonth: int = None, endmonth: int = None):
         """
         获取某时段中国境内各手机系统版本占用率
         :param year: 201x
@@ -128,22 +89,9 @@ class MobileKey(Parent):
         """
         mobile = MobileKeyWord()
         result = mobile.get_mobile_system_rate(year=year, startmonth=startmonth, endmonth=endmonth)
-        return list(result)
+        return result
 
-    def write_mobile_system_rate(self, db, data: list) -> bool:
-        for info in data:
-            mobile_system = info.type_name
-            value = float(info.value)
-            date = info.date
-            pid = MobileKey.system_dic[mobile_system]
-            sql = "insert into internetdata.mobilesystem (msystem, pid, value, date)" \
-                  " VALUE('%s','%d','%f','%s')" % (mobile_system, pid, value, date)
-            flag = self.loaddatabase(db, sql)
-            if not flag:
-                print("写入失败")
-        return True
-
-    def request_mobile_operator_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> list:
+    def request_mobile_operator_rate(self, year: int, startmonth: int = None, endmonth: int = None):
         """
         获取某时段中国境内各手机运营商占用率
         :param year:
@@ -154,22 +102,9 @@ class MobileKey(Parent):
         mobile = MobileKeyWord()
         result = mobile.get_mobile_operator_rate(year=year, startmonth=startmonth, endmonth=endmonth)
 
-        return list(result)
+        return result
 
-    def write_mobile_operator_rate(self, db, data: list) -> bool:
-        for info in data:
-            mobile_operator = info.type_name
-            value = float(info.value)
-            date = info.date
-            pid = MobileKey.operator_dic[mobile_operator]
-            sql = "insert into internetdata.operator (operator, pid, value, date)" \
-                  " VALUE('%s','%d','%f','%s')" % (mobile_operator, pid, value, date)
-            flag = self.loaddatabase(db, sql)
-            if not flag:
-                print("写入失败")
-        return True
-
-    def request_mobile_network_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> list:
+    def request_mobile_network_rate(self, year: int, startmonth: int = None, endmonth: int = None):
         """
         获取某时段中国境内各手机网络占用率
         :param year:
@@ -180,68 +115,4 @@ class MobileKey(Parent):
         mobile = MobileKeyWord()
         result = mobile.get_mobile_network_rate(year=year, startmonth=startmonth, endmonth=endmonth)
 
-        return list(result)
-
-    def write_mobile_network_rate(self, db, data: list) -> bool:
-        for info in data:
-            mobile_net = info.type_name
-            value = float(info.value)
-            date = info.date
-            pid = MobileKey.network_dic[mobile_net]
-            sql = "insert into internetdata.network (network, pid, value, date)" \
-                  " VALUE('%s','%d','%f','%s')" % (mobile_net, pid, value, date)
-            flag = self.loaddatabase(db, sql)
-            if not flag:
-                print("写入失败")
-        return True
-
-    # def get_and_write_mobile_type_rate(self, year: int, startmonth: int = None, endmonth: int = None):
-    #     data = self.request_mobile_type_rate(year=year, startmonth=startmonth, endmonth=endmonth)
-    #     db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
-    #                          port=port)
-    #     db.connect()
-    #     flag = self.write_mobile_type_rate(db=db, data=data)
-    #     if flag:
-    #         print("success")
-    #
-    # def get_and_write_mobile_brand_rate(self, year: int, startmonth: int = None, endmonth: int = None):
-    #     """
-    #
-    #     :param year:
-    #     :param startmonth: 开始月份
-    #     :param endmonth: #结束月份
-    #     """
-    #     data = self.request_mobile_brand_rate(year=year, startmonth=startmonth, endmonth=endmonth)
-    #     db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
-    #                          port=port)
-    #     db.connect()
-    #     flag = self.write_mobile_brand_rate(db=db, data=data)
-    #     if flag:
-    #         print("success")
-    #
-    # def get_and_write_mobile_system_rate(self, year: int, startmonth: int = None, endmonth: int = None):
-    #     data = self.request_mobile_system_rate(year=year, startmonth=startmonth, endmonth=endmonth)
-    #     db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
-    #                          port=port)
-    #     db.connect()
-    #     flag = self.write_mobile_system_rate(db=db, data=data)
-    #     if flag:
-    #         print("success")
-    #
-    # def get_and_write_mobile_operator_rate(self, year: int, startmonth: int = None, endmonth: int = None):
-    #     data = self.request_mobile_operator_rate(year=year, startmonth=startmonth, endmonth=endmonth)
-    #     db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
-    #                          port=port)
-    #     db.connect()
-    #     flag = self.write_mobile_operator_rate(db=db, data=data)
-    #     if flag:
-    #         print("success")
-    #
-    # def get_and_write_mobile_network_rate(self, year: int, startmonth: int = None, endmonth: int = None):
-    #     data = self.request_mobile_network_rate(year=year, startmonth=startmonth, endmonth=endmonth)
-    #     db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
-    #                          port=port)
-    #     db.connect()
-    #     flag = self.write_mobile_network_rate(db=db, data=data)
-    #     if flag:
-    #         print("success")
+        return result

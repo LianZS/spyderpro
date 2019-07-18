@@ -28,8 +28,6 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         :return:
         """
         d = self.get_place_index(name='深圳欢乐谷', placeid=6, date_start='2019-07-18', date_end='2019-07-19')
-        trend = d.__next__()
-        print(trend.ddate,trend.place,trend.index,trend.detailtime)
 
     def manager_scenece_people_distribution(self):
         """

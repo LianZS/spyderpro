@@ -2,9 +2,10 @@ import requests
 import json
 import time
 from urllib.parse import urlencode
+from typing import Iterator
 from spyderpro.models.traffic.multhread import MulitThread
 from spyderpro.models.traffic.trafficinterface import Traffic
-from spyderpro.instances.trafficclass import TrafficClass
+from spyderpro.instances.trafficclass import TrafficClass, Road, Year
 
 
 class GaodeTraffic(Traffic):
@@ -35,9 +36,9 @@ class GaodeTraffic(Traffic):
         dict->{'date': '20190614', 'index': 1.49, 'detailTime': '14:00:00'}
         """
         url = "http://report.amap.com/ajax/cityHourly.do?cityCode=" + str(citycode)
-        print(url)
-        data = self.s.get(url=url, headers=self.headers)
+
         try:
+            data = self.s.get(url=url, headers=self.headers)
             g = json.loads(data.text)
         except Exception as e:
             print("编号%d--网络链接error:%s" % (citycode, e))
@@ -48,7 +49,6 @@ class GaodeTraffic(Traffic):
         yesterday = time.strftime("%Y-%m-%d", time.localtime(time.time() - 3600 * 24))  # 昨天的日期
         date = yesterday
         # 含有24小时的数据
-        dic = {}
         for item in g:
             detailtime = time.strftime("%H:%M", time.localtime(int(item[0]) / 1000))
             if detailtime == '00:00':
@@ -61,7 +61,7 @@ class GaodeTraffic(Traffic):
             yield TrafficClass(ddate, iindex, detailtime)
 
     # 道路数据获取
-    def roaddata(self, citycode: int) -> list:
+    def roaddata(self, citycode: int) -> Iterator[Road]:
         """
         获取拥堵道路前10名数据, 数据包括路名，速度，数据包，道路方向，道路经纬度数据
 
@@ -84,8 +84,9 @@ class GaodeTraffic(Traffic):
             data = json.dumps(data)  # 数据包
             direction = item['dir']  # 道路方向
             bounds = json.dumps({"coords": item['coords']})  # 道路经纬度数据
+            road = Road(roadname=roadname, speed=speed, dircetion=direction, bounds=bounds, data=data)
 
-            yield {"RoadName": roadname, "Speed": speed, "Direction": direction, "Bounds": bounds, 'Data': data}
+            yield road
 
     def __roads(self, citycode: int) -> dict:
         """
@@ -185,8 +186,8 @@ class GaodeTraffic(Traffic):
         realdata = {"num": i, "time": time_list, "data": data}
         return realdata
 
-    def yeartraffic(self, citycode: int, name: str, year: int = int(time.strftime("%Y", time.localtime())),
-                    quarter: int = int(time.strftime("%m", time.localtime())) / 3) -> list:
+    def yeartraffic(self, citycode: int, year: int = int(time.strftime("%Y", time.localtime())),
+                    quarter: int = int(time.strftime("%m", time.localtime())) / 3) -> Iterator[Year]:
         """
         获取城市年度交通数据
         :param citycode: 城市id
@@ -218,4 +219,4 @@ class GaodeTraffic(Traffic):
             print("高德地图年度数据请求失败！")
             return None
         for date, index in zip(g["categories"], g['serieData']):
-            yield {"date": date, "index": index, "city": name}  # {'date': '2019-01-01', 'index': 1.25, 'city': city}
+            yield Year(int(date.replace("-", "")), index)

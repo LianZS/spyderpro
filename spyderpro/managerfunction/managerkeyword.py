@@ -1,19 +1,28 @@
 import datetime
+from spyderpro.portconnect.sqlconnect import MysqlOperation
+
 from spyderpro.managerfunction.setting import *
 from spyderpro.function.keywordfunction.mobilekey import MobileKey
 from spyderpro.function.keywordfunction.searchkeyword import SearchKeyword
 from spyderpro.function.keywordfunction.apphabit import AppUserhabit
 
 
-class ManagerMobileKey(MobileKey):
+class ManagerMobileKey(MobileKey, MysqlOperation):
     def manager_mobile_type_rate(self, year: int, startmonth: int = None, endmonth: int = None):
-        data = self.request_mobile_type_rate(year=year, startmonth=startmonth, endmonth=endmonth)
         db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
                              port=port)
-        db.connect()
-        flag = self.write_mobile_type_rate(db=db, data=data)
-        if flag:
-            print("success")
+        data = self.request_mobile_type_rate(year=year, startmonth=startmonth, endmonth=endmonth)
+        for info in data:
+            mobile_info = info.type_name
+            array = mobile_info.split(" ")
+            brand = array[0]
+            pid = MobileKey.brand_dic[brand]
+            mobile_type = array[1]
+            value = float(info.value)
+            date = info.date
+            sql = "insert into internetdata.mobiletype (mobile_type, value, date, pid_id)" \
+                  " VALUES('%s','%f','%s','%d')" % (mobile_type, value, date, pid)
+            self.write_data(db, sql)
 
     def manager_mobile_brand_rate(self, year: int, startmonth: int = None, endmonth: int = None):
         """
@@ -25,37 +34,53 @@ class ManagerMobileKey(MobileKey):
         data = self.request_mobile_brand_rate(year=year, startmonth=startmonth, endmonth=endmonth)
         db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
                              port=port)
-        db.connect()
-        flag = self.write_mobile_brand_rate(db=db, data=data)
-        if flag:
-            print("success")
+        for info in data:
+            mobile_brand = info.type_name
+            pid = MobileKey.brand_dic[mobile_brand]
+            value = float(info.value)
+            date = info.date
+            sql = "insert into internetdata.mobilebrand (pid_id, value,date)" \
+                  " VALUES ('%d','%s','%s')" % (pid, value, date)
+            self.write_data(db, sql)
 
     def manager_mobile_system_rate(self, year: int, startmonth: int = None, endmonth: int = None):
         data = self.request_mobile_system_rate(year=year, startmonth=startmonth, endmonth=endmonth)
         db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
                              port=port)
-        db.connect()
-        flag = self.write_mobile_system_rate(db=db, data=data)
-        if flag:
-            print("success")
+        for info in data:
+            mobile_system = info.type_name
+            value = float(info.value)
+            date = info.date
+            pid = MobileKey.system_dic[mobile_system]
+            sql = "insert into internetdata.mobilesystem (msystem, pid, value, date)" \
+                  " VALUES ('%s','%d','%f','%s')" % (mobile_system, pid, value, date)
+            self.write_data(db, sql)
 
     def manager_mobile_operator_rate(self, year: int, startmonth: int = None, endmonth: int = None):
         data = self.request_mobile_operator_rate(year=year, startmonth=startmonth, endmonth=endmonth)
         db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
                              port=port)
-        db.connect()
-        flag = self.write_mobile_operator_rate(db=db, data=data)
-        if flag:
-            print("success")
+        for info in data:
+            mobile_operator = info.type_name
+            value = float(info.value)
+            date = info.date
+            pid = MobileKey.operator_dic[mobile_operator]
+            sql = "insert into internetdata.operator (operator, pid, value, date)" \
+                  " VALUES ('%s','%d','%f','%s')" % (mobile_operator, pid, value, date)
+            self.write_data(db, sql)
 
     def manager_mobile_network_rate(self, year: int, startmonth: int = None, endmonth: int = None):
         data = self.request_mobile_network_rate(year=year, startmonth=startmonth, endmonth=endmonth)
         db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
                              port=port)
-        db.connect()
-        flag = self.write_mobile_network_rate(db=db, data=data)
-        if flag:
-            print("success")
+        for info in data:
+            mobile_net = info.type_name
+            value = float(info.value)
+            date = info.date
+            pid = MobileKey.network_dic[mobile_net]
+            sql = "insert into internetdata.network (network, pid, value, date)" \
+                  " VALUE('%s','%d','%f','%s')" % (mobile_net, pid, value, date)
+            self.write_data(db,sql)
 
     def manager_search(self):
         """
@@ -109,4 +134,4 @@ class ManagerMobileKey(MobileKey):
         app.get_app_userhabit('qq', '2012-01-01')  # 这个功能还未修改成功
 
 
-ManagerMobileKey().manager_search()
+ManagerMobileKey().manager_mobile_type_rate(2017, 5, 10)

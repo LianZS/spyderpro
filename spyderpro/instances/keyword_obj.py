@@ -20,3 +20,6 @@ class Mobile_Info:
         self.type_name = type_name  # 具体类型
         self.value = value  # 占有率
         self.date = date  # 日期
+
+
+

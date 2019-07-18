@@ -41,6 +41,8 @@ class Traffic(MysqlOperation):
         yesterday = int(time.strftime('%Y%m%d', time.localtime(t - 3600 * 24)))
 
         info = traffic.citytraffic(citycode)
+        if not info:
+            return []
         info = self.__dealwith_daily_traffic(info, citycode, db, today, yesterday)
 
         return info
@@ -79,14 +81,13 @@ class Traffic(MysqlOperation):
                     data[len(data) - 1][0])  # 最新的时间  xx:xx:xx
             else:
                 ttime = "-1:00:00"  # 今天还未录入数据的情况
-
         cursor.close()
         # 剔除今天重复的数据
         info = self.filter(objs, ttime)
 
         return info
 
-    def road_manager(self, citycode) -> bool:
+    def road_manager(self, citycode):
         """
         获取城市道路拥堵数据并写入数据库
         :param citycode: 城市id
@@ -96,56 +97,43 @@ class Traffic(MysqlOperation):
                              database=trafficdatabase,
                              port=port)
 
-        t = time.localtime()
-        date = time.strftime("%Y-%m-%d", t)
-        detailtime = time.strftime("%H:%M", t)
         g = None
         if citycode > 1000:
-            g = gaodetraffic()
+            g = GaodeTraffic()
         elif citycode < 1000:
-            g = baidutraffic()
+            g = BaiduTraffic()
         result = g.roaddata(citycode)
         if result is None:
-            return False
-        for item in result:
-            sql = "insert into  trafficdatabase.RoadTraffic(pid_id,date,detailTime,name,direction," \
-                  "speed,data,bounds,flag) " \
-                  "values('%d','%s','%s','%s','%s','%f','%s','%s',%s);" % (
-                      citycode, date, detailtime, item['RoadName'], item['Direction'], item['Speed'], item['Data'],
-                      item['Bounds'], True)
-            if not self.loaddatabase(db, sql):
-                print("%s写入数据库失败" % item)
-                continue
-        print("success")
-        db.close()
-        return True
+            return []
+
+        return result
 
     def yeartraffic(self, citycode):
         db = pymysql.connect(host=host, user=user, password=password, database=trafficdatabase,
                              port=port)
-        yearpid = self.__search_yearpid(citycode, db)
-        g = None
+        # yearpid = self.__search_yearpid(citycode, db)
+        # g = None
+        yearpid = citycode
         if yearpid > 1000:
-            g = gaodetraffic()
+            g = GaodeTraffic()
         elif yearpid < 1000:
-            g = baidutraffic()
-        name = self.find_name(citycode, db)
-        result = g.yeartraffic(yearpid, name)
+            g = BaiduTraffic()
+        result = g.yeartraffic(yearpid)
         result = self.__dealwith_year_traffic(result, citycode, db,
                                               lastdate=time.strftime("%Y-%m-%d",
                                                                      time.localtime(time.time() - 24 * 3600)))
-        for item in result:
-            date = item['date']
-            index = item['index']
-            city = item['city']
-            sql = "insert into  trafficdatabase.YearCityTraffic(pid_id,date,city,TrafficIndex) " \
-                  "values('%d','%s','%s','%f')" % (
-                      citycode, date, city, index)
-            if not self.loaddatabase(db, sql):
-                print("%s写入数据库失败" % item)
-                continue
-        print("success")
-        db.close()
+        # for item in result:
+        #     date = item['date']
+        #     index = item['index']
+        #     city = item['city']
+        #     sql = "insert into  trafficdatabase.YearCityTraffic(pid_id,date,city,TrafficIndex) " \
+        #           "values('%d','%s','%s','%f')" % (
+        #               citycode, date, city, index)
+        #     if not self.loaddatabase(db, sql):
+        #         print("%s写入数据库失败" % item)
+        #         continue
+        # print("success")
+        # db.close()
         return True
 
     def __search_yearpid(self, citycode, db):
@@ -164,8 +152,7 @@ class Traffic(MysqlOperation):
         return yearpid
 
     def __dealwith_year_traffic(self, info, pid, db, lastdate):
-        sql = "select  date  from trafficdatabase.YearCityTraffic where pid_id=" + str(
-            pid) + " and date >='" + lastdate + "';"
+        sql = ""
         cursor = self.get_cursor(db, sql)
         if cursor is None:
             print("年度数据查询日期数据失败！")
@@ -207,6 +194,7 @@ class Traffic(MysqlOperation):
         :return:list
         """
         for i in range(len(info)):
+
             if info[i].detailtime == detailtime:
                 info = info[i + 1:]
                 break

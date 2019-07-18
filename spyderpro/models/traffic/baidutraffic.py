@@ -2,7 +2,9 @@ import requests
 import json
 import time
 from urllib.parse import urlencode
+from typing import Dict, Iterator
 from spyderpro.models.traffic.trafficinterface import Traffic
+from spyderpro.instances.trafficclass import TrafficClass, Road, Year
 
 
 class BaiduTraffic(Traffic):
@@ -36,8 +38,9 @@ class BaiduTraffic(Traffic):
             'type': timetype
         }
         href = 'https://jiaotong.baidu.com/trafficindex/city/curve?' + urlencode(parameter)
-        data = self.s.get(url=href, headers=self.headers)
+
         try:
+            data = self.s.get(url=href, headers=self.headers)
             g = json.loads(data.text)
         except Exception as e:
             print("网络链接error:%s" % e)
@@ -47,19 +50,17 @@ class BaiduTraffic(Traffic):
         if '00:00' in str(g):
             date = time.strftime("%Y-%m-%d", time.localtime(time.time() - 3600 * 24))  # 昨天的日期
         # 含有24小时的数据
-        dic = {}
-        print(href)
         for item in g['data']['list']:
             # {'index': '1.56', 'speed': '32.83', 'time': '13:45'}
             if item["time"] == '00:00':
                 date = today
-            dic['date'] = date
-            dic['index'] = float(item['index'])
-            dic['detailTime'] = item['time']
-            yield dic
+            ddate = int(date.replace("-", ""))  # 日期
+            iindex = float(item['index'])  # 拥堵指数
+            detailtime = item['time'] + ":00"  # 具体时刻
+            yield TrafficClass(ddate, iindex, detailtime)
 
-    def yeartraffic(self, citycode: int, name: str, year: int = int(time.strftime("%Y", time.localtime())),
-                    quarter: int = int(time.strftime("%m", time.localtime())) / 3) -> list:
+    def yeartraffic(self, citycode: int, year: int = int(time.strftime("%Y", time.localtime())),
+                    quarter: int = int(time.strftime("%m", time.localtime())) / 3) -> Iterator[Road]:
         """
         获取城市年度交通数据
         :param citycode: 城市id
@@ -88,9 +89,9 @@ class BaiduTraffic(Traffic):
             # {'index': '1.56', 'speed': '32.83', 'time': '04-12'}
             date = year + item['time']
             index = float(item["index"])
-            yield {"date": date, "index": index, "city": name}
+            yield Year(int(date.replace("-", "")), index)
 
-    def roaddata(self, citycode) -> list:
+    def roaddata(self, citycode) -> Iterator[Road]:
         """
         获取拥堵道路前10名数据, 数据包括路名，速度，数据包，道路方向，道路经纬度数据
 
@@ -109,11 +110,12 @@ class BaiduTraffic(Traffic):
             speed = float(item["speed"])
             direction = item['semantic']
             bounds = json.dumps({"coords": data['coords']})
-            info = json.dumps(data['data'])
+            data = json.dumps(data['data'])
+            road = Road(roadname=roadname, speed=speed, dircetion=direction, bounds=bounds, data=data)
 
-            yield {"RoadName": roadname, "Speed": speed, "Direction": direction, "Bounds": bounds, 'Data': info}
+            yield road
 
-    def __roads(self, citycode) -> dict:
+    def __roads(self, citycode) -> json:
         """
         获取道路信息包，包括道路pid，道路名，道路方向，速度
         :param citycode:城市id
@@ -128,7 +130,7 @@ class BaiduTraffic(Traffic):
         dic = json.loads(data.text)
         return dic
 
-    def __realtime_road(self, dic, citycode):
+    def __realtime_road(self, dic, citycode) -> Iterator[Dict]:
         """
            处理10条道路路实时路况数据
            :param dic:
@@ -141,7 +143,7 @@ class BaiduTraffic(Traffic):
             yield data
 
     # 道路请求
-    def __realtime_roaddata(self, pid, i, citycode) -> dict:
+    def __realtime_roaddata(self, pid, i, citycode) -> Dict:
         """
          具体请求某条道路的数据
          :param pid:道路id

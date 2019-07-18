@@ -324,7 +324,7 @@ if __name__ == "__main__":
             ff.close()
 
         print(name)
-        if count >200 and count<=250 :
+        if count >215 and count<=250 :
             
             get_count(regin_id)
     

@@ -8,7 +8,7 @@ class ManagerTraffic(Traffic):
         db: Connection = pymysql.connect(host=host, user=user, password=password,
                                          database="digitalsmart",
                                          port=port)
-        pid = 500000
+        pid = 3171
         info = self.get_city_traffic(citycode=pid, db=db)
         if len(info) == 0:
             print("没有数据")
@@ -21,5 +21,13 @@ class ManagerTraffic(Traffic):
         db.close()
         return 1
 
+    def manager_city_road_traffic(self):
+        pid = 325
+        self.road_manager(pid)
 
-ManagerTraffic().manager_city_traffic()
+    def manager_city_year_traffic(self):
+        pid = 500000
+        self.yeartraffic(pid)  # 还未完善
+
+
+ManagerTraffic().manager_city_year_traffic()
