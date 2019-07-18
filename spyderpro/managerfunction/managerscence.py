@@ -27,7 +27,9 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         地区人口趋势数据管理
         :return:
         """
-        self.get_place_index(name='深圳欢乐谷', placeid=6, date_start='2019-05-19', date_end='2019-06-01')
+        d = self.get_place_index(name='深圳欢乐谷', placeid=6, date_start='2019-07-18', date_end='2019-07-19')
+        trend = d.__next__()
+        print(trend.ddate,trend.place,trend.index,trend.detailtime)
 
     def manager_scenece_people_distribution(self):
         """
@@ -37,12 +39,12 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         db = pymysql.connect(host=host, user=user, password=password, database=scencedatabase,
                              port=port)
         instances = self.get_distribution_situation('2019-05-19', '10:15:00', 6)
-        tmp_date = datetime.datetime(2019,5,19,10,15,0).timestamp()
+        tmp_date = datetime.datetime(2019, 5, 19, 10, 15, 0).timestamp()
 
         for item in instances:
             sql = "insert into digitalsmart.peopleposition0(pid, tmp_date, lat, lon, num) VALUES" \
-                  " ('%d','%d','%f','%f','%d')" %(6,tmp_date,item.latitude, item.longitude, item.number)
-            self.write_data(db,sql)
+                  " ('%d','%d','%f','%f','%d')" % (6, tmp_date, item.latitude, item.longitude, item.number)
+            self.write_data(db, sql)
 
     def manager_scenece_people_situation(self):
         """
@@ -71,3 +73,4 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         self.get_the_scope_of_pace_data(start_lat=23.2, start_lon=110.2, end_lat=30.2, end_lon=113.2)
 
 
+ManagerScence().manager_scence_trend()

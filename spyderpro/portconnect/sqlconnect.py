@@ -1,3 +1,6 @@
+from pymysql.cursors import Cursor
+
+
 class MysqlOperation():
     def __init__(self):
         pass
@@ -24,6 +27,7 @@ class MysqlOperation():
         :param sql:
         :return:
         """
+
         cursor = db.cursor()
         try:
             cursor.execute(sql)
@@ -38,7 +42,7 @@ class MysqlOperation():
         return True
 
     @staticmethod
-    def get_cursor(db, sql):
+    def get_cursor(db, sql) -> Cursor:
 
         cursor = db.cursor()
         try:

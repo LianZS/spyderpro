@@ -1,14 +1,12 @@
 import time
 import requests
-import os
-import csv
 import re
-import sys
 import json
 from datetime import datetime, timedelta
 import threading
 from queue import Queue
 from urllib.parse import urlencode
+from typing import Iterator
 from spyderpro.portconnect.internetconnect import Connect
 from spyderpro.portconnect.paramchecks import ParamTypeCheck
 from spyderpro.instances.lbs import Trend, Geographi, Positioning
@@ -116,14 +114,14 @@ class PlaceTrend(PlaceInterface):
 
             self.request = requests.Session()
 
-    def get_trend(self, region_name: str, pid: int):
+    def get_trend(self, region_name: str, pid: int) -> Iterator[Trend]:
         """
 
         获取地点的位置流量趋势指数，返回list({地点, 日期，趋势列表},,,)
         :param region_name:  地名
         :param pid: 地点id
 
-        :return  iterator
+        :return  Iterator[Trend]
         """
         parameter = {
             'region': pid,
@@ -136,45 +134,17 @@ class PlaceTrend(PlaceInterface):
         href = "https://heat.qq.com/api/getLocation_uv_percent_new.php?" + urlencode(parameter)
         par: str = None
         g = self.connect(par, href)
-        # start = time.strptime(self.date_begin, "%Y-%m-%d")
-        # end = time.strptime(self.date_end, "%Y-%m-%d")
-        # interval    间隔天数
 
         '''获取间隔日期 ----仅限于最大周期15天'''
-        datelist = []  # 计算保存日期列表---作为键来获取数据
-        # if not end.tm_year - start.tm_year:  # 同一年
-        #     interval: int = end.tm_yday - start.tm_yday
-        #     startday: int = start.tm_mday
-        #     if not end.tm_mon - start.tm_mon:  # 同一月
-        #         [datelist.append(date.isoformat()) for date in  # 获取时间列表
-        #          [datetime.date(start.tm_year, start.tm_mon, startday + day) for day in range(0, interval)]]
-        #     else:
-        #         monthdays: int = calendar.monthrange(start.tm_year, start.tm_mon)[1]  # 本月日数
-        #         critical: int = monthdays - start.tm_mday  # 本月剩下几天
-        #         l1: list = [datetime.date(start.tm_year, start.tm_mon, startday + day) for day in range(0, interval + 1)
-        #                     if
-        #                     day <= critical]
-        #         l2: list = [
-        #             datetime.date(start.tm_year, end.tm_mon, day) for day in range(1, interval - critical)]
-        #         l1.extend(l2)
-        #         [datelist.append(date.isoformat()) for date in l1]
-        #
-        # else:  # 跨年
-        #     interval = end.tm_mday + 31 - start.tm_mday
-        #     startday = start.tm_mday
-        #     critical = 31 - start.tm_mday  # 本月剩下几天
-        #     l1 = [datetime.date(start.tm_year, start.tm_mon, startday + day) for day in range(0, interval + 1) if
-        #           day <= critical]
-        #     l2 = [
-        #         datetime.date(end.tm_year, end.tm_mon, day) for day in range(1, interval - critical)]
-        #     l1.extend(l2)
-        #     [datelist.append(date.isoformat()) for date in l1]
-        # assert len(datelist) < 15, " time interval is must  less than 15 day"
+        intervallong = timedelta(minutes=5)
+        starttime = datetime(2019, 1, 1, 0, 0, 0)
         for date in self.dateiter():
-            trend = Trend(place=region_name, date=date, data=g[date])
-            yield trend
+            for index, detailt in zip(g[date],
+                                      [str((starttime + intervallong * i).time()) for i in range(len(g[date]))]):
+                trend = Trend(place=region_name, date=int(date.replace("-", "")), index=index, detailtime=detailt)
+                yield trend
 
-    def dateiter(self):
+    def dateiter(self) -> Iterator[str]:
         formatdate = time.strptime(self.date_begin, "%Y-%m-%d")
         intervallong = timedelta(days=1)
         date = datetime(formatdate.tm_year, formatdate.tm_mon, formatdate.tm_mday)
@@ -207,7 +177,7 @@ class PlaceFlow(PlaceInterface):
 
             self.request = requests.Session()
 
-    def request_heatdata(self, url: str):
+    def request_heatdata(self, url: str) -> json:
         """
         网络请求
         :param url:
@@ -233,7 +203,7 @@ class PlaceFlow(PlaceInterface):
         g = self.request_heatdata(url)
         return g
 
-    def count_headdata(self, ddate: str, dateTime: str, region_id: int)->Positioning:
+    def count_headdata(self, ddate: str, dateTime: str, region_id: int) -> Positioning:
 
         """
         某一时刻的人数有多少
@@ -252,7 +222,7 @@ class PlaceFlow(PlaceInterface):
         return positioning
         # return {"date": "".join([date, ' ', dateTime]), "num": count}
 
-    def complete_heatdata(self, date: str, dateTime: str, region_id: int):
+    def complete_heatdata(self, date: str, dateTime: str, region_id: int) -> Iterator[Geographi]:
         """
            某一时刻的人数以及分布情况
            :param date:日期：格式yyyy-mm-dd

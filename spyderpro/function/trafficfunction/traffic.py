@@ -22,9 +22,9 @@ class Traffic(MysqlOperation):
 
     def get_city_traffic(self, citycode: int, db: Connection) -> List[TrafficClass]:
         """
-        获取数据并写入数据库
+        获取数据
         :param citycode:
-        :return:bool
+        :return:List[TrafficClass]
         """
 
         traffic = None

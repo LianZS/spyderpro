@@ -14,15 +14,10 @@ class ManagerTraffic(Traffic):
             print("没有数据")
             return 0
         for item in info:
-            date = item.date
-            index = item.index
-            detailtime = item.detailtime
             sql = "insert into  digitalsmart.citytraffic(pid, ddate, ttime, rate)" \
                   " values('%d', '%d', '%s', '%f');" % (
-                      pid, date, detailtime, index)
-            if not self.loaddatabase(db, sql):
-                print("%s插入失败" % item)
-                continue
+                      pid, item.date, item.detailtime, item.index)
+            self.write_data(db, sql)
         db.close()
         return 1
 

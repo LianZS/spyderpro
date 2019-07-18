@@ -15,8 +15,7 @@ class PositioningTrend(PositiongParent):
         :param placeid:id
         :param date_start:开始日期，日期：格式yyyy-mm-dd
         :param date_end:结束日期，日期：格式yyyy-mm-dd
-        :return:iterable(dict)
-        dict->{'place': '深圳欢乐谷', 'date': '2019-05-23', 'data': [0.19, 0.19, 0.1.....]}
+        :return: Iterator[Trend]
         """
 
         assert re.match("\d{4}-\d{2}-\d{2}", date_start) and re.match("\d{4}-\d{2}-\d{2}", date_end), \

@@ -1,4 +1,5 @@
 import requests
+from typing import Iterator
 from urllib.parse import urlencode
 from spyderpro.portconnect.internetconnect import Connect
 from spyderpro.instances.lbs import Positioning
@@ -20,7 +21,7 @@ class ScencePeopleFlow(Connect):
             self.headers['User-Agent'] = user_agent
         self.headers['Host'] = 'jiaotong.baidu.com'
 
-    def peopleflow_info(self, peoplepid: int, ddate: int, historytype: int = 1):
+    def peopleflow_info(self, peoplepid: int, ddate: int, historytype: int = 1) -> Iterator[Positioning]:
         """
         获取景区客流量
         :param peoplepid: 景区id

@@ -1,17 +1,21 @@
+from typing import SupportsInt
+
+
 class Trend:
     """.
     地区人口趋势
     { place:地区名,date:日期,data：日趋势数据 }
     """
-    __slots__ = ['place', 'date', "data"]
+    __slots__ = ['place', 'ddate', "index", "detailtime"]
 
-    def __init__(self, place, date, data):
-        self.place = place
-        self.date = date
-        self.data = data
+    def __init__(self, place: str, date: int, index: float, detailtime: str):
+        self.place: str = place
+        self.ddate: int = date
+        self.index: float = index
+        self.detailtime: str = detailtime
 
     def __str__(self):
-        return "Trend----地区名:{0},日期:{1},日趋势数据:{2}".format(self.place, self.date, self.data)
+        return "Trend----地区名:{0},日期:{1},日趋势数据:{2}".format(self.place, self.ddate, self.data)
 
 
 class Geographi:

@@ -1,6 +1,6 @@
 import time
-import csv
 import datetime
+from typing import List
 from spyderpro.models.locationdata.scencepeople import ScencePeopleFlow
 from spyderpro.models.weather.weather import WeatherForect
 from spyderpro.models.traffic import baidutraffic
@@ -8,10 +8,10 @@ from spyderpro.models.traffic import gaodetraffic
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.managerfunction.setting import *
 from spyderpro.portconnect.sqlconnect import MysqlOperation
+from spyderpro.instances.lbs import Positioning
 
 
 class Parent(MysqlOperation):
-
 
     @staticmethod
     def programmerpool(func, pidlist):
@@ -28,17 +28,17 @@ class Parent(MysqlOperation):
     '''过滤器'''
 
     @staticmethod
-    def filter(info, date, detailtime):
+    def filter(info, date, detailtime) -> List[Positioning]:
         for i in range(len(info)):
             if info[i].get(str(date)) and info[i].get(detailtime):
                 info.pop(i)
-                return
-
+                break
+        return info
 
 
 class ScenceFlow(Parent):
 
-    def get_scence_situation(self, db, peoplepid):
+    def get_scence_situation(self, db, peoplepid) -> List[Positioning]:
         """
         请求某个景区实时客流量
         :param peoplepid: 景区id
@@ -54,7 +54,7 @@ class ScenceFlow(Parent):
         return info
 
     # 检查数据库是否存在部分数据，存在则不再插入
-    def __filter_peopleflow(self, db, objs, ddate: int, peoplepid: int) -> list:
+    def __filter_peopleflow(self, db, objs, ddate: int, peoplepid: int) -> List[Positioning]:
         """
         检查数据库是否存在部分数据，存在则不再插入
         :param db:  数据库实例
@@ -67,7 +67,7 @@ class ScenceFlow(Parent):
         sql = "select ttime from digitalsmart.scenceflow where pid={0} and  ddate={1} ".format(peoplepid,
                                                                                                ddate)
         cursor = self.get_cursor(db, sql)  # 从数据库获取当天已存在的数据
-        if cursor is None:
+        if cursor == "error":
             return []
         data = cursor.fetchall()  # 从数据库获取已经存在的数据
 
