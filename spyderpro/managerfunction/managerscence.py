@@ -1,7 +1,6 @@
-import time
 import datetime
 from spyderpro.managerfunction.setting import *
-from spyderpro.function.scencefunction import ScenceFlow
+from spyderpro.function.peoplefunction.posititioningscence import ScenceFlow
 from spyderpro.function.peoplefunction.positioningtrend import PositioningTrend
 from spyderpro.function.peoplefunction.positioningsituation import PositioningSituation
 from spyderpro.function.peoplefunction.monitoring_area import PositioningPeople

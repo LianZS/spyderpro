@@ -4,6 +4,7 @@ import time
 from urllib.parse import urlencode
 from spyderpro.models.traffic.multhread import MulitThread
 from spyderpro.models.traffic.trafficinterface import Traffic
+from spyderpro.instances.trafficclass import TrafficClass
 
 
 class GaodeTraffic(Traffic):
@@ -31,9 +32,10 @@ class GaodeTraffic(Traffic):
 
         :param citycode:城市id
         :return iterable(dict)
-        dict->{'date': '2019-06-14', 'index': 1.49, 'detailTime': '14:00'}
+        dict->{'date': '20190614', 'index': 1.49, 'detailTime': '14:00:00'}
         """
         url = "http://report.amap.com/ajax/cityHourly.do?cityCode=" + str(citycode)
+        print(url)
         data = self.s.get(url=url, headers=self.headers)
         try:
             g = json.loads(data.text)
@@ -51,10 +53,12 @@ class GaodeTraffic(Traffic):
             detailtime = time.strftime("%H:%M", time.localtime(int(item[0]) / 1000))
             if detailtime == '00:00':
                 date = today
-            dic['date'] = date  # 日期
-            dic['index'] = float(item[1])  # 拥堵指数
-            dic['detailTime'] = detailtime  # 具体时刻
-            yield dic
+
+            ddate = int(date.replace("-", ""))  # 日期
+            iindex = float(item[1])  # 拥堵指数
+            detailtime = detailtime + ":00"  # 具体时刻
+
+            yield TrafficClass(ddate, iindex, detailtime)
 
     # 道路数据获取
     def roaddata(self, citycode: int) -> list:

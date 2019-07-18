@@ -49,5 +49,5 @@ class MysqlOperation():
         except Exception as e:
             print("查询错误%s" % e)
             db.rollback()
-            return None
+            return "error"
         return cursor
