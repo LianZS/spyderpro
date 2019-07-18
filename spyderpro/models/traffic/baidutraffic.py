@@ -8,6 +8,7 @@ from queue import Queue
 
 from spyderpro.models.traffic.trafficinterface import Traffic
 from spyderpro.instances.trafficclass import TrafficClass, Road, Year
+from spyderpro.instances.infomation import CityInfo
 
 
 class BaiduTraffic(Traffic):
@@ -202,7 +203,7 @@ class BaiduTraffic(Traffic):
         self.quitcount -= 1
         self.lock.release()
 
-    def getallcitycode(self) -> list:
+    def getallcitycode(self) -> Iterator[CityInfo]:
         """
         获取最新的交通基本信息，比如id，省份，位置等等等
         :return: list
@@ -221,13 +222,15 @@ class BaiduTraffic(Traffic):
 
             provincecode = value['provincecode']  # 省份id
             provincename = value['provincename']  # 省份
-            dic = dict()
-            dic['citycode'] = citycode
-            dic['cityname'] = cityname
-            dic['lat'] = lat
-            dic['lon'] = lon
-            dic['provincecode'] = provincecode
-            dic['provincename'] = provincename
-            datalist.append(dic)
+            yield CityInfo(provincename, provincecode, cityname, citycode, lat, lon)
 
-        return datalist
+
+if __name__ == "__main__":
+    import csv
+
+    f = open('/Users/darkmoon/Project/SpyderPr/datafile/baiducity.csv', 'a+', newline='')
+    w = csv.writer(f)
+    w.writerow(['城市名', "城市id", "维度", "经度"])
+    for item in BaiduTraffic().getallcitycode():
+        w.writerow([item.cityname, item.citycode, item.lat, item.lon])
+    f.close()

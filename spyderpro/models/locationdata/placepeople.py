@@ -78,10 +78,24 @@ class PlaceInterface(Connect, ParamTypeCheck):
         for value in g:
             placename = value['name']  # 地点
             placeid = value["id"]  # id
-            dic = {"place": placename, "id": placeid}
+            dic = {'city': city, "place": placename, "id": placeid}
             datalist.append(dic)
         return datalist
         # range表示数据间隔，最小1,region_name是地点名字,id是景区pid
+    def get_bounds(self,pid:int):
+        href="https://heat.qq.com/api/getRegionHeatMapInfoById.php?id="+str(pid)
+        headers=dict()
+        headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
+                                '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+        response = requests.get(url=href,headers=headers).text
+        g = json.loads(response)
+        bounds = g['boundary']
+        center = g['center_gcj'].split(',',2)
+        lat =center[0]
+        lon=center[1]
+        return {"bounds":bounds,"lat":lat,"lon":lon}
+
+
 
 
 class PlaceTrend(PlaceInterface):
@@ -291,16 +305,41 @@ class PlaceFlow(PlaceInterface):
 
 
 if __name__ == "__main__":
-    p = PlaceFlow().complete_heatdata('2019-06-01', "15:20:00", 6)
+    import csv
 
-    place = PlaceTrend(date_begin='2019-06-11', date_end='2019-06-13')
-    semaphore = threading.Semaphore(6)  # 每次最多6个线程在执行
-    data_queue = Queue(maxsize=10)
-    result = place.get_citys("广东省")
-    for info in result:
-        cityinfo = place.get_regions_bycity(info['province'], info['city'])
-        for item in cityinfo:
-            for i in place.get_trend(item['place'], item['id']):
-                print(i)
-            break
-    exit(0)
+    # f = open('/Users/darkmoon/Project/SpyderPr/datafile/scenceinfo.csv', 'a+', newline='')
+    # w = csv.writer(f)
+    # w.writerow(['城市', '地名', '标识', '中心经度', '中心维度', "经纬度范围"])
+    # p = PlaceFlow()
+    # for province in PlaceFlow().get_provinces():
+    #     for city in p.get_citys(province):
+    #         city=city['city']
+    #         for k in p.get_regions_bycity(province,city):
+    #
+    #             pid = k['id']
+    #             area=k['place']
+    #             response= p.get_bounds(pid)
+    #             lon=response['lon']
+    #             lat=response['lat']
+    #             bounds = response['bounds']
+    #             w.writerow([city,area,pid,lon,lat,bounds])
+    #             f.flush()
+    #
+    # f.close()
+    #
+
+
+
+    # p = PlaceFlow().complete_heatdata('2019-06-01', "15:20:00", 6)
+    #
+    # place = PlaceTrend(date_begin='2019-06-11', date_end='2019-06-13')
+    # semaphore = threading.Semaphore(6)  # 每次最多6个线程在执行
+    # data_queue = Queue(maxsize=10)
+    # result = place.get_citys("广东省")
+    # for info in result:
+    #     cityinfo = place.get_regions_bycity(info['province'], info['city'])
+    #     for item in cityinfo:
+    #         for i in place.get_trend(item['place'], item['id']):
+    #             print(i)
+    #         break
+    # exit(0)

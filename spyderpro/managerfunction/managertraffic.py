@@ -30,7 +30,7 @@ class ManagerTraffic(Traffic):
         up_date = datetime.datetime.now().timestamp()
         pid = 500000
 
-        for item in self.road_manager(pid):  # 速度需要使用高并发加快速度
+        for item in self.road_manager(pid):
             sql = "insert into digitalsmart.roadtraffic(pid, roadname, up_date, speed, direction, bound, data) VALUE" \
                   "(%d,'%s',%d,%f,'%s','%s','%s') " % (
                       item.region_id, item.roadname, up_date, item.speed, item.direction, item.bounds,
