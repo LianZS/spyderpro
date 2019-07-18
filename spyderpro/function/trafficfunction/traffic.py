@@ -7,7 +7,7 @@ from spyderpro.models.traffic.gaodetraffic import GaodeTraffic
 from spyderpro.managerfunction.setting import *
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.portconnect.sqlconnect import MysqlOperation
-from spyderpro.instances.trafficclass import TrafficClass
+from spyderpro.instances.trafficclass import TrafficClass,  Year
 
 
 class Traffic(MysqlOperation):
@@ -102,6 +102,7 @@ class Traffic(MysqlOperation):
             g = GaodeTraffic()
         elif citycode < 1000:
             g = BaiduTraffic()
+        print("init")
         result = g.roaddata(citycode)
         if result is None:
             return []
@@ -111,30 +112,21 @@ class Traffic(MysqlOperation):
     def yeartraffic(self, citycode):
         db = pymysql.connect(host=host, user=user, password=password, database=trafficdatabase,
                              port=port)
-        # yearpid = self.__search_yearpid(citycode, db)
-        # g = None
         yearpid = citycode
+
+        # yearpid = self.__search_yearpid(citycode, db) #在主表查找年度pid
+        g = None
         if yearpid > 1000:
             g = GaodeTraffic()
         elif yearpid < 1000:
             g = BaiduTraffic()
+            yearpid = citycode
         result = g.yeartraffic(yearpid)
-        result = self.__dealwith_year_traffic(result, citycode, db,
-                                              lastdate=time.strftime("%Y-%m-%d",
-                                                                     time.localtime(time.time() - 24 * 3600)))
-        # for item in result:
-        #     date = item['date']
-        #     index = item['index']
-        #     city = item['city']
-        #     sql = "insert into  trafficdatabase.YearCityTraffic(pid_id,date,city,TrafficIndex) " \
-        #           "values('%d','%s','%s','%f')" % (
-        #               citycode, date, city, index)
-        #     if not self.loaddatabase(db, sql):
-        #         print("%s写入数据库失败" % item)
-        #         continue
-        # print("success")
-        # db.close()
-        return True
+        result = self.__dealwith_year_traffic(result, yearpid, db,
+                                              lastdate=int(time.strftime("%Y%m%d",
+                                                                         time.localtime(time.time() - 24 * 3600))))
+
+        return result
 
     def __search_yearpid(self, citycode, db):
         sql = "select yearpid from trafficdatabase.MainTrafficInfo WHERE cityCode=" + str(citycode)
@@ -151,22 +143,20 @@ class Traffic(MysqlOperation):
             return citycode
         return yearpid
 
-    def __dealwith_year_traffic(self, info, pid, db, lastdate):
-        sql = ""
+    def __dealwith_year_traffic(self, info: Iterator, pid: int, db: Connection, lastdate: int)->List[Year]:
+        sql = "select tmp_date from digitalsmart.yeartraffic where pid={0} and tmp_date>= {1} order by tmp_date".format(pid, lastdate)
         cursor = self.get_cursor(db, sql)
-        if cursor is None:
+        if cursor == "error":
             print("年度数据查询日期数据失败！")
             return None
-        try:
-            result = str(cursor.fetchall()[-1][0])  # 最近的日期
+        data = cursor.fetchall()
+        if not data:
+            return list(info)
+        result = data[-1] # 最近的日期
 
-        except IndexError:
-            print("无相关重复数据，可以直接写入")
-            return info
         info = list(info)
-        i = 0
         for i in range(len(info)):
-            if info[i]['date'] == result:
+            if info[i].date == result:
                 break
         return info[i + 1:]
 

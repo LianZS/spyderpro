@@ -3,11 +3,18 @@ import json
 import time
 from urllib.parse import urlencode
 from typing import Dict, Iterator
+from threading import Semaphore, Thread
+from queue import Queue
+
 from spyderpro.models.traffic.trafficinterface import Traffic
 from spyderpro.instances.trafficclass import TrafficClass, Road, Year
 
 
 class BaiduTraffic(Traffic):
+    wait = Semaphore(5)  # 允许同时运行5个任务
+    dataqueue = Queue(8)  # 存放数据队列
+    quitcount = 10  # 记录任务是否完成了，完成了-1
+    lock = Semaphore(1)  # 锁住-1操作
 
     def __init__(self):
         self.s = requests.Session()
@@ -57,7 +64,7 @@ class BaiduTraffic(Traffic):
             ddate = int(date.replace("-", ""))  # 日期
             iindex = float(item['index'])  # 拥堵指数
             detailtime = item['time'] + ":00"  # 具体时刻
-            yield TrafficClass(ddate, iindex, detailtime)
+            yield TrafficClass(citycode, ddate, iindex, detailtime)
 
     def yeartraffic(self, citycode: int, year: int = int(time.strftime("%Y", time.localtime())),
                     quarter: int = int(time.strftime("%m", time.localtime())) / 3) -> Iterator[Road]:
@@ -89,7 +96,7 @@ class BaiduTraffic(Traffic):
             # {'index': '1.56', 'speed': '32.83', 'time': '04-12'}
             date = year + item['time']
             index = float(item["index"])
-            yield Year(int(date.replace("-", "")), index)
+            yield Year(pid=citycode, date=int(date.replace("-", "")), index=index)
 
     def roaddata(self, citycode) -> Iterator[Road]:
         """
@@ -105,13 +112,15 @@ class BaiduTraffic(Traffic):
             return None
         datalist = self.__realtime_road(dic, citycode)
 
+        datalist = sorted(datalist, key=lambda x: x["num"])  # 数据必须排序，不然和下面的信息不对称
+
         for item, data in zip(dic['data']['list'], datalist):
             roadname = item["roadname"]
             speed = float(item["speed"])
             direction = item['semantic']
             bounds = json.dumps({"coords": data['coords']})
             data = json.dumps(data['data'])
-            road = Road(roadname=roadname, speed=speed, dircetion=direction, bounds=bounds, data=data)
+            road = Road(pid=citycode, roadname=roadname, speed=speed, dircetion=direction, bounds=bounds, data=data)
 
             yield road
 
@@ -137,19 +146,21 @@ class BaiduTraffic(Traffic):
            :param citycode:
            :return: dict
            """
+        for item, i in zip(dic['data']['list'], range(10)):
+            self.wait.acquire()
+            Thread(target=self.__realtime_roaddata, args=(item['roadsegid'], i, citycode)).start()
 
-        for item, i in zip(dic['data']['list'], range(1, 11)):
-            data = self.__realtime_roaddata(item['roadsegid'], i, citycode)
+        while self.quitcount:
+            data = self.dataqueue.get()
             yield data
 
     # 道路请求
-    def __realtime_roaddata(self, pid, i, citycode) -> Dict:
+    def __realtime_roaddata(self, pid, i, citycode):
         """
          具体请求某条道路的数据
          :param pid:道路id
          :param citycode: 城市id
          :param i: 排名
-         :return: dict->{"data": realdata, "coords": bounds}
 
          """
         parameter = {
@@ -157,8 +168,17 @@ class BaiduTraffic(Traffic):
             'id': pid
         }
         href = 'https://jiaotong.baidu.com/trafficindex/city/roadcurve?' + urlencode(parameter)
-        data = self.s.get(url=href, headers=self.headers)
-        obj = json.loads(data.text)
+        try:
+            data = self.s.get(url=href, headers=self.headers)
+            obj = json.loads(data.text)
+        except Exception as e:
+            print(e)
+            self.dataqueue.put({"data": None, "coords": None, "num": i})
+            self.lock.acquire()
+            self.quitcount -= 1
+            self.lock.release()
+
+            return
         timelist = []
         data = []
         for item in obj['data']['curve']:  # 交通数据
@@ -176,7 +196,11 @@ class BaiduTraffic(Traffic):
                 else:
                     bound['lon'] = locations  # 纬度
             bounds.append(bound)
-        return {"data": realdata, "coords": bounds}
+        self.dataqueue.put({"data": realdata, "coords": bounds, "num": i})
+        self.wait.release()
+        self.lock.acquire()
+        self.quitcount -= 1
+        self.lock.release()
 
     def getallcitycode(self) -> list:
         """

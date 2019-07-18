@@ -3,12 +3,18 @@ import json
 import time
 from urllib.parse import urlencode
 from typing import Iterator
+from threading import Semaphore, Thread
+from queue import Queue
 from spyderpro.models.traffic.multhread import MulitThread
 from spyderpro.models.traffic.trafficinterface import Traffic
 from spyderpro.instances.trafficclass import TrafficClass, Road, Year
 
 
 class GaodeTraffic(Traffic):
+    wait = Semaphore(5)  # 允许同时运行5个任务
+    dataqueue = Queue(8)  # 存放数据队列
+    quitcount = 10  # 记录任务是否完成了，完成了-1
+    lock = Semaphore(1)  # 锁住-1操作
 
     def __init__(self):
         self.s = requests.Session()
@@ -27,7 +33,7 @@ class GaodeTraffic(Traffic):
     #     return load
     #
     # @deco
-    def citytraffic(self, citycode: int) -> list:
+    def citytraffic(self, citycode: int) -> Iterator[TrafficClass]:
 
         """获取实时交通状态，包括日期，拥堵指数，具体时刻
 
@@ -58,7 +64,7 @@ class GaodeTraffic(Traffic):
             iindex = float(item[1])  # 拥堵指数
             detailtime = detailtime + ":00"  # 具体时刻
 
-            yield TrafficClass(ddate, iindex, detailtime)
+            yield TrafficClass(citycode, ddate, iindex, detailtime)
 
     # 道路数据获取
     def roaddata(self, citycode: int) -> Iterator[Road]:
@@ -75,16 +81,15 @@ class GaodeTraffic(Traffic):
             return None
 
         datalist = self.__realtimeroad(dic, citycode)  # 获取数据
+        datalist = sorted(datalist, key=lambda x: x["num"])  # 数据必须排序，不然和下面的信息不对称
 
-        if len(datalist) == 0:
-            return None
-        for item, data in zip(dic['route'], datalist['data']):
+        for item, data in zip(dic['route'], datalist):
             roadname = item["name"]  # 路名
             speed = float(item["speed"])  # 速度
-            data = json.dumps(data)  # 数据包
+            data = json.dumps(data['data'])  # 数据包
             direction = item['dir']  # 道路方向
             bounds = json.dumps({"coords": item['coords']})  # 道路经纬度数据
-            road = Road(roadname=roadname, speed=speed, dircetion=direction, bounds=bounds, data=data)
+            road = Road(pid=citycode, roadname=roadname, speed=speed, dircetion=direction, bounds=bounds, data=data)
 
             yield road
 
@@ -126,7 +131,7 @@ class GaodeTraffic(Traffic):
 
         return dic_collections
 
-    def __realtimeroad(self, dic: dict, citycode: int) -> dict:
+    def __realtimeroad(self, dic: dict, citycode: int) -> Iterator[dict]:
         """
         请求10条道路路实时路况数据
         :param dic:
@@ -141,29 +146,17 @@ class GaodeTraffic(Traffic):
 
         }
         url = "https://report.amap.com/ajax/roadDetail.do?" + urlencode(req)
-        threadlist = []
-        data = []
+
         for pid, i in zip(dic["listId"],
                           range(0, (dic["listId"]).__len__())):
             roadurl = url + str(pid)
-            t = MulitThread(target=self.__realtime_roaddata, args=(roadurl, i,))  # i表示排名
-            t.start()
-            threadlist.append(t)
-        for t in threadlist:
-            t.join()
-            if len(t.get_result) > 0:
-                data.append(t.get_result)
-            else:
-                continue
+            self.wait.acquire()
+            Thread(target=self.__realtime_roaddata, args=(roadurl, i,)).start()
+        while self.quitcount:
+            data = self.dataqueue.get()
+            yield data
 
-        # 排好序列
-        if len(data) > 0:
-            sorted(data, key=lambda x: ["num"])
-        else:
-            return {}
-        return {"data": data}
-
-    def __realtime_roaddata(self, roadurl, i) -> dict:
+    def __realtime_roaddata(self, roadurl, i):
         """
         具体请求某条道路的数据
         :param roadurl: 道路数据链接
@@ -171,12 +164,17 @@ class GaodeTraffic(Traffic):
         :return: dict->{"num": i, "time": time_list, "data": data}
 
         """
-        data = self.s.get(url=roadurl, headers=self.headers)
+
         try:
+            data = self.s.get(url=roadurl, headers=self.headers)
             g = json.loads(data.text)  # 拥堵指数
         except Exception as e:
             print(e)
-            return {}
+            self.dataqueue.put({"data": None, "num": i})
+            self.lock.acquire()
+            self.quitcount -= 1
+            self.lock.release()
+            return
         data = []  # 拥堵指数
         time_list = []  # 时间
         for item in g:
@@ -184,7 +182,12 @@ class GaodeTraffic(Traffic):
             data.append(item[1])
         # {排名，时间，交通数据}
         realdata = {"num": i, "time": time_list, "data": data}
-        return realdata
+        self.dataqueue.put({"data": realdata, "num": i})
+        self.wait.release()
+        self.lock.acquire()
+        self.quitcount -= 1
+        self.lock.release()
+        return
 
     def yeartraffic(self, citycode: int, year: int = int(time.strftime("%Y", time.localtime())),
                     quarter: int = int(time.strftime("%m", time.localtime())) / 3) -> Iterator[Year]:
@@ -219,4 +222,4 @@ class GaodeTraffic(Traffic):
             print("高德地图年度数据请求失败！")
             return None
         for date, index in zip(g["categories"], g['serieData']):
-            yield Year(int(date.replace("-", "")), index)
+            yield Year(pid=citycode, date=int(date.replace("-", "")), index=index)
