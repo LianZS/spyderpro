@@ -227,7 +227,7 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
         inv = datetime.timedelta(days=31)
         wait = Semaphore(10)
         dataqueue = Queue(10)
-        appinfo = csv.writer(open(os.path.join(rootpath, 'datafile/appinfo.csv'), 'w', newline=''))
+        appinfo = csv.writer(open(os.path.join(rootpath, 'datafile/appinfo.csv'), 'a+', newline=''))
         appinfo.writerow(['app', '日期', '省份热度', '年龄分布', '性别分布', '内容关键词热度'])
 
         def fast_request(name, apppid, ddate):
@@ -243,8 +243,11 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
                     [userhabit.app, userhabit.province, userhabit.age, userhabit.gender, userhabit.preference])
 
         Thread(target=deal_data, args=()).start()
-
+        count = 0
         for item in read:
+            count+=1
+            if count<2294:
+                continue
             date = start_date
             pid = item[0]
             appname = item[1]
@@ -265,4 +268,4 @@ if __name__ == "__main__":
     # manager.manager_mobile_system_rate()
     # manager.manager_mobile_operator_rate()
     # manager.manager_mobile_network_rate()
-    manager.manager_app_userhabit()
+    # manager.manager_app_userhabit()

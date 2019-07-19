@@ -1,6 +1,7 @@
 import random
 import requests
 import re
+import datetime
 from typing import Iterator
 from bs4 import BeautifulSoup
 
@@ -8,8 +9,15 @@ from bs4 import BeautifulSoup
 
 
 class WeatherHistory(object):
-    class a:
-        pass
+    class weatherstatus:
+
+        __slots__ = ['date', 'state', 'temperature', 'wind']
+
+        def __init__(self, ddate, state, tempera, wind):
+            self.date = ddate  # 日期
+            self.state = state  # 天气状况
+            self.temperature = tempera  # 气温
+            self.wind = wind  # 风力风向
 
     def __init__(self):
         self.request = requests.Session()
@@ -18,13 +26,13 @@ class WeatherHistory(object):
             'User-Agent': 'Mozilla/5.0 (Macinto¬sh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) '
                           'Chrome/71.0.3578.98 Safari/537.36'
         }
-        self.use = ['Mozilla/5.0 (X11; Linux i686; rv:64.0) Gecko/20100101 Firefox/64.0',
-                    'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:64.0) Gecko/20100101 Firefox/64.0',
-                    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:10.0) Gecko/20100101 Firefox/62.0',
-                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                    'Chrome/71.0.3578.98 Safari/537.36',
-                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                    'Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134']
+        self.useagent = ['Mozilla/5.0 (X11; Linux i686; rv:64.0) Gecko/20100101 Firefox/64.0',
+                         'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:64.0) Gecko/20100101 Firefox/64.0',
+                         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:10.0) Gecko/20100101 Firefox/62.0',
+                         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+                         'Chrome/71.0.3578.98 Safari/537.36',
+                         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+                         'Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134']
 
     def get_province_link(self) -> Iterator:
         """
@@ -47,7 +55,7 @@ class WeatherHistory(object):
             dic['url'] = url
             yield dic
 
-    def get_city_past_link(self, url:str) -> Iterator:
+    def get_city_past_link(self, url: str) -> Iterator:
         """
         获取省份下所有城市分区链接
         :param url: 省份链接入口
@@ -72,21 +80,20 @@ class WeatherHistory(object):
                 dic['city'] = cityname.strip(' ')
                 yield dic
 
-    # 获取城市分区下所有月份的历史天气链接
-    def get_city_all_partition(self, url:str) -> list:
+    def get_city_all_partition(self, url: str) -> Iterator:
         """
                请求获取区域10多年来多每个月的天气数据链接
                :param url:
-               :return: list
+               :return: IIterator
                """
         result = self.__into_area(url)
         return result
 
-    def __into_area(self, url) -> list:
+    def __into_area(self, url) -> Iterator:
         """
         请求获取区域10多年来多每个月的天气数据链接
         :param url:
-        :return: list
+        :return: Iterator
         """
         headers = {
             'Host': 'www.tianqihoubao.com',
@@ -114,17 +121,16 @@ class WeatherHistory(object):
         content = sounp.find(name='div', attrs={"class": "wdetail"})
         tags = content.find_all(name="a")
 
-        urllist = list()
+        last = str(datetime.datetime.today().date()).replace("-", "")
         for tag in tags[:-2]:  # 将date这个说明跳过
             href = tag.get("href")
-            if "201812" in href:
+            if last in href:
                 url = "http://www.tianqihoubao.com/lishi/" + href
             else:
                 url = pre_url + href
-            urllist.append(url)
-        return urllist
+            yield url
 
-    def get_weather_detail(self, url) -> list:
+    def get_weather_detail(self, url) -> Iterator[weatherstatus]:
         """
         请求历史月份历史数据，'日期', '天气状况', '气温', '风力风向'
         :param url:
@@ -136,26 +142,43 @@ class WeatherHistory(object):
         if response.status_code != 200:
             print("%s请求--失败" % url)
             return None
-            # raise ConnectionError('网络连接中断')
         soup = BeautifulSoup(response.text, 'lxml')
         table = soup.find(name="table")
         tr = table.find_all(name="tr")
-        datalist = list()
-        key = ['date', 'state', 'temperature', 'wind']
 
         dates = table.find_all(name='a')
+        state =None
+        temperature = None
+        wind = None
         for tds, date in zip(tr, dates):
 
             value = list()
             date = date.text
             date = re.sub("\s", '', date)
+
             value.append(date)
+            count = 0
             for td in tds:
-                text = td.string
-                if text is None:
+
+                text = str(td.string)
+                text = text.replace(" ", "")
+
+                if text == "\n" or text == "None":
                     continue
-                text = re.sub("\s", '', text)
-                value.append(text)
-            dic = dict(zip(key, value))
-            datalist.append(dic)
-        return datalist
+                text = re.sub("\s", "", text)
+                count += 1
+
+                if count == 1:
+                    state = text
+                elif count == 2:
+                    temperature = text
+                elif count == 3:
+                    wind = text
+                yield self.weatherstatus(ddate=date, state=state, tempera=temperature, wind=wind)
+
+
+if __name__=="__main__":
+
+
+    for item in WeatherHistory().get_weather_detail('http://www.tianqihoubao.com/lishi/beijing/month/201101.html'):
+        print(item.temperature)
