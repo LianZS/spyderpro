@@ -27,14 +27,16 @@ class MobileKeyWord:
         else:
             self.headers['User-Agent'] = user_agent
 
-    def get_mobile_type_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> Iterator[Mobile_Info]:
+    def get_mobile_type_rate(self, year: int, startmonth: int = None, endmonth: int = None, platform: int = 2) -> \
+    Iterator[Mobile_Info]:
         """
         获取某个时段的中国境内各手机机型的占有率
         :rtype:iterable
         :param year:年份
         :param startmonth: 开始月份
         :param endmonth:结束月份
-        :return :list[{"机型": value['k'], "占有率": value['r'],'日期'：},,,,,,]
+        :return :Iterator[Mobile_Info]
+        platform=2表示安卓手机，1表示苹果
         """
         self.__type_check(year, startmonth, endmonth)
 
@@ -70,7 +72,7 @@ class MobileKeyWord:
         return self.__mobile_rate(kw="分辨率", year=year, startmonth=startmonth, endmonth=endmonth, platform=2,
                                   terminaltype=3)
 
-    def get_mobile_system_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> Iterator[Mobile_Info]:
+    def get_mobile_system_rate(self, year: int, startmonth: int = None, endmonth: int = None,platform=2) -> Iterator[Mobile_Info]:
         """
         获取某时段中国境内各手机系统版本占用率
         :rtype: iterable
@@ -82,7 +84,7 @@ class MobileKeyWord:
         """
         self.__type_check(year, startmonth, endmonth)
 
-        return self.__mobile_rate(kw="操作系统", year=year, startmonth=startmonth, endmonth=endmonth, platform=2,
+        return self.__mobile_rate(kw="操作系统", year=year, startmonth=startmonth, endmonth=endmonth, platform=platform,
                                   terminaltype=4)
 
     def get_mobile_operator_rate(self, year: int, startmonth: int = None, endmonth: int = None) -> Iterator[
@@ -163,8 +165,6 @@ class MobileKeyWord:
             for value in result:
                 info = Mobile_Info(kw, value['k'], value['r'], date)
                 yield info
-
-                # yield {kw: value['k'], "占有率": value['r'], "日期": date}
 
     def __type_check(self, year, startmonth, endmonth):
         assert isinstance(year, int), 'year is not type of int'

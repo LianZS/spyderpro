@@ -1,4 +1,8 @@
 import datetime
+import csv
+import os
+from threading import Thread, Semaphore
+from queue import Queue
 from spyderpro.portconnect.sqlconnect import MysqlOperation
 
 from spyderpro.managerfunction.setting import *
@@ -6,81 +10,140 @@ from spyderpro.function.keywordfunction.mobilekey import MobileKey
 from spyderpro.function.keywordfunction.searchkeyword import SearchKeyword
 from spyderpro.function.keywordfunction.apphabit import AppUserhabit
 
+rootpath = os.path.dirname(os.path.abspath(os.path.pardir))
+
 
 class ManagerMobileKey(MobileKey, MysqlOperation):
-    def manager_mobile_type_rate(self, year: int, startmonth: int = None, endmonth: int = None):
-        db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
-                             port=port)
-        data = self.request_mobile_type_rate(year=year, startmonth=startmonth, endmonth=endmonth)
-        for info in data:
-            mobile_info = info.type_name
-            array = mobile_info.split(" ")
-            brand = array[0]
-            pid = MobileKey.brand_dic[brand]
-            mobile_type = array[1]
-            value = float(info.value)
-            date = info.date
-            sql = "insert into internetdata.mobiletype (mobile_type, value, date, pid_id)" \
-                  " VALUES('%s','%f','%s','%d')" % (mobile_type, value, date, pid)
-            self.write_data(db, sql)
-
-    def manager_mobile_brand_rate(self, year: int, startmonth: int = None, endmonth: int = None):
+    def manager_mobile_type_rate(self):
         """
+         获取某个时段的中国境内各手机机型的占有率
 
-        :param year:
-        :param startmonth: 开始月份
-        :param endmonth: #结束月份
+        2014/1 ---2018/9
+
         """
-        data = self.request_mobile_brand_rate(year=year, startmonth=startmonth, endmonth=endmonth)
-        db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
-                             port=port)
-        for info in data:
-            mobile_brand = info.type_name
-            pid = MobileKey.brand_dic[mobile_brand]
-            value = float(info.value)
-            date = info.date
-            sql = "insert into internetdata.mobilebrand (pid_id, value,date)" \
-                  " VALUES ('%d','%s','%s')" % (pid, value, date)
-            self.write_data(db, sql)
+        filepath = os.path.join(rootpath, 'datafile/苹果手机品牌占有率.csv')
+        f = open(filepath, 'w', newline='')
+        w = csv.writer(f)
+        w.writerow(['品牌', '机型', '日期', '占有率'])
+        for year in range(2014, 2019):
 
-    def manager_mobile_system_rate(self, year: int, startmonth: int = None, endmonth: int = None):
-        data = self.request_mobile_system_rate(year=year, startmonth=startmonth, endmonth=endmonth)
-        db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
-                             port=port)
-        for info in data:
-            mobile_system = info.type_name
-            value = float(info.value)
-            date = info.date
-            pid = MobileKey.system_dic[mobile_system]
-            sql = "insert into internetdata.mobilesystem (msystem, pid, value, date)" \
-                  " VALUES ('%s','%d','%f','%s')" % (mobile_system, pid, value, date)
-            self.write_data(db, sql)
+            startmonth = 1
+            endmonth = 12
+            if year == 2018:
+                endmonth = 9
+            data = self.request_mobile_type_rate(year=year, startmonth=startmonth, endmonth=endmonth, platform=1)
+            for info in data:
 
-    def manager_mobile_operator_rate(self, year: int, startmonth: int = None, endmonth: int = None):
-        data = self.request_mobile_operator_rate(year=year, startmonth=startmonth, endmonth=endmonth)
-        db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
-                             port=port)
-        for info in data:
-            mobile_operator = info.type_name
-            value = float(info.value)
-            date = info.date
-            pid = MobileKey.operator_dic[mobile_operator]
-            sql = "insert into internetdata.operator (operator, pid, value, date)" \
-                  " VALUES ('%s','%d','%f','%s')" % (mobile_operator, pid, value, date)
-            self.write_data(db, sql)
+                mobile_info = info.type_name
+                array = mobile_info.split(" ", 2)
+                brand = array[0]
+                # pid = MobileKey.brand_dic[brand]
+                try:
+                    mobile_type = array[1]
+                except Exception:
+                    continue
+                value = float(info.value)
+                date = info.date
+                w.writerow([brand, mobile_type, date, value])
+            f.flush()
+        f.close()
 
-    def manager_mobile_network_rate(self, year: int, startmonth: int = None, endmonth: int = None):
-        data = self.request_mobile_network_rate(year=year, startmonth=startmonth, endmonth=endmonth)
-        db = pymysql.connect(host=host, user=user, password=password, database=internetdata,
-                             port=port)
-        for info in data:
-            mobile_net = info.type_name
-            value = float(info.value)
-            date = info.date
-            pid = MobileKey.network_dic[mobile_net]
-            sql = "insert into internetdata.network (network, pid, value, date)" \
-                  " VALUE('%s','%d','%f','%s')" % (mobile_net, pid, value, date)
-            self.write_data(db,sql)
+    def manager_mobile_brand_rate(self):
+        """
+        获取某时段中国境内各手机品牌占用率
+        2014/1 ---2018/9
+
+        """
+        filepath = os.path.join(rootpath, 'datafile/品牌占有率.csv')
+        f = open(filepath, 'w', newline='')
+        w = csv.writer(f)
+        w.writerow(['品牌', '日期', '占有率'])
+        for year in range(2014, 2019):
+
+            startmonth = 1
+            endmonth = 12
+            if year == 2018:
+                endmonth = 9
+            data = self.request_mobile_brand_rate(year=year, startmonth=startmonth, endmonth=endmonth)
+            for info in data:
+                mobile_brand = info.type_name
+                # pid = MobileKey.brand_dic[mobile_brand]
+                value = float(info.value)
+                date = info.date
+                w.writerow([mobile_brand, date, value])
+            f.flush()
+        f.close()
+
+    def manager_mobile_system_rate(self):
+        """
+        platform=2表示安卓手机，1表示苹果
+        获取某时段中国境内各手机系统版本占用率
+
+        :return:
+        """
+        filepath = os.path.join(rootpath, 'datafile/苹果系统占有率.csv')
+        f = open(filepath, 'w', newline='')
+        w = csv.writer(f)
+        w.writerow(['系统', '日期', '占有率'])
+        for year in range(2014, 2019):
+
+            startmonth = 1
+            endmonth = 12
+            if year == 2018:
+                endmonth = 9
+            data = self.request_mobile_system_rate(year=year, startmonth=startmonth, endmonth=endmonth, platform=1)
+            for info in data:
+                mobile_system = info.type_name
+                value = float(info.value)
+                date = info.date
+                w.writerow([mobile_system, date, value])
+            f.flush()
+        f.close()
+        # pid = MobileKey.system_dic[mobile_system]
+
+    def manager_mobile_operator_rate(self):
+        filepath = os.path.join(rootpath, 'datafile/运营商占有率.csv')
+        f = open(filepath, 'w', newline='')
+        w = csv.writer(f)
+        w.writerow(['运营商', '日期', '占有率'])
+        for year in range(2014, 2019):
+
+            startmonth = 1
+            endmonth = 12
+            if year == 2018:
+                endmonth = 9
+            data = self.request_mobile_operator_rate(year=year, startmonth=startmonth, endmonth=endmonth)
+            for info in data:
+                mobile_operator = info.type_name
+                value = float(info.value)
+                date = info.date
+                # pid = MobileKey.operator_dic[mobile_operator]
+                w.writerow([mobile_operator, date, value])
+            f.flush()
+        f.close()
+
+    def manager_mobile_network_rate(self):
+
+        filepath = os.path.join(rootpath, 'datafile/网络占有率.csv')
+        f = open(filepath, 'w', newline='')
+        w = csv.writer(f)
+        w.writerow(['网络', '日期', '占有率'])
+        for year in range(2014, 2019):
+
+            startmonth = 1
+            endmonth = 12
+            if year == 2018:
+                endmonth = 9
+            data = self.request_mobile_network_rate(year=year, startmonth=startmonth, endmonth=endmonth)
+
+            for info in data:
+                mobile_net = info.type_name
+                value = float(info.value)
+                date = info.date
+                # pid = MobileKey.network_dic[mobile_net]
+                w.writerow([mobile_net, date, value])
+            f.flush()
+        f.close()
 
     def manager_search(self):
         """
@@ -126,12 +189,80 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
         app.get_user_portrait(1, 1, 2)
 
     def manager_user_behavior(self):
+        """
+        获取用户行为
+        :return:
+        """
+        filepath = os.path.join(rootpath, 'datafile/整体用户行为.csv')
+        f = open(filepath, 'a+', newline='')
+        w = csv.writer(f)
+
         app = AppUserhabit()
-        app.get_user_behavior(1, 1)
+        w.writerow(["日期", "人均安装应用", "人均启动应用"])
+        year = 2017
+        month = 2
+
+        while 1:
+            starttime = datetime.datetime(year, month, 1)
+            month += 6
+            if month > 12:
+                year += 1
+                month -= 12
+            if starttime.year == 2018 and starttime.month > 3:
+                break
+            result = app.get_user_behavior(starttime.year, starttime.month)
+            for item in result:
+                date = item.date
+                install = item.install
+                active_num = item.active_num
+                w.writerow([date, install, active_num])
+        f.close()
 
     def manager_app_userhabit(self):
         app = AppUserhabit()
-        app.get_app_userhabit('qq', '2012-01-01')  # 这个功能还未修改成功
+        filepath = os.path.join(rootpath, 'datafile/app.csv')
+        f = open(filepath, 'r')
+        read = csv.reader(f)
+        start_date = datetime.datetime(2017, 1, 1)
+        inv = datetime.timedelta(days=31)
+        wait = Semaphore(10)
+        dataqueue = Queue(10)
+        appinfo = csv.writer(open(os.path.join(rootpath, 'datafile/appinfo.csv'), 'w', newline=''))
+        appinfo.writerow(['app', '日期', '省份热度', '年龄分布', '性别分布', '内容关键词热度'])
+
+        def fast_request(name, apppid, ddate):
+            response = app.get_app_userhabit(name, apppid, ddate)
+            dataqueue.put(response)
+            wait.release()
+
+        def deal_data():
+
+            while 1:
+                userhabit = dataqueue.get()
+                appinfo.writerow(
+                    [userhabit.app, userhabit.province, userhabit.age, userhabit.gender, userhabit.preference])
+
+        Thread(target=deal_data, args=()).start()
+
+        for item in read:
+            date = start_date
+            pid = item[0]
+            appname = item[1]
+            print(appname)
+            while 1:
+                if date.year == 2018 and date.month == 12:
+                    break
+                wait.acquire()
+                Thread(target=fast_request, args=(appname, pid, str(date.date()))).start()
+                date = date + inv
 
 
-ManagerMobileKey().manager_mobile_type_rate(2017, 5, 10)
+if __name__ == "__main__":
+    manager = ManagerMobileKey()
+    # manager.manager_user_behavior()
+    # manager.manager_mobile_type_rate()
+    # manager.manager_mobile_brand_rate()
+    # manager.manager_mobile_system_rate()
+    # manager.manager_mobile_operator_rate()
+    # manager.manager_mobile_network_rate()
+    manager.manager_app_userhabit()

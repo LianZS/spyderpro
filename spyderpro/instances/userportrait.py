@@ -54,14 +54,17 @@ class AppUserHabit:
     """
     app用户画像
     """
-    __slots__ = ['age', 'gender', 'preference', 'province']
+    __slots__ = ['app', 'age', 'gender', 'preference', 'province', 'ddate']
 
-    def __init__(self, age, gender, preference, province):
+    def __init__(self, app, age, gender, preference, province, ddate):
+        self.app = app
         self.age = age  # 性别占比列表
         self.gender = gender  # 年龄分布列表
         self.preference = preference  # app用户关键词列表
         self.province = province  # 省份覆盖率列表
+        self.ddate = ddate  # 日期
 
     def __str__(self):
-        return "性别占比列表:{0},年龄分布列表:{1},app用户关键词列表:{2},省份覆盖率列表:{3}".format(self.age, self.gender, self.preference,
-                                                                         self.province)
+        return self.app + "性别占比列表:{0},年龄分布列表:{1},app用户关键词列表:{2},省份覆盖率列表:{3}".format(self.age, self.gender,
+                                                                                    self.preference,
+                                                                                    self.province)

@@ -260,7 +260,7 @@ if __name__ == "__main__":
     wechat = WechatPublic()
     Thread(target=wechat.get_detail_info, args=()).start()
 
-    for item in wechat.product_url(4, 6):
+    for item in wechat.product_url(4, 153362):
         wechat.get_detail_public_info(item.pid, item.url)
 # for i in d:
 #     for j in i:

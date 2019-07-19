@@ -1,12 +1,16 @@
 import random
 import requests
 import re
+from typing import Iterator
 from bs4 import BeautifulSoup
 
 '''获取2k多个城市的历史天气情况'''
 
 
 class WeatherHistory(object):
+    class a:
+        pass
+
     def __init__(self):
         self.request = requests.Session()
         self.headers = {
@@ -22,7 +26,7 @@ class WeatherHistory(object):
                     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                     'Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134']
 
-    def get_province_link(self) -> list:
+    def get_province_link(self) -> Iterator:
         """
         获取进入每个城市具体的区域--***省份***---链接入口
         :return:
@@ -32,7 +36,6 @@ class WeatherHistory(object):
         pre_url = 'http://www.tianqihoubao.com/'
         sounp = BeautifulSoup(data.content, 'lxml')  # 此处不要使用data.text，会出现乱码，改用response保证原有样子
         sounp.prettify()
-        datalist = list()
         for res in sounp.find_all(name='a', href=re.compile('^/lishi.*[htm]$')):
             url_lis = list()
             url_lis.append(pre_url)
@@ -42,12 +45,9 @@ class WeatherHistory(object):
             province = res.string  # 省份
             dic['province'] = province
             dic['url'] = url
-            datalist.append(dic)
+            yield dic
 
-            # self.get_city_pastlink(url)
-        return datalist
-
-    def get_city_past_link(self, url) -> list:
+    def get_city_past_link(self, url:str) -> Iterator:
         """
         获取省份下所有城市分区链接
         :param url: 省份链接入口
@@ -58,7 +58,6 @@ class WeatherHistory(object):
         pre_url = 'http://www.tianqihoubao.com/'
         sounp = BeautifulSoup(data.content, 'lxml')  # 此处不要使用data.text，会出现乱码，改用response保证原有样子
         sounp.prettify()
-        datalist = list()
         for res in sounp.find_all(name='dd'):
             res = res.find_all(name='a')
             for info in res:
@@ -71,11 +70,10 @@ class WeatherHistory(object):
                 url = ''.join(url_lis)  # 城区天气历史链接
                 dic['url'] = url
                 dic['city'] = cityname.strip(' ')
-                datalist.append(dic)
-        return datalist
+                yield dic
 
     # 获取城市分区下所有月份的历史天气链接
-    def get_city_all_partition(self, url) -> list:
+    def get_city_all_partition(self, url:str) -> list:
         """
                请求获取区域10多年来多每个月的天气数据链接
                :param url:
@@ -161,6 +159,3 @@ class WeatherHistory(object):
             dic = dict(zip(key, value))
             datalist.append(dic)
         return datalist
-
-
-

@@ -53,7 +53,7 @@ class MobileKey(Parent):
         '其他': 5,
     }
 
-    def request_mobile_type_rate(self, year: int, startmonth: int = None, endmonth: int = None):
+    def request_mobile_type_rate(self, year: int, startmonth: int = None, endmonth: int = None,platform=2):
         """
         获取某个时段的中国境内各手机机型的占有率
 
@@ -61,9 +61,11 @@ class MobileKey(Parent):
         :param startmonth:
         :param endmonth:
         :return:
+         platform=2表示安卓手机，1表示苹果
+
         """
         mobile = MobileKeyWord()
-        result = mobile.get_mobile_type_rate(year=year, startmonth=startmonth, endmonth=endmonth)
+        result = mobile.get_mobile_type_rate(year=year, startmonth=startmonth, endmonth=endmonth, platform=platform)
         return result
 
     def request_mobile_brand_rate(self, year: int, startmonth: int = None, endmonth: int = None):
@@ -73,13 +75,14 @@ class MobileKey(Parent):
         :param startmonth:
         :param endmonth:
         :return:
+        platform=2表示安卓手机，1表示苹果
         """
         mobile = MobileKeyWord()
         result = mobile.get_mobile_brand_rate(year=year, startmonth=startmonth, endmonth=endmonth)
 
         return list(result)
 
-    def request_mobile_system_rate(self, year: int, startmonth: int = None, endmonth: int = None):
+    def request_mobile_system_rate(self, year: int, startmonth: int = None, endmonth: int = None,platform=2):
         """
         获取某时段中国境内各手机系统版本占用率
         :param year: 201x
@@ -88,7 +91,7 @@ class MobileKey(Parent):
         :return:
         """
         mobile = MobileKeyWord()
-        result = mobile.get_mobile_system_rate(year=year, startmonth=startmonth, endmonth=endmonth)
+        result = mobile.get_mobile_system_rate(year=year, startmonth=startmonth, endmonth=endmonth,platform=platform)
         return result
 
     def request_mobile_operator_rate(self, year: int, startmonth: int = None, endmonth: int = None):

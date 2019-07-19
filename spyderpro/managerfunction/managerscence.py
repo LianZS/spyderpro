@@ -37,7 +37,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         db = pymysql.connect(host=host, user=user, password=password, database=scencedatabase,
                              port=port)
         instances = self.get_distribution_situation('2019-05-19', '10:15:00', 6)
-        tmp_date = datetime.datetime(2019, 5, 19, 10, 15, 0).timestamp()
+        tmp_date = datetime.datetime(2019, 5, 19, 10, 15, 0).timestamp() #更新时间
 
         for item in instances:
             sql = "insert into digitalsmart.peopleposition0(pid, tmp_date, lat, lon, num) VALUES" \

@@ -2,6 +2,7 @@ import requests
 import json
 import datetime
 import re
+from typing import Iterator
 from urllib.parse import urlencode
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -72,7 +73,7 @@ class UserHabit:
     def __map_filter(self, param, param_name):
         return {param_name: param['name'], "value": param['share']}
 
-    def get_user_behavior(self, year: int, endmonth: int = None) -> list:
+    def get_user_behavior(self, year: int, endmonth: int = None) -> Iterator[UserBehavior]:
         """
         获取用户行为---人均安装应用趋势，人均启动应用趋势
 
@@ -196,15 +197,16 @@ class UserHabit:
                                    coverage_rate_ben_chmark_low)
         return appmark
 
-    def get_app_userhabit(self, appname, start_date):
+    def get_app_userhabit(self, appname, pid, start_date) -> AppUserHabit:
 
         """
         获取app的用户画像数据,性别占比,年龄分布,省份覆盖率,app用户关键词
         参考http://mi.talkingdata.com/app/trend/appRank.json?appId=5&dateType=m&date=2018-11-01&typeId=101000
         :return:list[{gender:性别占比},{age"年龄分布},{:province省份覆盖率},{preference:app用户关键词}]
+        :param start_date:yyyy-mm-dd
         """
 
-        url = "http://mi.talkingdata.com/app/profile/5.json?startTime=2018-01-01"  # 后面改为从数据库提取链接
+        url = "http://mi.talkingdata.com/app/profile/" + str(pid) + ".json?startTime=" + start_date  # 后面改为从数据库提取链接
         response = self.request.get(url=url, headers=self.headers).text
         data = json.loads(response)
         i = 0
@@ -212,7 +214,6 @@ class UserHabit:
         gender = None
         preference = None
         province = None
-
         for appinfo in data:
             dl = list()
             profile_value = appinfo['profileValue']
@@ -257,7 +258,7 @@ class UserHabit:
             # datalist.append({"preference": dl})
 
             i += 1
-        app_habit = AppUserHabit(ages, gender, preference, province)
+        app_habit = AppUserHabit(appname, ages, gender, preference, province, start_date)
         return app_habit
 
     @staticmethod

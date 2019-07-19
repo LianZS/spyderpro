@@ -21,7 +21,7 @@ class AppUserhabit:
         data = UserHabit().get_user_behavior(year, endmonth)
         return data
 
-    def get_app_userhabit(self, appname: str, start_date: str):
+    def get_app_userhabit(self, appname: str, pid: int, start_date: str):
         """
         获取app的用户画像数据,性别占比,年龄分布,省份覆盖率,app用户关键词
 
@@ -29,6 +29,6 @@ class AppUserhabit:
         :param start_date: 格式为yyyy-mm-dd
         :return:
         """
-        data = UserHabit().get_app_userhabit(appname, start_date)
+
+        data = UserHabit().get_app_userhabit(appname, pid, start_date)
         return data
-    
