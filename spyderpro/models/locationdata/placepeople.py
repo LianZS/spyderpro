@@ -198,7 +198,11 @@ class PlaceFlow(PlaceInterface):
         pr
 
         """
-        response = self.request.get(url=url, headers=self.headers)
+        try:
+            response = self.request.get(url=url, headers=self.headers)
+        except Exception as  e:
+            print(e)
+            return None
         if response.status_code == 200:
             g = json.loads(response.text)
             return g
@@ -221,7 +225,7 @@ class PlaceFlow(PlaceInterface):
             'datetime': "".join([date, ' ', datetim]),
             'sub_domain': ''
         }
-        #https://heat.qq.com/api/getHeatDataByTime.php?region_id=5381&datetime=2019-01-01+01%3A10%3A00&sub_domain=
+        # https://heat.qq.com/api/getHeatDataByTime.php?region_id=5381&datetime=2019-01-01+01%3A10%3A00&sub_domain=
         url = "https://heat.qq.com/api/getHeatDataByTime.php?" + urlencode(paramer)
         g = self.request_heatdata(url)
         return g

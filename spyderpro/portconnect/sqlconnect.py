@@ -2,8 +2,7 @@ from pymysql.cursors import Cursor
 
 
 class MysqlOperation():
-    def __init__(self):
-        pass
+
 
     def write_data(self, db, sql) -> bool:
         """

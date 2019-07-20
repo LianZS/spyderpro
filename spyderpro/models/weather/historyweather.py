@@ -1,8 +1,11 @@
 import random
 import requests
 import re
+import os
+import csv
 import datetime
 from typing import Iterator
+from threading import Thread, Semaphore
 from bs4 import BeautifulSoup
 
 '''获取2k多个城市的历史天气情况'''
@@ -40,7 +43,11 @@ class WeatherHistory(object):
         :return:
         """
         url = 'http://www.tianqihoubao.com/lishi/'
-        data = self.request.get(url=url, headers=self.headers)
+        try:
+            data = self.request.get(url=url, headers=self.headers)
+        except Exception as e:
+            print(e)
+            return None
         pre_url = 'http://www.tianqihoubao.com/'
         sounp = BeautifulSoup(data.content, 'lxml')  # 此处不要使用data.text，会出现乱码，改用response保证原有样子
         sounp.prettify()
@@ -97,7 +104,7 @@ class WeatherHistory(object):
         """
         headers = {
             'Host': 'www.tianqihoubao.com',
-            'User-Agent': random.choice(self.use)
+            'User-Agent': random.choice(self.useagent)
         }
         pre_url = "http://www.tianqihoubao.com/"
         try:
@@ -141,44 +148,60 @@ class WeatherHistory(object):
         response = self.request.get(url=url, headers=self.headers)
         if response.status_code != 200:
             print("%s请求--失败" % url)
+            failfile.write(url + "\n")
+
             return None
         soup = BeautifulSoup(response.text, 'lxml')
         table = soup.find(name="table")
         tr = table.find_all(name="tr")
 
         dates = table.find_all(name='a')
-        state =None
+        state = None
         temperature = None
         wind = None
-        for tds, date in zip(tr, dates):
-
-            value = list()
-            date = date.text
-            date = re.sub("\s", '', date)
-
-            value.append(date)
+        for item in tr:
+            if not item.td.a:
+                continue
+            date = re.sub("\s", "", str(item.td.a.string))
             count = 0
-            for td in tds:
-
-                text = str(td.string)
-                text = text.replace(" ", "")
-
-                if text == "\n" or text == "None":
+            for t in item:
+                if not t.string or t.string == "\n":
                     continue
-                text = re.sub("\s", "", text)
                 count += 1
-
+                d = re.sub("\s", "", str(t.string))
                 if count == 1:
-                    state = text
+                    state = d
                 elif count == 2:
-                    temperature = text
+                    temperature = d
                 elif count == 3:
-                    wind = text
-                yield self.weatherstatus(ddate=date, state=state, tempera=temperature, wind=wind)
+                    wind = d
+            yield self.weatherstatus(ddate=date, state=state, tempera=temperature, wind=wind)
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
+    root = os.path.abspath(os.path.curdir)
+    try:
+        os.mkdir(os.path.join(root, 'Weather'))
+    except Exception:
+        pass
+    failfile = open(os.path.join(root, 'error.txt'), 'a+')
+    wait = Semaphore(3)
+    history = WeatherHistory()
+    for item in history.get_province_link():
+        for data in history.get_city_past_link(item['url']):
+            filepath = os.path.join(root, "Weather/" + data['city'] + ".csv")
+            f = open(filepath, 'a+', newline='')
+            w = csv.writer(f)
+            print(data)
+            for url in history.get_city_all_partition(data['url']):
+                wait.acquire()
 
 
-    for item in WeatherHistory().get_weather_detail('http://www.tianqihoubao.com/lishi/beijing/month/201101.html'):
-        print(item.temperature)
+                def request(purl):
+                    for obj in history.get_weather_detail(purl):
+                        w.writerow([obj.date, obj.state, obj.temperature, obj.wind])
+                    print("success")
+                    wait.release()
+
+
+                Thread(target=request, args=(url,)).start()

@@ -10,6 +10,9 @@ from spyderpro.function.keywordfunction.searchkeyword import SearchKeyword
 from spyderpro.function.keywordfunction.apphabit import AppUserhabit
 
 rootpath = os.path.dirname(os.path.abspath(os.path.pardir))
+db = pymysql.connect(host=host, user=user, password=password, database='digitalsmart',
+                     port=port)
+cur = db.cursor()
 
 
 class ManagerMobileKey(MobileKey, MysqlOperation):
@@ -146,42 +149,82 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
 
     def manager_search(self):
         """
-        关键词网络我搜索频率
+        关键词网络我搜索频率----这里没要使用高并发，因为一天才进行一次
         :return:
         """
-        db = pymysql.connect(host=host, user=user, password=password, database='digitalsmart',
-                             port=port)
+        sql = "select pid,area from digitalsmart.scencemanager "
+        try:
+
+            cur.execute(sql)
+            db.commit()
+        except Exception as e:
+            db.rollback()
+            return
+        data = cur.fetchall()
         search = SearchKeyword()
-        pid = 11
-        area = '白云山'
+        for item in data:
+            pid = item[0]
+            area = item[1]
+            baidu = search.baidu_browser_keyword_frequency(area)
 
-        baidu, wetchat, sougou = search.browser_keyword_frequency(area)
+            if not baidu:
+                continue
 
-        def sql_format(obj, pid, area):
-            update = str(obj.update)
-            year = int(update[:4])
-            month = int(update[4:6])
-            day = int(update[6:])
-            name = obj.company
-            tdate = datetime.datetime(year, month, day)
-            baiduvalues = list(obj.all_value)
-            t = datetime.timedelta(days=len(baiduvalues))
-            tdate = tdate - t
-            t = datetime.timedelta(days=1)
-            for value in baiduvalues:
-                tdate += t
-                tmp_date = int(str(tdate.date()).replace("-", ""))
-                rate = value
+            def sql_format(obj, region_id, place):
+                sql = "select tmp_date from digitalsmart.searchrate where pid={0} and area='{1}' and name='{2}' order by tmp_date".format(
+                    region_id, place, obj.company)
+
+                cur.execute(sql)
+                lastdate = cur.fetchall()[-1][0]
+                if lastdate == obj.update:
+                    return None
+
+                update = str(obj.update)
+                year = int(update[:4])
+                month = int(update[4:6])
+                day = int(update[6:])
+                name = obj.company
+                tdate = datetime.datetime(year, month, day)
+                baiduvalues = list(obj.all_value)
+                t = datetime.timedelta(days=len(baiduvalues))
+                tdate = tdate - t
+                t = datetime.timedelta(days=1)
+                for value in baiduvalues:
+                    tdate += t
+                    tmp_date = int(str(tdate.date()).replace("-", ""))
+                    if tmp_date <= lastdate:  # 过滤存在的数据
+                        continue
+                    rate = value
+                    sql = "insert into digitalsmart.searchrate(pid, tmp_date, area, rate, name) values " \
+                          "(%d,%d,'%s',%d,'%s')" % (region_id, tmp_date, place, rate, name)
+                    yield sql
+
+            for sql in sql_format(baidu, pid, area):
+                try:
+                    cur.execute(sql)
+                except Exception as e:
+                    print(e)
+                    db.rollback()
+            db.commit()
+
+            wechat = search.wechat_browser_keyword_frequency(area, startdate=20190716, enddate=20190719)
+            for item in wechat:
+                tmp_date = item.update
+                rate = item.all_value
+                name = item.company
                 sql = "insert into digitalsmart.searchrate(pid, tmp_date, area, rate, name) values " \
-                      "('%d','%d','%s','%d','%s')" % (pid, tmp_date, area, rate, name)
-                yield sql
-
-        for sql in sql_format(baidu, pid, area):
-            self.write_data(db, sql)
-        for sql in sql_format(wetchat, pid, area):
-            self.write_data(db, sql)
-        for sql in sql_format(sougou, pid, area):
-            self.write_data(db, sql)
+                      "(%d,%d,'%s',%d,'%s')" % (pid, tmp_date, area, rate, name)
+                cur.execute(sql)
+            db.commit()
+            sougou = search.sougou_browser_keyword_frequency(area)
+            for item in wechat:
+                tmp_date = item.update
+                rate = item.all_value
+                name = item.company
+                sql = "insert into digitalsmart.searchrate(pid, tmp_date, area, rate, name) values " \
+                      "(%d,%d,'%s',%d,'%s')" % (pid, tmp_date, area, rate, name)
+                cur.execute(sql)
+            db.commit()
 
     def manager_app_portrait(self):
         app = AppUserhabit()
@@ -244,13 +287,12 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
         Thread(target=deal_data, args=()).start()
         count = 0
         for item in read:
-            count+=1
-            if count<2294:
+            count += 1
+            if count < 2294:
                 continue
             date = start_date
             pid = item[0]
             appname = item[1]
-            print(appname)
             while 1:
                 if date.year == 2018 and date.month == 12:
                     break
@@ -261,6 +303,7 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
 
 if __name__ == "__main__":
     manager = ManagerMobileKey()
+    manager.manager_search()
     # manager.manager_user_behavior()
     # manager.manager_mobile_type_rate()
     # manager.manager_mobile_brand_rate()

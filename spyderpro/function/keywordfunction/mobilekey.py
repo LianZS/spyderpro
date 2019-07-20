@@ -1,7 +1,7 @@
 from spyderpro.models.InternetData.mobilekeyword import MobileKeyWord
 from spyderpro.function.keywordfunction.parent import Parent
 
-from spyderpro.managerfunction.setting import *
+from setting import *
 
 
 class MobileKey(Parent):

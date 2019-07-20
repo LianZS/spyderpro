@@ -288,6 +288,7 @@ class WechatPublic(Connect):
         # print(rootpath)
         # exit()
         # filepath = os.path.join(rootpath,'datafile/wechatpublic.csv')
+
         f = open('/Users/darkmoon/Project/SpyderPr/datafile/wechatinfo.csv', 'a+', newline='')
         w = csv.writer(f)
         w.writerow(['标识', '公众号名', "公众号id"])
@@ -301,7 +302,7 @@ if __name__ == "__main__":
     wechat = WechatPublic()
     Thread(target=wechat.get_detail_info, args=()).start()
     lock = Semaphore(15)
-    for item in wechat.product_url(108230, 153362):
+    for item in wechat.product_url(134138, 153362):
         lock.acquire()
         print(item.pid)
         Thread(target=wechat.get_public_info, args=(item.pid, item.url)).start()

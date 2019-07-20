@@ -1,15 +1,15 @@
 from typing import List
 from spyderpro.function.keywordfunction.parent import Parent
 
-from spyderpro.models.InternetData.keyword import KeyWord, KeyWordObject
+from spyderpro.models.InternetData.keyword import KeyWord, BaiduKeyWordObject
 
 
 class SearchKeyword(Parent):
 
-    def browser_keyword_frequency(self, keyword: str, baidu: bool = True, weixin=True,
-                                  pc: bool = True, modile: bool = True) -> List[KeyWordObject]:
+    def baidu_browser_keyword_frequency(self, keyword: str, baidu: bool = True,
+                                        pc: bool = True, modile: bool = True) -> BaiduKeyWordObject:
         """
-        获取浏览器关键词搜索频率
+        获取百度浏览器关键词搜索频率
         :param keyword:关键词
         :param baidu:是否使用百度引擎
         :param weixin:是否使用微信搜索
@@ -19,8 +19,22 @@ class SearchKeyword(Parent):
         :return:[KeyWordObject,KeyWordObject]
         """
         browser = KeyWord()
-        result = browser.get_keyword_search_index(keyword=keyword)
-        return result.__next__()
+        result = browser.baidu_get_keyword_search_index(keyword=keyword)
+
+        try:
+            return result
+        except Exception:
+            return None
+
+    def wechat_browser_keyword_frequency(self, keword, startdate, enddate):
+        browser = KeyWord()
+        result = browser.wechat_get_keyword_search_index(keyword=keword, startDate=startdate, endDate=enddate)
+        return result
+
+    def sougou_browser_keyword_frequency(self, keword):
+        browser = KeyWord()
+        result = browser.sougou_get_keyword_search_index(keyword=keword)
+        return result
 
     def alibaba_goods_purchased_frequency(self, keyword: str, pur1688flag: bool = True, taobaoflag: bool = True,
                                           supplyflag: bool = True) -> dict:
