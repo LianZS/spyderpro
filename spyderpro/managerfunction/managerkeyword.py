@@ -4,8 +4,7 @@ import os
 from threading import Thread, Semaphore
 from queue import Queue
 from spyderpro.portconnect.sqlconnect import MysqlOperation
-
-from spyderpro.managerfunction.setting import *
+from setting import *
 from spyderpro.function.keywordfunction.mobilekey import MobileKey
 from spyderpro.function.keywordfunction.searchkeyword import SearchKeyword
 from spyderpro.function.keywordfunction.apphabit import AppUserhabit

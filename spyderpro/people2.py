@@ -248,7 +248,6 @@ def get_count(region_id):
     wait.release()
     time.sleep(10)
     data_file.close()
-    
 
 
 def write():
@@ -295,8 +294,8 @@ global data_file
 global wf  # csv实例
 
 if __name__ == "__main__":
-    
-    file = open(os.path.join(base_dir, "testdata/region_id.csv"), "r")
+
+    file = open(os.path.join(base_dir, "region_id.csv"), "r")
     r = csv.reader(file)
     r.__next__()
     dir_path = os.path.join(base_dir, "FILE")
@@ -307,7 +306,7 @@ if __name__ == "__main__":
     count = 0
     CeleryThread(target=write, args=()).start()  # 实时数据处理
     for item in r:
-        count+=1
+        count += 1
         name = item[0]
         regin_id = item[1]
         file_path = os.path.join(dir_path, name + ".csv")
@@ -324,7 +323,5 @@ if __name__ == "__main__":
             ff.close()
 
         print(name)
-        if count >218 and count<=250 :
-            
+        if count >= 200 and count <= 250:
             get_count(regin_id)
-    

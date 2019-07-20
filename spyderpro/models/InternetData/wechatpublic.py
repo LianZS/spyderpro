@@ -1,6 +1,8 @@
 import requests
 import re
 import json
+import csv
+import os
 import time
 from threading import Thread, Semaphore
 from queue import Queue
@@ -14,6 +16,13 @@ from spyderpro.instances.wechatpublic import WechatUrl
 
 
 class WechatPublic(Connect):
+    class WechatInfo:
+        __slots__ = ['pid', 'name', 'cards']
+
+        def __init__(self, pid, name, card):
+            self.pid = pid
+            self.name = name
+            self.cards = card
 
     def __init__(self, user_agent=None):
         """
@@ -46,12 +55,36 @@ class WechatPublic(Connect):
         :param seq:
         :return:
         """
-        if end>153362:
+        if end > 153362:
             raise AttributeError("end参数超过范围")
         for pid in range(start, end, seq):
             url = 'https://www.wxnmh.com/user-{0}.htm'
             url = url.format(pid)
             yield WechatUrl(pid=pid, url=url)
+
+    def get_public_info(self, pid: int, url: str) -> WechatInfo:
+        """
+        获取公众号名字和微信号
+        :param pid:
+        :param url:
+        :return:
+        """
+        response = None
+        try:
+            response = self.request.get(url=url, headers=self.headers)
+        except Exception:
+            print("coonect error")
+            self.errorqueue.put(1)
+        if not self.errorqueue.empty():  # 任务恢复正常
+            while self.errorqueue.qsize():
+                self.errorqueue.get()
+
+        soup = BeautifulSoup(response.text, "lxml")
+        keyword = soup.find(name="meta", attrs={"name": "keywords"}).get("content")
+        info: list = keyword.split(",")
+        name, public_pid = info[0], info[1]  # 公众号名字和微信号
+        self.q.put(self.WechatInfo(pid, name, public_pid))
+        lock.release()
 
     def reuqest_public(self, pid: int, url: str) -> WechatPublic_Info:
         """
@@ -251,17 +284,28 @@ class WechatPublic(Connect):
         return driver
 
     def get_detail_info(self):
+        # rootpath = os.path.dirname(os.path.abspath(os.path.pardir))
+        # print(rootpath)
+        # exit()
+        # filepath = os.path.join(rootpath,'datafile/wechatpublic.csv')
+        f = open('/Users/darkmoon/Project/SpyderPr/datafile/wechatinfo.csv', 'a+', newline='')
+        w = csv.writer(f)
+        w.writerow(['标识', '公众号名', "公众号id"])
         while 1:
             wechatinfo = self.q.get()
-            print(wechatinfo)
+            w.writerow([wechatinfo.pid, wechatinfo.name, wechatinfo.cards])
+            f.flush()
 
 
 if __name__ == "__main__":
     wechat = WechatPublic()
     Thread(target=wechat.get_detail_info, args=()).start()
-
-    for item in wechat.product_url(4, 153362):
-        wechat.get_detail_public_info(item.pid, item.url)
+    lock = Semaphore(15)
+    for item in wechat.product_url(108230, 153362):
+        lock.acquire()
+        print(item.pid)
+        Thread(target=wechat.get_public_info, args=(item.pid, item.url)).start()
+        # wechat.get_detail_public_info(item.pid, item.url)
 # for i in d:
 #     for j in i:
 #         print(list(j.articles))

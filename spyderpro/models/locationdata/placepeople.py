@@ -82,20 +82,19 @@ class PlaceInterface(Connect, ParamTypeCheck):
             datalist.append(dic)
         return datalist
         # range表示数据间隔，最小1,region_name是地点名字,id是景区pid
-    def get_bounds(self,pid:int):
-        href="https://heat.qq.com/api/getRegionHeatMapInfoById.php?id="+str(pid)
-        headers=dict()
+
+    def get_bounds(self, pid: int):
+        href = "https://heat.qq.com/api/getRegionHeatMapInfoById.php?id=" + str(pid)
+        headers = dict()
         headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
                                 '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
-        response = requests.get(url=href,headers=headers).text
+        response = requests.get(url=href, headers=headers).text
         g = json.loads(response)
         bounds = g['boundary']
-        center = g['center_gcj'].split(',',2)
-        lat =center[0]
-        lon=center[1]
-        return {"bounds":bounds,"lat":lat,"lon":lon}
-
-
+        center = g['center_gcj'].split(',', 2)
+        lat = center[0]
+        lon = center[1]
+        return {"bounds": bounds, "lat": lat, "lon": lon}
 
 
 class PlaceTrend(PlaceInterface):
@@ -196,6 +195,8 @@ class PlaceFlow(PlaceInterface):
         网络请求
         :param url:
         :return:json
+        pr
+
         """
         response = self.request.get(url=url, headers=self.headers)
         if response.status_code == 200:
@@ -204,20 +205,28 @@ class PlaceFlow(PlaceInterface):
         else:
             return None
 
-    def __get_heatdata_bytime(self, date: str, datetim: str, region_id: int):
+    def get_heatdata_bytime(self, date: str, datetim: str, region_id: int):
+        """
+        某一时刻的人口分布详情
+        :param date:日期：格式yyyy-mm-dd
+        :param dateTime:时间：格式hh:MM:SS
+        :param region_id:地区唯一表示
+        :return: json
+        """
         self.date_format_check(date)
         self.time_format_check(datetim)
-        # self.type_check(region_id, int)
+        self.type_check(region_id, int)
         paramer = {
             'region_id': region_id,
             'datetime': "".join([date, ' ', datetim]),
             'sub_domain': ''
         }
+        #https://heat.qq.com/api/getHeatDataByTime.php?region_id=5381&datetime=2019-01-01+01%3A10%3A00&sub_domain=
         url = "https://heat.qq.com/api/getHeatDataByTime.php?" + urlencode(paramer)
         g = self.request_heatdata(url)
         return g
 
-    def count_headdata(self, ddate: str, dateTime: str, region_id: int) -> Positioning:
+    def count_headdata(self, data: json, ddate: str, dateTime: str, region_id: int) -> Positioning:
 
         """
         某一时刻的人数有多少
@@ -227,16 +236,26 @@ class PlaceFlow(PlaceInterface):
         :return:总人数
         """
 
-        g = self.__get_heatdata_bytime(ddate, dateTime, region_id)
+        g = data
         if not g:
-            return None
+            return Positioning(None, None, None, None)
         num = sum(g.values())  # 总人数
-
         positioning = Positioning(region_id=region_id, date=int(ddate.replace("-", "")), detailtime=dateTime, num=num)
         return positioning
-        # return {"date": "".join([date, ' ', dateTime]), "num": count}
 
-    def complete_heatdata(self, date: str, dateTime: str, region_id: int) -> Iterator[Geographi]:
+    def complete_headata(self, g: json) -> Iterator[Geographi]:
+        """ 某一时刻的人数以及分布情况的json格式
+            :returnrn {"lat": lat, "lng": lng, "num": num}->与中心经纬度的距离与相应人数
+        """
+        coords = map(self.deal_coordinates, g.keys())  # 围绕中心经纬度加减向四周扩展
+        numlist = iter(g.values())
+        for xy, num in zip(coords, numlist):
+            lat = xy[0]
+            lng = xy[1]
+            geographi = Geographi(latitude=float(lat) / 1000, longitude=float(lng) / 1000, number=int(num))
+            yield geographi
+
+    def complete_heatdata_simple(self, date: str, dateTime: str, region_id: int) -> Iterator[Geographi]:
         """
            某一时刻的人数以及分布情况
            :param date:日期：格式yyyy-mm-dd
@@ -244,7 +263,7 @@ class PlaceFlow(PlaceInterface):
            :param region_id:地区唯一表示
            :return:dict格式：{"lat": lat, "lng": lng, "num": num}->与中心经纬度的距离与相应人数
            """
-        g = self.__get_heatdata_bytime(date, dateTime, region_id)
+        g = self.get_heatdata_bytime(date, dateTime, region_id)
         coords = map(self.deal_coordinates, g.keys())  # 围绕中心经纬度加减向四周扩展
         numlist = iter(g.values())
         for xy, num in zip(coords, numlist):
@@ -327,8 +346,6 @@ if __name__ == "__main__":
     #
     # f.close()
     #
-
-
 
     # p = PlaceFlow().complete_heatdata('2019-06-01', "15:20:00", 6)
     #

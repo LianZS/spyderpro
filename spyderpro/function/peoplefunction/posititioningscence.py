@@ -1,13 +1,12 @@
 import time
 import datetime
 from typing import List
+from setting import *
 from spyderpro.models.locationdata.scencepeople import ScencePeopleFlow
 from spyderpro.models.weather.weather import WeatherForect
-from spyderpro.models.traffic import baidutraffic
-from spyderpro.models.traffic import gaodetraffic
 from concurrent.futures import ThreadPoolExecutor
-from spyderpro.managerfunction.setting import *
 from spyderpro.portconnect.sqlconnect import MysqlOperation
+
 from spyderpro.instances.lbs import Positioning
 
 

@@ -52,6 +52,7 @@ class MysqlOperation():
 
         except Exception as e:
             print("查询错误%s" % e)
+            print(sql)
             db.rollback()
             return "error"
         return cursor
