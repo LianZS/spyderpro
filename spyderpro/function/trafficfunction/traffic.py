@@ -37,7 +37,7 @@ class Traffic(MysqlOperation):
         else:
             return []
         t = time.time()  # 现在的时间
-        # 分好昨金以便分类过滤
+        # 分好昨今以便分类过滤
         today = int(time.strftime('%Y%m%d', time.localtime(t)))
         yesterday = int(time.strftime('%Y%m%d', time.localtime(t - 3600 * 24)))
 

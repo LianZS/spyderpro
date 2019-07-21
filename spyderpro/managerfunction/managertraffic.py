@@ -33,10 +33,11 @@ class ManagerTraffic(Traffic):
                 db2: Connection = pymysql.connect(host=host, user=user, password=password,
                                                   database=database,
                                                   port=port)
-                info = self.get_city_traffic(citycode=region_id, db=db2) #获取交通数据
+                info = self.get_city_traffic(citycode=region_id, db=db2)  # 获取交通数据
                 if len(info) == 0:
                     print("没有数据")
                     return
+                # 数据写入
                 for item in info:
                     sql = "insert into  digitalsmart.citytraffic(pid, ddate, ttime, rate)" \
                           " values('%d', '%d', '%s', '%f');" % (
@@ -57,7 +58,7 @@ class ManagerTraffic(Traffic):
 
         sql = "select pid from digitalsmart.citymanager"
         cur.execute(sql)
-        data = cur.fetchall()
+        data = cur.fetchall()  # pid集合
         for item in data:  # 这里最好不要并发进行，因为每个pid任务下都有10个子线程，在这里开并发 的话容易被封杀
             # self.taskSemaphore.acquire()
             # self.pidLock.acquire()
@@ -68,7 +69,7 @@ class ManagerTraffic(Traffic):
                 db2: Connection = pymysql.connect(host=host, user=user, password=password,
                                                   database=database,
                                                   port=port)
-                resultObjs = self.road_manager(region_id) #
+                resultObjs = self.road_manager(region_id)  # 获取道路数据
                 for obj in resultObjs:
                     region_id = obj.region_id
                     roadname = obj.roadname

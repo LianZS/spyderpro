@@ -36,10 +36,12 @@ class GaodeTraffic(Traffic):
     def citytraffic(self, citycode: int) -> Iterator[TrafficClass]:
 
         """获取实时交通状态，包括日期，拥堵指数，具体时刻
+        Args:
 
-        :param citycode:城市id
-        :return iterable(dict)
-        dict->{'date': '20190614', 'index': 1.49, 'detailTime': '14:00:00'}
+          citycode:城市id
+        Yields::
+            返回TrafficClass类实例
+
         """
         url = "http://report.amap.com/ajax/cityHourly.do?cityCode=" + str(citycode)
 

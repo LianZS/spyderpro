@@ -122,6 +122,8 @@ class BaiduTraffic(Traffic):
             data = json.dumps(data['data'])
             road = Road(pid=citycode, roadname=roadname, speed=speed, dircetion=direction, bounds=bounds, data=data)
             yield road
+            Road
+
 
     def __roads(self, citycode) -> json:
         """
