@@ -162,6 +162,12 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
             return
         data = cur.fetchall()
         search = SearchKeyword()
+        today = datetime.datetime.today()
+        t = datetime.timedelta(days=2)
+        yesterday = int(str((today - t).date()).replace("-", ""))
+
+        yyesterday = int(str((today - t-t).date()).replace("-", ""))
+        # today = int(str(today.date()).replace("-", ""))
         for item in data:
             pid = item[0]
             area = item[1]
@@ -169,13 +175,10 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
 
             if not baidu:
                 continue
+            lastdate = self.last_date(pid, area, "baidu")
 
             def sql_format(obj, region_id, place):
-                sql = "select tmp_date from digitalsmart.searchrate where pid={0} and area='{1}' and name='{2}' order by tmp_date".format(
-                    region_id, place, obj.company)
 
-                cur.execute(sql)
-                lastdate = cur.fetchall()[-1][0]
                 if lastdate == obj.update:
                     return None
 
@@ -206,9 +209,25 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
                     print(e)
                     db.rollback()
             db.commit()
+            lastdate = self.last_date(pid, area, "wechat")
+            wechat = search.wechat_browser_keyword_frequency(area, startdate=yyesterday, enddate=yesterday)  # 只获取前2天的数据
+            for item in wechat:
 
-            wechat = search.wechat_browser_keyword_frequency(area, startdate=20190716, enddate=20190719)
-            for item in wechat:
+                tmp_date = item.update
+                if lastdate >= tmp_date:
+                    continue
+                rate = item.all_value
+                name = item.company
+                sql = "insert into digitalsmart.searchrate(pid, tmp_date, area, rate, name) values " \
+                      "(%d,%d,'%s',%d,'%s')" % (pid, tmp_date, area, rate, name)
+                cur.execute(sql)
+            db.commit()
+            sougou = search.sougou_browser_keyword_frequency(area, startdate=yyesterday,
+                                                             enddate=yesterday)  # 获取前两天的数据
+            for item in sougou:
+                tmp_date = item.update
+                if lastdate >= tmp_date:
+                    continue
                 tmp_date = item.update
                 rate = item.all_value
                 name = item.company
@@ -216,15 +235,21 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
                       "(%d,%d,'%s',%d,'%s')" % (pid, tmp_date, area, rate, name)
                 cur.execute(sql)
             db.commit()
-            sougou = search.sougou_browser_keyword_frequency(area)
-            for item in wechat:
-                tmp_date = item.update
-                rate = item.all_value
-                name = item.company
-                sql = "insert into digitalsmart.searchrate(pid, tmp_date, area, rate, name) values " \
-                      "(%d,%d,'%s',%d,'%s')" % (pid, tmp_date, area, rate, name)
-                cur.execute(sql)
-            db.commit()
+
+    def last_date(self, region_id, place, company) -> int:
+        """
+        获取数据库关键词搜索频率最近的更新时间
+        :param region_id:
+        :param place:
+        :param company:
+        :return:
+        """
+        sql = "select tmp_date from digitalsmart.searchrate where pid={0} and area='{1}' and name='{2}' order by tmp_date".format(
+            region_id, place, company)
+
+        cur.execute(sql)
+        lastdate = cur.fetchall()[-1][0]
+        return lastdate
 
     def manager_app_portrait(self):
         app = AppUserhabit()

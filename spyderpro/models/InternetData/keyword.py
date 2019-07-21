@@ -72,11 +72,12 @@ class KeyWord(Connect):
             # sougou_instance = KeyWordObject("sougou", sougou_all, sougou_pc, sougou_mobile,
             #                                 sougou_update) if sougou else None
             # yield iter([baidu_instance, wetchat_instance, sougou_instance])
+            print(keyword,"baidu search is search")
             return baidu_instance
 
     def wechat_get_keyword_search_index(self, keyword, startDate, endDate) -> Iterator[WechatKeyWordObject]:
         """
-
+        要求endDate-startDate=0
         :param keyword:
         :param startDate: yyyymmdd
         :param endDate: yyyymmdd
@@ -104,40 +105,70 @@ class KeyWord(Connect):
             print(e)
             print(keyword, 'fail')
             return None
-        print(keyword, 'success')
+        print(keyword, 'wechat search success')
 
         for item in data:
             date = int(item['date'])
             value = item['pv']
             yield WechatKeyWordObject("wechat", int(value), date)
 
-    def sougou_get_keyword_search_index(self, keyword) -> Iterator[SougouKeyWordObject]:
+    def sougou_get_keyword_search_index(self, keyword: str, startDate: int, endDate: int) -> Iterator[
+        SougouKeyWordObject]:
+        """
+        要求endDate-startDate=2
+
+        :param keyword:
+        :return:
+        """
         parameter = {
             'kwdNamesStr': keyword,
-            'timePeriodType': 'MONTH',
-            'dataType': 'MEDIA_WECHAT',
+            'startDate': startDate,
+            'endDate': endDate,
+            'dataType': 'SEARCH_ALL',
             'queryType': 'INPUT',
         }
-        url = "http://zhishu.sogou.com/index/searchHeat?" + urlencode(parameter)
+        url ='http://zhishu.sogou.com/getDateData?'+urlencode(parameter)
+        # url = "http://zhishu.sogou.com/index/searchHeat?" + urlencode(parameter)
+        # response = self.request.get(url=url, headers=self.headers)
+        # if response.status_code == 404:
+        #     print("error")
+        #     return None
+        #
+        # response = re.sub("\s", "", response.text)
+        #
+        # result = re.findall("data=(.*)\Wroot", response)
+        # if not len(result):
+        #     print("retry")
+        #     response = self.request.get(url=url, headers=self.headers)
+        #     response = re.sub("\s", "", response.text)
+        #     result = re.findall("data=(.*)\Wroot", response)
+        # g = None
+        # try:
+        #     g = json.loads(result[0])
+        # except Exception as e:
+        #     print(e)
+        #     return None
+        # for item in g['pvList'][0]:  # 一个月的数据
+        #     date = int(item['date'])
+        #     value = item['pv']
+        #     yield SougouKeyWordObject("sougou", int(value), date)
         response = self.request.get(url=url, headers=self.headers)
+
         if response.status_code == 404:
-            print("error")
-            return None
-
-        response = re.sub("\s", "", response.text)
-
-        result = re.findall("data=(.*)\Wroot", response)
-        if not len(result):
-            print("retry")
+            print("404 retry")
             response = self.request.get(url=url, headers=self.headers)
-            response = re.sub("\s", "", response.text)
-            result = re.findall("data=(.*)\Wroot", response)
-        g = None
+        if response.status_code != 200:
+            print(keyword)
+            return None
         try:
-            g = json.loads(result[0])
-        except Exception as e:
+            data = json.loads(response.text)['data']['pvList'][0]
+        except IndexError as e:
             print(e)
-        for item in g['pvList'][0]:
+            print(keyword, 'fail')
+            return None
+        print(keyword, 'sougou search is success')
+
+        for item in data:
             date = int(item['date'])
             value = item['pv']
             yield SougouKeyWordObject("sougou", int(value), date)
@@ -183,6 +214,3 @@ class KeyWord(Connect):
         return {"1688采购指数": pur1688 if pur1688flag else None, "淘宝采购指数": taobao if taobaoflag else None,
                 "1688供应指数": supply1688 if supplyflag else None, "最近时间": lastdate,
                 "最远时间": olddate}
-
-
-

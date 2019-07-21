@@ -11,8 +11,11 @@ class Connect:
         :return json
         """
 
-
-        data = self.request.get(url=url, headers=self.headers)
+        try:
+            data = self.request.get(url=url, headers=self.headers)
+        except Exception as e:
+            print(e)
+            return None
         if data.status_code != 200:
             print("%s请求--error:网络出错" % url)
             raise ConnectionError('网络连接中断')

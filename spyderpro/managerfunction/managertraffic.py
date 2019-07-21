@@ -1,6 +1,6 @@
 import datetime
 from spyderpro.function.trafficfunction.traffic import Traffic
-from spyderpro.managerfunction.setting import *
+from setting import *
 from pymysql.connections import Connection
 
 
@@ -48,7 +48,7 @@ class ManagerTraffic(Traffic):
             date = item.date
             index = item.index
             sql = "insert into digitalsmart.yeartraffic(pid, tmp_date, rate) VALUE (%d,%d,%f)" % (pid, date, index)
-            self.write_data(db,sql)
+            self.write_data(db, sql)
 
 
 ManagerTraffic().manager_city_year_traffic()

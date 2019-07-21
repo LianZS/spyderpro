@@ -133,8 +133,12 @@ class WechatPublic(Connect):
             href = value.get("href")  # 链接
             title = value.text  # 标题
             datalist.append({"标题": title, "链接": href})
+
         wechatinfo = WechatPublic_Info(page=1, name=name, public_pid=public_pid, pid=pid, articlelist=iter(datalist))
         self.q.put(wechatinfo)
+        if len(datalist) == 0:
+            lock.release()
+            return
 
         ''''第2页开始'''
 
@@ -154,8 +158,9 @@ class WechatPublic(Connect):
             self.semaphore.acquire()
 
             Thread(target=requests_next, args=(page, pid,)).start()
-
+        lock.release()
         self.wait.release()
+        self.q.put(1)
 
     def get_all_article(self, url) -> list:
         """
@@ -283,13 +288,14 @@ class WechatPublic(Connect):
         driver = webdriver.Chrome(chrome_options=option)
         return driver
 
-    def get_detail_info(self):
+    def get_detail_info(self, name):
         # rootpath = os.path.dirname(os.path.abspath(os.path.pardir))
         # print(rootpath)
         # exit()
         # filepath = os.path.join(rootpath,'datafile/wechatpublic.csv')
+        rootpath = os.path.dirname(os.path.abspath(os.path.pardir))
 
-        f = open('/Users/darkmoon/Project/SpyderPr/datafile/wechatinfo.csv', 'a+', newline='')
+        f = open(os.path.join(rootpath, name), 'a+', newline='')
         w = csv.writer(f)
         w.writerow(['标识', '公众号名', "公众号id"])
         while 1:
@@ -297,20 +303,46 @@ class WechatPublic(Connect):
             w.writerow([wechatinfo.pid, wechatinfo.name, wechatinfo.cards])
             f.flush()
 
+    def get_aritles(self, name):
+        # rootpath = os.path.dirname(os.path.abspath(os.path.pardir))
+
+        # f = open(os.path.join(rootpath, name), 'a+', newline='')
+        # w = csv.writer(f)
+        # w.writerow(['标识', '公众号名', "公众号id"])
+        while 1:
+            wechatinfo = self.q.get()
+            if wechatinfo == 1:  # 1表示该公众号挖掘结束
+                break
+            # w.writerow([wechatinfo.pid, wechatinfo.name, wechatinfo.cards])
+            # f.flush()
+            # page = 1, name = name, public_pid = public_pid, pid = pid, articlelist = iter(datalist)
+            w.writerow(list(wechatinfo.articles))
+
 
 if __name__ == "__main__":
     wechat = WechatPublic()
-    Thread(target=wechat.get_detail_info, args=()).start()
-    lock = Semaphore(15)
-    for item in wechat.product_url(134138, 153362):
+    # Thread(target=wechat.get_detail_info, args=('datafile/wechatinfo.csv',)).start()
+    # lock = Semaphore(15)
+    # for item in wechat.product_url(1, 153362):
+    #     lock.acquire()
+    #     print(item.pid)
+    #     Thread(target=wechat.get_public_info, args=(item.pid, item.url)).start()
+    # wechat.get_detail_public_info(item.pid, item.url)
+    # for i in d:
+    #     for j in i:
+    #         print(list(j.articles))
+    # w = WechatPublic()
+    # s = w.request_public_data('gh_41575c96fbf5')
+    #
+    # d = w.request_public_keyword('gh_41575c96fbf5')
+    rootpath = os.path.dirname(os.path.abspath(os.path.pardir))
+
+    Thread(target=wechat.get_aritles, args=('datafile/wechatinfo.csv',)).start()
+    lock = Semaphore(1)
+    for item in wechat.product_url(1, 153362):
         lock.acquire()
-        print(item.pid)
-        Thread(target=wechat.get_public_info, args=(item.pid, item.url)).start()
-        # wechat.get_detail_public_info(item.pid, item.url)
-# for i in d:
-#     for j in i:
-#         print(list(j.articles))
-# w = WechatPublic()
-# s = w.request_public_data('gh_41575c96fbf5')
-#
-# d = w.request_public_keyword('gh_41575c96fbf5')
+        f = open(os.path.join(rootpath, str(item.pid) + '.csv'), 'a+', newline='')
+        w = csv.writer(f)
+        Thread(target=wechat.get_detail_public_info, args=(item.pid, item.url,)).start()
+
+    # wechat.get_detail_public_info(item.pid, item.url)

@@ -28,12 +28,16 @@ class SearchKeyword(Parent):
 
     def wechat_browser_keyword_frequency(self, keword, startdate, enddate):
         browser = KeyWord()
+        self.type_check(startdate, int)
+        self.type_check(enddate, int)
         result = browser.wechat_get_keyword_search_index(keyword=keword, startDate=startdate, endDate=enddate)
         return result
 
-    def sougou_browser_keyword_frequency(self, keword):
+    def sougou_browser_keyword_frequency(self, keword, startdate, enddate):
         browser = KeyWord()
-        result = browser.sougou_get_keyword_search_index(keyword=keword)
+        self.type_check(startdate, int)
+        self.type_check(enddate, int)
+        result = browser.sougou_get_keyword_search_index(keyword=keword, startDate=startdate, endDate=enddate)
         return result
 
     def alibaba_goods_purchased_frequency(self, keyword: str, pur1688flag: bool = True, taobaoflag: bool = True,
@@ -52,3 +56,4 @@ class SearchKeyword(Parent):
         browser = KeyWord()
         result = browser.get_alibaba_keyword_buy_index(keyword=keyword)
         return result
+

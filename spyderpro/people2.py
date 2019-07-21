@@ -295,7 +295,7 @@ global wf  # csv实例
 
 if __name__ == "__main__":
 
-    file = open(os.path.join(base_dir, "region_id.csv"), "r")
+    file = open('/Users/darkmoon/Project/SpyderPr/spyderpro/testdata/region_id.csv', "r")
     r = csv.reader(file)
     r.__next__()
     dir_path = os.path.join(base_dir, "FILE")
