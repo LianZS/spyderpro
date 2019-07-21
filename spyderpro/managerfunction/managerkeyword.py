@@ -166,12 +166,13 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
         t = datetime.timedelta(days=2)
         yesterday = int(str((today - t).date()).replace("-", ""))
 
-        yyesterday = int(str((today - t-t).date()).replace("-", ""))
+        yyesterday = int(str((today - t - t).date()).replace("-", ""))
         # today = int(str(today.date()).replace("-", ""))
         for item in data:
-            pid = item[0]
-            area = item[1]
-            baidu = search.baidu_browser_keyword_frequency(area)
+            pid: int = item[0]
+            area: str = item[1]
+            searcharea = search.key_check(area)
+            baidu = search.baidu_browser_keyword_frequency(searcharea)
 
             if not baidu:
                 continue
@@ -210,7 +211,7 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
                     db.rollback()
             db.commit()
             lastdate = self.last_date(pid, area, "wechat")
-            wechat = search.wechat_browser_keyword_frequency(area, startdate=yyesterday, enddate=yesterday)  # 只获取前2天的数据
+            wechat = search.wechat_browser_keyword_frequency(searcharea, startdate=yyesterday, enddate=yesterday)  # 只获取前2天的数据
             for item in wechat:
 
                 tmp_date = item.update
@@ -222,7 +223,7 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
                       "(%d,%d,'%s',%d,'%s')" % (pid, tmp_date, area, rate, name)
                 cur.execute(sql)
             db.commit()
-            sougou = search.sougou_browser_keyword_frequency(area, startdate=yyesterday,
+            sougou = search.sougou_browser_keyword_frequency(searcharea, startdate=yyesterday,
                                                              enddate=yesterday)  # 获取前两天的数据
             for item in sougou:
                 tmp_date = item.update
@@ -248,7 +249,11 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
             region_id, place, company)
 
         cur.execute(sql)
-        lastdate = cur.fetchall()[-1][0]
+        try:
+            lastdate = cur.fetchall()[-1][0]
+        except IndexError as e:
+            print(e)
+            return 0
         return lastdate
 
     def manager_app_portrait(self):

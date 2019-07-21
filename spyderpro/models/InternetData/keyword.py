@@ -72,7 +72,7 @@ class KeyWord(Connect):
             # sougou_instance = KeyWordObject("sougou", sougou_all, sougou_pc, sougou_mobile,
             #                                 sougou_update) if sougou else None
             # yield iter([baidu_instance, wetchat_instance, sougou_instance])
-            print(keyword,"baidu search is search")
+            print(keyword,"baidu search is success")
             return baidu_instance
 
     def wechat_get_keyword_search_index(self, keyword, startDate, endDate) -> Iterator[WechatKeyWordObject]:
