@@ -14,21 +14,22 @@ def inintdatbaseOfscencemanager():
     if len(cur.fetchall()) >= 500:
         print("信息概况总表scencemanager已经初始化了")
         return
-    filepath = os.path.join(rootpath, 'datafile/scenceinfo.csv')
+    filepath = os.path.join(rootpath, 'datafile/normalInfo/scenceinfo.csv')
     f = open(filepath, 'r')
     read = csv.reader(f)
     read.__next__()
-    # 城市,地名,标识,中心经度,中心维度,经纬度范围,类别
+    # 城市,地名,地区标识,城市标识,天气标识,类别,中心经度,中心维度,经纬度范围
 
     for item in read:
         city = item[0]
         area = item[1]
         pid = int(item[2])
-        lon = float(item[3])
-        lat = float(item[4])
-        weatherpid = 0
-        citypid = 0
-        flag = int(item[6])
+        citypid = int(item[3])
+        weatherpid = int(item[4])
+        flag = int(item[5])
+
+        lon = float(item[6])
+        lat = float(item[7])
         sql = "insert into digitalsmart.scencemanager" \
               "(pid, area, longitude, latitude, loaction, citypid, weatherpid,flag) VALUE " \
               "(%d,'%s',%f,%f,'%s',%d,%d,%d)" % (pid, area, lon, lat, city, citypid, weatherpid, flag)
@@ -51,11 +52,11 @@ def initTableManager():
     if len(cur.fetchall()) >= 500:
         print("人口分表管理tablemanager已经初始化了")
         return
-    filepath = os.path.join(rootpath, 'datafile/scenceinfo.csv')
+    filepath = os.path.join(rootpath, 'datafile/normalInfo/scenceinfo.csv')
     f = open(filepath, 'r')
     read = csv.reader(f)
     read.__next__()
-    # 城市,地名,标识,中心经度,中心维度,经纬度范围,类别
+    #  城市,地名,地区标识,城市标识,天气标识,类别,中心经度,中心维度,经纬度范围
     count = 0  # 存一张表中90个景区，一共7张
     table = 0
     for item in read:
@@ -76,8 +77,39 @@ def initTableManager():
     # cur.close()
 
 
+def initCitymanager():
+    sql = 'select id from digitalsmart.citymanager'
+    cur.execute(sql)
+    if len(cur.fetchall()) >= 100:
+        print("城市标识表citymanager已经初始化了")
+        return
+    filepath = os.path.join(rootpath, 'datafile/normalInfo/trafficinfo.csv')
+    f = open(filepath, 'r')
+    read = csv.reader(f)
+    read.__next__()  # 城市名,城市id,维度,经度,年度id
+
+    for item in read:
+        city = item[0]
+        pid = int(item[1])
+        lat = float(item[2])
+        lon = float(item[3])
+        yearpid = int(item[4])
+        if yearpid == 0:
+            yearpid = pid
+        weatherpid = "--"
+        sql = "insert into digitalsmart.citymanager(pid, name, longitude, latitude, weatherpid, yearpid) " \
+              "VALUE (%d,'%s',%f,%f,'%s',%d)" % (pid, city, lon, lat, weatherpid, yearpid)
+        try:
+            cur.execute(sql)
+            db.commit()
+        except Exception as e:
+            print(e)
+            db.rollback()
+
+
 if __name__ == "__main__":
     inintdatbaseOfscencemanager()
     initTableManager()
+    initCitymanager()
     cur.close()
     db.close()

@@ -330,7 +330,7 @@ class PlaceFlow(PlaceInterface):
 if __name__ == "__main__":
     import csv
 
-    # f = open('/Users/darkmoon/Project/SpyderPr/datafile/scenceinfo.csv', 'a+', newline='')
+    # f = open('/Users/darkmoon/Project/SpyderPr/datafile/腾讯scenceinfo.csv', 'a+', newline='')
     # w = csv.writer(f)
     # w.writerow(['城市', '地名', '标识', '中心经度', '中心维度', "经纬度范围"])
     # p = PlaceFlow()

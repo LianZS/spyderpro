@@ -72,7 +72,6 @@ class BaiduTraffic(Traffic):
         """
         获取城市年度交通数据
         :param citycode: 城市id
-        :param name: 城市名
         :param year: 年份
         :param quarter: 第几季度
         :return: iterable(dict)
@@ -122,7 +121,6 @@ class BaiduTraffic(Traffic):
             bounds = json.dumps({"coords": data['coords']})
             data = json.dumps(data['data'])
             road = Road(pid=citycode, roadname=roadname, speed=speed, dircetion=direction, bounds=bounds, data=data)
-
             yield road
 
     def __roads(self, citycode) -> json:
@@ -211,7 +209,6 @@ class BaiduTraffic(Traffic):
         url = "https://jiaotong.baidu.com/trafficindex/city/list?"
         response = self.s.get(url=url, headers=self.headers)
         g = json.loads(response.text)
-        datalist = list()
         for value in g['data']['list']:
             citycode = value['citycode']  # id
             cityname = value['cityname']  # 城市名
