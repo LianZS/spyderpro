@@ -1,3 +1,6 @@
+import  sys
+import os
+import requests
 import datetime
 from threading import Thread, Semaphore
 from spyderpro.function.trafficfunction.traffic import Traffic
@@ -12,6 +15,7 @@ cur = db.cursor()
 
 class ManagerTraffic(Traffic):
     def __init__(self):
+        print(sys.path)
         self.taskSemaphore = Semaphore(5)  # 任务并发锁头🔒
         self.pidLock = Semaphore(1)  # 数据锁🔒
 
@@ -30,12 +34,16 @@ class ManagerTraffic(Traffic):
             pid = item[0]
 
             def fast(region_id):
+                print(region_id)
                 db2: Connection = pymysql.connect(host=host, user=user, password=password,
                                                   database=database,
                                                   port=port)
                 info = self.get_city_traffic(citycode=region_id, db=db2)  # 获取交通数据
                 if len(info) == 0:
+
                     print("没有数据")
+                    self.taskSemaphore.release()
+
                     return
                 # 数据写入
                 for item in info:
@@ -118,3 +126,6 @@ class ManagerTraffic(Traffic):
             self.pidLock.release()
 
             fast(yearpid)
+    def test(self):
+        d = requests.get(url='https://www.cnblogs.com/xybaby/p/6370799.html')
+        print(d.status_code)

@@ -49,6 +49,7 @@ class GaodeTraffic(Traffic):
             data = self.s.get(url=url, headers=self.headers)
             g = json.loads(data.text)
         except Exception as e:
+
             print("编号%d--网络链接error:%s" % (citycode, e))
 
             return None
@@ -65,7 +66,6 @@ class GaodeTraffic(Traffic):
             ddate = int(date.replace("-", ""))  # 日期
             iindex = float(item[1])  # 拥堵指数
             detailtime = detailtime + ":00"  # 具体时刻
-
             yield TrafficClass(citycode, ddate, iindex, detailtime)
 
     # 道路数据获取

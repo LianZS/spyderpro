@@ -1,4 +1,4 @@
-from .loads import *
+from .celeryconfig import app
 
 
 @app.task(queue='location')

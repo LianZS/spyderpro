@@ -1,5 +1,4 @@
-from .loads import *
-
+from .celeryconfig import app
 
 @app.task(queue='Internet')
 def keyword_rate(keyword):

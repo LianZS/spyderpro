@@ -1,3 +1,6 @@
+import  sys
+import os
+sys.path[0]=os.getcwd()
 import datetime
 import time
 from threading import Thread, Semaphore

@@ -59,10 +59,8 @@ class Traffic(MysqlOperation):
         :return: list
         """
         # 将昨天的数据全部剔除
-
         objs = list(info)
         for i in range(len(objs)):
-
             if objs[i].date > yesterday:
                 objs = objs[i:]
                 break
@@ -71,6 +69,7 @@ class Traffic(MysqlOperation):
                                                                                                               today)
         cursor = self.get_cursor(db, sql)
         if cursor == "error":  # cursor()失败
+            print("error")
             return []
 
 

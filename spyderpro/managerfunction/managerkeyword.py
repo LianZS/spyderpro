@@ -1,6 +1,8 @@
+import  sys
+import os
+sys.path[0]=os.getcwd()
 import datetime
 import csv
-import os
 from threading import Thread, Semaphore
 from queue import Queue
 from spyderpro.portconnect.sqlconnect import MysqlOperation
