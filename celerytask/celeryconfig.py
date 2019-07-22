@@ -2,7 +2,7 @@ import sys
 import os
 
 sys.path[0] = os.path.abspath(os.path.join(os.path.curdir, "venv/lib/python3.7/site-packages"))
-
+from celery.schedules import crontab
 from celery import Celery
 from kombu import Queue, Exchange
 
@@ -13,6 +13,18 @@ CELERY_IMPORTS = (
     'celerytask.task1', 'celerytask.task2', 'celerytask.task3', 'celerytask.task4', 'celerytask.task5')  # 导入指定任务墨模块
 
 CELERYBEAT_SCHEDULE = {
+    'dailycitytraffic': {
+        'task': 'celerytask.task4.monitoring_dailycitytraffic',
+        'schedule': crontab('*/5'),  # 5分钟执行一遍
+    },
+    'roadtraffic': {
+        'task': 'celerytask.task4.monitoring_roadtraffic',
+        'schedule': crontab('*/10'),  # 10分钟执行一遍
+    },
+    'yeartraffic': {
+        'task': 'celerytask.task4.monitoring_yeartraffic',
+        'schedule': crontab(minute=0, hour=7),  # 每天早上7点运行一次
+    },
 
 }  # 默认的定时调度程序
 CELERY_QUEUES = (
