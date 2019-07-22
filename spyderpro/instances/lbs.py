@@ -6,16 +6,18 @@ class Trend:
     地区人口趋势
     { place:地区名,date:日期,data：日趋势数据 }
     """
-    __slots__ = ['place', 'ddate', "index", "detailtime"]
+    __slots__ = ['place', 'ddate', "index", "detailtime", "region_id"]
 
-    def __init__(self, place: str, date: int, index: float, detailtime: str):
+    def __init__(self, pid: int, place: str, date: int, index: float, detailtime: str):
+        self.region_id: int = pid
         self.place: str = place
         self.ddate: int = date
         self.index: float = index
         self.detailtime: str = detailtime
 
     def __str__(self):
-        return "Trend----地区名:{0},日期:{1},日趋势数据:{2}".format(self.place, self.ddate, self.data)
+        return "Trend----标识：{4}，地区名:{0},日期:{1},时间:{2},日趋势数据:{3}".format(self.place, self.ddate, self.detailtime,
+                                                                        self.index, self.region_id)
 
 
 class Geographi:

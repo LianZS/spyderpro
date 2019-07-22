@@ -100,7 +100,7 @@ class PlaceInterface(Connect, ParamTypeCheck):
 class PlaceTrend(PlaceInterface):
     """获取位置流量趋势"""
 
-    def __init__(self, date_begin: str = None, date_end: str = None, intervallong: int = 1, user_agent: str = None):
+    def __init__(self, date_begin: str = None, date_end: str = None, intervallong: int = 5, user_agent: str = None):
         """
         时间段最长15天，最小时间间隔是1分钟range，开始时间最早2016-07-18
         :type date_begin: str
@@ -143,18 +143,21 @@ class PlaceTrend(PlaceInterface):
             'range': self.intervallong,
             'predict': False  # 是否获取预测数据,若为true，预测那天的键需要加上「预测」两字
         }
-
         href = "https://heat.qq.com/api/getLocation_uv_percent_new.php?" + urlencode(parameter)
         par: str = None
         g = self.connect(par, href)
 
         '''获取间隔日期 ----仅限于最大周期15天'''
         intervallong = timedelta(minutes=5)
-        starttime = datetime(2019, 1, 1, 0, 0, 0)
+        starttime = datetime(2019, 1, 1, 0, 0, 0)  # 时间从00：00：00开始计算
         for date in self.dateiter():
+
             for index, detailt in zip(g[date],
                                       [str((starttime + intervallong * i).time()) for i in range(len(g[date]))]):
-                trend = Trend(place=region_name, date=int(date.replace("-", "")), index=index, detailtime=detailt)
+                if index == "null":
+                    break
+                trend = Trend(pid=pid, place=region_name, date=int(date.replace("-", "")), index=float(index),
+                              detailtime=detailt)
                 yield trend
 
     def dateiter(self) -> Iterator[str]:

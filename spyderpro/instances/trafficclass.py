@@ -19,7 +19,7 @@ class TrafficClass:
 
             pid: INT 类型属性，城市标识
             ddate:INT 类型属性,当前的日期，格式为yyyymmdd
-            index:FLOAT类型，该时间点的拥堵指数
+            iindex: FLOAT类型，该时间点的拥堵指数
             detailtime:String类型,详细时间，格式为HH：MM：SS
         """
         self.region_id: int = pid
