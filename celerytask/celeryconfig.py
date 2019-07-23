@@ -25,6 +25,18 @@ CELERYBEAT_SCHEDULE = {
         'task': 'celerytask.task4.monitoring_yeartraffic',
         'schedule': crontab(minute=0, hour=7),  # 每天早上7点运行一次
     },
+    'scence_situation': {
+        'task': 'celerytask.task3.monitoring_scencepeople',
+        'schedule': crontab('*/30'),  # 每天30min运行一次
+    },
+    'scencepeople_trend': {
+        'task': 'celerytask.task3.monitoring_scencepeople_trend',
+        'schedule': crontab('*/5'),  # 每天30min运行一次
+    },
+    'scencepeople_change': {
+        'task': 'celerytask.task3.monitoring_scencepeople_change',
+        'schedule': crontab('*/5'),  # 每天30min运行一次
+    },
 
 }  # 默认的定时调度程序
 CELERY_QUEUES = (
