@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 import threading
 from queue import Queue
 from urllib.parse import urlencode
-from typing import Iterator
+from typing import Iterator, List, Dict
 from spyderpro.portconnect.internetconnect import Connect
 from spyderpro.portconnect.paramchecks import ParamTypeCheck
 from spyderpro.instances.lbs import Trend, Geographi, Positioning
@@ -22,7 +22,7 @@ class PlaceInterface(Connect, ParamTypeCheck):
         return cls.instance
 
     # 获取所有省份
-    def get_provinces(self) -> list:
+    def get_provinces(self) -> List:
         """
         获取所有省份
         :return: list
@@ -34,7 +34,7 @@ class PlaceInterface(Connect, ParamTypeCheck):
         return data
 
     # 所有城市
-    def get_citys(self, province: str) -> list:
+    def get_citys(self, province: str) -> List[Dict]:
         """
         获取省份下所有城市
         :param province: 省份名
@@ -52,7 +52,7 @@ class PlaceInterface(Connect, ParamTypeCheck):
         results = [{"province": province, "city": value["city"]} for value in g]
         return results
 
-    def get_regions_bycity(self, province: str, city: str) -> list:
+    def get_regions_bycity(self, province: str, city: str) -> List[Dict]:
         """
         获取城市下所有地区信息标识，关键id
 
@@ -78,12 +78,12 @@ class PlaceInterface(Connect, ParamTypeCheck):
         for value in g:
             placename = value['name']  # 地点
             placeid = value["id"]  # id
-            dic = {'city': city, "place": placename, "id": placeid}
+            dic = {'province': province, 'city': city, "place": placename, "id": placeid}
             datalist.append(dic)
         return datalist
         # range表示数据间隔，最小1,region_name是地点名字,id是景区pid
 
-    def get_bounds(self, pid: int):
+    def get_bounds(self, pid: int) -> Dict:
         href = "https://heat.qq.com/api/getRegionHeatMapInfoById.php?id=" + str(pid)
         headers = dict()
         headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
@@ -332,7 +332,22 @@ class PlaceFlow(PlaceInterface):
 
 if __name__ == "__main__":
     import csv
+    import os
 
+    filepath = os.path.abspath(os.path.join(os.path.pardir, 'info.csv'))
+    f = open(filepath, 'w')
+    w = csv.writer(f)
+    w.writerow(['省份', "城市", "地区", "标识id"])
+    p = PlaceFlow()
+    for province in p.get_provinces():
+        for city in p.get_citys(province):
+            for item in p.get_regions_bycity(province, city['city']):
+                pro = item['province']
+                ct = item['city']
+                place = item['place']
+                pid = item['id']
+                w.writerow([pro, ct, place, pid])
+    f.close()
     # f = open('/Users/darkmoon/Project/SpyderPr/datafile/腾讯scenceinfo.csv', 'a+', newline='')
     # w = csv.writer(f)
     # w.writerow(['城市', '地名', '标识', '中心经度', '中心维度', "经纬度范围"])

@@ -21,18 +21,19 @@ def inintdatbaseOfscencemanager():
     # 城市,地名,地区标识,城市标识,天气标识,类别,中心经度,中心维度,经纬度范围
 
     for item in read:
-        city = item[0]
-        area = item[1]
-        pid = int(item[2])
-        citypid = int(item[3])
-        weatherpid = int(item[4])
-        flag = int(item[5])
+        province = item[0]
+        city = item[1]
+        area = item[2]
+        pid = int(item[3])
+        citypid = int(item[4])
+        weatherpid = int(item[5])
+        flag = int(item[6])
 
-        lon = float(item[6])
-        lat = float(item[7])
+        lon = float(item[7])
+        lat = float(item[8])
         sql = "insert into digitalsmart.scencemanager" \
-              "(pid, area, longitude, latitude, loaction, citypid, weatherpid,flag) VALUE " \
-              "(%d,'%s',%f,%f,'%s',%d,%d,%d)" % (pid, area, lon, lat, city, citypid, weatherpid, flag)
+              "(province,pid, area, longitude, latitude, loaction, citypid, weatherpid,flag) VALUE " \
+              "('%s',%d,'%s',%f,%f,'%s',%d,%d,%d)" % (province, pid, area, lon, lat, city, citypid, weatherpid, flag)
         try:
             cur.execute(sql)
             db.commit()
