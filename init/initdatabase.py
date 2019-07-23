@@ -57,15 +57,15 @@ def initTableManager():
     f = open(filepath, 'r')
     read = csv.reader(f)
     read.__next__()
-    #  城市,地名,地区标识,城市标识,天气标识,类别,中心经度,中心维度,经纬度范围
+    #  省份，城市,地名,地区标识,城市标识,天气标识,类别,中心经度,中心维度,经纬度范围
     count = 0  # 存一张表中90个景区，一共7张
     table = -1
     for item in read:
         count += 1
         table += 1
 
-        area = item[1]
-        pid = int(item[2])
+        area = item[2]
+        pid = int(item[3])
         sql = "insert into digitalsmart.tablemanager(area, pid, last_date, table_id) VALUE ('%s',%d,%d,%d)" % (
             area, pid, 0, table)
 
@@ -93,11 +93,11 @@ def initCitymanager():
     read.__next__()  # 城市名,城市id,维度,经度,年度id
 
     for item in read:
-        city = item[0]
-        pid = int(item[1])
-        lat = float(item[2])
-        lon = float(item[3])
-        yearpid = int(item[4])
+        city = item[1]
+        pid = int(item[2])
+        lat = float(item[3])
+        lon = float(item[4])
+        yearpid = int(item[5])
         if yearpid == 0:
             yearpid = pid
         weatherpid = "--"
@@ -122,10 +122,10 @@ def initGeographic():
     read = csv.reader(f)
     read.__next__()  # 城市,地名,地区标识,城市标识,天气标识,类别,中心经度,中心维度,经纬度范围
     for item in read:
-        pid = int(item[2])
-        area = item[1]
+        pid = int(item[3])
+        area = item[2]
 
-        bounds = item[8]
+        bounds = item[9]
         if ";" in bounds:
             bounds = bounds.split(";")
             for latlon in bounds:

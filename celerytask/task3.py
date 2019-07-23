@@ -40,3 +40,4 @@ def people_positioning():
    
     """
     pass
+monitoring_scencepeople_change()

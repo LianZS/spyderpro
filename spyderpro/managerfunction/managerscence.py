@@ -119,8 +119,8 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             lock.release()
 
     def manager_scenece_people(self):
-        up_date = datetime.datetime.now().timestamp()
-
+        up_date = int(datetime.datetime.now().timestamp())
+        print(up_date)
         sql = "select pid,latitude,longitude from digitalsmart.scencemanager where flag=0"
         try:
             cur.execute(sql)
@@ -148,10 +148,13 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             region_id = item[0]
             lat = item[1]
             lon = item[2]
+            db2 = self.connectqueue.get()
+            newcur = db2.cursor()
             sql = "select table_id from digitalsmart.tablemanager where pid={0}".format(region_id)
-            cur.execute(sql)
-            table_id = cur.fetchone()[0]  # 数据对应在哪张表插入
+            newcur.execute(sql)
 
+            table_id = newcur.fetchone()[0]  # 数据对应在哪张表插入
+            self.connectqueue.put(db2)
             def fast(cid, tale_pid):
                 data = self.get_data(date=ddate, dateTime=detailtime, region_id=cid)
                 if not data:
@@ -169,10 +172,10 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         地区人口分布数据---这部分每次有几k条数据插入
         :return:
         """
+        instances = self.get_distribution_situation(data)
 
         db2 = self.connectqueue.get()
         newcur = db2.cursor()
-        instances = self.get_distribution_situation(data)
         count = 0  # 每一百条提交一次
         table = "digitalsmart.peopleposition{0}".format(table_id)  # 确定哪张表
         select_table = "insert into {0}(pid, tmp_date, lat, lon, num) VALUES" \
@@ -188,13 +191,16 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             count += 1
             if count == 100:
                 db2.commit()
-        newcur.close()
         self.taskSemaphore.release()
         db2.commit()
         print("success")
         sql = "update digitalsmart.tablemanager  " \
               "set last_date={0} where pid={1}".format(tmp_date, region_id)  # 更新修改时间
-        self.write_data(db2, sql)
+        print(tmp_date)
+        newcur.execute(sql)
+        newcur.close()
+
+        db2.commit()
         self.connectqueue.put(db2)
 
     def manager_scenece_people_situation(self, data, pid, date, ttime):

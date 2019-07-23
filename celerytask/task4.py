@@ -25,4 +25,3 @@ def monitoring_yeartraffic():
         监控城市日交通拥堵情况
     """
     ManagerTraffic().manager_city_year_traffic()
-monitoring_yeartraffic()
