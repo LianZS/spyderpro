@@ -1,6 +1,7 @@
-import  sys
+import sys
 import os
-sys.path[0]=os.getcwd()
+
+sys.path[0] = os.getcwd()
 import datetime
 import time
 from threading import Thread, Semaphore
@@ -54,6 +55,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 for info in instances:
                     sql = "insert into digitalsmart.scenceflow(pid, ddate, ttime, num) values ('%d','%d','%s','%d')" % (
                         info.region_id, info.date, info.detailTime, info.num)
+                    print(sql)
                     self.write_data(db2, sql)
                 db2.close()
 
@@ -63,7 +65,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             Thread(target=fast, args=(region_id,)).start()
             lock.release()
 
-        db.close()
+        print("success")
 
     def manager_scence_trend(self):
         """
@@ -118,9 +120,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
 
     def manager_scenece_people(self):
         up_date = datetime.datetime.now().timestamp()
-        sql = "update digitalsmart.tablemanager  set last_date={0}  ".format(up_date)  # 更新修改时间
-        cur.execute(sql)
-        db.commit()
+
         sql = "select pid,latitude,longitude from digitalsmart.scencemanager where flag=0"
         try:
             cur.execute(sql)
@@ -157,7 +157,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 if not data:
                     return
                 Thread(target=self.manager_scenece_people_distribution,
-                       args=(data, region_id, tmp_date, lat, lon, tale_pid)).start()
+                       args=(data, region_id, up_date, lat, lon, tale_pid)).start()
                 Thread(target=self.manager_scenece_people_situation(data, region_id, ddate, detailtime)).start()
 
             Thread(target=fast, args=(region_id, table_id)).start()
@@ -192,6 +192,9 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         self.taskSemaphore.release()
         db2.commit()
         print("success")
+        sql = "update digitalsmart.tablemanager  " \
+              "set last_date={0} where pid={1}".format(tmp_date, region_id)  # 更新修改时间
+        self.write_data(db2, sql)
         self.connectqueue.put(db2)
 
     def manager_scenece_people_situation(self, data, pid, date, ttime):
@@ -224,5 +227,3 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
     def manager_monitoring_area(self):
         """"""
         self.get_the_scope_of_pace_data(start_lat=23.2, start_lon=110.2, end_lat=30.2, end_lon=113.2)
-
-

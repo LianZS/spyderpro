@@ -146,7 +146,6 @@ class PlaceTrend(PlaceInterface):
         href = "https://heat.qq.com/api/getLocation_uv_percent_new.php?" + urlencode(parameter)
         par: str = None
         g = self.connect(par, href)
-
         '''获取间隔日期 ----仅限于最大周期15天'''
         intervallong = timedelta(minutes=5)
         starttime = datetime(2019, 1, 1, 0, 0, 0)  # 时间从00：00：00开始计算
@@ -156,6 +155,7 @@ class PlaceTrend(PlaceInterface):
                                       [str((starttime + intervallong * i).time()) for i in range(len(g[date]))]):
                 if index == "null":
                     break
+
                 trend = Trend(pid=pid, place=region_name, date=int(date.replace("-", "")), index=float(index),
                               detailtime=detailt)
                 yield trend

@@ -15,7 +15,6 @@ cur = db.cursor()
 
 class ManagerTraffic(Traffic):
     def __init__(self):
-        print(sys.path)
         self.taskSemaphore = Semaphore(5)  # 任务并发锁头🔒
         self.pidLock = Semaphore(1)  # 数据锁🔒
 
@@ -34,7 +33,6 @@ class ManagerTraffic(Traffic):
             pid = item[0]
 
             def fast(region_id):
-                print(region_id)
                 db2: Connection = pymysql.connect(host=host, user=user, password=password,
                                                   database=database,
                                                   port=port)
