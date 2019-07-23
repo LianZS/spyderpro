@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ce88f83-d355-4299-8834-5d606a7aee1f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RequestsData.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/celerybeat.pid" beforeDir="false" afterPath="$PROJECT_DIR$/celerybeat.pid" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/celerytask/task4.py" beforeDir="false" afterPath="$PROJECT_DIR$/celerytask/task4.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/managerfunction/managertraffic.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/managerfunction/managertraffic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/models/locationdata/placepeople.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/models/locationdata/placepeople.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spyderpro/models/traffic/baidutraffic.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/models/traffic/baidutraffic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spyderpro/models/traffic/gaodetraffic.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/models/traffic/gaodetraffic.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -140,11 +136,11 @@
                 </provider>
               </entry>
             </file>
-            <file pinned="false" current-in-tab="true">
+            <file pinned="false" current-in-tab="false">
               <entry file="file://$PROJECT_DIR$/spyderpro/managerfunction/managertraffic.py">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="486">
-                    <caret line="119" selection-start-line="119" selection-end-line="119" />
+                  <state relative-caret-position="385">
+                    <caret line="112" column="37" lean-forward="true" selection-start-line="112" selection-start-column="37" selection-end-line="112" selection-end-column="37" />
                     <folding>
                       <element signature="e#0#11#0" expanded="true" />
                     </folding>
@@ -155,10 +151,31 @@
             <file pinned="false" current-in-tab="false">
               <entry file="file://$PROJECT_DIR$/spyderpro/function/trafficfunction/traffic.py">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="54">
-                    <caret line="105" column="8" selection-start-line="105" selection-start-column="8" selection-end-line="105" selection-end-column="8" />
+                  <state relative-caret-position="254">
+                    <caret line="109" column="20" selection-start-line="109" selection-start-column="20" selection-end-line="109" selection-end-column="20" />
                     <folding>
                       <element signature="e#0#11#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/spyderpro/models/traffic/gaodetraffic.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="372">
+                    <caret line="219" lean-forward="true" selection-start-line="219" selection-end-line="219" />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/spyderpro/models/traffic/baidutraffic.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="285">
+                    <caret line="90" column="23" lean-forward="true" selection-start-line="90" selection-start-column="23" selection-end-line="90" selection-end-column="23" />
+                    <folding>
+                      <element signature="e#0#15#0" expanded="true" />
                     </folding>
                   </state>
                 </provider>
@@ -299,8 +316,6 @@
         <option value="$PROJECT_DIR$/celerytask/task5.py" />
         <option value="$PROJECT_DIR$/bin/__init__.py" />
         <option value="$PROJECT_DIR$/celerytask/__init__.py" />
-        <option value="$PROJECT_DIR$/spyderpro/models/traffic/gaodetraffic.py" />
-        <option value="$PROJECT_DIR$/spyderpro/models/traffic/baidutraffic.py" />
         <option value="$PROJECT_DIR$/celerytask/start.py" />
         <option value="$PROJECT_DIR$/celerytask/task1.py" />
         <option value="$PROJECT_DIR$/celerytask/celeryconfig.py" />
@@ -311,6 +326,8 @@
         <option value="$PROJECT_DIR$/celerytask/task3.py" />
         <option value="$PROJECT_DIR$/celerytask/task4.py" />
         <option value="$PROJECT_DIR$/spyderpro/managerfunction/managertraffic.py" />
+        <option value="$PROJECT_DIR$/spyderpro/models/traffic/baidutraffic.py" />
+        <option value="$PROJECT_DIR$/spyderpro/models/traffic/gaodetraffic.py" />
       </list>
     </option>
   </component>
@@ -614,12 +631,12 @@
       <workItem from="1563787352090" duration="11566000" />
       <workItem from="1563844788748" duration="330000" />
       <workItem from="1563850807302" duration="2824000" />
-      <workItem from="1563882434211" duration="1782000" />
+      <workItem from="1563882434211" duration="1969000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="494487000" />
+    <option name="totallyTimeSpent" value="494674000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -823,23 +840,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/models/traffic/gaodetraffic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-462">
-          <caret line="18" column="8" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/models/traffic/baidutraffic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="458">
-          <caret line="67" selection-start-line="67" selection-end-line="67" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/celerytask/test.py" />
     <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/geographic">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
@@ -1022,10 +1022,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/models/traffic/baidutraffic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="90" column="23" lean-forward="true" selection-start-line="90" selection-start-column="23" selection-end-line="90" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/managerfunction/managertraffic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="385">
+          <caret line="112" column="37" lean-forward="true" selection-start-line="112" selection-start-column="37" selection-end-line="112" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/function/trafficfunction/traffic.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="105" column="8" selection-start-line="105" selection-start-column="8" selection-end-line="105" selection-end-column="8" />
+        <state relative-caret-position="254">
+          <caret line="109" column="20" selection-start-line="109" selection-start-column="20" selection-end-line="109" selection-end-column="20" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
@@ -1039,13 +1059,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/managerfunction/managertraffic.py">
+    <entry file="file://$PROJECT_DIR$/spyderpro/models/traffic/gaodetraffic.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="119" selection-start-line="119" selection-end-line="119" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="372">
+          <caret line="219" lean-forward="true" selection-start-line="219" selection-end-line="219" />
         </state>
       </provider>
     </entry>

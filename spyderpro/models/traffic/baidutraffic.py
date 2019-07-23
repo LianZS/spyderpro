@@ -82,8 +82,9 @@ class BaiduTraffic(Traffic):
             'type': 'day'  # 有分钟也有day
         }
         href = 'https://jiaotong.baidu.com/trafficindex/city/curve?' + urlencode(parameter)
-        data = self.s.get(url=href, headers=self.headers)
+
         try:
+            data = self.s.get(url=href, headers=self.headers)
             obj = json.loads(data.text)
         except Exception as e:
             print("百度年度交通爬取失败！:%s" % e)
@@ -122,8 +123,6 @@ class BaiduTraffic(Traffic):
             data = json.dumps(data['data'])
             road = Road(pid=citycode, roadname=roadname, speed=speed, dircetion=direction, bounds=bounds, data=data)
             yield road
-            Road
-
 
     def __roads(self, citycode) -> json:
         """

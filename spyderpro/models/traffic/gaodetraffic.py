@@ -217,8 +217,9 @@ class GaodeTraffic(Traffic):
         }
 
         url = url + urlencode(req)
-        data = self.s.get(url=url, headers=self.headers)
+
         try:
+            data = self.s.get(url=url, headers=self.headers)
             g = eval(data.text)
         except SyntaxError:
             print("高德地图年度数据请求失败！")
