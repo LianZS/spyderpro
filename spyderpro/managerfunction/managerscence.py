@@ -120,7 +120,6 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
 
     def manager_scenece_people(self):
         up_date = int(datetime.datetime.now().timestamp())
-        print(up_date)
         sql = "select pid,latitude,longitude from digitalsmart.scencemanager where flag=0"
         try:
             cur.execute(sql)

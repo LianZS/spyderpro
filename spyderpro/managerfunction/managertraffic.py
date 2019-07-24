@@ -1,4 +1,4 @@
-import  sys
+import sys
 import os
 import requests
 import datetime
@@ -38,7 +38,6 @@ class ManagerTraffic(Traffic):
                                                   port=port)
                 info = self.get_city_traffic(citycode=region_id, db=db2)  # 获取交通数据
                 if len(info) == 0:
-
                     print("没有数据")
                     self.taskSemaphore.release()
 
@@ -83,10 +82,11 @@ class ManagerTraffic(Traffic):
                     direction = obj.direction
                     bounds = obj.bounds
                     indexSet = obj.data
-                    sql = "insert into digitalsmart.roadtraffic(pid, roadname, up_date, speed, direction, bound, data) VALUE" \
-                          "(%d,'%s',%d,%f,'%s','%s','%s') " % (
+                    roadid = obj.num  # 用排名表示道路id
+                    sql = "insert into digitalsmart.roadtraffic(pid, roadname, up_date, speed, direction, bound, data,roadid) VALUE" \
+                          "(%d,'%s',%d,%f,'%s','%s','%s',%d) " % (
                               region_id, roadname, up_date, speed, direction, bounds,
-                              indexSet)
+                              indexSet, roadid)
                     self.write_data(db2, sql)
                 # self.taskSemaphore.release()
 
@@ -124,6 +124,3 @@ class ManagerTraffic(Traffic):
             self.pidLock.release()
 
             fast(yearpid)
-    def test(self):
-        d = requests.get(url='https://www.cnblogs.com/xybaby/p/6370799.html')
-        print(d.status_code)

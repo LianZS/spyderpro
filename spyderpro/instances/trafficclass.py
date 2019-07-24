@@ -45,9 +45,9 @@ class Road:
         data : Dict类型，用于记录拥堵数据集，格式为{"num": 0, "time": ["02:50", "02:55", ], "data": ["1.05", "1.06", ]}
 
     """
-    __slots__ = ['region_id', 'roadname', 'speed', 'direction', 'bounds', 'data']
+    __slots__ = ['region_id', 'roadname', 'speed', 'direction', 'bounds', 'data', "num"]
 
-    def __init__(self, pid: int, roadname: str, speed: float, dircetion: str, bounds: dict, data: dict):
+    def __init__(self, pid: int, roadname: str, speed: float, dircetion: str, bounds: dict, data: dict, num: int):
         """
         Args:
             pid: INT 类型属性，城市标识
@@ -56,6 +56,7 @@ class Road:
             dircetion:String类型，方向
             bounds:Dict类型，经纬度范围，格式为{"coords": [{"lon": "120.324071", "lat": "31.633172"}，，，，]}
             data: Dict类型，拥堵数据集，格式为{"num": 0, "time": ["02:50", "02:55", ], "data": ["1.05", "1.06", ]}
+            num:INT类型，表示道路排在第几名
 
         """
         self.region_id: int = pid
@@ -64,6 +65,7 @@ class Road:
         self.direction: str = dircetion
         self.bounds: dict = bounds
         self.data: dict = data
+        self.num = num
 
     def __str__(self):
         return "标识{0},路名：{1}，方向：{2}，速度：{3}，经纬度；{4}，指数集：{5}".format(self.region_id, self.roadname, self.direction,

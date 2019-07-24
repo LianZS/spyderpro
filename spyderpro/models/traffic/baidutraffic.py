@@ -114,14 +114,15 @@ class BaiduTraffic(Traffic):
         datalist = self.__realtime_road(dic, citycode)
 
         datalist = sorted(datalist, key=lambda x: x["num"])  # 数据必须排序，不然和下面的信息不对称
-
         for item, data in zip(dic['data']['list'], datalist):
             roadname = item["roadname"]
             speed = float(item["speed"])
             direction = item['semantic']
             bounds = json.dumps({"coords": data['coords']})
             data = json.dumps(data['data'])
-            road = Road(pid=citycode, roadname=roadname, speed=speed, dircetion=direction, bounds=bounds, data=data)
+            num = eval(data)['num']
+            road = Road(pid=citycode, roadname=roadname, speed=speed, dircetion=direction, bounds=bounds, data=data,
+                        num=num)
             yield road
 
     def __roads(self, citycode) -> json:
@@ -226,9 +227,10 @@ class BaiduTraffic(Traffic):
 if __name__ == "__main__":
     import csv
 
-    f = open('/Users/darkmoon/Project/SpyderPr/datafile/baiducity.csv', 'a+', newline='')
-    w = csv.writer(f)
-    w.writerow(['城市名', "城市id", "维度", "经度"])
-    for item in BaiduTraffic().getallcitycode():
-        w.writerow([item.cityname, item.citycode, item.lat, item.lon])
-    f.close()
+
+    # f = open('/Users/darkmoon/Project/SpyderPr/datafile/baiducity.csv', 'a+', newline='')
+    # w = csv.writer(f)
+    # w.writerow(['城市名', "城市id", "维度", "经度"])
+    # for item in BaiduTraffic().getallcitycode():
+    #     w.writerow([item.cityname, item.citycode, item.lat, item.lon])
+    # f.close()

@@ -297,7 +297,7 @@ global wf  # csv实例
 if __name__ == "__main__":
     print(sys.path)
     # exit()
-    file = open(os.path.join(base_dir, "testdata/region_id.csv"), "r")
+    file = open(os.path.join(base_dir, "region_id.csv"), "r")
     r = csv.reader(file)
     r.__next__()
     dir_path = os.path.join(base_dir, "FILE")
@@ -325,6 +325,6 @@ if __name__ == "__main__":
             ff.close()
 
         print(name)
-        if count >250 and count<=300 :
+        if count >163 and count<=200 :
             
             get_count(regin_id)

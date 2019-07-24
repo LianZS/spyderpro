@@ -84,14 +84,15 @@ class GaodeTraffic(Traffic):
 
         datalist = self.__realtimeroad(dic, citycode)  # 获取数据
         datalist = sorted(datalist, key=lambda x: x["num"])  # 数据必须排序，不然和下面的信息不对称
-
         for item, data in zip(dic['route'], datalist):
             roadname = item["name"]  # 路名
             speed = float(item["speed"])  # 速度
             data = json.dumps(data['data'])  # 数据包
             direction = item['dir']  # 道路方向
             bounds = json.dumps({"coords": item['coords']})  # 道路经纬度数据
-            road = Road(pid=citycode, roadname=roadname, speed=speed, dircetion=direction, bounds=bounds, data=data)
+            num = eval(data)['num']
+            road = Road(pid=citycode, roadname=roadname, speed=speed, dircetion=direction, bounds=bounds, data=data,
+                        num=num)
 
             yield road
 
@@ -226,3 +227,5 @@ class GaodeTraffic(Traffic):
             return None
         for date, index in zip(g["categories"], g['serieData']):
             yield Year(pid=citycode, date=int(date.replace("-", "")), index=index)
+
+
