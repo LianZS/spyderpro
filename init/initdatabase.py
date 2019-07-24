@@ -93,11 +93,11 @@ def initCitymanager():
     read.__next__()  # 城市名,城市id,维度,经度,年度id
 
     for item in read:
-        city = item[1]
-        pid = int(item[2])
-        lat = float(item[3])
-        lon = float(item[4])
-        yearpid = int(item[5])
+        city = item[0]
+        pid = int(item[1])
+        lat = float(item[2])
+        lon = float(item[3])
+        yearpid = int(item[4])
         if yearpid == 0:
             yearpid = pid
         weatherpid = "--"
@@ -148,10 +148,32 @@ def initGeographic():
             db.commit()
 
 
+def initRoadManager():
+    sql = 'select id from digitalsmart.roadmanager'
+    cur.execute(sql)
+    if len(cur.fetchall()) >= 100:
+        print("道路管理roadmanager已经初始化了")
+        return
+    filepath = os.path.join(rootpath, 'datafile/normalInfo/trafficinfo.csv')
+    f = open(filepath, 'r')
+    read = csv.reader(f)
+    read.__next__()  # 城市名,城市id,维度,经度,年度id
+
+    for item in read:
+        city = item[0]
+        pid = int(item[1])
+        for i in range(10):
+            sql = "insert into digitalsmart.roadmanager( pid, roadid, up_date, city) value (%d,%d,%d,'%s')" % (
+                pid, i, 0, city)
+            cur.execute(sql)
+    db.commit()
+
+
 if __name__ == "__main__":
     inintdatbaseOfscencemanager()
     initTableManager()
     initCitymanager()
     initGeographic()
+    initRoadManager()
     cur.close()
     db.close()

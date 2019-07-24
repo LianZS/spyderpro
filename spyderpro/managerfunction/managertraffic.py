@@ -75,6 +75,7 @@ class ManagerTraffic(Traffic):
                                                   database=database,
                                                   port=port)
                 resultObjs = self.road_manager(region_id)  # 获取道路数据
+                print(region_id)
                 for obj in resultObjs:
                     region_id = obj.region_id
                     roadname = obj.roadname
@@ -88,6 +89,8 @@ class ManagerTraffic(Traffic):
                               region_id, roadname, up_date, speed, direction, bounds,
                               indexSet, roadid)
                     self.write_data(db2, sql)
+                sql = "update  digitalsmart.roadmanager set up_date={0} where pid={1}".format(up_date, region_id)
+                self.write_data(db2, sql)  # 更新最近更新时间
                 # self.taskSemaphore.release()
 
                 db2.close()
@@ -124,3 +127,4 @@ class ManagerTraffic(Traffic):
             self.pidLock.release()
 
             fast(yearpid)
+
