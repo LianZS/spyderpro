@@ -2673,42 +2673,49 @@ rate</ColNames>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="573" parent="317" name="PRIMARY">
+    <column id="573" parent="317" name="flag">
+      <Position>6</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>0</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="574" parent="317" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="574" parent="318" name="id">
+    <column id="575" parent="318" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="575" parent="318" name="pid">
+    <column id="576" parent="318" name="pid">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="576" parent="318" name="tmp_date">
+    <column id="577" parent="318" name="tmp_date">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="577" parent="318" name="rate">
+    <column id="578" parent="318" name="rate">
       <Position>4</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="578" parent="318" name="pid_date">
+    <index id="579" parent="318" name="pid_date">
       <ColNames>pid
 tmp_date</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="579" parent="318" name="PRIMARY">
+    <key id="580" parent="318" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>

@@ -142,9 +142,11 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             detailtime = time.strftime("%H:%M:00", time.localtime(tmp_date))
 
         for item in data:
+
             self.taskSemaphore.acquire()
             lock.acquire()
             region_id = item[0]
+
             lat = item[1]
             lon = item[2]
             db2 = self.connectqueue.get()
@@ -198,7 +200,6 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
               "set last_date={0} where pid={1}".format(tmp_date, region_id)  # 更新修改时间
         newcur.execute(sql)
         newcur.close()
-
         db2.commit()
         self.connectqueue.put(db2)
 
@@ -234,4 +235,3 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         self.get_the_scope_of_pace_data(start_lat=23.2, start_lon=110.2, end_lat=30.2, end_lon=113.2)
 
 
-ManagerScence().manager_scenece_people()

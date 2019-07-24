@@ -57,7 +57,7 @@ def initTableManager():
     f = open(filepath, 'r')
     read = csv.reader(f)
     read.__next__()
-    #  省份，城市,地名,地区标识,城市标识,天气标识,类别,中心经度,中心维度,经纬度范围
+    #  省份,城市,地名,地区标识,城市标识,天气标识,类别,中心经度,中心维度,经纬度范围
     count = 0  # 存一张表中90个景区，一共7张
     table = -1
     for item in read:
@@ -66,9 +66,10 @@ def initTableManager():
 
         area = item[2]
         pid = int(item[3])
-        sql = "insert into digitalsmart.tablemanager(area, pid, last_date, table_id) VALUE ('%s',%d,%d,%d)" % (
-            area, pid, 0, table)
-
+        flag = int(item[6])
+        sql = "insert into digitalsmart.tablemanager(area, pid, last_date, table_id,flag) VALUE ('%s',%d,%d,%d,%d)" % (
+            area, pid, 0, table, flag)
+        # sql = "update digitalsmart.tablemanager set flag={0} where pid={1} and area={2}".format(flag, pid, "'"+area+"'")
         try:
             cur.execute(sql)
             db.commit()
@@ -120,11 +121,10 @@ def initGeographic():
     filepath = os.path.join(rootpath, 'datafile/normalInfo/scenceinfo.csv')
     f = open(filepath, 'r')
     read = csv.reader(f)
-    read.__next__()  # 城市,地名,地区标识,城市标识,天气标识,类别,中心经度,中心维度,经纬度范围
+    read.__next__()  # 省份,城市,地名,地区标识,城市标识,天气标识,类别,中心经度,中心维度,经纬度范围
     for item in read:
         pid = int(item[3])
         area = item[2]
-
         bounds = item[9]
         if ";" in bounds:
             bounds = bounds.split(";")

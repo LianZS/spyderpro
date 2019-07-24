@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ce88f83-d355-4299-8834-5d606a7aee1f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/670659c6-64d9-45a2-b66d-7bd840fa8b29.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/670659c6-64d9-45a2-b66d-7bd840fa8b29.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/init/initdatabase.py" beforeDir="false" afterPath="$PROJECT_DIR$/init/initdatabase.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -48,7 +51,7 @@
     <SUITE FILE_PATH="coverage/SpyderPro$TrafficFunction.coverage" NAME="TrafficFunction Coverage Results" MODIFIED="1560501206987" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/FunctionMain" />
     <SUITE FILE_PATH="coverage/SpyderPr$MobileKeyword.coverage" NAME="MobileKeyword Coverage Results" MODIFIED="1561741397394" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/InternetData" />
     <SUITE FILE_PATH="coverage/SpyderPro$WeatherLishi.coverage" NAME="WeatherLishi Coverage Results" MODIFIED="1560503772635" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/Weather" />
-    <SUITE FILE_PATH="coverage/SpyderPr$initdatabase.coverage" NAME="initdatabase Coverage Results" MODIFIED="1563968583577" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/init" />
+    <SUITE FILE_PATH="coverage/SpyderPr$initdatabase.coverage" NAME="initdatabase Coverage Results" MODIFIED="1563973520156" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/init" />
     <SUITE FILE_PATH="coverage/SpyderPr$Keyword.coverage" NAME="Keyword Coverage Results" MODIFIED="1562725030913" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/InternetData" />
     <SUITE FILE_PATH="coverage/SpyderPr$WeatherFunction.coverage" NAME="WeatherFunction Coverage Results" MODIFIED="1560787596227" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/FunctionMain" />
     <SUITE FILE_PATH="coverage/SpyderPr$keywordfunction.coverage" NAME="keywordfunction Coverage Results" MODIFIED="1562980465111" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/function" />
@@ -68,7 +71,7 @@
     <SUITE FILE_PATH="coverage/SpyderPr$historyweather.coverage" NAME="historyweather Coverage Results" MODIFIED="1563641371465" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/weather" />
     <SUITE FILE_PATH="coverage/SpyderPr$test_main.coverage" NAME="test_main Coverage Results" MODIFIED="1563003443762" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/function/keywordfunction" />
     <SUITE FILE_PATH="coverage/SpyderPr$people2.coverage" NAME="people2 Coverage Results" MODIFIED="1563785282039" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro" />
-    <SUITE FILE_PATH="coverage/SpyderPr$managerscence.coverage" NAME="managerscence Coverage Results" MODIFIED="1563971702025" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/managerfunction" />
+    <SUITE FILE_PATH="coverage/SpyderPr$managerscence.coverage" NAME="managerscence Coverage Results" MODIFIED="1563972092396" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/managerfunction" />
     <SUITE FILE_PATH="coverage/SpyderPr$infospyder2.coverage" NAME="infospyder2 Coverage Results" MODIFIED="1563518987225" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
     <SUITE FILE_PATH="coverage/SpyderPr$baidutraffic.coverage" NAME="baidutraffic Coverage Results" MODIFIED="1563938103956" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/traffic" />
     <SUITE FILE_PATH="coverage/SpyderPr$lbs.coverage" NAME="lbs Coverage Results" MODIFIED="1562982604452" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/instances" />
@@ -120,68 +123,39 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/celerytask/task3.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/init/initdatabase.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="21" column="40" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="40" />
+            <state relative-caret-position="251">
+              <caret line="61" column="14" lean-forward="true" selection-start-line="61" selection-start-column="14" selection-end-line="61" selection-end-column="14" />
               <folding>
-                <element signature="e#0#29#0" expanded="true" />
+                <element signature="e#2342#3256#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/datafile/normalInfo/scenceinfo.csv">
+          <provider selected="true" editor-type-id="csv-text-editor">
+            <state>
+              <caret column="22" lean-forward="true" selection-end-line="1" />
+            </state>
+          </provider>
+          <provider editor-type-id="csv-table-editor">
+            <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
-              <caret line="198" selection-start-line="198" selection-end-line="198" />
+            <state relative-caret-position="2250">
+              <caret line="237" selection-start-line="237" selection-end-line="237" />
               <folding>
                 <element signature="e#1104#2340#0" />
                 <element signature="e#2386#4273#0" />
-                <element signature="e#7544#8152#0" />
-                <element signature="e#8203#8313#0" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spyderpro/function/peoplefunction/positioningsituation.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
-              <caret line="28" column="29" lean-forward="true" selection-start-line="28" selection-start-column="29" selection-end-line="28" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spyderpro/models/locationdata/placepeople.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="244" lean-forward="true" selection-start-line="244" selection-end-line="244" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/peopleposition9">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/init/initdatabase.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="206">
-              <caret line="154" column="36" selection-start-line="154" selection-start-column="15" selection-end-line="154" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -198,9 +172,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>银川火车站</find>
-      <find>太行大峡谷</find>
-      <find>太湖</find>
       <find>龙庆峡</find>
       <find>松花湖</find>
       <find>阆中古城景区</find>
@@ -228,6 +199,9 @@
       <find>num</find>
       <find>update</find>
       <find>pid=6</find>
+      <find>1380</find>
+      <find>1398</find>
+      <find>10107</find>
     </findStrings>
     <replaceStrings>
       <replace>database</replace>
@@ -290,9 +264,9 @@
         <option value="$PROJECT_DIR$/spyderpro/instances/trafficclass.py" />
         <option value="$PROJECT_DIR$/spyderpro/models/traffic/baidutraffic.py" />
         <option value="$PROJECT_DIR$/spyderpro/models/traffic/gaodetraffic.py" />
-        <option value="$PROJECT_DIR$/init/initdatabase.py" />
         <option value="$PROJECT_DIR$/spyderpro/managerfunction/managertraffic.py" />
         <option value="$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py" />
+        <option value="$PROJECT_DIR$/init/initdatabase.py" />
       </list>
     </option>
   </component>
@@ -306,6 +280,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -317,6 +292,12 @@
               <item name="SpyderPr" type="b2602c69:ProjectViewProjectNode" />
               <item name="SpyderPr" type="462c0819:PsiDirectoryNode" />
               <item name="datafile" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SpyderPr" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SpyderPr" type="462c0819:PsiDirectoryNode" />
+              <item name="datafile" type="462c0819:PsiDirectoryNode" />
+              <item name="normalInfo" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SpyderPr" type="b2602c69:ProjectViewProjectNode" />
@@ -338,7 +319,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -387,7 +367,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.managerscence">
+  <component name="RunManager" selected="Python.initdatabase">
     <configuration name="baidutraffic" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SpyderPro" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -500,9 +480,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.initdatabase" />
         <item itemvalue="Python.managerscence" />
         <item itemvalue="Python.managertraffic" />
-        <item itemvalue="Python.initdatabase" />
         <item itemvalue="Python.gaodetraffic" />
         <item itemvalue="Python.baidutraffic" />
       </list>
@@ -607,12 +587,13 @@
       <workItem from="1563939127952" duration="163000" />
       <workItem from="1563945759140" duration="4000" />
       <workItem from="1563945791839" duration="23000" />
-      <workItem from="1563961944857" duration="3854000" />
+      <workItem from="1563961944857" duration="4476000" />
+      <workItem from="1563973045417" duration="533000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="501961000" />
+    <option name="totallyTimeSpent" value="503116000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -627,7 +608,7 @@
     <frame x="0" y="22" width="1280" height="703" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4866828" visible="true" weight="0.3352181" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4866828" visible="true" weight="0.34087238" />
       <window_info id="Structure" order="1" sideWeight="0.51331717" side_tool="true" weight="0.29159936" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -698,24 +679,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/setting.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="14" lean-forward="true" selection-start-line="1" selection-end-line="2" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/celerytask/task5.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/celerytask/loads.py" />
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/importlib/__init__.py" />
     <entry file="file://$PROJECT_DIR$/bin/__init__.py" />
     <entry file="file://$PROJECT_DIR$/venv/pyvenv.cfg">
@@ -738,9 +701,6 @@
       <provider editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datafile/normalInfo/appinfo.csv">
-      <provider selected="true" editor-type-id="csv-text-editor" />
     </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3/typing.pyi">
       <provider selected="true" editor-type-id="text-editor">
@@ -931,13 +891,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/init/initdatabase.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="154" column="36" selection-start-line="154" selection-start-column="15" selection-end-line="154" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/datafile/baiducity.csv">
       <provider selected="true" editor-type-id="csv-text-editor">
         <state relative-caret-position="-1782" />
@@ -956,37 +909,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/celerytask/task3.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="21" column="40" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/scencemanager">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/peopleposition9">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/models/locationdata/placepeople.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="244" lean-forward="true" selection-start-line="244" selection-end-line="244" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1004,7 +930,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/tablemanager">
+    <entry file="file://$PROJECT_DIR$/datafile/腾讯scenceinfo.csv">
+      <provider selected="true" editor-type-id="csv-text-editor">
+        <state relative-caret-position="1500">
+          <caret line="100" column="17" selection-start-line="100" selection-start-column="13" selection-end-line="100" selection-end-column="17" />
+        </state>
+      </provider>
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/models/locationdata/placepeople.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="244" lean-forward="true" selection-start-line="244" selection-end-line="244" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datafile/百度scenceinfo.csv">
+      <provider selected="true" editor-type-id="csv-text-editor">
+        <state relative-caret-position="106">
+          <caret line="24" column="18" selection-start-line="24" selection-start-column="14" selection-end-line="24" selection-end-column="18" />
+        </state>
+      </provider>
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+    </entry>
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/peopleposition9">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
@@ -1013,13 +969,51 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="198" selection-start-line="198" selection-end-line="198" />
+        <state relative-caret-position="2250">
+          <caret line="237" selection-start-line="237" selection-end-line="237" />
           <folding>
             <element signature="e#1104#2340#0" />
             <element signature="e#2386#4273#0" />
-            <element signature="e#7544#8152#0" />
-            <element signature="e#8203#8313#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datafile/normalInfo/appinfo.csv">
+      <provider selected="true" editor-type-id="csv-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datafile/normalInfo/scenceinfo.csv">
+      <provider selected="true" editor-type-id="csv-text-editor">
+        <state>
+          <caret column="22" lean-forward="true" selection-end-line="1" />
+        </state>
+      </provider>
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+    </entry>
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/tablemanager">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/celerytask/task3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="20" column="7" lean-forward="true" selection-start-line="20" selection-start-column="7" selection-end-line="20" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/init/initdatabase.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="61" column="14" lean-forward="true" selection-start-line="61" selection-start-column="14" selection-end-line="61" selection-end-column="14" />
+          <folding>
+            <element signature="e#2342#3256#0" />
           </folding>
         </state>
       </provider>
