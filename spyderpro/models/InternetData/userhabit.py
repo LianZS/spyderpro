@@ -157,28 +157,23 @@ class UserHabit:
             datalist.append(dic)
         return datalist
 
-    def request_app_data(self, appname, start_date, end_date):
+    def request_app_data(self,appname, appid, start_date):
         """
         获取该app的月活跃数，活跃用户率，时间列表，行业基准，行业均值
         :param appname:app名字
         :param start_date:开始月份 ，如2019-01-01，注意，日必须是月首日
-        :param end_date:结束月份 ，如2019-04-01，注意，日必须是月首日
         :return:{'date': ['2018-12-01', ,,,], 'active': [660621779,,,,], 'active_rate': [0.4188573,,,,],
          'rate_hight': [0.0380731,,,], 'rate_low': [0.0007499, ,,,]}
 
         """
-        url = self.get_similarapp_info(appname)[0]['href']
-        response = self.request.get(url=url, headers=self.headers)
-        soup = BeautifulSoup(response.text, 'lxml')
-        element = soup.find(name='li', attrs={"td-data": re.compile("\d+")})
-        typeIds = element.get("td-data")
-        query_string_parameters = {
-            'typeIds': typeIds,
-            "dateType": 'm',
-            'endDate': end_date,
-            'startDate': start_date
+        # url = self.get_similarapp_info(appname)[0]['href']
+        paramer = {
+            'typeIds': 101000,
+            'dateType': 'm',
+            'startDate':start_date
         }
-        url = re.sub(".html", "/", url) + "allKpi.json?" + urlencode(query_string_parameters)
+        url ="http://mi.talkingdata.com/app/trend/"+str(appid)+"/allKpi.json?"+urlencode(paramer)
+
         response = self.request.get(url=url, headers=self.headers)
         data = json.loads(response.text)[0]
         active = data['active']  # 活跃用户数
@@ -279,3 +274,5 @@ class UserHabit:
         except KeyError:
             return None
         return result['appName']
+if __name__=="__main__":
+    d = UserHabit().request_app_data("QQ",5,"2019-03-01")

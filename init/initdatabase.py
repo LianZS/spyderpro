@@ -126,6 +126,7 @@ def initGeographic():
         pid = int(item[3])
         area = item[2]
         bounds = item[9]
+        flag = int(item[6])
         if ";" in bounds:
             bounds = bounds.split(";")
             for latlon in bounds:
@@ -133,7 +134,8 @@ def initGeographic():
                 if len(latlon) == 0:
                     continue
                 lon, lat = eval(latlon)
-                sql = "insert into digitalsmart.geographic(pid, longitude, latitude) VALUE (%d,%f,%f)" % (pid, lon, lat)
+                sql = "insert into digitalsmart.geographic(pid, longitude, latitude,flag) VALUE (%d,%f,%f,%d)" % \
+                      (pid, lon, lat, flag)
                 cur.execute(sql)
             db.commit()
         elif "|" in bounds:
@@ -143,7 +145,8 @@ def initGeographic():
                 if len(latlon) == 0:
                     continue
                 lat, lon = eval(latlon)
-                sql = "insert into digitalsmart.geographic(pid, longitude, latitude) VALUE (%d,%f,%f)" % (pid, lon, lat)
+                sql = "insert into digitalsmart.geographic(pid, longitude, latitude,flag) VALUE (%d,%f,%f,%d)" % \
+                      (pid, lon, lat, flag)
                 cur.execute(sql)
             db.commit()
 

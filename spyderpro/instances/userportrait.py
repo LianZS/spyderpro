@@ -43,7 +43,7 @@ class AppRateBenchmark:
 
     def __init__(self, name, date, active_num, active_rate, rate_hight, rate_low):
         self.app_name = name  # app名
-        self.date = date  # 时间列表
+        self.date = date  # 时间
         self.active_num = active_num  # 活跃用户数
         self.active_rate = active_rate  # 活跃用户率
         self.rate_hight = rate_hight  # 行业基准
@@ -65,6 +65,6 @@ class AppUserHabit:
         self.ddate = ddate  # 日期
 
     def __str__(self):
-        return self.app + "性别占比列表:{0},年龄分布列表:{1},app用户关键词列表:{2},省份覆盖率列表:{3}".format(self.age, self.gender,
+        return self.app + "日期：{4},性别占比列表:{0},年龄分布列表:{1},app用户关键词列表:{2},省份覆盖率列表:{3}".format(self.age, self.gender,
                                                                                     self.preference,
-                                                                                    self.province)
+                                                                                    self.province,self.ddate)

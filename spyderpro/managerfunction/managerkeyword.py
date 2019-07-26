@@ -1,9 +1,11 @@
-import  sys
+import sys
 import os
-sys.path[0]=os.getcwd()
+
+sys.path[0] = os.getcwd()
 import datetime
 import csv
 from threading import Thread, Semaphore
+
 from queue import Queue
 from spyderpro.portconnect.sqlconnect import MysqlOperation
 from setting import *
@@ -213,7 +215,8 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
                     db.rollback()
             db.commit()
             lastdate = self.last_date(pid, area, "wechat")
-            wechat = search.wechat_browser_keyword_frequency(searcharea, startdate=yyesterday, enddate=yesterday)  # 只获取前2天的数据
+            wechat = search.wechat_browser_keyword_frequency(searcharea, startdate=yyesterday,
+                                                             enddate=yesterday)  # 只获取前2天的数据
             for item in wechat:
 
                 tmp_date = item.update
@@ -294,52 +297,61 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
 
     def manager_app_userhabit(self):
         app = AppUserhabit()
-        filepath = os.path.join(rootpath, 'datafile/app.csv')
+        filepath = os.path.join(rootpath, 'datafile/normalInfo/app.csv')
         f = open(filepath, 'r')
         read = csv.reader(f)
-        start_date = datetime.datetime(2017, 1, 1)
         inv = datetime.timedelta(days=31)
         wait = Semaphore(10)
-        dataqueue = Queue(10)
+        dataqueue = Queue(20)
         appinfo = csv.writer(open(os.path.join(rootpath, 'datafile/appinfo.csv'), 'a+', newline=''))
         appinfo.writerow(['app', '日期', '省份热度', '年龄分布', '性别分布', '内容关键词热度'])
 
-        def fast_request(name, apppid, ddate):
+        def fast_request(name, apppid, ddate):  # 请求数据
             response = app.get_app_userhabit(name, apppid, ddate)
             dataqueue.put(response)
             wait.release()
 
-        def deal_data():
+        def deal_data():  # 获取数据
 
             while 1:
                 userhabit = dataqueue.get()
                 appinfo.writerow(
-                    [userhabit.app, userhabit.province, userhabit.age, userhabit.gender, userhabit.preference])
+                    [ userhabit.app, userhabit.ddate,userhabit.province, userhabit.age, userhabit.gender,
+                     userhabit.preference])
 
         Thread(target=deal_data, args=()).start()
         count = 0
         for item in read:
+            year = 2017
+            month = 1
+            day = 1
+            print(item)
             count += 1
-            if count < 2294:
-                continue
-            date = start_date
+            # if count < 2294:
+            #     continue
+
             pid = item[0]
             appname = item[1]
             while 1:
+                date = datetime.datetime(year, month, day)
                 if date.year == 2018 and date.month == 12:
                     break
                 wait.acquire()
                 Thread(target=fast_request, args=(appname, pid, str(date.date()))).start()
-                date = date + inv
+                if month < 12:
+                    month += 1
+                else:
+                    year += 1
+                    month = 1
 
 
 if __name__ == "__main__":
     manager = ManagerMobileKey()
-    manager.manager_search()
+    # manager.manager_search()
     # manager.manager_user_behavior()
     # manager.manager_mobile_type_rate()
     # manager.manager_mobile_brand_rate()
     # manager.manager_mobile_system_rate()
     # manager.manager_mobile_operator_rate()
     # manager.manager_mobile_network_rate()
-    # manager.manager_app_userhabit()
+    manager.manager_app_userhabit()

@@ -1867,855 +1867,862 @@ model</ColNames>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="436" parent="300" name="pid_index">
+    <column id="436" parent="300" name="flag">
+      <Position>5</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>0</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="437" parent="300" name="pid_index">
       <ColNames>pid</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="437" parent="300" name="PRIMARY">
+    <key id="438" parent="300" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="438" parent="301" name="id">
+    <column id="439" parent="301" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="439" parent="301" name="pid">
+    <column id="440" parent="301" name="pid">
       <Position>2</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="440" parent="301" name="tmp_date">
+    <column id="441" parent="301" name="tmp_date">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="441" parent="301" name="lat">
+    <column id="442" parent="301" name="lat">
       <Position>4</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="442" parent="301" name="lon">
+    <column id="443" parent="301" name="lon">
       <Position>5</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="443" parent="301" name="num">
+    <column id="444" parent="301" name="num">
       <Position>6</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="444" parent="301" name="pid_tmp">
+    <index id="445" parent="301" name="pid_tmp">
       <ColNames>pid
 tmp_date</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="445" parent="301" name="PRIMARY">
+    <key id="446" parent="301" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="446" parent="302" name="id">
+    <column id="447" parent="302" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="447" parent="302" name="pid">
+    <column id="448" parent="302" name="pid">
       <Position>2</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="448" parent="302" name="tmp_date">
+    <column id="449" parent="302" name="tmp_date">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="449" parent="302" name="lat">
+    <column id="450" parent="302" name="lat">
       <Position>4</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="450" parent="302" name="lon">
+    <column id="451" parent="302" name="lon">
       <Position>5</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="451" parent="302" name="num">
+    <column id="452" parent="302" name="num">
       <Position>6</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="452" parent="302" name="pid_tmp">
+    <index id="453" parent="302" name="pid_tmp">
       <ColNames>pid
 tmp_date</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="453" parent="302" name="PRIMARY">
+    <key id="454" parent="302" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="454" parent="303" name="id">
+    <column id="455" parent="303" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="455" parent="303" name="pid">
+    <column id="456" parent="303" name="pid">
       <Position>2</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="456" parent="303" name="tmp_date">
+    <column id="457" parent="303" name="tmp_date">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="457" parent="303" name="lat">
+    <column id="458" parent="303" name="lat">
       <Position>4</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="458" parent="303" name="lon">
+    <column id="459" parent="303" name="lon">
       <Position>5</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="459" parent="303" name="num">
+    <column id="460" parent="303" name="num">
       <Position>6</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="460" parent="303" name="pid_tmp">
+    <index id="461" parent="303" name="pid_tmp">
       <ColNames>pid
 tmp_date</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="461" parent="303" name="PRIMARY">
+    <key id="462" parent="303" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="462" parent="304" name="id">
+    <column id="463" parent="304" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="463" parent="304" name="pid">
+    <column id="464" parent="304" name="pid">
       <Position>2</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="464" parent="304" name="tmp_date">
+    <column id="465" parent="304" name="tmp_date">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="465" parent="304" name="lat">
+    <column id="466" parent="304" name="lat">
       <Position>4</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="466" parent="304" name="lon">
+    <column id="467" parent="304" name="lon">
       <Position>5</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="467" parent="304" name="num">
+    <column id="468" parent="304" name="num">
       <Position>6</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="468" parent="304" name="pid_tmp">
+    <index id="469" parent="304" name="pid_tmp">
       <ColNames>pid
 tmp_date</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="469" parent="304" name="PRIMARY">
+    <key id="470" parent="304" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="470" parent="305" name="id">
+    <column id="471" parent="305" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="471" parent="305" name="pid">
+    <column id="472" parent="305" name="pid">
       <Position>2</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="472" parent="305" name="tmp_date">
+    <column id="473" parent="305" name="tmp_date">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="473" parent="305" name="lat">
+    <column id="474" parent="305" name="lat">
       <Position>4</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="474" parent="305" name="lon">
+    <column id="475" parent="305" name="lon">
       <Position>5</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="475" parent="305" name="num">
+    <column id="476" parent="305" name="num">
       <Position>6</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="476" parent="305" name="pid_tmp">
+    <index id="477" parent="305" name="pid_tmp">
       <ColNames>pid
 tmp_date</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="477" parent="305" name="PRIMARY">
+    <key id="478" parent="305" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="478" parent="306" name="id">
+    <column id="479" parent="306" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="479" parent="306" name="pid">
+    <column id="480" parent="306" name="pid">
       <Position>2</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="480" parent="306" name="tmp_date">
+    <column id="481" parent="306" name="tmp_date">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="481" parent="306" name="lat">
+    <column id="482" parent="306" name="lat">
       <Position>4</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="482" parent="306" name="lon">
+    <column id="483" parent="306" name="lon">
       <Position>5</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="483" parent="306" name="num">
+    <column id="484" parent="306" name="num">
       <Position>6</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="484" parent="306" name="pid_tmp">
+    <index id="485" parent="306" name="pid_tmp">
       <ColNames>pid
 tmp_date</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="485" parent="306" name="PRIMARY">
+    <key id="486" parent="306" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="486" parent="307" name="id">
+    <column id="487" parent="307" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="487" parent="307" name="pid">
+    <column id="488" parent="307" name="pid">
       <Position>2</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="488" parent="307" name="tmp_date">
+    <column id="489" parent="307" name="tmp_date">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="489" parent="307" name="lat">
+    <column id="490" parent="307" name="lat">
       <Position>4</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="490" parent="307" name="lon">
+    <column id="491" parent="307" name="lon">
       <Position>5</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="491" parent="307" name="num">
+    <column id="492" parent="307" name="num">
       <Position>6</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="492" parent="307" name="pid_tmp">
+    <index id="493" parent="307" name="pid_tmp">
       <ColNames>pid
 tmp_date</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="493" parent="307" name="PRIMARY">
+    <key id="494" parent="307" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="494" parent="308" name="id">
+    <column id="495" parent="308" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="495" parent="308" name="pid">
+    <column id="496" parent="308" name="pid">
       <Position>2</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="496" parent="308" name="tmp_date">
+    <column id="497" parent="308" name="tmp_date">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="497" parent="308" name="lat">
+    <column id="498" parent="308" name="lat">
       <Position>4</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="498" parent="308" name="lon">
+    <column id="499" parent="308" name="lon">
       <Position>5</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="499" parent="308" name="num">
+    <column id="500" parent="308" name="num">
       <Position>6</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="500" parent="308" name="pid_tmp">
+    <index id="501" parent="308" name="pid_tmp">
       <ColNames>pid
 tmp_date</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="501" parent="308" name="PRIMARY">
+    <key id="502" parent="308" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="502" parent="309" name="id">
+    <column id="503" parent="309" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="503" parent="309" name="pid">
+    <column id="504" parent="309" name="pid">
       <Position>2</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="504" parent="309" name="tmp_date">
+    <column id="505" parent="309" name="tmp_date">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="505" parent="309" name="lat">
+    <column id="506" parent="309" name="lat">
       <Position>4</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="506" parent="309" name="lon">
+    <column id="507" parent="309" name="lon">
       <Position>5</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="507" parent="309" name="num">
+    <column id="508" parent="309" name="num">
       <Position>6</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="508" parent="309" name="pid_tmp">
+    <index id="509" parent="309" name="pid_tmp">
       <ColNames>pid
 tmp_date</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="509" parent="309" name="PRIMARY">
+    <key id="510" parent="309" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="510" parent="310" name="id">
+    <column id="511" parent="310" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="511" parent="310" name="pid">
+    <column id="512" parent="310" name="pid">
       <Position>2</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="512" parent="310" name="tmp_date">
+    <column id="513" parent="310" name="tmp_date">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="513" parent="310" name="lat">
+    <column id="514" parent="310" name="lat">
       <Position>4</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="514" parent="310" name="lon">
+    <column id="515" parent="310" name="lon">
       <Position>5</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="515" parent="310" name="num">
+    <column id="516" parent="310" name="num">
       <Position>6</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="516" parent="310" name="pid_tmp">
+    <index id="517" parent="310" name="pid_tmp">
       <ColNames>pid
 tmp_date</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="517" parent="310" name="PRIMARY">
+    <key id="518" parent="310" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="518" parent="311" name="id">
+    <column id="519" parent="311" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="519" parent="311" name="pid">
+    <column id="520" parent="311" name="pid">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="520" parent="311" name="roadid">
+    <column id="521" parent="311" name="roadid">
       <Position>3</Position>
       <DataType>smallint(6)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="521" parent="311" name="up_date">
+    <column id="522" parent="311" name="up_date">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="522" parent="311" name="city">
+    <column id="523" parent="311" name="city">
       <Position>5</Position>
       <DataType>varchar(32)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="523" parent="311" name="PRIMARY">
+    <key id="524" parent="311" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="524" parent="312" name="id">
+    <column id="525" parent="312" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="525" parent="312" name="pid">
+    <column id="526" parent="312" name="pid">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="526" parent="312" name="roadname">
+    <column id="527" parent="312" name="roadname">
       <Position>3</Position>
       <DataType>varchar(80)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="527" parent="312" name="up_date">
+    <column id="528" parent="312" name="up_date">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="528" parent="312" name="speed">
+    <column id="529" parent="312" name="speed">
       <Position>5</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="529" parent="312" name="direction">
+    <column id="530" parent="312" name="direction">
       <Position>6</Position>
       <DataType>varchar(80)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="530" parent="312" name="bound">
+    <column id="531" parent="312" name="bound">
       <Position>7</Position>
       <DataType>blob|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="531" parent="312" name="data">
+    <column id="532" parent="312" name="data">
       <Position>8</Position>
       <DataType>blob|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="532" parent="312" name="roadid">
+    <column id="533" parent="312" name="roadid">
       <Position>9</Position>
       <DataType>smallint(6)|0s</DataType>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="533" parent="312" name="pid_update">
+    <index id="534" parent="312" name="pid_update">
       <ColNames>pid
 up_date</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="534" parent="312" name="PRIMARY">
+    <key id="535" parent="312" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="535" parent="313" name="id">
+    <column id="536" parent="313" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="536" parent="313" name="pid">
+    <column id="537" parent="313" name="pid">
       <Position>2</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="537" parent="313" name="ddate">
+    <column id="538" parent="313" name="ddate">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="538" parent="313" name="ttime">
+    <column id="539" parent="313" name="ttime">
       <Position>4</Position>
       <DataType>time|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="539" parent="313" name="num">
+    <column id="540" parent="313" name="num">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="540" parent="313" name="pid_date_time_num">
+    <index id="541" parent="313" name="pid_date_time_num">
       <ColNames>pid
 ddate
 ttime
 num</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="541" parent="313" name="PRIMARY">
+    <key id="542" parent="313" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="542" parent="314" name="id">
+    <column id="543" parent="314" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="543" parent="314" name="pid">
+    <column id="544" parent="314" name="pid">
       <Position>2</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="544" parent="314" name="area">
+    <column id="545" parent="314" name="area">
       <Position>3</Position>
       <DataType>varchar(32)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="545" parent="314" name="longitude">
+    <column id="546" parent="314" name="longitude">
       <Position>4</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="546" parent="314" name="latitude">
+    <column id="547" parent="314" name="latitude">
       <Position>5</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="547" parent="314" name="loaction">
+    <column id="548" parent="314" name="loaction">
       <Position>6</Position>
       <DataType>varchar(18)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="548" parent="314" name="citypid">
+    <column id="549" parent="314" name="citypid">
       <Position>7</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="549" parent="314" name="weatherpid">
+    <column id="550" parent="314" name="weatherpid">
       <Position>8</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="550" parent="314" name="flag">
+    <column id="551" parent="314" name="flag">
       <Position>9</Position>
       <DataType>smallint(6)|0s</DataType>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="551" parent="314" name="province">
+    <column id="552" parent="314" name="province">
       <Position>10</Position>
       <DataType>varchar(18)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="552" parent="314" name="PRIMARY">
+    <key id="553" parent="314" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="553" parent="315" name="id">
+    <column id="554" parent="315" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="554" parent="315" name="pid">
+    <column id="555" parent="315" name="pid">
       <Position>2</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="555" parent="315" name="ddate">
+    <column id="556" parent="315" name="ddate">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="556" parent="315" name="ttime">
+    <column id="557" parent="315" name="ttime">
       <Position>4</Position>
       <DataType>time|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="557" parent="315" name="rate">
+    <column id="558" parent="315" name="rate">
       <Position>5</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="558" parent="315" name="pid_date_time_rate">
+    <index id="559" parent="315" name="pid_date_time_rate">
       <ColNames>pid
 ddate
 ttime
 rate</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="559" parent="315" name="PRIMARY">
+    <key id="560" parent="315" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="560" parent="316" name="id">
+    <column id="561" parent="316" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="561" parent="316" name="pid">
+    <column id="562" parent="316" name="pid">
       <Position>2</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="562" parent="316" name="tmp_date">
+    <column id="563" parent="316" name="tmp_date">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="563" parent="316" name="area">
+    <column id="564" parent="316" name="area">
       <Position>4</Position>
       <DataType>varchar(18)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="564" parent="316" name="rate">
+    <column id="565" parent="316" name="rate">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="565" parent="316" name="name">
+    <column id="566" parent="316" name="name">
       <Position>6</Position>
       <DataType>varchar(8)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="566" parent="316" name="pid_index">
+    <index id="567" parent="316" name="pid_index">
       <ColNames>pid</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="567" parent="316" name="PRIMARY">
+    <key id="568" parent="316" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="568" parent="317" name="id">
+    <column id="569" parent="317" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="569" parent="317" name="area">
+    <column id="570" parent="317" name="area">
       <Position>2</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="570" parent="317" name="pid">
+    <column id="571" parent="317" name="pid">
       <Position>3</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="571" parent="317" name="last_date">
+    <column id="572" parent="317" name="last_date">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="572" parent="317" name="table_id">
+    <column id="573" parent="317" name="table_id">
       <Position>5</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="573" parent="317" name="flag">
+    <column id="574" parent="317" name="flag">
       <Position>6</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="574" parent="317" name="PRIMARY">
+    <key id="575" parent="317" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="575" parent="318" name="id">
+    <column id="576" parent="318" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="576" parent="318" name="pid">
+    <column id="577" parent="318" name="pid">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="577" parent="318" name="tmp_date">
+    <column id="578" parent="318" name="tmp_date">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="578" parent="318" name="rate">
+    <column id="579" parent="318" name="rate">
       <Position>4</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="579" parent="318" name="pid_date">
+    <index id="580" parent="318" name="pid_date">
       <ColNames>pid
 tmp_date</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="580" parent="318" name="PRIMARY">
+    <key id="581" parent="318" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
