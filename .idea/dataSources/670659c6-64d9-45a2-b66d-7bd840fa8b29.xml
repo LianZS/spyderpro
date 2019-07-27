@@ -1131,1319 +1131,1287 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="286" parent="5" name="attractions_scencemanager"/>
-    <table id="287" parent="5" name="auth_group"/>
-    <table id="288" parent="5" name="auth_group_permissions"/>
-    <table id="289" parent="5" name="auth_permission"/>
-    <table id="290" parent="5" name="auth_user"/>
-    <table id="291" parent="5" name="auth_user_groups"/>
-    <table id="292" parent="5" name="auth_user_user_permissions"/>
-    <table id="293" parent="5" name="cache_table"/>
-    <table id="294" parent="5" name="citymanager"/>
-    <table id="295" parent="5" name="citytraffic">
+    <table id="286" parent="5" name="auth_group"/>
+    <table id="287" parent="5" name="auth_group_permissions"/>
+    <table id="288" parent="5" name="auth_permission"/>
+    <table id="289" parent="5" name="auth_user"/>
+    <table id="290" parent="5" name="auth_user_groups"/>
+    <table id="291" parent="5" name="auth_user_user_permissions"/>
+    <table id="292" parent="5" name="cache_table"/>
+    <table id="293" parent="5" name="citymanager"/>
+    <table id="294" parent="5" name="citytraffic">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="296" parent="5" name="django_admin_log"/>
-    <table id="297" parent="5" name="django_content_type"/>
-    <table id="298" parent="5" name="django_migrations"/>
-    <table id="299" parent="5" name="django_session"/>
-    <table id="300" parent="5" name="geographic"/>
-    <table id="301" parent="5" name="peopleposition0">
+    <table id="295" parent="5" name="django_admin_log"/>
+    <table id="296" parent="5" name="django_content_type"/>
+    <table id="297" parent="5" name="django_migrations"/>
+    <table id="298" parent="5" name="django_session"/>
+    <table id="299" parent="5" name="geographic"/>
+    <table id="300" parent="5" name="mobilebrand"/>
+    <table id="301" parent="5" name="mobilemodel"/>
+    <table id="302" parent="5" name="mobilesystem"/>
+    <table id="303" parent="5" name="network"/>
+    <table id="304" parent="5" name="operator"/>
+    <table id="305" parent="5" name="peopleposition0">
       <Collation>latin1_swedish_ci</Collation>
     </table>
-    <table id="302" parent="5" name="peopleposition1">
+    <table id="306" parent="5" name="peopleposition1">
       <Collation>latin1_swedish_ci</Collation>
     </table>
-    <table id="303" parent="5" name="peopleposition2">
+    <table id="307" parent="5" name="peopleposition2">
       <Collation>latin1_swedish_ci</Collation>
     </table>
-    <table id="304" parent="5" name="peopleposition3">
+    <table id="308" parent="5" name="peopleposition3">
       <Collation>latin1_swedish_ci</Collation>
     </table>
-    <table id="305" parent="5" name="peopleposition4">
+    <table id="309" parent="5" name="peopleposition4">
       <Collation>latin1_swedish_ci</Collation>
     </table>
-    <table id="306" parent="5" name="peopleposition5">
+    <table id="310" parent="5" name="peopleposition5">
       <Collation>latin1_swedish_ci</Collation>
     </table>
-    <table id="307" parent="5" name="peopleposition6">
+    <table id="311" parent="5" name="peopleposition6">
       <Collation>latin1_swedish_ci</Collation>
     </table>
-    <table id="308" parent="5" name="peopleposition7">
+    <table id="312" parent="5" name="peopleposition7">
       <Collation>latin1_swedish_ci</Collation>
     </table>
-    <table id="309" parent="5" name="peopleposition8">
+    <table id="313" parent="5" name="peopleposition8">
       <Collation>latin1_swedish_ci</Collation>
     </table>
-    <table id="310" parent="5" name="peopleposition9">
+    <table id="314" parent="5" name="peopleposition9">
       <Collation>latin1_swedish_ci</Collation>
     </table>
-    <table id="311" parent="5" name="roadmanager"/>
-    <table id="312" parent="5" name="roadtraffic"/>
-    <table id="313" parent="5" name="scenceflow">
+    <table id="315" parent="5" name="roadmanager"/>
+    <table id="316" parent="5" name="roadtraffic"/>
+    <table id="317" parent="5" name="scenceflow">
       <Collation>latin1_swedish_ci</Collation>
     </table>
-    <table id="314" parent="5" name="scencemanager"/>
-    <table id="315" parent="5" name="scencetrend">
+    <table id="318" parent="5" name="scencemanager"/>
+    <table id="319" parent="5" name="scencetrend">
       <Collation>latin1_swedish_ci</Collation>
     </table>
-    <table id="316" parent="5" name="searchrate">
+    <table id="320" parent="5" name="searchrate">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="317" parent="5" name="tablemanager">
+    <table id="321" parent="5" name="tablemanager">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="318" parent="5" name="yeartraffic"/>
-    <column id="319" parent="286" name="id">
+    <table id="322" parent="5" name="userdb"/>
+    <table id="323" parent="5" name="userhabit"/>
+    <table id="324" parent="5" name="yeartraffic"/>
+    <column id="325" parent="286" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="320" parent="286" name="pid">
+    <column id="326" parent="286" name="name">
       <Position>2</Position>
-      <DataType>smallint(6)|0s</DataType>
+      <DataType>varchar(150)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="321" parent="286" name="area">
-      <Position>3</Position>
-      <DataType>varchar(32)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="322" parent="286" name="longitude">
-      <Position>4</Position>
-      <DataType>double|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="323" parent="286" name="latitude">
-      <Position>5</Position>
-      <DataType>double|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="324" parent="286" name="loaction">
-      <Position>6</Position>
-      <DataType>varchar(18)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="325" parent="286" name="citypid">
-      <Position>7</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="326" parent="286" name="weatherpid">
-      <Position>8</Position>
-      <DataType>longtext|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="327" parent="286" name="flag">
-      <Position>9</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
+    <index id="327" parent="286" name="name">
+      <ColNames>name</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
     <key id="328" parent="286" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="329" parent="287" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="330" parent="287" name="name">
-      <Position>2</Position>
-      <DataType>varchar(150)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="331" parent="287" name="name">
-      <ColNames>name</ColNames>
-      <Unique>1</Unique>
-      <Type>btree</Type>
-    </index>
-    <key id="332" parent="287" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <key id="333" parent="287" name="name">
+    <key id="329" parent="286" name="name">
       <ColNames>name</ColNames>
       <UnderlyingIndexName>name</UnderlyingIndexName>
     </key>
-    <column id="334" parent="288" name="id">
+    <column id="330" parent="287" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="335" parent="288" name="group_id">
+    <column id="331" parent="287" name="group_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="336" parent="288" name="permission_id">
+    <column id="332" parent="287" name="permission_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="337" parent="288" name="auth_group_permissions_group_id_permission_id_0cd325b0_uniq">
+    <index id="333" parent="287" name="auth_group_permissions_group_id_permission_id_0cd325b0_uniq">
       <ColNames>group_id
 permission_id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="338" parent="288" name="auth_group_permissio_permission_id_84c5c92e_fk_auth_perm">
+    <index id="334" parent="287" name="auth_group_permissio_permission_id_84c5c92e_fk_auth_perm">
       <ColNames>permission_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="339" parent="288" name="PRIMARY">
+    <key id="335" parent="287" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="340" parent="288" name="auth_group_permissions_group_id_permission_id_0cd325b0_uniq">
+    <key id="336" parent="287" name="auth_group_permissions_group_id_permission_id_0cd325b0_uniq">
       <ColNames>group_id
 permission_id</ColNames>
       <UnderlyingIndexName>auth_group_permissions_group_id_permission_id_0cd325b0_uniq</UnderlyingIndexName>
     </key>
-    <foreign-key id="341" parent="288" name="auth_group_permissions_group_id_b120cbf9_fk_auth_group_id">
+    <foreign-key id="337" parent="287" name="auth_group_permissions_group_id_b120cbf9_fk_auth_group_id">
       <ColNames>group_id</ColNames>
       <RefSchemaName>digitalsmart</RefSchemaName>
       <RefTableName>auth_group</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="342" parent="288" name="auth_group_permissio_permission_id_84c5c92e_fk_auth_perm">
+    <foreign-key id="338" parent="287" name="auth_group_permissio_permission_id_84c5c92e_fk_auth_perm">
       <ColNames>permission_id</ColNames>
       <RefSchemaName>digitalsmart</RefSchemaName>
       <RefTableName>auth_permission</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="343" parent="289" name="id">
+    <column id="339" parent="288" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="344" parent="289" name="name">
+    <column id="340" parent="288" name="name">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="345" parent="289" name="content_type_id">
+    <column id="341" parent="288" name="content_type_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="346" parent="289" name="codename">
+    <column id="342" parent="288" name="codename">
       <Position>4</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="347" parent="289" name="auth_permission_content_type_id_codename_01ab375a_uniq">
+    <index id="343" parent="288" name="auth_permission_content_type_id_codename_01ab375a_uniq">
       <ColNames>content_type_id
 codename</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="348" parent="289" name="PRIMARY">
+    <key id="344" parent="288" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="349" parent="289" name="auth_permission_content_type_id_codename_01ab375a_uniq">
+    <key id="345" parent="288" name="auth_permission_content_type_id_codename_01ab375a_uniq">
       <ColNames>content_type_id
 codename</ColNames>
       <UnderlyingIndexName>auth_permission_content_type_id_codename_01ab375a_uniq</UnderlyingIndexName>
     </key>
-    <foreign-key id="350" parent="289" name="auth_permission_content_type_id_2f476e4b_fk_django_co">
+    <foreign-key id="346" parent="288" name="auth_permission_content_type_id_2f476e4b_fk_django_co">
       <ColNames>content_type_id</ColNames>
       <RefSchemaName>digitalsmart</RefSchemaName>
       <RefTableName>django_content_type</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="351" parent="290" name="id">
+    <column id="347" parent="289" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="352" parent="290" name="password">
+    <column id="348" parent="289" name="password">
       <Position>2</Position>
       <DataType>varchar(128)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="353" parent="290" name="last_login">
+    <column id="349" parent="289" name="last_login">
       <Position>3</Position>
       <DataType>datetime(6)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="354" parent="290" name="is_superuser">
+    <column id="350" parent="289" name="is_superuser">
       <Position>4</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="355" parent="290" name="username">
+    <column id="351" parent="289" name="username">
       <Position>5</Position>
       <DataType>varchar(150)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="356" parent="290" name="first_name">
+    <column id="352" parent="289" name="first_name">
       <Position>6</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="357" parent="290" name="last_name">
+    <column id="353" parent="289" name="last_name">
       <Position>7</Position>
       <DataType>varchar(150)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="358" parent="290" name="email">
+    <column id="354" parent="289" name="email">
       <Position>8</Position>
       <DataType>varchar(254)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="359" parent="290" name="is_staff">
+    <column id="355" parent="289" name="is_staff">
       <Position>9</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="360" parent="290" name="is_active">
+    <column id="356" parent="289" name="is_active">
       <Position>10</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="361" parent="290" name="date_joined">
+    <column id="357" parent="289" name="date_joined">
       <Position>11</Position>
       <DataType>datetime(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="362" parent="290" name="username">
+    <index id="358" parent="289" name="username">
       <ColNames>username</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="363" parent="290" name="PRIMARY">
+    <key id="359" parent="289" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="364" parent="290" name="username">
+    <key id="360" parent="289" name="username">
       <ColNames>username</ColNames>
       <UnderlyingIndexName>username</UnderlyingIndexName>
     </key>
-    <column id="365" parent="291" name="id">
+    <column id="361" parent="290" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="366" parent="291" name="user_id">
+    <column id="362" parent="290" name="user_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="367" parent="291" name="group_id">
+    <column id="363" parent="290" name="group_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="368" parent="291" name="auth_user_groups_user_id_group_id_94350c0c_uniq">
+    <index id="364" parent="290" name="auth_user_groups_user_id_group_id_94350c0c_uniq">
       <ColNames>user_id
 group_id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="369" parent="291" name="auth_user_groups_group_id_97559544_fk_auth_group_id">
+    <index id="365" parent="290" name="auth_user_groups_group_id_97559544_fk_auth_group_id">
       <ColNames>group_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="370" parent="291" name="PRIMARY">
+    <key id="366" parent="290" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="371" parent="291" name="auth_user_groups_user_id_group_id_94350c0c_uniq">
+    <key id="367" parent="290" name="auth_user_groups_user_id_group_id_94350c0c_uniq">
       <ColNames>user_id
 group_id</ColNames>
       <UnderlyingIndexName>auth_user_groups_user_id_group_id_94350c0c_uniq</UnderlyingIndexName>
     </key>
-    <foreign-key id="372" parent="291" name="auth_user_groups_user_id_6a12ed8b_fk_auth_user_id">
+    <foreign-key id="368" parent="290" name="auth_user_groups_user_id_6a12ed8b_fk_auth_user_id">
       <ColNames>user_id</ColNames>
       <RefSchemaName>digitalsmart</RefSchemaName>
       <RefTableName>auth_user</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="373" parent="291" name="auth_user_groups_group_id_97559544_fk_auth_group_id">
+    <foreign-key id="369" parent="290" name="auth_user_groups_group_id_97559544_fk_auth_group_id">
       <ColNames>group_id</ColNames>
       <RefSchemaName>digitalsmart</RefSchemaName>
       <RefTableName>auth_group</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="374" parent="292" name="id">
+    <column id="370" parent="291" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="375" parent="292" name="user_id">
+    <column id="371" parent="291" name="user_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="376" parent="292" name="permission_id">
+    <column id="372" parent="291" name="permission_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="377" parent="292" name="auth_user_user_permissions_user_id_permission_id_14a6b632_uniq">
+    <index id="373" parent="291" name="auth_user_user_permissions_user_id_permission_id_14a6b632_uniq">
       <ColNames>user_id
 permission_id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="378" parent="292" name="auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm">
+    <index id="374" parent="291" name="auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm">
       <ColNames>permission_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="379" parent="292" name="PRIMARY">
+    <key id="375" parent="291" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="380" parent="292" name="auth_user_user_permissions_user_id_permission_id_14a6b632_uniq">
+    <key id="376" parent="291" name="auth_user_user_permissions_user_id_permission_id_14a6b632_uniq">
       <ColNames>user_id
 permission_id</ColNames>
       <UnderlyingIndexName>auth_user_user_permissions_user_id_permission_id_14a6b632_uniq</UnderlyingIndexName>
     </key>
-    <foreign-key id="381" parent="292" name="auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id">
+    <foreign-key id="377" parent="291" name="auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id">
       <ColNames>user_id</ColNames>
       <RefSchemaName>digitalsmart</RefSchemaName>
       <RefTableName>auth_user</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="382" parent="292" name="auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm">
+    <foreign-key id="378" parent="291" name="auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm">
       <ColNames>permission_id</ColNames>
       <RefSchemaName>digitalsmart</RefSchemaName>
       <RefTableName>auth_permission</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="383" parent="293" name="cache_key">
+    <column id="379" parent="292" name="cache_key">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="384" parent="293" name="value">
+    <column id="380" parent="292" name="value">
       <Position>2</Position>
       <DataType>longtext|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="385" parent="293" name="expires">
+    <column id="381" parent="292" name="expires">
       <Position>3</Position>
       <DataType>datetime(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="386" parent="293" name="cache_table_expires">
+    <index id="382" parent="292" name="cache_table_expires">
       <ColNames>expires</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="387" parent="293" name="PRIMARY">
+    <key id="383" parent="292" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>cache_key</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="388" parent="294" name="id">
+    <column id="384" parent="293" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="389" parent="294" name="pid">
+    <column id="385" parent="293" name="pid">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="390" parent="294" name="name">
+    <column id="386" parent="293" name="name">
       <Position>3</Position>
       <DataType>varchar(32)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="391" parent="294" name="longitude">
+    <column id="387" parent="293" name="longitude">
       <Position>4</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="392" parent="294" name="latitude">
+    <column id="388" parent="293" name="latitude">
       <Position>5</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="393" parent="294" name="weatherpid">
+    <column id="389" parent="293" name="weatherpid">
       <Position>6</Position>
       <DataType>varchar(16)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="394" parent="294" name="yearpid">
+    <column id="390" parent="293" name="yearpid">
       <Position>7</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="395" parent="294" name="PRIMARY">
+    <key id="391" parent="293" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="396" parent="295" name="id">
+    <column id="392" parent="294" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="397" parent="295" name="pid">
+    <column id="393" parent="294" name="pid">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="398" parent="295" name="ddate">
+    <column id="394" parent="294" name="ddate">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="399" parent="295" name="ttime">
+    <column id="395" parent="294" name="ttime">
       <Position>4</Position>
       <DataType>time|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="400" parent="295" name="rate">
+    <column id="396" parent="294" name="rate">
       <Position>5</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="401" parent="295" name="pid_ddate_ttime_rate">
+    <index id="397" parent="294" name="pid_ddate_ttime_rate">
       <ColNames>pid
 ddate
 ttime
 rate</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="402" parent="295" name="PRIMARY">
+    <key id="398" parent="294" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="403" parent="296" name="id">
+    <column id="399" parent="295" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="404" parent="296" name="action_time">
+    <column id="400" parent="295" name="action_time">
       <Position>2</Position>
       <DataType>datetime(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="405" parent="296" name="object_id">
+    <column id="401" parent="295" name="object_id">
       <Position>3</Position>
       <DataType>longtext|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="406" parent="296" name="object_repr">
+    <column id="402" parent="295" name="object_repr">
       <Position>4</Position>
       <DataType>varchar(200)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="407" parent="296" name="action_flag">
+    <column id="403" parent="295" name="action_flag">
       <Position>5</Position>
       <DataType>smallint(5) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="408" parent="296" name="change_message">
+    <column id="404" parent="295" name="change_message">
       <Position>6</Position>
       <DataType>longtext|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="409" parent="296" name="content_type_id">
+    <column id="405" parent="295" name="content_type_id">
       <Position>7</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="410" parent="296" name="user_id">
+    <column id="406" parent="295" name="user_id">
       <Position>8</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="411" parent="296" name="django_admin_log_content_type_id_c4bce8eb_fk_django_co">
+    <index id="407" parent="295" name="django_admin_log_content_type_id_c4bce8eb_fk_django_co">
       <ColNames>content_type_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="412" parent="296" name="django_admin_log_user_id_c564eba6_fk_auth_user_id">
+    <index id="408" parent="295" name="django_admin_log_user_id_c564eba6_fk_auth_user_id">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="413" parent="296" name="PRIMARY">
+    <key id="409" parent="295" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="414" parent="296" name="django_admin_log_content_type_id_c4bce8eb_fk_django_co">
+    <foreign-key id="410" parent="295" name="django_admin_log_content_type_id_c4bce8eb_fk_django_co">
       <ColNames>content_type_id</ColNames>
       <RefSchemaName>digitalsmart</RefSchemaName>
       <RefTableName>django_content_type</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="415" parent="296" name="django_admin_log_user_id_c564eba6_fk_auth_user_id">
+    <foreign-key id="411" parent="295" name="django_admin_log_user_id_c564eba6_fk_auth_user_id">
       <ColNames>user_id</ColNames>
       <RefSchemaName>digitalsmart</RefSchemaName>
       <RefTableName>auth_user</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="416" parent="297" name="id">
+    <column id="412" parent="296" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="417" parent="297" name="app_label">
+    <column id="413" parent="296" name="app_label">
       <Position>2</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="418" parent="297" name="model">
+    <column id="414" parent="296" name="model">
       <Position>3</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="419" parent="297" name="django_content_type_app_label_model_76bd3d3b_uniq">
+    <index id="415" parent="296" name="django_content_type_app_label_model_76bd3d3b_uniq">
       <ColNames>app_label
 model</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="420" parent="297" name="PRIMARY">
+    <key id="416" parent="296" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="421" parent="297" name="django_content_type_app_label_model_76bd3d3b_uniq">
+    <key id="417" parent="296" name="django_content_type_app_label_model_76bd3d3b_uniq">
       <ColNames>app_label
 model</ColNames>
       <UnderlyingIndexName>django_content_type_app_label_model_76bd3d3b_uniq</UnderlyingIndexName>
     </key>
-    <column id="422" parent="298" name="id">
+    <column id="418" parent="297" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="423" parent="298" name="app">
+    <column id="419" parent="297" name="app">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="424" parent="298" name="name">
+    <column id="420" parent="297" name="name">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="425" parent="298" name="applied">
+    <column id="421" parent="297" name="applied">
       <Position>4</Position>
       <DataType>datetime(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="426" parent="298" name="PRIMARY">
+    <key id="422" parent="297" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="427" parent="299" name="session_key">
+    <column id="423" parent="298" name="session_key">
       <Position>1</Position>
       <DataType>varchar(40)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="428" parent="299" name="session_data">
+    <column id="424" parent="298" name="session_data">
       <Position>2</Position>
       <DataType>longtext|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="429" parent="299" name="expire_date">
+    <column id="425" parent="298" name="expire_date">
       <Position>3</Position>
       <DataType>datetime(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="430" parent="299" name="django_session_expire_date_a5c62663">
+    <index id="426" parent="298" name="django_session_expire_date_a5c62663">
       <ColNames>expire_date</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="431" parent="299" name="PRIMARY">
+    <key id="427" parent="298" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>session_key</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="432" parent="300" name="id">
+    <column id="428" parent="299" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="433" parent="300" name="pid">
+    <column id="429" parent="299" name="pid">
       <Position>2</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="434" parent="300" name="longitude">
+    <column id="430" parent="299" name="longitude">
       <Position>3</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="435" parent="300" name="latitude">
+    <column id="431" parent="299" name="latitude">
       <Position>4</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="436" parent="300" name="flag">
+    <column id="432" parent="299" name="flag">
       <Position>5</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="437" parent="300" name="pid_index">
+    <index id="433" parent="299" name="pid_index">
       <ColNames>pid</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="438" parent="300" name="PRIMARY">
+    <key id="434" parent="299" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="439" parent="301" name="id">
+    <column id="435" parent="300" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="440" parent="301" name="pid">
+    <column id="436" parent="300" name="pid">
       <Position>2</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="441" parent="301" name="tmp_date">
+    <column id="437" parent="300" name="name">
       <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="442" parent="301" name="lat">
-      <Position>4</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="443" parent="301" name="lon">
-      <Position>5</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="444" parent="301" name="num">
-      <Position>6</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="445" parent="301" name="pid_tmp">
-      <ColNames>pid
-tmp_date</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="446" parent="301" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="447" parent="302" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="448" parent="302" name="pid">
-      <Position>2</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="449" parent="302" name="tmp_date">
-      <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="450" parent="302" name="lat">
-      <Position>4</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="451" parent="302" name="lon">
-      <Position>5</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="452" parent="302" name="num">
-      <Position>6</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="453" parent="302" name="pid_tmp">
-      <ColNames>pid
-tmp_date</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="454" parent="302" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="455" parent="303" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="456" parent="303" name="pid">
-      <Position>2</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="457" parent="303" name="tmp_date">
-      <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="458" parent="303" name="lat">
-      <Position>4</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="459" parent="303" name="lon">
-      <Position>5</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="460" parent="303" name="num">
-      <Position>6</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="461" parent="303" name="pid_tmp">
-      <ColNames>pid
-tmp_date</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="462" parent="303" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="463" parent="304" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="464" parent="304" name="pid">
-      <Position>2</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="465" parent="304" name="tmp_date">
-      <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="466" parent="304" name="lat">
-      <Position>4</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="467" parent="304" name="lon">
-      <Position>5</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="468" parent="304" name="num">
-      <Position>6</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="469" parent="304" name="pid_tmp">
-      <ColNames>pid
-tmp_date</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="470" parent="304" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="471" parent="305" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="472" parent="305" name="pid">
-      <Position>2</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="473" parent="305" name="tmp_date">
-      <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="474" parent="305" name="lat">
-      <Position>4</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="475" parent="305" name="lon">
-      <Position>5</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="476" parent="305" name="num">
-      <Position>6</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="477" parent="305" name="pid_tmp">
-      <ColNames>pid
-tmp_date</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="478" parent="305" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="479" parent="306" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="480" parent="306" name="pid">
-      <Position>2</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="481" parent="306" name="tmp_date">
-      <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="482" parent="306" name="lat">
-      <Position>4</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="483" parent="306" name="lon">
-      <Position>5</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="484" parent="306" name="num">
-      <Position>6</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="485" parent="306" name="pid_tmp">
-      <ColNames>pid
-tmp_date</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="486" parent="306" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="487" parent="307" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="488" parent="307" name="pid">
-      <Position>2</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="489" parent="307" name="tmp_date">
-      <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="490" parent="307" name="lat">
-      <Position>4</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="491" parent="307" name="lon">
-      <Position>5</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="492" parent="307" name="num">
-      <Position>6</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="493" parent="307" name="pid_tmp">
-      <ColNames>pid
-tmp_date</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="494" parent="307" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="495" parent="308" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="496" parent="308" name="pid">
-      <Position>2</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="497" parent="308" name="tmp_date">
-      <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="498" parent="308" name="lat">
-      <Position>4</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="499" parent="308" name="lon">
-      <Position>5</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="500" parent="308" name="num">
-      <Position>6</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="501" parent="308" name="pid_tmp">
-      <ColNames>pid
-tmp_date</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="502" parent="308" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="503" parent="309" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="504" parent="309" name="pid">
-      <Position>2</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="505" parent="309" name="tmp_date">
-      <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="506" parent="309" name="lat">
-      <Position>4</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="507" parent="309" name="lon">
-      <Position>5</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="508" parent="309" name="num">
-      <Position>6</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="509" parent="309" name="pid_tmp">
-      <ColNames>pid
-tmp_date</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="510" parent="309" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="511" parent="310" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="512" parent="310" name="pid">
-      <Position>2</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="513" parent="310" name="tmp_date">
-      <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="514" parent="310" name="lat">
-      <Position>4</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="515" parent="310" name="lon">
-      <Position>5</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="516" parent="310" name="num">
-      <Position>6</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="517" parent="310" name="pid_tmp">
-      <ColNames>pid
-tmp_date</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="518" parent="310" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="519" parent="311" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="520" parent="311" name="pid">
-      <Position>2</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="521" parent="311" name="roadid">
-      <Position>3</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="522" parent="311" name="up_date">
-      <Position>4</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="523" parent="311" name="city">
-      <Position>5</Position>
       <DataType>varchar(32)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="524" parent="311" name="PRIMARY">
+    <column id="438" parent="300" name="ddate">
+      <Position>4</Position>
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="439" parent="300" name="rate">
+      <Position>5</Position>
+      <DataType>double|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="440" parent="300" name="pid">
+      <ColNames>pid</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="441" parent="300" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="525" parent="312" name="id">
+    <key id="442" parent="300" name="pid">
+      <ColNames>pid</ColNames>
+      <UnderlyingIndexName>pid</UnderlyingIndexName>
+    </key>
+    <column id="443" parent="301" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="526" parent="312" name="pid">
+    <column id="444" parent="301" name="mpid">
       <Position>2</Position>
-      <DataType>int(11)|0s</DataType>
+      <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="527" parent="312" name="roadname">
+    <column id="445" parent="301" name="mmodel">
       <Position>3</Position>
-      <DataType>varchar(80)|0s</DataType>
+      <DataType>varchar(32)|0s</DataType>
+      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="528" parent="312" name="up_date">
+    <column id="446" parent="301" name="ddate">
       <Position>4</Position>
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="447" parent="301" name="rate">
+      <Position>5</Position>
+      <DataType>double|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="448" parent="301" name="pid">
+      <Position>6</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="449" parent="301" name="mobilemodel_mpid_9ecf2160_uniq">
+      <ColNames>mpid</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <index id="450" parent="301" name="mobilemodel_pid_144412b2_fk_mobilebrand_pid">
+      <ColNames>pid</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="451" parent="301" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="452" parent="301" name="mobilemodel_mpid_9ecf2160_uniq">
+      <ColNames>mpid</ColNames>
+      <UnderlyingIndexName>mobilemodel_mpid_9ecf2160_uniq</UnderlyingIndexName>
+    </key>
+    <foreign-key id="453" parent="301" name="mobilemodel_pid_144412b2_fk_mobilebrand_pid">
+      <ColNames>pid</ColNames>
+      <RefSchemaName>digitalsmart</RefSchemaName>
+      <RefTableName>mobilebrand</RefTableName>
+      <RefColNames>pid</RefColNames>
+    </foreign-key>
+    <column id="454" parent="302" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="455" parent="302" name="pid">
+      <Position>2</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="456" parent="302" name="version">
+      <Position>3</Position>
+      <DataType>varchar(32)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="457" parent="302" name="ddate">
+      <Position>4</Position>
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="458" parent="302" name="rate">
+      <Position>5</Position>
+      <DataType>double|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="459" parent="302" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="460" parent="303" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="461" parent="303" name="pid">
+      <Position>2</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="462" parent="303" name="version">
+      <Position>3</Position>
+      <DataType>varchar(32)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="463" parent="303" name="ddate">
+      <Position>4</Position>
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="464" parent="303" name="rate">
+      <Position>5</Position>
+      <DataType>double|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="465" parent="303" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="466" parent="304" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="467" parent="304" name="pid">
+      <Position>2</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="468" parent="304" name="version">
+      <Position>3</Position>
+      <DataType>varchar(32)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="469" parent="304" name="ddate">
+      <Position>4</Position>
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="470" parent="304" name="rate">
+      <Position>5</Position>
+      <DataType>double|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="471" parent="304" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="472" parent="305" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="473" parent="305" name="pid">
+      <Position>2</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="474" parent="305" name="tmp_date">
+      <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="529" parent="312" name="speed">
+    <column id="475" parent="305" name="lat">
+      <Position>4</Position>
+      <DataType>float|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="476" parent="305" name="lon">
       <Position>5</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="530" parent="312" name="direction">
+    <column id="477" parent="305" name="num">
       <Position>6</Position>
-      <DataType>varchar(80)|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="531" parent="312" name="bound">
-      <Position>7</Position>
-      <DataType>blob|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="532" parent="312" name="data">
-      <Position>8</Position>
-      <DataType>blob|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="533" parent="312" name="roadid">
-      <Position>9</Position>
       <DataType>smallint(6)|0s</DataType>
-      <DefaultExpression>0</DefaultExpression>
+      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="534" parent="312" name="pid_update">
+    <index id="478" parent="305" name="pid_tmp">
       <ColNames>pid
-up_date</ColNames>
+tmp_date</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="479" parent="305" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="480" parent="306" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="481" parent="306" name="pid">
+      <Position>2</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="482" parent="306" name="tmp_date">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="483" parent="306" name="lat">
+      <Position>4</Position>
+      <DataType>float|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="484" parent="306" name="lon">
+      <Position>5</Position>
+      <DataType>float|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="485" parent="306" name="num">
+      <Position>6</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="486" parent="306" name="pid_tmp">
+      <ColNames>pid
+tmp_date</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="487" parent="306" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="488" parent="307" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="489" parent="307" name="pid">
+      <Position>2</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="490" parent="307" name="tmp_date">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="491" parent="307" name="lat">
+      <Position>4</Position>
+      <DataType>float|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="492" parent="307" name="lon">
+      <Position>5</Position>
+      <DataType>float|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="493" parent="307" name="num">
+      <Position>6</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="494" parent="307" name="pid_tmp">
+      <ColNames>pid
+tmp_date</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="495" parent="307" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="496" parent="308" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="497" parent="308" name="pid">
+      <Position>2</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="498" parent="308" name="tmp_date">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="499" parent="308" name="lat">
+      <Position>4</Position>
+      <DataType>float|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="500" parent="308" name="lon">
+      <Position>5</Position>
+      <DataType>float|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="501" parent="308" name="num">
+      <Position>6</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="502" parent="308" name="pid_tmp">
+      <ColNames>pid
+tmp_date</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="503" parent="308" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="504" parent="309" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="505" parent="309" name="pid">
+      <Position>2</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="506" parent="309" name="tmp_date">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="507" parent="309" name="lat">
+      <Position>4</Position>
+      <DataType>float|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="508" parent="309" name="lon">
+      <Position>5</Position>
+      <DataType>float|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="509" parent="309" name="num">
+      <Position>6</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="510" parent="309" name="pid_tmp">
+      <ColNames>pid
+tmp_date</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="511" parent="309" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="512" parent="310" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="513" parent="310" name="pid">
+      <Position>2</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="514" parent="310" name="tmp_date">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="515" parent="310" name="lat">
+      <Position>4</Position>
+      <DataType>float|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="516" parent="310" name="lon">
+      <Position>5</Position>
+      <DataType>float|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="517" parent="310" name="num">
+      <Position>6</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="518" parent="310" name="pid_tmp">
+      <ColNames>pid
+tmp_date</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="519" parent="310" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="520" parent="311" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="521" parent="311" name="pid">
+      <Position>2</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="522" parent="311" name="tmp_date">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="523" parent="311" name="lat">
+      <Position>4</Position>
+      <DataType>float|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="524" parent="311" name="lon">
+      <Position>5</Position>
+      <DataType>float|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="525" parent="311" name="num">
+      <Position>6</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="526" parent="311" name="pid_tmp">
+      <ColNames>pid
+tmp_date</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="527" parent="311" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="528" parent="312" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="529" parent="312" name="pid">
+      <Position>2</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="530" parent="312" name="tmp_date">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="531" parent="312" name="lat">
+      <Position>4</Position>
+      <DataType>float|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="532" parent="312" name="lon">
+      <Position>5</Position>
+      <DataType>float|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="533" parent="312" name="num">
+      <Position>6</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="534" parent="312" name="pid_tmp">
+      <ColNames>pid
+tmp_date</ColNames>
       <Type>btree</Type>
     </index>
     <key id="535" parent="312" name="PRIMARY">
@@ -2464,184 +2432,178 @@ up_date</ColNames>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="538" parent="313" name="ddate">
+    <column id="538" parent="313" name="tmp_date">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="539" parent="313" name="ttime">
+    <column id="539" parent="313" name="lat">
       <Position>4</Position>
-      <DataType>time|0s</DataType>
+      <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="540" parent="313" name="num">
+    <column id="540" parent="313" name="lon">
       <Position>5</Position>
-      <DataType>int(11)|0s</DataType>
+      <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="541" parent="313" name="pid_date_time_num">
+    <column id="541" parent="313" name="num">
+      <Position>6</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="542" parent="313" name="pid_tmp">
       <ColNames>pid
-ddate
-ttime
-num</ColNames>
+tmp_date</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="542" parent="313" name="PRIMARY">
+    <key id="543" parent="313" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="543" parent="314" name="id">
+    <column id="544" parent="314" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="544" parent="314" name="pid">
+    <column id="545" parent="314" name="pid">
       <Position>2</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="545" parent="314" name="area">
+    <column id="546" parent="314" name="tmp_date">
       <Position>3</Position>
-      <DataType>varchar(32)|0s</DataType>
+      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="546" parent="314" name="longitude">
+    <column id="547" parent="314" name="lat">
       <Position>4</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="547" parent="314" name="latitude">
+    <column id="548" parent="314" name="lon">
       <Position>5</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="548" parent="314" name="loaction">
+    <column id="549" parent="314" name="num">
       <Position>6</Position>
-      <DataType>varchar(18)|0s</DataType>
+      <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="549" parent="314" name="citypid">
+    <index id="550" parent="314" name="pid_tmp">
+      <ColNames>pid
+tmp_date</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="551" parent="314" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="552" parent="315" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="553" parent="315" name="pid">
+      <Position>2</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="554" parent="315" name="roadid">
+      <Position>3</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="555" parent="315" name="up_date">
+      <Position>4</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="556" parent="315" name="city">
+      <Position>5</Position>
+      <DataType>varchar(32)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="557" parent="315" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="558" parent="316" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="559" parent="316" name="pid">
+      <Position>2</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="560" parent="316" name="roadname">
+      <Position>3</Position>
+      <DataType>varchar(80)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="561" parent="316" name="up_date">
+      <Position>4</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="562" parent="316" name="speed">
+      <Position>5</Position>
+      <DataType>float|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="563" parent="316" name="direction">
+      <Position>6</Position>
+      <DataType>varchar(80)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="564" parent="316" name="bound">
       <Position>7</Position>
-      <DataType>int(11)|0s</DataType>
+      <DataType>blob|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="550" parent="314" name="weatherpid">
+    <column id="565" parent="316" name="data">
       <Position>8</Position>
-      <DataType>int(11)|0s</DataType>
+      <DataType>blob|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="551" parent="314" name="flag">
+    <column id="566" parent="316" name="roadid">
       <Position>9</Position>
       <DataType>smallint(6)|0s</DataType>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="552" parent="314" name="province">
-      <Position>10</Position>
-      <DataType>varchar(18)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <key id="553" parent="314" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="554" parent="315" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="555" parent="315" name="pid">
-      <Position>2</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="556" parent="315" name="ddate">
-      <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="557" parent="315" name="ttime">
-      <Position>4</Position>
-      <DataType>time|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="558" parent="315" name="rate">
-      <Position>5</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="559" parent="315" name="pid_date_time_rate">
+    <index id="567" parent="316" name="pid_update">
       <ColNames>pid
-ddate
-ttime
-rate</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="560" parent="315" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="561" parent="316" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="562" parent="316" name="pid">
-      <Position>2</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="563" parent="316" name="tmp_date">
-      <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="564" parent="316" name="area">
-      <Position>4</Position>
-      <DataType>varchar(18)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="565" parent="316" name="rate">
-      <Position>5</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="566" parent="316" name="name">
-      <Position>6</Position>
-      <DataType>varchar(8)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="567" parent="316" name="pid_index">
-      <ColNames>pid</ColNames>
+up_date</ColNames>
       <Type>btree</Type>
     </index>
     <key id="568" parent="316" name="PRIMARY">
@@ -2656,37 +2618,37 @@ rate</ColNames>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="570" parent="317" name="area">
+    <column id="570" parent="317" name="pid">
       <Position>2</Position>
-      <DataType>varchar(30)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="571" parent="317" name="pid">
-      <Position>3</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="572" parent="317" name="last_date">
-      <Position>4</Position>
+    <column id="571" parent="317" name="ddate">
+      <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="573" parent="317" name="table_id">
+    <column id="572" parent="317" name="ttime">
+      <Position>4</Position>
+      <DataType>time|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="573" parent="317" name="num">
       <Position>5</Position>
-      <DataType>smallint(6)|0s</DataType>
+      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="574" parent="317" name="flag">
-      <Position>6</Position>
-      <DataType>smallint(6)|0s</DataType>
-      <NotNull>1</NotNull>
-      <DefaultExpression>0</DefaultExpression>
-      <ColumnKind>normal</ColumnKind>
-    </column>
+    <index id="574" parent="317" name="pid_date_time_num">
+      <ColNames>pid
+ddate
+ttime
+num</ColNames>
+      <Type>btree</Type>
+    </index>
     <key id="575" parent="317" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
@@ -2701,28 +2663,300 @@ rate</ColNames>
     </column>
     <column id="577" parent="318" name="pid">
       <Position>2</Position>
-      <DataType>int(11)|0s</DataType>
+      <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="578" parent="318" name="tmp_date">
+    <column id="578" parent="318" name="area">
       <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
+      <DataType>varchar(32)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="579" parent="318" name="rate">
+    <column id="579" parent="318" name="longitude">
       <Position>4</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="580" parent="318" name="pid_date">
+    <column id="580" parent="318" name="latitude">
+      <Position>5</Position>
+      <DataType>float|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="581" parent="318" name="loaction">
+      <Position>6</Position>
+      <DataType>varchar(18)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="582" parent="318" name="citypid">
+      <Position>7</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="583" parent="318" name="weatherpid">
+      <Position>8</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="584" parent="318" name="flag">
+      <Position>9</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <DefaultExpression>0</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="585" parent="318" name="province">
+      <Position>10</Position>
+      <DataType>varchar(18)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="586" parent="318" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="587" parent="319" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="588" parent="319" name="pid">
+      <Position>2</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="589" parent="319" name="ddate">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="590" parent="319" name="ttime">
+      <Position>4</Position>
+      <DataType>time|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="591" parent="319" name="rate">
+      <Position>5</Position>
+      <DataType>float|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="592" parent="319" name="pid_date_time_rate">
+      <ColNames>pid
+ddate
+ttime
+rate</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="593" parent="319" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="594" parent="320" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="595" parent="320" name="pid">
+      <Position>2</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="596" parent="320" name="tmp_date">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="597" parent="320" name="area">
+      <Position>4</Position>
+      <DataType>varchar(18)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="598" parent="320" name="rate">
+      <Position>5</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="599" parent="320" name="name">
+      <Position>6</Position>
+      <DataType>varchar(8)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="600" parent="320" name="pid_index">
+      <ColNames>pid</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="601" parent="320" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="602" parent="321" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="603" parent="321" name="area">
+      <Position>2</Position>
+      <DataType>varchar(30)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="604" parent="321" name="pid">
+      <Position>3</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="605" parent="321" name="last_date">
+      <Position>4</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="606" parent="321" name="table_id">
+      <Position>5</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="607" parent="321" name="flag">
+      <Position>6</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>0</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="608" parent="321" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="609" parent="322" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="610" parent="322" name="idcard">
+      <Position>2</Position>
+      <DataType>bigint(20)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="611" parent="322" name="user_id">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="612" parent="322" name="photo">
+      <Position>4</Position>
+      <DataType>varchar(100)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="613" parent="322" name="user_id">
+      <ColNames>user_id</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="614" parent="322" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="615" parent="322" name="user_id">
+      <ColNames>user_id</ColNames>
+      <UnderlyingIndexName>user_id</UnderlyingIndexName>
+    </key>
+    <foreign-key id="616" parent="322" name="userdb_user_id_d2df0e9b_fk_auth_user_id">
+      <ColNames>user_id</ColNames>
+      <RefSchemaName>digitalsmart</RefSchemaName>
+      <RefTableName>auth_user</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="617" parent="323" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="618" parent="323" name="ddate">
+      <Position>2</Position>
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="619" parent="323" name="installnum">
+      <Position>3</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="620" parent="323" name="activenum">
+      <Position>4</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="621" parent="323" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="622" parent="324" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="623" parent="324" name="pid">
+      <Position>2</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="624" parent="324" name="tmp_date">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="625" parent="324" name="rate">
+      <Position>4</Position>
+      <DataType>float|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="626" parent="324" name="pid_date">
       <ColNames>pid
 tmp_date</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="581" parent="318" name="PRIMARY">
+    <key id="627" parent="324" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>

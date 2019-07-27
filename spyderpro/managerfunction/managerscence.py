@@ -1,7 +1,6 @@
 import sys
 import os
 
-sys.path[0] = os.getcwd()
 import datetime
 import time
 from threading import Thread, Semaphore
@@ -12,6 +11,7 @@ from spyderpro.function.peoplefunction.positioningtrend import PositioningTrend
 from spyderpro.function.peoplefunction.positioningsituation import PositioningSituation
 from spyderpro.function.peoplefunction.monitoring_area import PositioningPeople
 
+global_db = Semaphore(1)
 db = pymysql.connect(host=host, user=user, password=password, database=database,
                      port=port)
 
@@ -36,6 +36,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         lock = Semaphore(1)
         wait = Semaphore(10)
         sql = "select pid from digitalsmart.scencemanager where flag=1"
+        global_db.acquire()
         try:
             cur.execute(sql)
             db.commit()
@@ -44,7 +45,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             db.rollback()
 
         pids = cur.fetchall()
-
+        global_db.release()
         for pid in pids:
 
             def fast(reg_pid):
@@ -55,8 +56,8 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 for info in instances:
                     sql = "insert into digitalsmart.scenceflow(pid, ddate, ttime, num) values ('%d','%d','%s','%d')" % (
                         info.region_id, info.date, info.detailTime, info.num)
-                    print(sql)
                     self.write_data(db2, sql)
+
                 db2.close()
 
             wait.acquire()
@@ -78,8 +79,10 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         start = str(today.date())
         end = str(tomorrow.date())
         sql = "select pid,area from digitalsmart.scencemanager where flag=0 "
+        global_db.acquire()
         cur.execute(sql)
         data = cur.fetchall()
+        global_db.release()
         lock = Semaphore(1)
         wait = Semaphore(10)  # 之所以不用实例属性的信号量，是因为他们任务是同时进行的
         for item in data:
@@ -101,6 +104,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                     print(e)
 
                 resultObjs = self.get_place_index(name=place, placeid=region_id, date_start=start, date_end=end)
+                c = 0
                 for obj in resultObjs:
                     ttime = obj.detailtime
                     if ttime <= last_ttime:
@@ -111,8 +115,11 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                     rate = obj.index
                     sql = "insert into digitalsmart.scencetrend(pid, ddate, ttime, rate) VALUE(%d,%d,'%s',%f)" % (
                         region_id, ddate, ttime, rate)
-                    self.write_data(db2, sql)
+                    if self.write_data(db2, sql):
+                        print("insert success")
+                    c += 1
                 self.connectqueue.put(db2)
+                print(c)
 
             wait.release()
             Thread(target=fast, args=(pid, area)).start()
@@ -120,6 +127,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
 
     def manager_scenece_people(self):
         up_date = int(datetime.datetime.now().timestamp())
+        global_db.acquire()
         sql = "select pid,latitude,longitude from digitalsmart.scencemanager where flag=0"
         try:
             cur.execute(sql)
@@ -129,6 +137,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             db.rollback()
             return
         data = cur.fetchall()
+        global_db.release()
         lock = Semaphore(1)
 
         d = datetime.datetime.today()
@@ -182,6 +191,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         table = "digitalsmart.peopleposition{0}".format(table_id)  # 确定哪张表
         select_table = "insert into {0}(pid, tmp_date, lat, lon, num) VALUES" \
                        " ('%d','%d','%f','%f','%d')".format(table)
+        c = 0
         for item in instances:
             sql = select_table % (
                 region_id, tmp_date, centerlat + item.latitude, centerlon + item.longitude, item.number)
@@ -192,7 +202,10 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 continue
             count += 1
             if count == 100:
+                count = 0
                 db2.commit()
+            c += 1
+        print(c)
         self.taskSemaphore.release()
         db2.commit()
         print("success")
@@ -214,6 +227,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
 
         # time.strftime("%YYYY-%mm-%dd %HH:%MM:00",time.localtime())
         instance = self.get_count(data, date, ttime, pid)
+        print(instance)
         sql = "insert into digitalsmart.scenceflow(pid, ddate, ttime, num) values (%d,%d,'%s',%d)" % (
             instance.region_id, instance.date, instance.detailTime, instance.num)
         try:
@@ -233,5 +247,3 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
     def manager_monitoring_area(self):
         """"""
         self.get_the_scope_of_pace_data(start_lat=23.2, start_lon=110.2, end_lat=30.2, end_lon=113.2)
-
-

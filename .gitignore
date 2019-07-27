@@ -8,3 +8,6 @@ bin/appinfo.csv
 datafile/normalInfo/appinfo.csv
 datafile/normalInfo/appinfo.csv
 .idea/workspace.xml
+appactive.py
+appdetail.csv
+datafile/appinfo.csv

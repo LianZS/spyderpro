@@ -40,3 +40,6 @@ def people_positioning():
    
     """
     pass
+# monitoring_scencepeople.delay()
+# monitoring_scencepeople_trend.delay()
+monitoring_scencepeople_change.delay()

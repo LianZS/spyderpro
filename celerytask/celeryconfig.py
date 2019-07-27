@@ -19,7 +19,7 @@ CELERYBEAT_SCHEDULE = {
     },
     'roadtraffic': {
         'task': 'celerytask.task4.monitoring_roadtraffic',
-        'schedule': crontab('*/10'),  # 10分钟执行一遍
+        'schedule': crontab('*/10'),  # 12分钟执行一遍
     },
     'yeartraffic': {
         'task': 'celerytask.task4.monitoring_yeartraffic',
@@ -31,14 +31,14 @@ CELERYBEAT_SCHEDULE = {
     },
     'scencepeople_trend': {
         'task': 'celerytask.task3.monitoring_scencepeople_trend',
-        'schedule': crontab('*/5'),  # 每天30min运行一次
+        'schedule': crontab('*/13'),  # 每天13min运行一次
     },
     'scencepeople_change': {
         'task': 'celerytask.task3.monitoring_scencepeople_change',
-        'schedule': crontab('*/5'),  # 每天30min运行一次
+        'schedule': crontab('*/12'),  # 每天12min运行一次
     },
 
-}  # 默认的定时调度程序
+}  # 默认的定时调度程   序
 CELERY_QUEUES = (
     Queue('default', exchange=Exchange('default', type='direct', delivery_mode=1, durable=False)),
     Queue('financial', routing_key='celerytask.task1.#', exchange=Exchange('task1', type='direct')),

@@ -47,7 +47,7 @@ except ImportError:
         raise InvalidSchema("Missing dependencies for SOCKS support.")
 
 DEFAULT_POOLBLOCK = False
-DEFAULT_POOLSIZE = 10
+DEFAULT_POOLSIZE = 100
 DEFAULT_RETRIES = 0
 DEFAULT_POOL_TIMEOUT = None
 

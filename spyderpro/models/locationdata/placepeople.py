@@ -158,6 +158,7 @@ class PlaceTrend(PlaceInterface):
 
                 trend = Trend(pid=pid, place=region_name, date=int(date.replace("-", "")), index=float(index),
                               detailtime=detailt)
+                print(trend)
                 yield trend
 
     def dateiter(self) -> Iterator[str]:

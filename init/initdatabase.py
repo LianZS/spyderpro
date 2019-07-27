@@ -1,4 +1,8 @@
 import csv
+import sys
+import os
+
+sys.path[0] = os.path.abspath(os.path.curdir)
 from setting import *
 
 rootpath = os.path.abspath(os.path.pardir)
@@ -152,6 +156,9 @@ def initGeographic():
 
 
 def initRoadManager():
+    """
+     初始化道路管理
+    """
     sql = 'select id from digitalsmart.roadmanager'
     cur.execute(sql)
     if len(cur.fetchall()) >= 100:
@@ -172,11 +179,53 @@ def initRoadManager():
     db.commit()
 
 
+def initMobileBrand():
+    """
+    初始化品牌概况表
+    :return:
+    """
+    sql = 'select id from digitalsmart.mobilebrand'
+    cur.execute(sql)
+    if len(cur.fetchall()) >= 100:
+        print("品牌概况表mobilebrand已经初始化了")
+        return
+    filepath = os.path.join(rootpath, 'datafile/normalInfo/品牌占有率.csv')
+    f = open(filepath, 'r')
+    r = csv.reader(f)
+    r.__next__()
+    readlist = list(r)
+    brandlist = list()  # 品牌容器
+    for item in readlist:  # (品牌,日期,占有率)
+        brandlist.append(item[0])
+    brandMap = dict()
+    brandSet = set(brandlist)
+    pid = 0
+    for item in brandSet:
+        brandMap[item] = pid  # {品牌：品牌id}
+        pid += 1
+
+    for item in readlist:
+        brand = item[0]
+        ddate = int(item[1].replace("-", ""))
+
+        rate = float(item[2])
+        pid = brandMap[brand]
+        sql = "insert into digitalsmart.mobilebrand (pid, name, ddate, rate) VALUE (%d,'%s',%d,%f)" % (
+            pid, brand, ddate, rate)
+
+        try:
+            cur.execute(sql)
+            db.commit()
+        except Exception:
+            db.rollback()
+
+
 if __name__ == "__main__":
-    inintdatbaseOfscencemanager()
-    initTableManager()
-    initCitymanager()
-    initGeographic()
-    initRoadManager()
+    # inintdatbaseOfscencemanager()
+    # initTableManager()
+    # initCitymanager()
+    # initGeographic()
+    # initRoadManager()
+    initMobileBrand()
     cur.close()
     db.close()
