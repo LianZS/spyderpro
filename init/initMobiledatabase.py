@@ -250,12 +250,26 @@ def initMobileSystemRate():
     r = csv.reader(f)
     r.__next__()
     for item in r:  # (系统,日期,占有率)
-        version = "OS "+item[0]
+        version = "OS " + item[0]
         pid = systemMap[version]
         ddate = item[1]
         rate = float(item[2])
         sql = "insert into digitalsmart.mobilesystemrate(pid, ddate, rate) VALUE (%d,'%s',%f)" % (pid, ddate, rate)
 
+        cur.execute(sql)
+    db.commit()
+
+
+def initOperator():
+    sql = 'select id from digitalsmart.operator'
+    cur.execute(sql)
+    if len(cur.fetchall()) >= 4:
+        print("运营商operator已经初始化了")
+        return
+    pids = [1, 2, 3, 4]
+    operators = ["中国移动", "中国联通", "中国电信", "其他"]
+    for pid, operator in zip(pids, operators):
+        sql = "insert into digitalsmart.operator(id, name) VALUE (%d,'%s')" % (pid, operator)
         cur.execute(sql)
     db.commit()
 
@@ -266,5 +280,6 @@ if __name__ == "__main__":
     initMobileModel()
     initMobileSystem()
     initMobileSystemRate()
+    initOperator()
     cur.close()
     db.close()
