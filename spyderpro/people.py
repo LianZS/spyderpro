@@ -321,7 +321,7 @@ if __name__ == "__main__":
                 lastdate, lastdatetim = last.split(' ')  # 最后一行数据
             ff.close()
 
-        print(name)
+        print(count,name)
         if count >=50 and count<=100:
             
             get_count(regin_id)

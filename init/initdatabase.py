@@ -203,21 +203,123 @@ def initMobileBrand():
     for item in brandSet:
         brandMap[item] = pid  # {品牌：品牌id}
         pid += 1
-
-    for item in readlist:
-        brand = item[0]
-        ddate = int(item[1].replace("-", ""))
-
-        rate = float(item[2])
-        pid = brandMap[brand]
-        sql = "insert into digitalsmart.mobilebrand (pid, name, ddate, rate) VALUE (%d,'%s',%d,%f)" % (
-            pid, brand, ddate, rate)
-
+        sql = "insert into digitalsmart.mobilebrand (id, name) value (%d,'%s')" % (pid, item)
         try:
             cur.execute(sql)
             db.commit()
-        except Exception:
+        except Exception as e:
+            print(e)
             db.rollback()
+
+    print("over")
+
+
+def initBrandShare():
+    sql = 'select id from digitalsmart.brandshare'
+    cur.execute(sql)
+    if len(cur.fetchall()) >= 100:
+        print("品牌占有率brandshare已经初始化了")
+        return
+    sql = "select name,id from digitalsmart.mobilebrand"
+    try:
+        cur.execute(sql)
+        db.commit()
+    except Exception:
+        db.rollback()
+        return
+    result = cur.fetchall()
+    if result is None:
+        return
+    brandMap = dict()
+    for item in result:  # 获取品牌标识
+        brandMap[item[0]] = item[1]
+    filepath = os.path.join(rootpath, 'datafile/normalInfo/品牌占有率.csv')
+    f = open(filepath, 'r')
+    r = csv.reader(f)
+    r.__next__()
+
+    for item in r:
+        brand = item[0]
+        ddate = item[1]
+        rate = float(item[2])
+        pid = brandMap[brand]
+        sql = "insert into digitalsmart.brandshare (pid, ddate, rate) VALUE (%d,'%s',%f)" % (
+            pid, ddate, rate)
+        try:
+            cur.execute(sql)
+            db.commit()
+        except Exception as e:
+            print(e, brand, ddate)
+            db.rollback()
+    print("over")
+
+
+def initMobileModel():
+    sql = "select name,id from digitalsmart.mobilebrand"
+    try:
+        cur.execute(sql)
+        db.commit()
+    except Exception:
+        db.rollback()
+        return
+    result = cur.fetchall()
+    if result is None:
+        return
+    brandMap = dict()
+    for item in result:  # 获取品牌标识
+        brandMap[item[0]] = item[1]
+
+    filepath = os.path.join(rootpath, 'datafile/normalInfo/安卓手机品牌占有率.csv')
+    f = open(filepath, 'r')
+    r = csv.reader(f)
+    r.__next__()
+    mtypelist = list()
+    data = list(r)
+    # 获取机型
+    for android in data:  # 品牌,机型,日期,占有率
+        mobiletype = android[1]
+        mtypelist.append(mobiletype)
+    mtypeSet = set(mtypelist)  # 过滤重复
+    mpid = 0
+    mobileMap = dict()
+    for mtype in mtypeSet:  # 机型键值对
+        mpid += 1
+        mobileMap[mtype] = mpid
+    for android in data:  # (品牌,机型,日期,占有率)
+        brand = android[0]
+        mtype = android[1]
+
+        ddate = android[2]
+        rate = float(android[3])
+        mpid = mobileMap[mtype]
+        sql = "insert into digitalsmart.mobilemodel(mpid, mmodel, ddate, rate, pid, brandtype)value " \
+              "(%d,'%s','%s',%f,%d,'%s')" % (mpid, mtype, ddate, rate, pid, "安卓")
+    # filepath = os.path.join(rootpath, 'datafile/normalInfo/苹果手机品牌占有率.csv')
+    # f = open(filepath, 'r')
+    # r = csv.reader(f)
+    # r.__next__()
+    # for iphone in mtypelist:
+    #     mobiletype = iphone[1]
+    #     mtypelist.append(mobiletype)
+    # mtypeSet = set(mtypelist)
+    # mpid = 0
+    # mobileMap = dict()
+    # for mtype in mtypeSet:
+    #     mpid += 1
+    #     mobileMap[mtype] = mpid
+    # for android in data:  # (品牌,机型,日期,占有率)
+    #     brand = android[0]
+    #     mtype = android[1]
+    #     ddate = android[2]
+    #     rate = float(android[3])
+    #     pid = brandMap[brand]
+    #     mpid = mobileMap[mtype]
+    #     sql = "insert into digitalsmart.mobilemodel(mpid, mmodel, ddate, rate, pid, brandtype)value " \
+    #           "(%d,'%s','%s',%f,%d,'%s')" % (mpid,mtype,ddate,rate,pid,)
+
+
+
+
 
 
 if __name__ == "__main__":
@@ -226,6 +328,8 @@ if __name__ == "__main__":
     # initCitymanager()
     # initGeographic()
     # initRoadManager()
-    initMobileBrand()
+    # initMobileBrand()
+    # initBrandShare()
+    initMobileModel()
     cur.close()
     db.close()
