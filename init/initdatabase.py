@@ -255,6 +255,11 @@ def initBrandShare():
 
 
 def initMobileModel():
+    sql = 'select id from digitalsmart.mobilemodel'
+    cur.execute(sql)
+    if len(cur.fetchall()) >= 1000:
+        print("品牌占有率brandshare已经初始化了")
+        return
     sql = "select name,id from digitalsmart.mobilebrand"
     try:
         cur.execute(sql)
@@ -268,6 +273,7 @@ def initMobileModel():
     brandMap = dict()
     for item in result:  # 获取品牌标识
         brandMap[item[0]] = item[1]
+    mpid = 0
 
     filepath = os.path.join(rootpath, 'datafile/normalInfo/安卓手机品牌占有率.csv')
     f = open(filepath, 'r')
@@ -280,7 +286,6 @@ def initMobileModel():
         mobiletype = android[1]
         mtypelist.append(mobiletype)
     mtypeSet = set(mtypelist)  # 过滤重复
-    mpid = 0
     mobileMap = dict()
     for mtype in mtypeSet:  # 机型键值对
         mpid += 1
@@ -291,35 +296,41 @@ def initMobileModel():
 
         ddate = android[2]
         rate = float(android[3])
+        pid = brandMap[brand]
         mpid = mobileMap[mtype]
         sql = "insert into digitalsmart.mobilemodel(mpid, mmodel, ddate, rate, pid, brandtype)value " \
               "(%d,'%s','%s',%f,%d,'%s')" % (mpid, mtype, ddate, rate, pid, "安卓")
-    # filepath = os.path.join(rootpath, 'datafile/normalInfo/苹果手机品牌占有率.csv')
-    # f = open(filepath, 'r')
-    # r = csv.reader(f)
-    # r.__next__()
-    # for iphone in mtypelist:
-    #     mobiletype = iphone[1]
-    #     mtypelist.append(mobiletype)
-    # mtypeSet = set(mtypelist)
-    # mpid = 0
-    # mobileMap = dict()
-    # for mtype in mtypeSet:
-    #     mpid += 1
-    #     mobileMap[mtype] = mpid
-    # for android in data:  # (品牌,机型,日期,占有率)
-    #     brand = android[0]
-    #     mtype = android[1]
-    #     ddate = android[2]
-    #     rate = float(android[3])
-    #     pid = brandMap[brand]
-    #     mpid = mobileMap[mtype]
-    #     sql = "insert into digitalsmart.mobilemodel(mpid, mmodel, ddate, rate, pid, brandtype)value " \
-    #           "(%d,'%s','%s',%f,%d,'%s')" % (mpid,mtype,ddate,rate,pid,)
+        cur.execute(sql)
+        db.commit()
+    f.close()
+    filepath = os.path.join(rootpath, 'datafile/normalInfo/苹果手机品牌占有率.csv')
+    f = open(filepath, 'r')
+    r = csv.reader(f)
+    r.__next__()
+    mtypelist = list()
+    data = list(r)
 
-
-
-
+    for iphone in data:
+        mobiletype = iphone[0] + " " + iphone[1]
+        mtypelist.append(mobiletype)
+    mtypeSet = set(mtypelist)
+    mobileMap = dict()
+    for mtype in mtypeSet:
+        mpid += 1
+        mobileMap[mtype] = mpid
+    for iphone in data:  # (品牌,机型,日期,占有率)
+        brand = "苹果"
+        mtype1 = iphone[0]
+        mtype2 = iphone[1]
+        mtype = mtype1 + " " + mtype2
+        ddate = iphone[2]
+        rate = float(iphone[3])
+        pid = brandMap[brand]
+        mpid = mobileMap[mtype]
+        sql = "insert into digitalsmart.mobilemodel(mpid, mmodel, ddate, rate, pid, brandtype)value " \
+              "(%d,'%s','%s',%f,%d,'%s')" % (mpid, mtype, ddate, rate, pid, "苹果")
+        cur.execute(sql)
+        db.commit()
 
 
 if __name__ == "__main__":

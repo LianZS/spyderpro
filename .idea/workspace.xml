@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ce88f83-d355-4299-8834-5d606a7aee1f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/670659c6-64d9-45a2-b66d-7bd840fa8b29.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/670659c6-64d9-45a2-b66d-7bd840fa8b29.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FILE/南澳岛生态旅游区.csv" beforeDir="false" afterPath="$PROJECT_DIR$/FILE/南澳岛生态旅游区.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datafile/normalInfo/安卓手机品牌占有率.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/datafile/normalInfo/安卓手机品牌占有率.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datafile/normalInfo/安卓手机品牌占有率.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datafile/normalInfo/苹果手机品牌占有率.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datafile/normalInfo/苹果手机品牌占有率.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/init/initdatabase.py" beforeDir="false" afterPath="$PROJECT_DIR$/init/initdatabase.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nohup.out" beforeDir="false" afterPath="$PROJECT_DIR$/nohup.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/people.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/people.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -57,7 +54,7 @@
     <SUITE FILE_PATH="coverage/SpyderPro$TrafficFunction.coverage" NAME="TrafficFunction Coverage Results" MODIFIED="1560501206987" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/FunctionMain" />
     <SUITE FILE_PATH="coverage/SpyderPr$MobileKeyword.coverage" NAME="MobileKeyword Coverage Results" MODIFIED="1561741397394" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/InternetData" />
     <SUITE FILE_PATH="coverage/SpyderPro$WeatherLishi.coverage" NAME="WeatherLishi Coverage Results" MODIFIED="1560503772635" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/Weather" />
-    <SUITE FILE_PATH="coverage/SpyderPr$initdatabase.coverage" NAME="initdatabase Coverage Results" MODIFIED="1564289230651" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/init" />
+    <SUITE FILE_PATH="coverage/SpyderPr$initdatabase.coverage" NAME="initdatabase Coverage Results" MODIFIED="1564290097100" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/init" />
     <SUITE FILE_PATH="coverage/SpyderPr$Keyword.coverage" NAME="Keyword Coverage Results" MODIFIED="1562725030913" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/InternetData" />
     <SUITE FILE_PATH="coverage/SpyderPr$WeatherFunction.coverage" NAME="WeatherFunction Coverage Results" MODIFIED="1560787596227" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/FunctionMain" />
     <SUITE FILE_PATH="coverage/SpyderPr$keywordfunction.coverage" NAME="keywordfunction Coverage Results" MODIFIED="1562980465111" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/function" />
@@ -139,10 +136,14 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/init/initdatabase.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="292" column="32" selection-start-line="292" selection-start-column="32" selection-end-line="292" selection-end-column="32" />
+            <state relative-caret-position="230">
+              <caret line="259" column="32" selection-start-line="259" selection-start-column="32" selection-end-line="259" selection-end-column="32" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
+                <element signature="e#2574#3488#0" />
+                <element signature="e#3517#4841#0" />
+                <element signature="e#4871#5521#0" />
+                <element signature="e#5551#6424#0" />
               </folding>
             </state>
           </provider>
@@ -160,10 +161,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>GT-I9300</find>
-      <find>Yulong</find>
-      <find>bignox:nexus</find>
-      <find>华为mate</find>
       <find>HUAWEI</find>
       <find>魅族</find>
       <find>m2</find>
@@ -190,6 +187,10 @@
       <find>x5pro</find>
       <find>hm</find>
       <find>:aosp</find>
+      <find>华为</find>
+      <find>荣耀6</find>
+      <find>nexus</find>
+      <find>nex</find>
     </findStrings>
     <replaceStrings>
       <replace>database</replace>
@@ -204,7 +205,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/spyderpro/function/keywordfunction/mobilekey.py" />
         <option value="$PROJECT_DIR$/spyderpro/instances/keyword_obj.py" />
         <option value="$PROJECT_DIR$/spyderpro/models/weather/historyweather.py" />
         <option value="$PROJECT_DIR$/spyderpro/models/InternetData/wechatpublic.py" />
@@ -248,12 +248,13 @@
         <option value="$PROJECT_DIR$/celerytask/task3.py" />
         <option value="$PROJECT_DIR$/spyderpro/people2.py" />
         <option value="$PROJECT_DIR$/spyderpro/people.py" />
-        <option value="$PROJECT_DIR$/datafile/normalInfo/安卓手机品牌占有率.csv" />
         <option value="$PROJECT_DIR$/datafile/normalInfo/tt.csv" />
         <option value="$PROJECT_DIR$/datafile/normalInfo/ttt.csv" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell" />
         <option value="$PROJECT_DIR$/datafile/normalInfo/a.csv" />
         <option value="$PROJECT_DIR$/datafile/normalInfo/a4.csv" />
+        <option value="$PROJECT_DIR$/datafile/normalInfo/苹果手机品牌占有率.csv" />
+        <option value="$PROJECT_DIR$/datafile/normalInfo/安卓手机品牌占有率.csv" />
         <option value="$PROJECT_DIR$/init/initdatabase.py" />
       </list>
     </option>
@@ -584,12 +585,12 @@
       <workItem from="1564227654419" duration="7095000" />
       <workItem from="1564243442590" duration="145000" />
       <workItem from="1564280356462" duration="6189000" />
-      <workItem from="1564287072542" duration="2171000" />
+      <workItem from="1564287072542" duration="3048000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="548000000" />
+    <option name="totallyTimeSpent" value="548877000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -946,12 +947,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/datafile/normalInfo/苹果手机品牌占有率.csv">
-      <provider selected="true" editor-type-id="csv-text-editor" />
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-    </entry>
     <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/mobilemodel">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
@@ -1046,8 +1041,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/datafile/normalInfo/安卓手机品牌占有率.csv">
       <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="-31708">
-          <caret line="3275" column="22" lean-forward="true" selection-start-line="3275" selection-start-column="22" selection-end-line="3275" selection-end-column="22" />
+        <state relative-caret-position="145">
+          <caret line="3845" column="2" selection-start-line="3845" selection-start-column="2" selection-end-line="3845" selection-end-column="2" />
+        </state>
+      </provider>
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datafile/normalInfo/苹果手机品牌占有率.csv">
+      <provider selected="true" editor-type-id="csv-text-editor">
+        <state relative-caret-position="-8008">
+          <caret line="1204" column="26" lean-forward="true" selection-start-line="1204" selection-start-column="26" selection-end-line="1204" selection-end-column="26" />
         </state>
       </provider>
       <provider editor-type-id="csv-table-editor">
@@ -1056,10 +1061,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/init/initdatabase.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="292" column="32" selection-start-line="292" selection-start-column="32" selection-end-line="292" selection-end-column="32" />
+        <state relative-caret-position="230">
+          <caret line="259" column="32" selection-start-line="259" selection-start-column="32" selection-end-line="259" selection-end-column="32" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#2574#3488#0" />
+            <element signature="e#3517#4841#0" />
+            <element signature="e#4871#5521#0" />
+            <element signature="e#5551#6424#0" />
           </folding>
         </state>
       </provider>
