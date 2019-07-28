@@ -258,9 +258,14 @@ def initMobileSystemRate():
 
         cur.execute(sql)
     db.commit()
+    f.close()
 
 
 def initOperator():
+    """
+    初始化运营商operator数据库
+
+    """
     sql = 'select id from digitalsmart.operator'
     cur.execute(sql)
     if len(cur.fetchall()) >= 4:
@@ -274,6 +279,36 @@ def initOperator():
     db.commit()
 
 
+def initOperatorRate():
+    """初始化运营商发展情况operatorrate 数据库"""
+    sql = 'select id from digitalsmart.operatorrate'
+    cur.execute(sql)
+    if len(cur.fetchall()) >= 10:
+        print("运营商发展情况operatorrate已经初始化了")
+        return
+
+    sql = "select id,name from digitalsmart.operator"
+    cur.execute(sql)
+    operatorMap = dict()
+    for item in cur.fetchall():
+        operatorMap[item[1]] = item[0]
+
+    filepath = os.path.join(rootpath, 'datafile/normalInfo/运营商占有率.csv')
+    f = open(filepath)
+    r = csv.reader(f)
+    r.__next__()
+    for item in r:  # (运营商,日期,占有率)
+        operator = item[0]
+        pid = operatorMap[operator]
+        ddate = item[1]
+        rate = float(item[2])
+        sql = "insert into digitalsmart.operatorrate(pid, ddate, rate) VALUE (%d,'%s',%f)" \
+              % (pid, ddate, rate)
+        cur.execute(sql)
+    db.commit()
+    f.close()
+
+
 if __name__ == "__main__":
     initMobileBrand()
     initBrandShare()
@@ -281,5 +316,6 @@ if __name__ == "__main__":
     initMobileSystem()
     initMobileSystemRate()
     initOperator()
+    initOperatorRate()
     cur.close()
     db.close()
