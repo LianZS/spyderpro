@@ -297,13 +297,13 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
 
     def manager_app_userhabit(self):
         app = AppUserhabit()
-        filepath = os.path.join(rootpath, 'datafile/normalInfo/app.csv')
+        filepath = os.path.join(rootpath, 'datafile/normalInfo/appinfo.csv')
         f = open(filepath, 'r')
         read = csv.reader(f)
         inv = datetime.timedelta(days=31)
         wait = Semaphore(10)
         dataqueue = Queue(20)
-        appinfo = csv.writer(open(os.path.join(rootpath, 'datafile/appinfo.csv'), 'a+', newline=''))
+        appinfo = csv.writer(open(os.path.join(rootpath, 'datafile/appbaseinfo.csv'), 'a+', newline=''))
         appinfo.writerow(['app', '日期', '省份热度', '年龄分布', '性别分布', '内容关键词热度'])
 
         def fast_request(name, apppid, ddate):  # 请求数据
