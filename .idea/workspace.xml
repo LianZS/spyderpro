@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ce88f83-d355-4299-8834-5d606a7aee1f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/init/initOperatordatabase.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/670659c6-64d9-45a2-b66d-7bd840fa8b29.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/670659c6-64d9-45a2-b66d-7bd840fa8b29.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/init/initUserHabitdatabase.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FILE/南澳岛生态旅游区.csv" beforeDir="false" afterPath="$PROJECT_DIR$/FILE/南澳岛生态旅游区.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/init/initMobiledatabase.py" beforeDir="false" afterPath="$PROJECT_DIR$/init/initMobiledatabase.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/init/initOperatordatabase.py" beforeDir="false" afterPath="$PROJECT_DIR$/init/initOperatordatabase.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -59,7 +58,7 @@
     <SUITE FILE_PATH="coverage/SpyderPr$initdatabase.coverage" NAME="initdatabase Coverage Results" MODIFIED="1564299543350" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/init" />
     <SUITE FILE_PATH="coverage/SpyderPr$Keyword.coverage" NAME="Keyword Coverage Results" MODIFIED="1562725030913" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/InternetData" />
     <SUITE FILE_PATH="coverage/SpyderPr$WeatherFunction.coverage" NAME="WeatherFunction Coverage Results" MODIFIED="1560787596227" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/FunctionMain" />
-    <SUITE FILE_PATH="coverage/SpyderPr$initOperatordatabase.coverage" NAME="initOperatordatabase Coverage Results" MODIFIED="1564369703922" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/init" />
+    <SUITE FILE_PATH="coverage/SpyderPr$initOperatordatabase.coverage" NAME="initOperatordatabase Coverage Results" MODIFIED="1564370046046" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/init" />
     <SUITE FILE_PATH="coverage/SpyderPr$keywordfunction.coverage" NAME="keywordfunction Coverage Results" MODIFIED="1562980465111" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/function" />
     <SUITE FILE_PATH="coverage/SpyderPro$Keyword.coverage" NAME="Keyword Coverage Results" MODIFIED="1559842224963" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/InternetData" />
     <SUITE FILE_PATH="coverage/SpyderPr$keyword_obj.coverage" NAME="keyword_obj Coverage Results" MODIFIED="1561740228838" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/Instances" />
@@ -70,6 +69,7 @@
     <SUITE FILE_PATH="coverage/SpyderPro$__init____3_.coverage" NAME="__init__ (3) Coverage Results" MODIFIED="1560074398840" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
     <SUITE FILE_PATH="coverage/SpyderPro$test_main.coverage" NAME="test_main Coverage Results" MODIFIED="1560004397621" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
     <SUITE FILE_PATH="coverage/SpyderPr$positioningsituation.coverage" NAME="positioningsituation Coverage Results" MODIFIED="1563002549125" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/function/peoplefunction" />
+    <SUITE FILE_PATH="coverage/SpyderPr$initUserHabitdatabase.coverage" NAME="initUserHabitdatabase Coverage Results" MODIFIED="1564370826405" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/init" />
     <SUITE FILE_PATH="coverage/SpyderPr$test.coverage" NAME="test Coverage Results" MODIFIED="1563791441837" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/celerytask" />
     <SUITE FILE_PATH="coverage/SpyderPr$keyword.coverage" NAME="keyword Coverage Results" MODIFIED="1563689221729" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/InternetData" />
     <SUITE FILE_PATH="coverage/SpyderPr$__init____1_.coverage" NAME="__init__ (1) Coverage Results" MODIFIED="1563776513776" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/managerfunction" />
@@ -124,13 +124,6 @@
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="digitalsmart: schema" type="76f4a085:MysqlImplModel$Schema" />
       </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="digitalsmart@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="digitalsmart: schema" type="76f4a085:MysqlImplModel$Schema" />
-        <item name="network: table" type="285a2a93:MysqlImplModel$Table" />
-      </path>
     </expand>
     <select />
   </component>
@@ -139,8 +132,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/init/initOperatordatabase.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="213">
-              <caret line="128" column="22" lean-forward="true" selection-start-line="128" selection-start-column="22" selection-end-line="128" selection-end-column="22" />
+            <state relative-caret-position="153">
+              <caret line="126" selection-start-line="126" selection-end-line="133" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
                 <element signature="e#922#971#0" />
@@ -150,6 +143,30 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/init/initUserHabitdatabase.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="32" column="23" lean-forward="true" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="23" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/datafile/normalInfo/整体用户行为.csv">
+          <provider selected="true" editor-type-id="csv-text-editor">
+            <state relative-caret-position="210">
+              <caret line="14" column="16" lean-forward="true" selection-start-line="14" selection-end-line="15" />
+            </state>
+          </provider>
+          <provider editor-type-id="csv-table-editor">
+            <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/init/initMobiledatabase.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="245">
@@ -229,7 +246,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/spyderpro/portconnect/internetconnect.py" />
         <option value="$PROJECT_DIR$/spyderpro/models/InternetData/keyword.py" />
         <option value="$PROJECT_DIR$/spyderpro/function/keywordfunction/searchkeyword.py" />
         <option value="$PROJECT_DIR$/spyderpro/test/databaseload.py" />
@@ -278,8 +294,9 @@
         <option value="$PROJECT_DIR$/init/initAttractionsDatabase.py" />
         <option value="$PROJECT_DIR$/init/initOperator.py" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell" />
-        <option value="$PROJECT_DIR$/init/initOperatordatabase.py" />
         <option value="$PROJECT_DIR$/init/initMobiledatabase.py" />
+        <option value="$PROJECT_DIR$/init/initOperatordatabase.py" />
+        <option value="$PROJECT_DIR$/init/initUserHabitdatabase.py" />
       </list>
     </option>
   </component>
@@ -305,6 +322,12 @@
               <item name="SpyderPr" type="b2602c69:ProjectViewProjectNode" />
               <item name="SpyderPr" type="462c0819:PsiDirectoryNode" />
               <item name="datafile" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SpyderPr" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SpyderPr" type="462c0819:PsiDirectoryNode" />
+              <item name="datafile" type="462c0819:PsiDirectoryNode" />
+              <item name="normalInfo" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SpyderPr" type="b2602c69:ProjectViewProjectNode" />
@@ -364,7 +387,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.initOperatordatabase">
+  <component name="RunManager" selected="Python.initUserHabitdatabase">
     <configuration name="initMobiledatabase" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SpyderPro" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -409,6 +432,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="initUserHabitdatabase" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="SpyderPro" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/init" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/init/initUserHabitdatabase.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="initdatabase" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SpyderPro" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -423,28 +468,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/init/initAttractionsDatabase.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="managerscence" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="SpyderPro" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spyderpro/managerfunction" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -477,11 +500,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.initUserHabitdatabase" />
         <item itemvalue="Python.initOperatordatabase" />
         <item itemvalue="Python.initMobiledatabase" />
         <item itemvalue="Python.initdatabase" />
         <item itemvalue="Python.task3" />
-        <item itemvalue="Python.managerscence" />
       </list>
     </recent_temporary>
   </component>
@@ -602,12 +625,12 @@
       <workItem from="1564287072542" duration="3118000" />
       <workItem from="1564298914779" duration="4737000" />
       <workItem from="1564310545687" duration="488000" />
-      <workItem from="1564366599473" duration="2632000" />
+      <workItem from="1564366599473" duration="3609000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="556804000" />
+    <option name="totallyTimeSpent" value="557781000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -627,7 +650,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32569557" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4983845" visible="true" weight="0.3535188" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4983845" visible="true" weight="0.3535188" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39443535" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -694,41 +717,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/peopleposition4">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/peopleposition1">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/scencemanager">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/portconnect/internetconnect.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="6" column="8" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/requests/adapters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/mobilemodel.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -1045,10 +1033,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/init/initMobiledatabase.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="245">
+          <caret line="84" lean-forward="true" selection-start-line="84" selection-end-line="84" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datafile/normalInfo/整体用户行为.csv">
+      <provider selected="true" editor-type-id="csv-text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="16" lean-forward="true" selection-start-line="14" selection-end-line="15" />
+        </state>
+      </provider>
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/init/initOperatordatabase.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="128" column="22" lean-forward="true" selection-start-line="128" selection-start-column="22" selection-end-line="128" selection-end-column="22" />
+        <state relative-caret-position="153">
+          <caret line="126" selection-start-line="126" selection-end-line="133" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
             <element signature="e#922#971#0" />
@@ -1056,10 +1064,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/init/initMobiledatabase.py">
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/userdb">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/userhabit">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datafile/normalInfo/app.csv">
+      <provider selected="true" editor-type-id="csv-text-editor">
+        <state relative-caret-position="45210">
+          <caret line="3014" column="10" selection-start-line="3014" selection-start-column="7" selection-end-line="3014" selection-end-column="10" />
+        </state>
+      </provider>
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/init/initUserHabitdatabase.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="84" lean-forward="true" selection-start-line="84" selection-end-line="84" />
+        <state relative-caret-position="108">
+          <caret line="32" column="23" lean-forward="true" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="23" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>

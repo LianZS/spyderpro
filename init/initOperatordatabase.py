@@ -89,6 +89,9 @@ def initNetWork():
 
 
 def initNetWorkShare():
+    """
+    初始化网络发展情况
+    """
     sql = "select id from digitalsmart.networkshare"
     cur.execute(sql)
     if len(cur.fetchall()) >= 40:
@@ -106,7 +109,6 @@ def initNetWorkShare():
     f = open(filepath)
     r = csv.reader(f)
     r.__next__()
-    print(networkMap)
     for item in r:  # (网络,日期,占有率)
         network = item[0]
         pid = networkMap[network]
