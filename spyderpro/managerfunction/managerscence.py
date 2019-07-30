@@ -226,7 +226,6 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
 
         # time.strftime("%YYYY-%mm-%dd %HH:%MM:00",time.localtime())
         instance = self.get_count(data, date, ttime, pid)
-        print(instance)
         sql = "insert into digitalsmart.scenceflow(pid, ddate, ttime, num) values (%d,%d,'%s',%d)" % (
             instance.region_id, instance.date, instance.detailTime, instance.num)
         try:

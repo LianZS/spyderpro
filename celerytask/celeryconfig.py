@@ -40,7 +40,11 @@ CELERYBEAT_SCHEDULE = {
     'keyword_rate': {
         'task': 'celerytask.task2.monitoring_keyword_rate',
         'schedule': crontab(minute=0, hour=12),  # 每天12点运行一次
-    }
+    },
+    'app_active': {
+        'task': 'celerytask.task1.monitoring_app_active_data',
+        'schedule': crontab(0, 0, day_of_month='15'),  # 每个月的第15天执行。
+    },
 
 }  # 默认的定时调度程   序
 CELERY_QUEUES = (
