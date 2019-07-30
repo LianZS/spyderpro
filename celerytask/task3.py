@@ -40,6 +40,13 @@ def people_positioning():
    
     """
     pass
+@app.task(queue='location')
+def statistics_scencepeople():
+    """
+    统计昨天一整天的人流情况并且录入数据库¬
+
+    """
+    manage.manager_history_sceneceflow()
 # monitoring_scencepeople.delay()
 # monitoring_scencepeople_trend.delay()
 # monitoring_scencepeople_change.delay()

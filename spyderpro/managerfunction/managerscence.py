@@ -204,7 +204,6 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 count = 0
                 db2.commit()
             c += 1
-        print(c)
         self.taskSemaphore.release()
         db2.commit()
         print("success")
@@ -235,9 +234,45 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             print(e)
         self.connectqueue.put(db2)
 
+    def manager_history_sceneceflow(self):
+        """
+        将昨天的数据存放到历史记录表里
+        :return:
+        """
+        inv = datetime.timedelta(days=1)
+        today = datetime.datetime.today()
+        yesterday = int(str((today - inv).date()).replace("-", ""))
+
+        sql = "select pid from digitalsmart.scencemanager"
+        cur.execute(sql)
+        result = cur.fetchall()
+        if not result:
+            return None
+
+        def fast(data):
+            if not data:
+                return None
+            db2 = self.connectqueue.get()
+            newcur = db2.cursor()
+            for item in data:
+                sql = "insert into digitalsmart.historyscenceflow(pid, ddate, ttime, num) VALUE (%d,%d,'%s',%d)" % item
+                newcur.execute(sql)
+            db2.commit()
+            self.connectqueue.put(db2)
+
+        lock = Semaphore(1)
+        for pid in result:
+            sql = "select pid,ddate,ttime,num from digitalsmart.scenceflow where pid={0} and ddate={1} ".format(pid[0],
+                                                                                                                yesterday)
+            cur.execute(sql)
+            lock.acquire()
+            yesterday_info = cur.fetchall()
+            Thread(target=fast, args=(yesterday_info,)).start()
+            lock.release()
+
     def manager_china_positioning(self):
         """
-        中国人定位数据管理
+        中国人定位数据管理---待完善
         :return:
         """
         instances = self.positioning_people_num(max_num=10)
@@ -245,3 +280,6 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
     def manager_monitoring_area(self):
         """"""
         self.get_the_scope_of_pace_data(start_lat=23.2, start_lon=110.2, end_lat=30.2, end_lon=113.2)
+
+
+ManagerScence().manager_history_sceneceflow()

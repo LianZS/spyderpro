@@ -37,6 +37,10 @@ CELERYBEAT_SCHEDULE = {
         'task': 'celerytask.task3.monitoring_scencepeople_change',
         'schedule': crontab('*/12'),  # 每天12min运行一次
     },
+    'scencepeople_history': {
+        'task': 'celerytask.task3.statistics_scencepeople',
+        'schedule': crontab(minute=0, hour=2),  # 每天凌晨2点运行
+    },
     'keyword_rate': {
         'task': 'celerytask.task2.monitoring_keyword_rate',
         'schedule': crontab(minute=0, hour=12),  # 每天12点运行一次

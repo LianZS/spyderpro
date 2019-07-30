@@ -29,4 +29,4 @@ def monitoring_yeartraffic():
     traffic.manager_city_year_traffic()
 # monitoring_roadtraffic.delay()
 # monitoring_dailycitytraffic.delay()
-monitoring_roadtraffic.delay()
+# monitoring_roadtraffic.delay()
