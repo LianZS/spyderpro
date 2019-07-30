@@ -32,3 +32,17 @@ class AppUserhabit:
 
         data = UserHabit().get_app_userhabit(appname, pid, start_date)
         return data
+
+    def get_app_active_data(self, appname, appid, start_date):
+        """
+        获取该app的月活跃数，活跃用户率，时间列表，行业基准，行业均值
+        :param appname:app名字
+        :param start_date:开始月份 ，如2019-01-01，注意，日必须是月首日
+        :return:AppRateBenchmark
+        :param appname:
+        :param appid:
+        :param start_date:
+        :return:
+        """
+        data = UserHabit().get_app_active_info(appname, appid, start_date)
+        return data

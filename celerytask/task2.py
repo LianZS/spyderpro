@@ -67,8 +67,3 @@ def monitoring_mobile_network_rate():
     ManagerMobileKey().manager_mobile_network_rate(filepath)
 
 
-@app.task(queue='Internet')
-def monitoring_app_userhabit():
-    appinfo_filepath = os.path.join(rootpath, 'datafile/normalInfo/appinfo.csv')
-    appbaseinfo_path = os.path.join(rootpath, 'datafile/normalInfo/appbaseinfo.csv')
-    ManagerMobileKey().manager_app_userhabit(appinfo_filepath, appbaseinfo_path)

@@ -45,7 +45,7 @@ CELERYBEAT_SCHEDULE = {
 }  # 默认的定时调度程   序
 CELERY_QUEUES = (
     Queue('default', exchange=Exchange('default', type='direct', delivery_mode=1, durable=False)),
-    Queue('financial', routing_key='celerytask.task1.#', exchange=Exchange('task1', type='direct')),
+    Queue('app', routing_key='celerytask.task1.#', exchange=Exchange('task1', type='direct')),
     Queue('Internet', routing_key='celerytask.task2.#', exchange=Exchange('task2', type='direct')),
     Queue('location', routing_key='celerytask.task3.#', exchange=Exchange('task3', type='direct')),
     Queue('traffic', routing_key='celerytask.task4.#', exchange=Exchange('task4', type='direct')),
@@ -54,7 +54,7 @@ CELERY_QUEUES = (
 )  # 自定义队列
 CELERY_TASK_DEFAULT_QUEUE = 'default'  # 默认队列
 CELERY_ROUTES = {
-    'celerytask.task1.*': {'queue': 'financial'},
+    'celerytask.task1.*': {'queue': 'app'},
     'celerytask.task2.*': {'queue': 'Internet'},
     'celerytask.task3.*': {'queue': 'location'},
     'celerytask.task4.*': {'queue': 'traffic'},

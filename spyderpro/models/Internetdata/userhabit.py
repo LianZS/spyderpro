@@ -50,13 +50,11 @@ class UserHabit:
                 'date': date
             }
             url = pre_url + urlencode(query_string_parameters)
-            print(url)
             response = self.request.get(url=url, headers=self.headers)
             if response.status_code != 200:
                 raise ConnectionError("网络请求"
                                       "出问题")
             result = json.loads(response.text)
-            print(result)
             ages: list = result['age']  # 手机用户年龄段分布
             consumption: list = result['consumption']  # 消费偏好
             genders: list = result['gender']  # 性别分布
@@ -157,37 +155,41 @@ class UserHabit:
             datalist.append(dic)
         return datalist
 
-    def request_app_data(self,appname, appid, start_date):
+    def get_app_active_info(self, appname, appid, start_date) -> AppRateBenchmark:
         """
         获取该app的月活跃数，活跃用户率，时间列表，行业基准，行业均值
         :param appname:app名字
         :param start_date:开始月份 ，如2019-01-01，注意，日必须是月首日
-        :return:{'date': ['2018-12-01', ,,,], 'active': [660621779,,,,], 'active_rate': [0.4188573,,,,],
-         'rate_hight': [0.0380731,,,], 'rate_low': [0.0007499, ,,,]}
+        :return:AppRateBenchmark
 
         """
         # url = self.get_similarapp_info(appname)[0]['href']
         paramer = {
             'typeIds': 101000,
             'dateType': 'm',
-            'startDate':start_date
+            'startDate': start_date
         }
-        url ="http://mi.talkingdata.com/app/trend/"+str(appid)+"/allKpi.json?"+urlencode(paramer)
+        url = "http://mi.talkingdata.com/app/trend/" + str(appid) + "/allKpi.json?" + urlencode(paramer)
 
         response = self.request.get(url=url, headers=self.headers)
         data = json.loads(response.text)[0]
-        active = data['active']  # 活跃用户数
-        active_rate = data['activeRate']  # 活跃用户率
-        datelist = data['date']  # 时间列表
+        try:
+            active = data['active'][0]  # 活跃用户数
+        except IndexError:
+            return None
 
-        active_rate_benchmark_hight = data['activeRateBenchmarkH']  # 行业基准
-        coverage_rate_ben_chmark_low = data['coverageRateBenchmarkL']  # 行业均值
+        active_rate = data['activeRate'][0]  # 活跃用户率
+        datelist = data['date'][0]  # 时间列表
+
+        active_rate_benchmark_hight = data['activeRateBenchmarkH'][0]  # 行业基准
+        coverage_rate_ben_chmark_low = data['coverageRateBenchmarkL'][0]  # 行业均值
         # dic = dict()
         # dic['date'] = datelist
         # dic['active'] = active
         # dic['active_rate'] = active_rate
         # dic['rate_hight'] = active_rate_benchmark_hight
         # dic['rate_low'] = coverage_rate_ben_chmark_low
+
         appmark = AppRateBenchmark(appname, datelist, active, active_rate, active_rate_benchmark_hight,
                                    coverage_rate_ben_chmark_low)
         return appmark
@@ -274,5 +276,3 @@ class UserHabit:
         except KeyError:
             return None
         return result['appName']
-if __name__=="__main__":
-    d = UserHabit().request_app_data("QQ",5,"2019-03-01")

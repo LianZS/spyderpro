@@ -119,7 +119,6 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                         print("insert success")
                     c += 1
                 self.connectqueue.put(db2)
-                print(c)
 
             wait.release()
             Thread(target=fast, args=(pid, area)).start()
