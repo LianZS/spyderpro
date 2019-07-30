@@ -75,7 +75,6 @@ class ManagerTraffic(Traffic):
                                                   database=database,
                                                   port=port)
                 resultObjs = self.road_manager(region_id)  # 获取道路数据
-                print(region_id)
                 for obj in resultObjs:
                     region_id = obj.region_id
                     roadname = obj.roadname
@@ -128,3 +127,14 @@ class ManagerTraffic(Traffic):
 
             fast(yearpid)
 
+    def clear_road_data(self):
+        """
+        清除昨天的道路数据
+        :return:
+        """
+        sql = "truncate table digitalsmart.roadtraffic"
+        try:
+            cur.execute(sql)
+            db.commit()
+        except Exception:
+            db.rollback()

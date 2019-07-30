@@ -25,6 +25,10 @@ CELERYBEAT_SCHEDULE = {
         'task': 'celerytask.task4.monitoring_yeartraffic',
         'schedule': crontab(minute=0, hour=7),  # 每天早上7点运行一次
     },
+    'clear_roadtraffic': {
+        'task': 'celerytask.task4.clear_roadtraffic',
+        'schedule': crontab(minute=5, hour=0),  # 每天凌晨00：05清除道路数据
+    },
     'scence_situation': {
         'task': 'celerytask.task3.monitoring_scencepeople',
         'schedule': crontab('*/30'),  # 每天30min运行一次
