@@ -37,6 +37,10 @@ CELERYBEAT_SCHEDULE = {
         'task': 'celerytask.task3.monitoring_scencepeople_change',
         'schedule': crontab('*/12'),  # 每天12min运行一次
     },
+    'keyword_rate': {
+        'task': 'celerytask.task2.monitoring_keyword_rate',
+        'schedule': crontab(minute=0, hour=12),  # 每天12点运行一次
+    }
 
 }  # 默认的定时调度程   序
 CELERY_QUEUES = (

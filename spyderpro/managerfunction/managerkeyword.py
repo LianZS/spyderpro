@@ -1,7 +1,3 @@
-import sys
-import os
-
-sys.path[0] = os.getcwd()
 import datetime
 import csv
 from threading import Thread, Semaphore
@@ -20,14 +16,14 @@ cur = db.cursor()
 
 
 class ManagerMobileKey(MobileKey, MysqlOperation):
-    def manager_mobile_type_rate(self):
+    def manager_mobile_type_rate(self, mobiletype: int, filepath: str):
         """
          获取某个时段的中国境内各手机机型的占有率
 
         2014/1 ---2018/9
+        :param mobiletype:2表示安卓手机，1表示苹果
 
         """
-        filepath = os.path.join(rootpath, 'datafile/苹果手机品牌占有率.csv')
         f = open(filepath, 'w', newline='')
         w = csv.writer(f)
         w.writerow(['品牌', '机型', '日期', '占有率'])
@@ -37,7 +33,7 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
             endmonth = 12
             if year == 2018:
                 endmonth = 9
-            data = self.request_mobile_type_rate(year=year, startmonth=startmonth, endmonth=endmonth, platform=1)
+            data = self.request_mobile_type_rate(year=year, startmonth=startmonth, endmonth=endmonth, platform=mobiletype)
             for info in data:
 
                 mobile_info = info.type_name
@@ -54,13 +50,12 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
             f.flush()
         f.close()
 
-    def manager_mobile_brand_rate(self):
+    def manager_mobile_brand_rate(self,filepath:str):
         """
         获取某时段中国境内各手机品牌占用率
         2014/1 ---2018/9
 
         """
-        filepath = os.path.join(rootpath, 'datafile/品牌占有率.csv')
         f = open(filepath, 'w', newline='')
         w = csv.writer(f)
         w.writerow(['品牌', '日期', '占有率'])
@@ -80,14 +75,13 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
             f.flush()
         f.close()
 
-    def manager_mobile_system_rate(self):
+    def manager_mobile_system_rate(self,mobiletype: int, filepath: str):
         """
         platform=2表示安卓手机，1表示苹果
         获取某时段中国境内各手机系统版本占用率
 
         :return:
         """
-        filepath = os.path.join(rootpath, 'datafile/苹果系统占有率.csv')
         f = open(filepath, 'w', newline='')
         w = csv.writer(f)
         w.writerow(['系统', '日期', '占有率'])
@@ -97,7 +91,7 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
             endmonth = 12
             if year == 2018:
                 endmonth = 9
-            data = self.request_mobile_system_rate(year=year, startmonth=startmonth, endmonth=endmonth, platform=1)
+            data = self.request_mobile_system_rate(year=year, startmonth=startmonth, endmonth=endmonth, platform=mobiletype)
             for info in data:
                 mobile_system = info.type_name
                 value = float(info.value)
@@ -107,8 +101,7 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
         f.close()
         # pid = MobileKey.system_dic[mobile_system]
 
-    def manager_mobile_operator_rate(self):
-        filepath = os.path.join(rootpath, 'datafile/运营商占有率.csv')
+    def manager_mobile_operator_rate(self,filepath:str):
         f = open(filepath, 'w', newline='')
         w = csv.writer(f)
         w.writerow(['运营商', '日期', '占有率'])
@@ -128,9 +121,8 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
             f.flush()
         f.close()
 
-    def manager_mobile_network_rate(self):
+    def manager_mobile_network_rate(self,filepath):
 
-        filepath = os.path.join(rootpath, 'datafile/网络占有率.csv')
         f = open(filepath, 'w', newline='')
         w = csv.writer(f)
         w.writerow(['网络', '日期', '占有率'])
@@ -295,15 +287,20 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
                 w.writerow([date, install, active_num])
         f.close()
 
-    def manager_app_userhabit(self):
+    def manager_app_userhabit(self, appinfo_filepath, appbaseinfo_path):
+        """
+        获取app用户画像
+        :param appinfo_filepath:app信息文件路径
+        :param appbaseinfo_path：app基础信息文件写入路径
+        :return:
+        """
         app = AppUserhabit()
-        filepath = os.path.join(rootpath, 'datafile/normalInfo/appinfo.csv')
-        f = open(filepath, 'r')
+        f = open(appinfo_filepath, 'r')
         read = csv.reader(f)
-        inv = datetime.timedelta(days=31)
+        # inv = datetime.timedelta(days=31)
         wait = Semaphore(10)
         dataqueue = Queue(20)
-        appinfo = csv.writer(open(os.path.join(rootpath, 'datafile/appbaseinfo.csv'), 'a+', newline=''))
+        appinfo = csv.writer(open(appbaseinfo_path, 'a+', newline=''))
         appinfo.writerow(['app', '日期', '省份热度', '年龄分布', '性别分布', '内容关键词热度'])
 
         def fast_request(name, apppid, ddate):  # 请求数据
@@ -316,7 +313,7 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
             while 1:
                 userhabit = dataqueue.get()
                 appinfo.writerow(
-                    [ userhabit.app, userhabit.ddate,userhabit.province, userhabit.age, userhabit.gender,
+                    [userhabit.app, userhabit.ddate, userhabit.province, userhabit.age, userhabit.gender,
                      userhabit.preference])
 
         Thread(target=deal_data, args=()).start()
@@ -325,7 +322,6 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
             year = 2017
             month = 1
             day = 1
-            print(item)
             count += 1
             # if count < 2294:
             #     continue
@@ -345,13 +341,4 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
                     month = 1
 
 
-if __name__ == "__main__":
-    manager = ManagerMobileKey()
-    # manager.manager_search()
-    # manager.manager_user_behavior()
-    # manager.manager_mobile_type_rate()
-    # manager.manager_mobile_brand_rate()
-    # manager.manager_mobile_system_rate()
-    # manager.manager_mobile_operator_rate()
-    # manager.manager_mobile_network_rate()
-    manager.manager_app_userhabit()
+
