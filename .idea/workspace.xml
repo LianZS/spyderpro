@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ce88f83-d355-4299-8834-5d606a7aee1f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/init/initWechatdatabase.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/670659c6-64d9-45a2-b66d-7bd840fa8b29.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/670659c6-64d9-45a2-b66d-7bd840fa8b29.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FILE/南澳岛生态旅游区.csv" beforeDir="false" afterPath="$PROJECT_DIR$/FILE/南澳岛生态旅游区.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/testdata/people2.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/test/people2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/testdata/people3.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/test/people3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/testdata/wechat.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/test/wechat.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datafile/wechatinfo.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datafile/normalInfo/wechatinfo.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spyderpro/test/wechat.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/test/wechat.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -85,6 +85,7 @@
     <SUITE FILE_PATH="coverage/SpyderPr$baidutraffic.coverage" NAME="baidutraffic Coverage Results" MODIFIED="1564458505331" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/traffic" />
     <SUITE FILE_PATH="coverage/SpyderPr$lbs.coverage" NAME="lbs Coverage Results" MODIFIED="1562982604452" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/instances" />
     <SUITE FILE_PATH="coverage/SpyderPr$task4.coverage" NAME="task4 Coverage Results" MODIFIED="1563786543598" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/celerytask" />
+    <SUITE FILE_PATH="coverage/SpyderPr$initWechatdatabase.coverage" NAME="initWechatdatabase Coverage Results" MODIFIED="1564477341245" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/init" />
     <SUITE FILE_PATH="coverage/SpyderPro$No_4.coverage" NAME="No.4 Coverage Results" MODIFIED="1560422706697" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/h" />
     <SUITE FILE_PATH="coverage/SpyderPr$people3.coverage" NAME="people3 Coverage Results" MODIFIED="1563433687387" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro" />
     <SUITE FILE_PATH="coverage/SpyderPr$wechatpublic.coverage" NAME="wechatpublic Coverage Results" MODIFIED="1564444539835" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/InternetData" />
@@ -136,17 +137,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spyderpro/function/keywordfunction/apphabit.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="269">
-              <caret line="48" selection-start-line="48" selection-end-line="48" />
+            <state relative-caret-position="435">
+              <caret line="29" column="16" selection-start-line="29" selection-start-column="16" selection-end-line="29" selection-end-column="16" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spyderpro/test/wechat.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="213">
-              <caret line="207" column="23" selection-start-line="207" selection-start-column="23" selection-end-line="207" selection-end-column="23" />
+            <state relative-caret-position="324">
+              <caret line="200" column="17" selection-start-line="200" selection-start-column="17" selection-end-line="200" selection-end-column="17" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -155,9 +156,30 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/init/initWechatdatabase.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="98">
+              <caret line="32" column="84" lean-forward="true" selection-start-line="32" selection-start-column="84" selection-end-line="32" selection-end-column="84" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/datafile/normalInfo/wechatinfo.csv">
+          <provider selected="true" editor-type-id="csv-text-editor">
+            <state relative-caret-position="105">
+              <caret line="40863" column="29" lean-forward="true" selection-start-line="40863" selection-start-column="29" selection-end-line="40863" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/celerytask/celeryconfig.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="788">
+            <state relative-caret-position="855">
               <caret line="58" column="6" selection-start-line="58" selection-start-column="6" selection-end-line="58" selection-end-column="6" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
@@ -178,14 +200,11 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>x5pro</find>
-      <find>hm</find>
       <find>:aosp</find>
       <find>华为</find>
       <find>荣耀6</find>
       <find>nexus</find>
       <find>nex</find>
-      <find>标识</find>
       <find>6848</find>
       <find>6848,</find>
       <find>百度推广</find>
@@ -207,6 +226,10 @@
       <find>request_app_data</find>
       <find>180</find>
       <find>lock</find>
+      <find>查干湖旅</find>
+      <find>标识</find>
+      <find>108229</find>
+      <find>美食日常</find>
     </findStrings>
     <replaceStrings>
       <replace>database</replace>
@@ -221,9 +244,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/celerytask/test.py" />
-        <option value="$PROJECT_DIR$/spyderpro/managerfunction/__init__.py" />
-        <option value="$PROJECT_DIR$/venv/bin/celery" />
         <option value="$PROJECT_DIR$/celerytask/loads.py" />
         <option value="$PROJECT_DIR$/celerytask/task5.py" />
         <option value="$PROJECT_DIR$/bin/__init__.py" />
@@ -256,7 +276,6 @@
         <option value="$PROJECT_DIR$/spyderpro/models/InternetData/wechatpublic.py" />
         <option value="$PROJECT_DIR$/spyderpro/people.py" />
         <option value="$PROJECT_DIR$/spyderpro/wechat.py" />
-        <option value="$PROJECT_DIR$/spyderpro/models/Internetdata/wechatpublic.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/spyderpro/managerfunction/managerkeyword.py" />
         <option value="$PROJECT_DIR$/celerytask/task2.py" />
@@ -271,7 +290,11 @@
         <option value="$PROJECT_DIR$/spyderpro/managerfunction/managertraffic.py" />
         <option value="$PROJECT_DIR$/celerytask/celeryconfig.py" />
         <option value="$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py" />
+        <option value="$PROJECT_DIR$/spyderpro/models/Internetdata/wechatpublic.py" />
         <option value="$PROJECT_DIR$/spyderpro/test/wechat.py" />
+        <option value="$PROJECT_DIR$/init/initWechatdatabse.py" />
+        <option value="$PROJECT_DIR$/init/initWechatdatabase.py" />
+        <option value="$PROJECT_DIR$/datafile/normalInfo/wechatinfo.csv" />
       </list>
     </option>
   </component>
@@ -295,13 +318,18 @@
             <path>
               <item name="SpyderPr" type="b2602c69:ProjectViewProjectNode" />
               <item name="SpyderPr" type="462c0819:PsiDirectoryNode" />
-              <item name="spyderpro" type="462c0819:PsiDirectoryNode" />
+              <item name="datafile" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SpyderPr" type="b2602c69:ProjectViewProjectNode" />
               <item name="SpyderPr" type="462c0819:PsiDirectoryNode" />
-              <item name="spyderpro" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="datafile" type="462c0819:PsiDirectoryNode" />
+              <item name="normalInfo" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SpyderPr" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SpyderPr" type="462c0819:PsiDirectoryNode" />
+              <item name="init" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -330,19 +358,19 @@
     </option>
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/datafile/normalInfo" />
+      <recent name="$PROJECT_DIR$/spyderpro/test" />
+      <recent name="$PROJECT_DIR$/spyderpro/testdata" />
+      <recent name="$PROJECT_DIR$/datafile" />
+      <recent name="$PROJECT_DIR$/bin" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/datafile/normalInfo" />
       <recent name="$PROJECT_DIR$/datafile" />
       <recent name="$PROJECT_DIR$/init" />
       <recent name="$PROJECT_DIR$/spyderpro/testdata" />
       <recent name="$PROJECT_DIR$" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/spyderpro/test" />
-      <recent name="$PROJECT_DIR$/spyderpro/testdata" />
-      <recent name="$PROJECT_DIR$/datafile" />
-      <recent name="$PROJECT_DIR$/datafile/normalInfo" />
-      <recent name="$PROJECT_DIR$/bin" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -357,8 +385,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.wechat">
-    <configuration name="baidutraffic" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.initWechatdatabase">
+    <configuration name="initWechatdatabase" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SpyderPro" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -366,12 +394,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spyderpro/models/traffic" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/init" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spyderpro/models/traffic/baidutraffic.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/init/initWechatdatabase.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -470,11 +498,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.initWechatdatabase" />
         <item itemvalue="Python.wechat" />
         <item itemvalue="Python.managerscence" />
         <item itemvalue="Python.managertraffic" />
         <item itemvalue="Python.start" />
-        <item itemvalue="Python.baidutraffic" />
       </list>
     </recent_temporary>
   </component>
@@ -597,12 +625,13 @@
       <workItem from="1564310545687" duration="488000" />
       <workItem from="1564366599473" duration="6009000" />
       <workItem from="1564443427946" duration="15271000" />
-      <workItem from="1564468273201" duration="5526000" />
+      <workItem from="1564468273201" duration="7153000" />
+      <workItem from="1564476171717" duration="1716000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="580978000" />
+    <option name="totallyTimeSpent" value="584321000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -617,12 +646,12 @@
     <frame x="0" y="22" width="1280" height="703" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4866828" visible="true" weight="0.15185784" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4866828" visible="true" weight="0.1542811" />
       <window_info id="Structure" order="1" sideWeight="0.51331717" side_tool="true" weight="0.29159936" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32569557" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4983845" visible="true" weight="0.3535188" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4983845" visible="true" weight="0.3535188" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39443535" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -690,30 +719,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/datafile/normalInfo/安卓系统占有率.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor">
-        <state>
-          <caret column="9" lean-forward="true" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/operator">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/operatorrate">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/datafile/normalInfo/运营商占有率.csv">
       <provider editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
@@ -792,13 +797,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/datafile/wechatinfo.csv">
-      <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="98783">
-          <caret line="153369" column="6" selection-start-line="153369" selection-end-line="153369" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/test/people3.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-4706">
@@ -871,27 +869,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/init/initUserHabitdatabase.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="112" lean-forward="true" selection-start-line="112" selection-end-line="112" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/function/keywordfunction/mobilekey.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="765">
           <caret line="63" column="9" lean-forward="true" selection-start-line="63" selection-start-column="9" selection-end-line="63" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/models/Internetdata/wechatpublic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="509">
-          <caret line="102" column="30" selection-start-line="102" selection-start-column="8" selection-end-line="102" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -1051,16 +1032,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/celerytask/celeryconfig.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="788">
-          <caret line="58" column="6" selection-start-line="58" selection-start-column="6" selection-end-line="58" selection-end-column="6" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/scenceflow">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
@@ -1089,20 +1060,81 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/testdata/region_id.csv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+      <provider selected="true" editor-type-id="csv-text-editor">
+        <state relative-caret-position="227">
+          <caret line="444" lean-forward="true" selection-start-line="444" selection-end-line="444" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/models/Internetdata/wechatpublic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-166">
+          <caret line="128" column="33" lean-forward="true" selection-start-line="128" selection-end-line="129" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/function/keywordfunction/apphabit.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="48" selection-start-line="48" selection-end-line="48" />
+        <state relative-caret-position="435">
+          <caret line="29" column="16" selection-start-line="29" selection-start-column="16" selection-end-line="29" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/celerytask/celeryconfig.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="855">
+          <caret line="58" column="6" selection-start-line="58" selection-start-column="6" selection-end-line="58" selection-end-column="6" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/test/wechat.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="207" column="23" selection-start-line="207" selection-start-column="23" selection-end-line="207" selection-end-column="23" />
+        <state relative-caret-position="324">
+          <caret line="200" column="17" selection-start-line="200" selection-start-column="17" selection-end-line="200" selection-end-column="17" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/init/initUserHabitdatabase.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="85" selection-start-line="85" selection-end-line="88" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/wechatpublic">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/init/initWechatdatabase.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="98">
+          <caret line="32" column="84" lean-forward="true" selection-start-line="32" selection-start-column="84" selection-end-line="32" selection-end-column="84" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datafile/normalInfo/wechatinfo.csv">
+      <provider selected="true" editor-type-id="csv-text-editor">
+        <state relative-caret-position="105">
+          <caret line="40863" column="29" lean-forward="true" selection-start-line="40863" selection-start-column="29" selection-end-line="40863" selection-end-column="29" />
         </state>
       </provider>
     </entry>

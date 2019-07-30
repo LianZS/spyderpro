@@ -200,7 +200,7 @@ try:
     os.mkdir(os.path.abspath(os.path.join(rootpath, "wechat")))
 except Exception:
     pass
-for item in wechat.product_url(237, 153362):
+for item in wechat.product_url(111490, 153362):
     lock.acquire()
     print(item.url)
     f = open(os.path.join(rootpath, "wechat/" + str(item.pid) + '.csv'), 'a+', newline='')
