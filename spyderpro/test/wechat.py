@@ -7,12 +7,15 @@ from threading import Thread, Semaphore
 from queue import Queue
 from typing import Iterator
 from bs4 import BeautifulSoup
+
+
 class WechatUrl:
     __slots__ = ['pid', 'url']
 
     def __init__(self, pid: int, url: str):
         self.pid = pid
         self.url = url
+
 
 class WechatPublic_Info:
     """
@@ -101,8 +104,11 @@ class WechatPublic:
         keyword = soup.find(name="meta", attrs={"name": "keywords"}).get("content")
         info: list = keyword.split(",")
         name, public_pid = info[0], info[1]  # 公众号名字和微信号
-
-        nav = soup.find(name="a", attrs={"class": "nav-link active"}).text
+        try:
+            nav = soup.find(name="a", attrs={"class": "nav-link active"}).text
+        except AttributeError:
+            self.dataqueue.put(1)
+            return None
         articles_total_num = int(re.search("(\\d+)", nav, re.S).group(1))  # 总文章数
         pages = int(articles_total_num / 10.0 + 1)  # 文章总页数
         ''' #文章列表链接：https://www.wxnmh.com/user-pid-第几页文章.htm'''
@@ -145,6 +151,7 @@ class WechatPublic:
             task_count -= 1  # 任务量减一
 
             self.semaphore.release()
+
         for page in range(2, pages + 1):
             self.semaphore.acquire()
             Thread(target=requests_next, args=(page, pid,)).start()
@@ -193,7 +200,7 @@ try:
     os.mkdir(os.path.abspath(os.path.join(rootpath, "wechat")))
 except Exception:
     pass
-for item in wechat.product_url(3, 153362):
+for item in wechat.product_url(237, 153362):
     lock.acquire()
     print(item.url)
     f = open(os.path.join(rootpath, "wechat/" + str(item.pid) + '.csv'), 'a+', newline='')

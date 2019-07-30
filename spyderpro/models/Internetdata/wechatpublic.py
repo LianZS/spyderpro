@@ -123,8 +123,11 @@ class WechatPublic(Connect):
         keyword = soup.find(name="meta", attrs={"name": "keywords"}).get("content")
         info: list = keyword.split(",")
         name, public_pid = info[0], info[1]  # 公众号名字和微信号
-
-        nav = soup.find(name="a", attrs={"class": "nav-link active"}).text
+        try:
+            nav = soup.find(name="a", attrs={"class": "nav-link active"}).text
+        except AttributeError:
+            self.dataqueue.put(1)
+            return None
         articles_total_num = int(re.search("(\\d+)", nav, re.S).group(1))  # 总文章数
         pages = int(articles_total_num / 10.0 + 1)  # 文章总页数
         ''' #文章列表链接：https://www.wxnmh.com/user-pid-第几页文章.htm'''

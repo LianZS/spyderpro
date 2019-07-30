@@ -1,6 +1,3 @@
-import sys
-import os
-
 import datetime
 import time
 from threading import Thread, Semaphore
@@ -288,6 +285,3 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             db.commit()
         except Exception:
             db.rollback()
-
-
-ManagerScence().manager_history_sceneceflow()
