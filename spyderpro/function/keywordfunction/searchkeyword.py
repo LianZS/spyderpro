@@ -1,7 +1,7 @@
 from typing import List
 from spyderpro.function.keywordfunction.parent import Parent
 
-from spyderpro.models.InternetData.keyword import KeyWord, BaiduKeyWordObject
+from spyderpro.models.Internetdata.keyword import KeyWord, BaiduKeyWordObject
 
 
 class SearchKeyword(Parent):

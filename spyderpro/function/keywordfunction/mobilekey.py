@@ -1,4 +1,4 @@
-from spyderpro.models.InternetData.mobilekeyword import MobileKeyWord
+from spyderpro.models.Internetdata.mobilekeyword import MobileKeyWord
 from spyderpro.function.keywordfunction.parent import Parent
 
 from setting import *

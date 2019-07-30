@@ -64,10 +64,14 @@ def initAppInfo():
 
 
 def initAppActive():
+    """
+    初始化app活跃数据
+    :return:
+    """
     sql = "select id from digitalsmart.appactive"
     cur.execute(sql)
     if len(cur.fetchall()) >= 3000:
-        print("APP对照表appinfo数据库已经初始化了")
+        print("app活跃信息表appactive已经初始化了")
         return
     # sql = "select id,name from digitalsmart.appinfo"
     # cur.execute(sql)

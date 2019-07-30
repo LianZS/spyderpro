@@ -5,9 +5,6 @@ spyderpro/FILE/*.csv
 
 spyderpro/FILE/.洪湖蓝田生态旅游风景区.csv.swp
 bin/appinfo.csv
-datafile/normalInfo/appinfo.csv
-datafile/normalInfo/appinfo.csv
 .idea/workspace.xml
 appactive.py
 appdetail.csv
-datafile/appinfo.csv
