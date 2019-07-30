@@ -35,7 +35,7 @@ CELERYBEAT_SCHEDULE = {
     },
     'scencepeople_trend': {
         'task': 'celerytask.task3.monitoring_scencepeople_trend',
-        'schedule': crontab('*/13'),  # 每天13min运行一次
+        'schedule': crontab('*/5'),  # 每天5min运行一次
     },
     'scencepeople_change': {
         'task': 'celerytask.task3.monitoring_scencepeople_change',
@@ -43,7 +43,11 @@ CELERYBEAT_SCHEDULE = {
     },
     'scencepeople_history': {
         'task': 'celerytask.task3.statistics_scencepeople',
-        'schedule': crontab(minute=0, hour=2),  # 每天凌晨2点运行
+        'schedule': crontab(minute=3, hour=1),  # 每天凌晨01：03运行
+    },
+    'clear_scenceflow': {
+        'task': 'celerytask.task3.clear_scenceflow',
+        'schedule': crontab(day_of_month=15),  # 每月15号清除一遍scenceflow数据库
     },
     'keyword_rate': {
         'task': 'celerytask.task2.monitoring_keyword_rate',

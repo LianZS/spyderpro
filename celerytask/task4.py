@@ -31,6 +31,10 @@ def monitoring_yeartraffic():
 
 @app.task(queue='traffic')
 def clear_roadtraffic():
+    """
+    清除道路数据
+
+    """
     traffic.clear_road_data()
 # monitoring_roadtraffic.delay()
 # monitoring_dailycitytraffic.delay()

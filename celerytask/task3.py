@@ -1,7 +1,9 @@
 from .celeryconfig import app
 from spyderpro.managerfunction.managerscence import ManagerScence
 
-manage=ManagerScence()
+manage = ManagerScence()
+
+
 @app.task(queue='location')
 def monitoring_scencepeople():
     """
@@ -22,7 +24,6 @@ def monitoring_scencepeople_trend():
     manage.manager_scence_trend()
 
 
-
 @app.task(queue='location')
 def monitoring_scencepeople_change():
     """
@@ -32,7 +33,6 @@ def monitoring_scencepeople_change():
     manage.manager_scenece_people()
 
 
-
 @app.task(queue='location')
 def people_positioning():
     """
@@ -40,6 +40,8 @@ def people_positioning():
    
     """
     pass
+
+
 @app.task(queue='location')
 def statistics_scencepeople():
     """
@@ -47,6 +49,14 @@ def statistics_scencepeople():
 
     """
     manage.manager_history_sceneceflow()
+
+
+@app.task(queue='location')
+def clear_scenceflow():
+    """
+    15天清除一遍scenceflow表
+    """
+    manage.clear_sceneflow_database()
 # monitoring_scencepeople.delay()
 # monitoring_scencepeople_trend.delay()
 # monitoring_scencepeople_change.delay()

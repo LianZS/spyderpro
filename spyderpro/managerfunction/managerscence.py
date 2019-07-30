@@ -281,5 +281,13 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         """"""
         self.get_the_scope_of_pace_data(start_lat=23.2, start_lon=110.2, end_lat=30.2, end_lon=113.2)
 
+    def clear_sceneflow_database(self):
+        sql = "truncate table digitalsmart.scenceflow"
+        try:
+            cur.execute(sql)
+            db.commit()
+        except Exception:
+            db.rollback()
+
 
 ManagerScence().manager_history_sceneceflow()
