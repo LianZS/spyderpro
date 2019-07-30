@@ -224,13 +224,3 @@ class BaiduTraffic(Traffic):
             yield CityInfo(provincename, provincecode, cityname, citycode, lat, lon)
 
 
-if __name__ == "__main__":
-    import csv
-
-
-    # f = open('/Users/darkmoon/Project/SpyderPr/datafile/baiducity.csv', 'a+', newline='')
-    # w = csv.writer(f)
-    # w.writerow(['城市名', "城市id", "维度", "经度"])
-    # for item in BaiduTraffic().getallcitycode():
-    #     w.writerow([item.cityname, item.citycode, item.lat, item.lon])
-    # f.close()

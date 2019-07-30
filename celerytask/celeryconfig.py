@@ -1,7 +1,7 @@
 import sys
 import os
 
-sys.path[0] = os.path.abspath(os.path.join(os.path.curdir, "venv/lib/python3.7/site-packages"))
+sys.path[0] = os.path.abspath(os.path.join(os.path.curdir, "venv/lib/python3.7/site-packages"))  # 载入环境
 from celery.schedules import crontab
 from celery import Celery
 from kombu import Queue, Exchange
