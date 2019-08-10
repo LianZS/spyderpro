@@ -158,7 +158,6 @@ class PlaceTrend(PlaceInterface):
 
                 trend = Trend(pid=pid, place=region_name, date=int(date.replace("-", "")), index=float(index),
                               detailtime=detailt)
-                print(trend)
                 yield trend
 
     def dateiter(self) -> Iterator[str]:
@@ -260,7 +259,7 @@ class PlaceFlow(PlaceInterface):
         for xy, num in zip(coords, numlist):
             lat = xy[0]
             lng = xy[1]
-            geographi = Geographi(latitude=float(lat) / 1000, longitude=float(lng) / 1000, number=int(num))
+            geographi = Geographi(latitude=float(lat) / 10000, longitude=float(lng) / 10000, number=int(num))
             yield geographi
 
     def complete_heatdata_simple(self, date: str, dateTime: str, region_id: int) -> Iterator[Geographi]:
@@ -277,7 +276,7 @@ class PlaceFlow(PlaceInterface):
         for xy, num in zip(coords, numlist):
             lat = xy[0]
             lng = xy[1]
-            geographi = Geographi(latitude=float(lat) / 1000, longitude=float(lng) / 1000, number=int(num))
+            geographi = Geographi(latitude=float(lat) / 5000, longitude=float(lng) / 5000, number=int(num))
             yield geographi
 
     @staticmethod

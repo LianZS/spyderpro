@@ -50,6 +50,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                                       port=port)  # 必须重新connect，不然由于高并发导致数据库混乱报错
                 instances = self.get_scence_situation(db=db2, peoplepid=reg_pid)
                 wait.release()
+
                 for info in instances:
                     sql = "insert into digitalsmart.scenceflow(pid, ddate, ttime, num) values ('%d','%d','%s','%d')" % (
                         info.region_id, info.date, info.detailTime, info.num)
@@ -122,6 +123,10 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             lock.release()
 
     def manager_scenece_people(self):
+        """
+        某时刻的人流
+        :return:
+        """
         up_date = int(datetime.datetime.now().timestamp())
         global_db.acquire()
         sql = "select pid,latitude,longitude from digitalsmart.scencemanager where flag=0"
@@ -134,12 +139,11 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             return
         data = cur.fetchall()
         global_db.release()
-        lock = Semaphore(1)
 
         d = datetime.datetime.today()
         ddate = str(d.date())
         tmp_date = d.timestamp()  # 更新时间
-        if d.time().minute % 5 > 0:
+        if d.time().minute % 5 > 0:#纠正计算挤时间，分钟必须事5的倍数
             t = d.time()
             minute = t.minute - t.minute % 5
             detailtime = "{0:0>2}:{1:0>2}:00".format(t.hour, minute)
@@ -149,7 +153,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         for item in data:
 
             self.taskSemaphore.acquire()
-            lock.acquire()
+
             region_id = item[0]
 
             lat = item[1]
@@ -170,8 +174,10 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                        args=(data, cid, up_date, lat, lon, tale_pid)).start()
                 Thread(target=self.manager_scenece_people_situation(data, cid, ddate, detailtime)).start()
 
-            Thread(target=fast, args=(region_id, table_id)).start()
-            lock.release()
+
+            # Thread(target=fast, args=(region_id, table_id)).start()
+            fast(region_id, table_id)
+
 
     def manager_scenece_people_distribution(self, data, region_id, tmp_date: int, centerlat: float, centerlon: float,
                                             table_id: int):
@@ -187,7 +193,6 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         table = "digitalsmart.peopleposition{0}".format(table_id)  # 确定哪张表
         select_table = "insert into {0}(pid, tmp_date, lat, lon, num) VALUES" \
                        " ('%d','%d','%f','%f','%d')".format(table)
-        c = 0
         for item in instances:
             sql = select_table % (
                 region_id, tmp_date, centerlat + item.latitude, centerlon + item.longitude, item.number)
@@ -200,7 +205,6 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             if count == 100:
                 count = 0
                 db2.commit()
-            c += 1
         self.taskSemaphore.release()
         db2.commit()
         print("success")
@@ -219,7 +223,6 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         """
         db2 = self.connectqueue.get()
         newcur = db2.cursor()
-
         # time.strftime("%YYYY-%mm-%dd %HH:%MM:00",time.localtime())
         instance = self.get_count(data, date, ttime, pid)
         sql = "insert into digitalsmart.scenceflow(pid, ddate, ttime, num) values (%d,%d,'%s',%d)" % (
