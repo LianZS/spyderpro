@@ -165,7 +165,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
 
             table_id = newcur.fetchone()[0]  # 数据对应在哪张表插入
             self.connectqueue.put(db2)
-
+            print(region_id)
             def fast(cid, tale_pid):
                 data = self.get_data(date=ddate, dateTime=detailtime, region_id=cid)
                 if not data:
@@ -288,3 +288,4 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             db.commit()
         except Exception:
             db.rollback()
+

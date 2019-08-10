@@ -276,7 +276,7 @@ class PlaceFlow(PlaceInterface):
         for xy, num in zip(coords, numlist):
             lat = xy[0]
             lng = xy[1]
-            geographi = Geographi(latitude=float(lat) / 5000, longitude=float(lng) / 5000, number=int(num))
+            geographi = Geographi(latitude=float(lat) / 10000, longitude=float(lng) / 10000, number=int(num))
             yield geographi
 
     @staticmethod
