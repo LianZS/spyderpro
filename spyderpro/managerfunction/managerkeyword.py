@@ -148,7 +148,7 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
         关键词网络我搜索频率----这里没要使用高并发，因为一天才进行一次
         :return:
         """
-        sql = "select pid,area from digitalsmart.scencemanager "
+        sql = "select pid,area,flag from digitalsmart.scencemanager "
         try:
 
             cur.execute(sql)
@@ -161,45 +161,21 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
         today = datetime.datetime.today()
         t = datetime.timedelta(days=2)
         yesterday = int(str((today - t).date()).replace("-", ""))
-
         yyesterday = int(str((today - t - t).date()).replace("-", ""))
         # today = int(str(today.date()).replace("-", ""))
         for item in data:
             pid: int = item[0]
             area: str = item[1]
+            flag:int=item[2]
             searcharea = search.key_check(area)
             baidu = search.baidu_browser_keyword_frequency(searcharea)
 
             if not baidu:
                 continue
-            lastdate = self.last_date(pid, area, "baidu")
+            lastdate = self.last_date(pid, area, "baidu") #最近更新时间
 
-            def sql_format(obj, region_id, place):
 
-                if lastdate == obj.update:
-                    return None
-
-                update = str(obj.update)
-                year = int(update[:4])
-                month = int(update[4:6])
-                day = int(update[6:])
-                name = obj.company
-                tdate = datetime.datetime(year, month, day)
-                baiduvalues = list(obj.all_value)
-                t = datetime.timedelta(days=len(baiduvalues))
-                tdate = tdate - t
-                t = datetime.timedelta(days=1)
-                for value in baiduvalues:
-                    tdate += t
-                    tmp_date = int(str(tdate.date()).replace("-", ""))
-                    if tmp_date <= lastdate:  # 过滤存在的数据
-                        continue
-                    rate = value
-                    sql = "insert into digitalsmart.searchrate(pid, tmp_date, area, rate, name) values " \
-                          "(%d,%d,'%s',%d,'%s')" % (region_id, tmp_date, place, rate, name)
-                    yield sql
-
-            for sql in sql_format(baidu, pid, area):
+            for sql in self.sql_format(lastdate,baidu, pid, area,flag):
                 try:
                     cur.execute(sql)
                 except Exception as e:
@@ -209,30 +185,12 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
             lastdate = self.last_date(pid, area, "wechat")
             wechat = search.wechat_browser_keyword_frequency(searcharea, startdate=yyesterday,
                                                              enddate=yesterday)  # 只获取前2天的数据
-            for item in wechat:
+            self.sumbit_commit(pid,area, lastdate,wechat,flag)
 
-                tmp_date = item.update
-                if lastdate >= tmp_date:
-                    continue
-                rate = item.all_value
-                name = item.company
-                sql = "insert into digitalsmart.searchrate(pid, tmp_date, area, rate, name) values " \
-                      "(%d,%d,'%s',%d,'%s')" % (pid, tmp_date, area, rate, name)
-                cur.execute(sql)
-            db.commit()
             sougou = search.sougou_browser_keyword_frequency(searcharea, startdate=yyesterday,
                                                              enddate=yesterday)  # 获取前两天的数据
-            for item in sougou:
-                tmp_date = item.update
-                if lastdate >= tmp_date:
-                    continue
-                tmp_date = item.update
-                rate = item.all_value
-                name = item.company
-                sql = "insert into digitalsmart.searchrate(pid, tmp_date, area, rate, name) values " \
-                      "(%d,%d,'%s',%d,'%s')" % (pid, tmp_date, area, rate, name)
-                cur.execute(sql)
-            db.commit()
+            self.sumbit_commit(pid,sougou, lastdate,wechat,flag)
+
 
     def last_date(self, region_id, place, company) -> int:
         """
@@ -253,3 +211,41 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
             return 0
         return lastdate
 
+    def sql_format(self,lastdate,obj, region_id, place,flag):
+
+        if lastdate == obj.update:
+            return None
+
+        update = str(obj.update)
+        year = int(update[:4])
+        month = int(update[4:6])
+        day = int(update[6:])
+        name = obj.company
+        tdate = datetime.datetime(year, month, day)
+        baiduvalues = list(obj.all_value)
+        t = datetime.timedelta(days=len(baiduvalues))
+        tdate = tdate - t
+        t = datetime.timedelta(days=1)
+        for value in baiduvalues:
+            tdate += t
+            tmp_date = int(str(tdate.date()).replace("-", ""))
+            if tmp_date <= lastdate:  # 过滤存在的数据
+                continue
+            rate = value
+            sql = "insert into digitalsmart.searchrate(pid, tmp_date, area, rate, name, flag) values " \
+                  "(%d,%d,'%s',%d,'%s',%d)" % (region_id, tmp_date, place, rate, name, flag)
+            yield sql
+    @staticmethod
+    def sumbit_commit(pid,area,lastdate,objs,flag):
+        #搜索频率录入数据库
+        for item in objs:
+            tmp_date = item.update
+            if lastdate >= tmp_date:
+                continue
+            tmp_date = item.update
+            rate = item.all_value
+            name = item.company
+            sql = "insert into digitalsmart.searchrate(pid, tmp_date, area, rate, name,flag) values " \
+                  "(%d,%d,'%s',%d,'%s',%d)" % (pid, tmp_date, area, rate, name, flag)
+            cur.execute(sql)
+        db.commit()

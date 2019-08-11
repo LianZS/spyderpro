@@ -249,7 +249,7 @@ def get_count(region_id):
     time.sleep(10)
     data_file.close()
     print("close")
-
+    exit()
 
 def write():
     while 1:
@@ -267,8 +267,9 @@ def write():
         data_file.flush()
 
 
+
 def dateiter(region_id):
-    inittime = datetime.datetime(2017, 1, 1, 0, 0, 0)
+    inittime = datetime.datetime(2019, 7, 30, 0, 0, 0)
     timedelta = datetime.timedelta(minutes=5)
     flag = 0
 
@@ -276,11 +277,9 @@ def dateiter(region_id):
         flag = 1
     while 1:
         inittime = inittime + timedelta
-        if inittime.year == 2019 and inittime.month == 7 and inittime.day == 8:
+        if inittime.year == 2019 and inittime.month == 7 and inittime.day == 31:
             break
-        if lastdate == str(inittime.date()) and lastdatetim == str(inittime.time()) and not flag:
-            flag = 1
-            continue
+
         if flag:
             yield str(inittime.date()), str(inittime.time()), region_id
 
@@ -295,9 +294,8 @@ global data_file
 global wf  # csv实例
 
 if __name__ == "__main__":
-    print(sys.path)
     # exit()
-    file = open(os.path.join(base_dir, "region_id.csv"), "r")
+    file = open('/Users/darkmoon/Project/SpyderPr/spyderpro/testdata/region_id.csv', "r")
     r = csv.reader(file)
     r.__next__()
     dir_path = os.path.join(base_dir, "FILE")
@@ -308,13 +306,12 @@ if __name__ == "__main__":
     count = 0
     CeleryThread(target=write, args=()).start()  # 实时数据处理
     for item in r:
-        count+=1
+        count += 1
         name = item[0]
         regin_id = item[1]
         file_path = os.path.join(dir_path, name + ".csv")
         last = None
-        lastdate = None
-        lastdatetim = None
+
         if os.path.exists(file_path):
             ff = open(file_path, 'r')
             data = csv.reader(ff)
@@ -325,6 +322,6 @@ if __name__ == "__main__":
             ff.close()
 
         print(name)
-        if count >163 and count<=200 :
-            
+        if count == 4:
+
             get_count(regin_id)

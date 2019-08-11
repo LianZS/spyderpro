@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ce88f83-d355-4299-8834-5d606a7aee1f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/670659c6-64d9-45a2-b66d-7bd840fa8b29.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/670659c6-64d9-45a2-b66d-7bd840fa8b29.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FILE/南澳岛生态旅游区.csv" beforeDir="false" afterPath="$PROJECT_DIR$/FILE/南澳岛生态旅游区.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/models/locationdata/placepeople.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/models/locationdata/placepeople.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dump.rdb" beforeDir="false" afterPath="$PROJECT_DIR$/dump.rdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spyderpro/managerfunction/managerkeyword.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/managerfunction/managerkeyword.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/spyderpro/test/people3.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/test/people3.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -93,7 +93,7 @@
     <SUITE FILE_PATH="coverage/SpyderPr$KeyWordFunction.coverage" NAME="KeyWordFunction Coverage Results" MODIFIED="1561293326479" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/FunctionMain" />
     <SUITE FILE_PATH="coverage/SpyderPr$InternetConnect.coverage" NAME="InternetConnect Coverage Results" MODIFIED="1560683226639" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/Connect" />
     <SUITE FILE_PATH="coverage/SpyderPr$PeopleFlowFunction.coverage" NAME="PeopleFlowFunction Coverage Results" MODIFIED="1560687892350" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/FunctionMain" />
-    <SUITE FILE_PATH="coverage/SpyderPr$managerkeyword.coverage" NAME="managerkeyword Coverage Results" MODIFIED="1564124120592" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/managerfunction" />
+    <SUITE FILE_PATH="coverage/SpyderPr$managerkeyword.coverage" NAME="managerkeyword Coverage Results" MODIFIED="1565528142269" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/managerfunction" />
     <SUITE FILE_PATH="coverage/SpyderPr$people.coverage" NAME="people Coverage Results" MODIFIED="1564452729578" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro" />
     <SUITE FILE_PATH="coverage/SpyderPro$GaodeTraffic.coverage" NAME="GaodeTraffic Coverage Results" MODIFIED="1560498563224" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/TrafficData" />
     <SUITE FILE_PATH="coverage/SpyderPr$PeopleFlow.coverage" NAME="PeopleFlow Coverage Results" MODIFIED="1562769448263" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/locationdata" />
@@ -135,17 +135,45 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="230">
-              <caret line="291" lean-forward="true" selection-start-line="291" selection-end-line="291" />
+            <state relative-caret-position="-102">
+              <caret line="244" lean-forward="true" selection-start-line="244" selection-end-line="244" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/celerytask/task2.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="13" column="29" lean-forward="true" selection-start-line="13" selection-start-column="29" selection-end-line="13" selection-end-column="29" />
               <folding>
-                <element signature="e#8486#9751#0" />
-                <element signature="e#9802#9918#0" />
-                <element signature="e#9967#10075#0" />
-                <element signature="e#10125#10289#0" />
+                <element signature="e#0#29#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/spyderpro/managerfunction/managerkeyword.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="216">
+              <caret line="251" lean-forward="true" selection-start-line="251" selection-end-line="251" />
+              <folding>
+                <element signature="e#8603#9087#0" />
+                <element signature="e#9187#10042#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/searchrate">
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
             </state>
           </provider>
         </entry>
@@ -171,7 +199,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spyderpro/function/peoplefunction/positioningsituation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
+            <state relative-caret-position="585">
               <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
             </state>
           </provider>
@@ -180,7 +208,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spyderpro/models/locationdata/placepeople.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1336">
+            <state relative-caret-position="3990">
               <caret line="277" column="23" lean-forward="true" selection-start-line="277" selection-start-column="23" selection-end-line="277" selection-end-column="23" />
             </state>
           </provider>
@@ -198,7 +226,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>主驾驶</find>
       <find>114生活助手</find>
       <find>奇妙清单</find>
       <find>wechat</find>
@@ -228,6 +255,7 @@
       <find>taskSemaphore</find>
       <find>waiter.acquire()</find>
       <find>success</find>
+      <find>sql_format</find>
     </findStrings>
     <replaceStrings>
       <replace>database</replace>
@@ -271,7 +299,6 @@
         <option value="$PROJECT_DIR$/spyderpro/people.py" />
         <option value="$PROJECT_DIR$/spyderpro/wechat.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/spyderpro/managerfunction/managerkeyword.py" />
         <option value="$PROJECT_DIR$/celerytask/task2.py" />
         <option value="$PROJECT_DIR$/spyderpro/function/keywordfunction/apphabit.py" />
         <option value="$PROJECT_DIR$/spyderpro/models/Internetdata/userhabit.py" />
@@ -293,6 +320,7 @@
         <option value="$PROJECT_DIR$/celerytask/task3.py" />
         <option value="$PROJECT_DIR$/spyderpro/models/locationdata/placepeople.py" />
         <option value="$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py" />
+        <option value="$PROJECT_DIR$/spyderpro/managerfunction/managerkeyword.py" />
       </list>
     </option>
   </component>
@@ -403,7 +431,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.managerscence">
+  <component name="RunManager" selected="Python.managerkeyword">
     <configuration name="__init__" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SpyderPro" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -448,6 +476,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="managerkeyword" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="SpyderPro" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spyderpro/managerfunction" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spyderpro/managerfunction/managerkeyword.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="managerscence" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SpyderPro" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -462,28 +512,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="people3" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="SpyderPro" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spyderpro/test" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spyderpro/test/people3.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -516,11 +544,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.managerkeyword" />
         <item itemvalue="Python.managerscence" />
         <item itemvalue="Python.task3" />
         <item itemvalue="Python.celeryconfig" />
         <item itemvalue="Python.__init__" />
-        <item itemvalue="Python.people3" />
       </list>
     </recent_temporary>
   </component>
@@ -649,12 +677,13 @@
       <workItem from="1564624604654" duration="404000" />
       <workItem from="1565411904599" duration="1583000" />
       <workItem from="1565415860729" duration="1302000" />
-      <workItem from="1565425433123" duration="5419000" />
+      <workItem from="1565425433123" duration="5987000" />
+      <workItem from="1565526968644" duration="1634000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="594906000" />
+    <option name="totallyTimeSpent" value="597108000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -667,9 +696,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1280" height="703" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4866828" visible="true" weight="0.16639742" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4866828" visible="true" weight="0.16882068" />
       <window_info id="Structure" order="1" sideWeight="0.51331717" side_tool="true" weight="0.29159936" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -731,37 +759,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/datafile/normalInfo/appactive.csv">
-      <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="15">
-          <caret line="67446" column="4" selection-start-line="67446" selection-end-line="67446" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/instances/wechatpublic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="5" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datafile/normalInfo/appbaseinfo.csv">
-      <provider selected="true" editor-type-id="LargeFileEditor">
-        <state relative-caret-position="-3428">
-          <caret line="5" column="10" selection-start-line="5" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datafile/normalInfo/appinfo.csv">
-      <provider selected="true" editor-type-id="csv-text-editor">
-        <state>
-          <caret column="6" lean-forward="true" selection-end-line="1" />
-        </state>
-      </provider>
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -773,20 +770,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="765">
           <caret line="63" column="9" lean-forward="true" selection-start-line="63" selection-start-column="9" selection-end-line="63" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/managerfunction/managerkeyword.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="255" lean-forward="true" selection-start-line="255" selection-end-line="255" />
-          <folding>
-            <element signature="e#54#69#0" expanded="true" />
-            <element signature="e#732#1767#0" />
-            <element signature="e#1839#2639#0" />
-            <element signature="e#5118#8753#0" />
-            <element signature="e#8822#9306#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -844,16 +827,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="5" selection-start-line="5" selection-end-line="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/celerytask/task2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="21" column="41" lean-forward="true" selection-start-line="21" selection-start-column="41" selection-end-line="21" selection-end-column="41" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -937,13 +910,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/test/FILE/世界之窗.csv" />
     <entry file="file://$PROJECT_DIR$/spyderpro/testdata/region_id.csv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
       <provider selected="true" editor-type-id="csv-text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="9" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="9" />
         </state>
-      </provider>
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/datafile/normalInfo/wechatinfo.csv">
@@ -1082,24 +1055,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/function/peoplefunction/positioningsituation.py">
+    <entry file="file://$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/models/locationdata/placepeople.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1336">
-          <caret line="277" column="23" lean-forward="true" selection-start-line="277" selection-start-column="23" selection-end-line="277" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/peopleposition0">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
+        <state relative-caret-position="-102">
+          <caret line="244" lean-forward="true" selection-start-line="244" selection-end-line="244" />
         </state>
       </provider>
     </entry>
@@ -1110,16 +1069,73 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py">
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/peopleposition0">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/function/peoplefunction/positioningsituation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="291" lean-forward="true" selection-start-line="291" selection-end-line="291" />
+        <state relative-caret-position="585">
+          <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/models/locationdata/placepeople.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3990">
+          <caret line="277" column="23" lean-forward="true" selection-start-line="277" selection-start-column="23" selection-end-line="277" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/celerytask/task2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="13" column="29" lean-forward="true" selection-start-line="13" selection-start-column="29" selection-end-line="13" selection-end-column="29" />
           <folding>
-            <element signature="e#8486#9751#0" />
-            <element signature="e#9802#9918#0" />
-            <element signature="e#9967#10075#0" />
-            <element signature="e#10125#10289#0" />
+            <element signature="e#0#29#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/instances/keyword_obj.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="23" column="34" lean-forward="true" selection-start-line="23" selection-end-line="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/models/Internetdata/keyword.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="77" column="90" lean-forward="true" selection-start-line="77" selection-start-column="90" selection-end-line="77" selection-end-column="90" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/function/keywordfunction/searchkeyword.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="32" column="39" selection-start-line="32" selection-start-column="39" selection-end-line="32" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/managerfunction/managerkeyword.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="251" lean-forward="true" selection-start-line="251" selection-end-line="251" />
+          <folding>
+            <element signature="e#8603#9087#0" />
+            <element signature="e#9187#10042#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/searchrate">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
