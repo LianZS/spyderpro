@@ -2823,68 +2823,68 @@ tmp_date</ColNames>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="614" parent="325" name="rate">
-      <Position>6</Position>
-      <DataType>float|0s</DataType>
-      <NotNull>1</NotNull>
-      <DefaultExpression>0</DefaultExpression>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <key id="615" parent="325" name="PRIMARY">
+    <key id="614" parent="325" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="616" parent="326" name="id">
+    <column id="615" parent="326" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="617" parent="326" name="pid">
+    <column id="616" parent="326" name="pid">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="618" parent="326" name="roadname">
+    <column id="617" parent="326" name="roadname">
       <Position>3</Position>
       <DataType>varchar(80)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="619" parent="326" name="up_date">
+    <column id="618" parent="326" name="up_date">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="620" parent="326" name="speed">
+    <column id="619" parent="326" name="speed">
       <Position>5</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="621" parent="326" name="direction">
+    <column id="620" parent="326" name="direction">
       <Position>6</Position>
       <DataType>varchar(80)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="622" parent="326" name="bound">
+    <column id="621" parent="326" name="bound">
       <Position>7</Position>
       <DataType>blob|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="623" parent="326" name="data">
+    <column id="622" parent="326" name="data">
       <Position>8</Position>
       <DataType>blob|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="624" parent="326" name="roadid">
+    <column id="623" parent="326" name="roadid">
       <Position>9</Position>
       <DataType>smallint(6)|0s</DataType>
+      <DefaultExpression>0</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="624" parent="326" name="rate">
+      <Position>10</Position>
+      <DataType>float|0s</DataType>
+      <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>

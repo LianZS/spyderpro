@@ -85,13 +85,14 @@ class ManagerTraffic(Traffic):
                     indexSet = obj.data
                     rate = obj.rate
                     roadid = obj.num  # 用排名表示道路id
-                    sql = "insert into digitalsmart.roadtraffic(pid, roadname, up_date, speed, direction, bound, data,roadid) VALUE" \
-                          "(%d,'%s',%d,%f,'%s','%s','%s',%d) " % (
+                    sql = "insert into digitalsmart.roadtraffic(pid, roadname, up_date, speed, direction, bound, data," \
+                          "roadid,rate) VALUE" \
+                          "(%d,'%s',%d,%f,'%s','%s','%s',%d,%f) " % (
                               region_id, roadname, up_date, speed, direction, bounds,
-                              indexSet, roadid)
+                              indexSet, roadid,rate)
                     self.write_data(db2, sql)
-                    sql = "update  digitalsmart.roadmanager set up_date={0} , rate={1} where pid={2} and roadid={3}" \
-                        .format(up_date, rate, region_id,roadid)
+                    sql = "update  digitalsmart.roadmanager set up_date={0}  where pid={1} and roadid={2}" \
+                        .format(up_date, region_id,roadid)
                     self.write_data(db2, sql)  # 更新最近更新时间
 
                 db2.close()
@@ -144,4 +145,4 @@ class ManagerTraffic(Traffic):
             db.rollback()
 
 
-ManagerTraffic().manager_city_road_traffic()
+# ManagerTraffic().manager_city_road_traffic()
