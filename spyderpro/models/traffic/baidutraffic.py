@@ -46,7 +46,6 @@ class BaiduTraffic(Traffic):
             'type': timetype
         }
         href = 'https://jiaotong.baidu.com/trafficindex/city/curve?' + urlencode(parameter)
-
         try:
             data = self.s.get(url=href, headers=self.headers)
             g = json.loads(data.text)
@@ -121,8 +120,9 @@ class BaiduTraffic(Traffic):
             bounds = json.dumps({"coords": data['coords']})
             data = json.dumps(data['data'])
             num = eval(data)['num']
+            rate =float(item['index'])
             road = Road(pid=citycode, roadname=roadname, speed=speed, dircetion=direction, bounds=bounds, data=data,
-                        num=num)
+                        num=num,rate=rate)
             yield road
 
     def __roads(self, citycode) -> json:

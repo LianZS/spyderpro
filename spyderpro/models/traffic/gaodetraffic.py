@@ -44,7 +44,6 @@ class GaodeTraffic(Traffic):
 
         """
         url = "http://report.amap.com/ajax/cityHourly.do?cityCode=" + str(citycode)
-
         try:
             data = self.s.get(url=url, headers=self.headers)
             g = json.loads(data.text)
@@ -91,8 +90,9 @@ class GaodeTraffic(Traffic):
             direction = item['dir']  # 道路方向
             bounds = json.dumps({"coords": item['coords']})  # 道路经纬度数据
             num = eval(data)['num']
+            rate=float(item['index'])
             road = Road(pid=citycode, roadname=roadname, speed=speed, dircetion=direction, bounds=bounds, data=data,
-                        num=num)
+                        num=num,rate=rate)
 
             yield road
 

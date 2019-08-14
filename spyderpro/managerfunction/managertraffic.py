@@ -38,7 +38,7 @@ class ManagerTraffic(Traffic):
                                                   port=port)
                 info = self.get_city_traffic(citycode=region_id, db=db2)  # 获取交通数据
                 if len(info) == 0:
-                    print("没有数据")
+                    print("%d没有数据" % (region_id))
                     self.taskSemaphore.release()
 
                     return
@@ -46,11 +46,12 @@ class ManagerTraffic(Traffic):
                 for item in info:
                     sql = "insert into  digitalsmart.citytraffic(pid, ddate, ttime, rate)" \
                           " values('%d', '%d', '%s', '%f');" % (
-                              pid, item.date, item.detailtime, item.index)
+                              region_id, item.date, item.detailtime, item.index)
                     self.write_data(db2, sql)
                 self.taskSemaphore.release()
                 db2.close()
 
+            # fast(pid)
             Thread(target=fast, args=(pid,)).start()
             self.pidLock.release()
 
@@ -65,8 +66,7 @@ class ManagerTraffic(Traffic):
         cur.execute(sql)
         data = cur.fetchall()  # pid集合
         for item in data:  # 这里最好不要并发进行，因为每个pid任务下都有10个子线程，在这里开并发 的话容易被封杀
-            # self.taskSemaphore.acquire()
-            # self.pidLock.acquire()
+
             pid = item[0]
 
             def fast(region_id):
@@ -75,6 +75,7 @@ class ManagerTraffic(Traffic):
                                                   database=database,
                                                   port=port)
                 resultObjs = self.road_manager(region_id)  # 获取道路数据
+
                 for obj in resultObjs:
                     region_id = obj.region_id
                     roadname = obj.roadname
@@ -82,15 +83,16 @@ class ManagerTraffic(Traffic):
                     direction = obj.direction
                     bounds = obj.bounds
                     indexSet = obj.data
+                    rate = obj.rate
                     roadid = obj.num  # 用排名表示道路id
                     sql = "insert into digitalsmart.roadtraffic(pid, roadname, up_date, speed, direction, bound, data,roadid) VALUE" \
                           "(%d,'%s',%d,%f,'%s','%s','%s',%d) " % (
                               region_id, roadname, up_date, speed, direction, bounds,
                               indexSet, roadid)
                     self.write_data(db2, sql)
-                sql = "update  digitalsmart.roadmanager set up_date={0} where pid={1}".format(up_date, region_id)
-                self.write_data(db2, sql)  # 更新最近更新时间
-                # self.taskSemaphore.release()
+                    sql = "update  digitalsmart.roadmanager set up_date={0} , rate={1} where pid={2} and roadid={3}" \
+                        .format(up_date, rate, region_id,roadid)
+                    self.write_data(db2, sql)  # 更新最近更新时间
 
                 db2.close()
 
@@ -109,6 +111,7 @@ class ManagerTraffic(Traffic):
             yearpid = item[0]
 
             def fast(region_id):
+                print(region_id)
                 db2: Connection = pymysql.connect(host=host, user=user, password=password,
                                                   database=database,
                                                   port=port)
@@ -123,9 +126,10 @@ class ManagerTraffic(Traffic):
                 self.taskSemaphore.release()
                 db2.close()
 
-            self.pidLock.release()
+            Thread(target=fast, args=(yearpid,)).start()
+            # fast(yearpid)
 
-            fast(yearpid)
+            self.pidLock.release()
 
     def clear_road_data(self):
         """
@@ -138,3 +142,6 @@ class ManagerTraffic(Traffic):
             db.commit()
         except Exception:
             db.rollback()
+
+
+ManagerTraffic().manager_city_road_traffic()

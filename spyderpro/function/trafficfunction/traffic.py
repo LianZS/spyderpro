@@ -26,7 +26,6 @@ class Traffic(MysqlOperation):
         :param citycode:
         :return:List[TrafficClass]
         """
-
         traffic = None
         if citycode > 1000:
             traffic = GaodeTraffic()
