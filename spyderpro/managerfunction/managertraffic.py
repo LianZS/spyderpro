@@ -60,7 +60,7 @@ class ManagerTraffic(Traffic):
         获取每个城市实时前10名拥堵道路数据-----10分钟执行一遍
         :return:
         """
-        up_date = datetime.datetime.now().timestamp()  # 记录最新的更新时间
+        up_date = int(datetime.datetime.now().timestamp())  # 记录最新的更新时间
 
         sql = "select pid from digitalsmart.citymanager"
         cur.execute(sql)
@@ -93,6 +93,7 @@ class ManagerTraffic(Traffic):
                     self.write_data(db2, sql)
                     sql = "update  digitalsmart.roadmanager set up_date={0}  where pid={1} and roadid={2}" \
                         .format(up_date, region_id,roadid)
+
                     self.write_data(db2, sql)  # 更新最近更新时间
 
                 db2.close()
@@ -145,4 +146,4 @@ class ManagerTraffic(Traffic):
             db.rollback()
 
 
-# ManagerTraffic().manager_city_road_traffic()
+ManagerTraffic().manager_city_road_traffic()
