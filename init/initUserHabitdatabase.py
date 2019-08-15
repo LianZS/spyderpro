@@ -73,16 +73,7 @@ def initAppActive():
     if len(cur.fetchall()) >= 3000:
         print("app活跃信息表appactive已经初始化了")
         return
-    # sql = "select id,name from digitalsmart.appinfo"
-    # cur.execute(sql)
-    # result = cur.fetchall()
-    # if not result:
-    #     return
-    # appMap = dict()
-    # for item in result:
-    #     pid = item[0]
-    #     app = item[1]
-    #     appMap[app] = pid
+
     filepath = os.path.join(rootpath, 'datafile/normalInfo/appactive.csv')
     f = open(filepath)
     r = csv.reader(f)
@@ -111,10 +102,39 @@ def initAppActive():
     f.close()
 
 
+def initAgeShare():
+    #还未完成
+    """初始化app年龄分布"""
+
+    filepath = os.path.join(rootpath, 'datafile/normalInfo/appbaseinfo.csv')
+    f = open(filepath)
+    r = csv.reader(f)
+    r.__next__()
+    for item in r:  # (app,日期,省份热度[{}],年龄分布[{}],性别分布[{}],内容关键词热度[{}])
+
+        app = item[0]
+        ddate = item[1]
+        provincerate = item[2]  # 可能为空
+        ageshare = item[3]  # 可能为空
+        sexshare = item[4]  # 可能为空
+        keywordrate = item[5]  # 可能为空
+        if provincerate == "":
+            provincerate = []
+        if ageshare == "":
+            ageshare = []
+        if sexshare == "":
+            sexshare = []
+
+        if keywordrate == "":
+            keywordrate = []
+
+
+
+
 if __name__ == "__main__":
     initUserHabit()
     initAppInfo()
     initAppActive()
-
+    initAgeShare()
     cur.close()
     db.close()

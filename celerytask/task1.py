@@ -8,6 +8,7 @@ mapp = ManagerApp()
 
 @app.task(queue='app')
 def monitoring_app_userhabit():
+    #获取所有app的用户图像并写入文件中
     appinfo_filepath = os.path.join(rootpath, 'datafile/normalInfo/appinfo.csv')
     appbaseinfo_path = os.path.join(rootpath, 'datafile/normalInfo/appbaseinfo.csv')
     mapp.manager_app_userhabit(appinfo_filepath, appbaseinfo_path)

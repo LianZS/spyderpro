@@ -113,7 +113,6 @@ class ManagerTraffic(Traffic):
             yearpid = item[0]
 
             def fast(region_id):
-                print(region_id)
                 db2: Connection = pymysql.connect(host=host, user=user, password=password,
                                                   database=database,
                                                   port=port)
@@ -146,4 +145,3 @@ class ManagerTraffic(Traffic):
             db.rollback()
 
 
-ManagerTraffic().manager_city_road_traffic()

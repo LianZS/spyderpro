@@ -175,7 +175,8 @@ class UserHabit:
         data = json.loads(response.text)[0]
         try:
             active = data['active'][0]  # 活跃用户数
-        except IndexError:
+        except IndexError as e:
+            print(url,e)
             return None
 
         active_rate = data['activeRate'][0]  # 活跃用户率
