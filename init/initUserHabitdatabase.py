@@ -103,7 +103,7 @@ def initAppActive():
 
 
 def initAgeShare():
-    #还未完成
+    #还未完成，还有appactive.csv有问题
     """初始化app年龄分布"""
 
     filepath = os.path.join(rootpath, 'datafile/normalInfo/appbaseinfo.csv')
