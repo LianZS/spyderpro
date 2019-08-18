@@ -175,8 +175,8 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 Thread(target=self.manager_scenece_people_situation(data, cid, ddate, detailtime)).start()
 
 
-            # Thread(target=fast, args=(region_id, table_id)).start()
-            fast(region_id, table_id)
+            Thread(target=fast, args=(region_id, table_id)).start()
+            # fast(region_id, table_id)
 
 
     def manager_scenece_people_distribution(self, data, region_id, tmp_date: int, centerlat: float, centerlon: float,

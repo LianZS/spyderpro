@@ -57,6 +57,10 @@ CELERYBEAT_SCHEDULE = {
         'task': 'celerytask.task1.monitoring_app_active_data',
         'schedule': crontab(0, 0, day_of_month='15'),  # 每个月的第15天执行。
     },
+    'weather_air_state': {
+        'task': 'celerytask.task5.monitoring_weather_state',
+        'schedule': crontab('*/60'),  # 空气监测。
+    },
 
 }  # 默认的定时调度程   序
 CELERY_QUEUES = (
@@ -77,7 +81,7 @@ CELERY_ROUTES = {
     'celerytask.task5.*': {'queue': 'weather'},
 
 }  # 路由器列表
-CELERYD_CONCURRENCY = 4  # 设置并发的worker数量
+CELERYD_CONCURRENCY = 7  # 设置并发的worker数量
 
 CELERYD_MAX_TASKS_PER_CHILD = 100  # 每个worker最多执行100个任务被销毁，可以防止内存泄漏
 CELERY_TASK_ACKS_LATE = True  # 允许重试
