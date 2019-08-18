@@ -25,9 +25,9 @@ class WeatherHistory(object):
     def __init__(self):
         self.request = requests.Session()
         self.headers = {
+
             'Host': 'www.tianqihoubao.com',
-            'User-Agent': 'Mozilla/5.0 (Macinto¬sh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) '
-                          'Chrome/71.0.3578.98 Safari/537.36'
+            'User-Agent': 'Mozilla/5.0 (X11; Linux i686; rv:64.0) Gecko/20100101 Firefox/64.0'
         }
         self.useagent = ['Mozilla/5.0 (X11; Linux i686; rv:64.0) Gecko/20100101 Firefox/64.0',
                          'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:64.0) Gecko/20100101 Firefox/64.0',
@@ -192,7 +192,6 @@ if __name__ == "__main__":
             filepath = os.path.join(root, "Weather/" + data['city'] + ".csv")
             f = open(filepath, 'a+', newline='')
             w = csv.writer(f)
-            print(data)
             for url in history.get_city_all_partition(data['url']):
                 wait.acquire()
 
