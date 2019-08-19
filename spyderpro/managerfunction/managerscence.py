@@ -127,6 +127,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         某时刻的人流
         :return:
         """
+
         up_date = int(datetime.datetime.now().timestamp())
         global_db.acquire()
         sql = "select pid,latitude,longitude from digitalsmart.scencemanager where flag=0"
@@ -166,7 +167,6 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             table_id = newcur.fetchone()[0]  # 数据对应在哪张表插入
             self.connectqueue.put(db2)
             def fast(cid, tale_pid):
-                print(cid)
 
                 data = self.get_data(date=ddate, dateTime=detailtime, region_id=cid)
                 if not data:
@@ -176,8 +176,8 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 Thread(target=self.manager_scenece_people_situation(data, cid, ddate, detailtime)).start()
 
 
-            Thread(target=fast, args=(region_id, table_id)).start()
-            # fast(region_id, table_id)
+            # Thread(target=fast, args=(region_id, table_id)).start()
+            fast(region_id, table_id)
 
 
     def manager_scenece_people_distribution(self, data, region_id, tmp_date: int, centerlat: float, centerlon: float,

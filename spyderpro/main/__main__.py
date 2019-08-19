@@ -1,9 +1,8 @@
 import sys
 import os
 import time
-sys.path[1] =os.path.abspath(os.path.join(os.path.curdir))
+# sys.path[1] =os.path.abspath(os.path.join(os.path.curdir))
 sys.path[0] = os.path.abspath(os.path.join(os.path.curdir, "venv/lib/python3.7/site-packages"))  # 载入环境
-print(sys.path)
 from threading import Semaphore, Timer
 
 from spyderpro.managerfunction.managerscence import ManagerScence

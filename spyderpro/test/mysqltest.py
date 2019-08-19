@@ -16,7 +16,7 @@ cur = db.cursor()
 sql = "select pid,area from digitalsmart.scencemanager  where flag=0"
 cur.execute(sql)
 result = cur.fetchall()
-path = "/Volumes/Tigo/易班项目数据/FILE/"
+path = "/home/FILE/"
 
 for item in result:
     pid = item[0]
