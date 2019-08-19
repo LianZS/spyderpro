@@ -18,6 +18,7 @@ class ManagerTraffic(Traffic):
         self.taskSemaphore = Semaphore(5)  # 任务并发锁头🔒
         self.pidLock = Semaphore(1)  # 数据锁🔒
 
+
     def manager_city_traffic(self):
         """
         获取城市实时交通拥堵情况并写入数据库,半小时执行一次

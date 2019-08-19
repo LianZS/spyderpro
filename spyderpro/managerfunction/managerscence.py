@@ -71,6 +71,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         地区人口趋势数据管理---5分钟一次
         :return:
         """
+
         today = datetime.datetime.today()
         t = datetime.timedelta(days=1)
         tomorrow = today + t
@@ -113,15 +114,14 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                     rate = obj.index
                     sql = "insert into digitalsmart.scencetrend(pid, ddate, ttime, rate) VALUE(%d,%d,'%s',%f)" % (
                         region_id, ddate, ttime, rate)
-                    if self.write_data(db2, sql):
-                        print("insert success")
+                    self.write_data(db2, sql)
                     c += 1
                 self.connectqueue.put(db2)
 
             wait.release()
             Thread(target=fast, args=(pid, area)).start()
             lock.release()
-
+        print("success")
     def manager_scenece_people(self):
         """
         某时刻的人流
@@ -165,8 +165,9 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
 
             table_id = newcur.fetchone()[0]  # 数据对应在哪张表插入
             self.connectqueue.put(db2)
-            print(region_id)
             def fast(cid, tale_pid):
+                print(cid)
+
                 data = self.get_data(date=ddate, dateTime=detailtime, region_id=cid)
                 if not data:
                     return

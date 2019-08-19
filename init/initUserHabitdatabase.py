@@ -118,7 +118,7 @@ def initAppActive():
 #         ageshare = item[3]  # 可能为空
 #         sexshare = item[4]  # 可能为空
 #         keywordrate = item[5]  # 可能为空
-#         if provincerate == "":
+#         if provincerate == ""
 #             provincerate = []
 #         if ageshare == "":
 #             ageshare = []

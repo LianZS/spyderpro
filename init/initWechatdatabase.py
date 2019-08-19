@@ -11,7 +11,6 @@ db = pymysql.connect(host=host, user=user, password=password, database=database,
                      port=port)
 cur = db.cursor()
 
-
 def initWechatPublic_Info():
     """
     初始化微信公众号列表

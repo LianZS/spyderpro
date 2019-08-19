@@ -11,7 +11,6 @@ db = pymysql.connect(host=host, user=user, password=password, database=database,
                      port=port)
 cur = db.cursor()
 
-
 def initOperator():
     """
     初始化运营商operator数据库

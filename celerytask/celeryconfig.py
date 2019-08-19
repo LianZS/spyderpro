@@ -1,7 +1,7 @@
 import sys
 import os
 
-sys.path[0] = os.path.abspath(os.path.join(os.path.curdir, "venv/lib/python3.7/site-packages"))  # 载入环境
+sys.path[0] = os.path.abspath(os.path.join(os.path.curdir, "/home/spyder/lib/python3.7/site-packages/"))  # 载入环境from celery.schedules import crontab
 from celery.schedules import crontab
 from celery import Celery
 from kombu import Queue, Exchange
@@ -15,7 +15,7 @@ CELERY_IMPORTS = (
 CELERYBEAT_SCHEDULE = {
     'dailycitytraffic': {
         'task': 'celerytask.task4.monitoring_dailycitytraffic',
-        'schedule': crontab('*/5'),  # 5分钟执行一遍
+        'schedule': crontab('*/30'),  # 5分钟执行一遍
     },
     'roadtraffic': {
         'task': 'celerytask.task4.monitoring_roadtraffic',
@@ -31,16 +31,16 @@ CELERYBEAT_SCHEDULE = {
     },
     'scence_situation': {
         'task': 'celerytask.task3.monitoring_scencepeople',
-        'schedule': crontab('*/30'),  # 每天30min运行一次
+        'schedule': crontab('*/40'),  # 每天30min运行一次
     },
-    'scencepeople_trend': {
-        'task': 'celerytask.task3.monitoring_scencepeople_trend',
-        'schedule': crontab('*/5'),  # 每天5min运行一次
-    },
-    'scencepeople_change': {
-        'task': 'celerytask.task3.monitoring_scencepeople_change',
-        'schedule': crontab('*/12'),  # 每天12min运行一次
-    },
+    # 'scencepeople_trend': {
+    #     'task': 'celerytask.task3.monitoring_scencepeople_trend',
+    #     'schedule': crontab('*/5'),  # 每天5min运行一次
+    # },
+    # 'scencepeople_change': {
+    #     'task': 'celerytask.task3.monitoring_scencepeople_change',
+    #     'schedule': crontab('*/12'),  # 每天12min运行一次
+    # },
     'scencepeople_history': {
         'task': 'celerytask.task3.statistics_scencepeople',
         'schedule': crontab(minute=3, hour=1),  # 每天凌晨01：03运行

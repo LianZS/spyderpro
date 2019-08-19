@@ -69,4 +69,3 @@ class ManagerWeather:
 
 
 
-ManagerWeather().manager_city_airstate()
