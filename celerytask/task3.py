@@ -56,7 +56,14 @@ def clear_scenceflow():
     """
     15天清除一遍scenceflow表
     """
-    manage.clear_sceneflow_database()
+    manage.clear_sceneflow_table()
+@app.task(queue='location')
+def clear_scence_distribution():
+    """
+    每天凌晨5点,晚23点清空人口分布密度数据表
+    :return:
+    """
+    manage.clear_peopleposition_table()
 # monitoring_scencepeople.delay()
 # monitoring_scencepeople_trend.delay()
 # monitoring_scencepeople_change.delay()

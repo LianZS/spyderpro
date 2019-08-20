@@ -282,11 +282,22 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         """"""
         self.get_the_scope_of_pace_data(start_lat=23.2, start_lon=110.2, end_lat=30.2, end_lon=113.2)
 
-    def clear_sceneflow_database(self):
+    def clear_sceneflow_table(self):
         sql = "truncate table digitalsmart.scenceflow"
         try:
             cur.execute(sql)
             db.commit()
         except Exception:
             db.rollback()
+    def clear_peopleposition_table(self):
+        #清空peoplepositionN人口密度分布表
+        for i in range(10):
+
+            sql = "truncate table digitalsmart.peopleposition{0}".format(i)
+            try:
+                cur.execute(sql)
+                db.commit()
+            except Exception:
+                db.rollback()
+
 

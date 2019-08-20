@@ -61,9 +61,12 @@ class AirState:
                 if len(air_value) >= 2:
                     air_value = float(air_value[1]) / 10
                 else:
+
                     air_value = int(air_value[0])
+
                 air_map[air_type] = air_value
-        except AttributeError:
+        except Exception :
+
             return AQIState(aqi,0,0,0,0,0,0)
         pm2 = air_map["PM2.5"]
         pm10 = air_map['PM10']

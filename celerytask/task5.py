@@ -8,3 +8,4 @@ def monitoring_weather_state():
 
     """
     ManagerWeather().manager_city_airstate()
+monitoring_weather_state.delay()

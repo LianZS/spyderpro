@@ -1,7 +1,7 @@
 import sys
 import os
 
-sys.path[0] = os.path.abspath(os.path.join(os.path.curdir, "/home/spyder/lib/python3.7/site-packages/"))  # 载入环境from celery.schedules import crontab
+sys.path[0] = os.path.abspath(os.path.join(os.path.curdir, "/Users/darkmoon/Project/SpyderPr/venv/lib/python3.7/site-packages/"))  # 载入环境from celery.schedules import crontab
 from celery.schedules import crontab
 from celery import Celery
 from kombu import Queue, Exchange
@@ -49,6 +49,14 @@ CELERYBEAT_SCHEDULE = {
         'task': 'celerytask.task3.clear_scenceflow',
         'schedule': crontab(day_of_month=15),  # 每月15号清除一遍scenceflow数据库
     },
+    'clear_peopleposition1': {
+        'task': 'celerytask.task3.clear_scence_distribution',
+        'schedule': crontab(minute=0, hour=23),  # 每天23点运行一次
+    },
+    'clear_peopleposition2': {
+        'task': 'celerytask.task3.clear_scence_distribution',
+        'schedule': crontab(minute=0, hour=5),  # 每天5点运行一次
+    },
     'keyword_rate': {
         'task': 'celerytask.task2.monitoring_keyword_rate',
         'schedule': crontab(minute=0, hour=12),  # 每天12点运行一次
@@ -61,6 +69,7 @@ CELERYBEAT_SCHEDULE = {
         'task': 'celerytask.task5.monitoring_weather_state',
         'schedule': crontab('*/60'),  # 空气监测。
     },
+
 
 }  # 默认的定时调度程   序
 CELERY_QUEUES = (
