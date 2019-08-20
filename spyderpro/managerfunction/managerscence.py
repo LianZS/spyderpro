@@ -32,7 +32,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         """
         lock = Semaphore(1)
         wait = Semaphore(10)
-        sql = "select pid from digitalsmart.scencemanager where flag=1"
+        sql = "select pid from digitalsmart.scencemanager where type_flag=1"
         global_db.acquire()
         try:
             cur.execute(sql)
@@ -77,7 +77,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         tomorrow = today + t
         start = str(today.date())
         end = str(tomorrow.date())
-        sql = "select pid,area from digitalsmart.scencemanager where flag=0 "
+        sql = "select pid,area from digitalsmart.scencemanager where type_flag=0 "
         global_db.acquire()
         cur.execute(sql)
         data = cur.fetchall()
@@ -130,7 +130,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
 
         up_date = int(datetime.datetime.now().timestamp())
         global_db.acquire()
-        sql = "select pid,latitude,longitude from digitalsmart.scencemanager where flag=0"
+        sql = "select pid,latitude,longitude from digitalsmart.scencemanager where type_flag=0"
         try:
             cur.execute(sql)
             db.commit()

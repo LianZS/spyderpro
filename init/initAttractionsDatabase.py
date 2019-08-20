@@ -12,7 +12,7 @@ db = pymysql.connect(host=host, user=user, password=password, database=database,
 cur = db.cursor()
 
 
-def inintdatbaseOfscencemanager():
+def inintdatbaseOfscencemanager():  # 如果景点重复，flag=1时，type_flag一定是1，这个需要人工对比的，因为相同景点名字可能不同
     sql = 'select id from digitalsmart.scencemanager'
     cur.execute(sql)
     if len(cur.fetchall()) >= 500:
@@ -32,12 +32,12 @@ def inintdatbaseOfscencemanager():
         citypid = int(item[4])
         weatherpid = int(item[5])
         flag = int(item[6])
-
         lon = float(item[7])
         lat = float(item[8])
         sql = "insert into digitalsmart.scencemanager" \
-              "(province,pid, area, longitude, latitude, loaction, citypid, weatherpid,flag) VALUE " \
-              "('%s',%d,'%s',%f,%f,'%s',%d,%d,%d)" % (province, pid, area, lon, lat, city, citypid, weatherpid, flag)
+              "(province,pid, area, longitude, latitude, loaction, citypid, weatherpid,flag,type_flag) VALUE " \
+              "('%s',%d,'%s',%f,%f,'%s',%d,%d,%d,%d)" % (
+                  province, pid, area, lon, lat, city, citypid, weatherpid, flag, flag)
         try:
             cur.execute(sql)
             db.commit()
@@ -177,9 +177,6 @@ def initRoadManager():
                 pid, i, 0, city)
             cur.execute(sql)
     db.commit()
-
-
-
 
 
 if __name__ == "__main__":
