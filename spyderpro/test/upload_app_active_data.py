@@ -1,7 +1,8 @@
 import csv
 import os
 import pymysql
-from threading import  Thread
+from threading import Thread
+
 user = 'root'
 password = 'lzs87724158'
 host = "localhost"
@@ -81,7 +82,10 @@ def upload_app_like():
     for item in r:  # (app,日期,省份热度[{}],年龄分布[{}],性别分布[{}],内容关键词热度[{}])
 
         app = item[0]
-        pid = app_map[app]
+        try:
+            pid = app_map[app]
+        except Exception:
+            continue
         ddate = item[1]
 
         # provincerate = item[2]  # 可能为空
@@ -129,14 +133,17 @@ def upload_app_age_share():
         app = item[1]
         app_map[app] = pid
     filepath = os.path.join(rootpath, '')
-    f = open(filepath +  "appbaseinfo.csv")
+    f = open(filepath + "appbaseinfo.csv")
     r = csv.reader(f)  # app,日期,省份热度,年龄分布,性别分布,内容关键词热度
     r.__next__()
     count = 0
     for item in r:  # (app,日期,省份热度[{}],年龄分布[{}],性别分布[{}],内容关键词热度[{}])
 
         app = item[0]
-        pid = app_map[app]
+        try:
+            pid = app_map[app]
+        except Exception:
+            continue
         ddate = item[1]
 
         ageshare = item[3]  # 可能为空
@@ -184,6 +191,8 @@ def upload_app_age_share():
             db.commit()
 
     db.commit()
+
+
 def upload_app_province_share():
     # 上传app省份热度数据
     db = pymysql.connect(host=host, user=user, password=password, database=database,
@@ -201,20 +210,23 @@ def upload_app_province_share():
         app = item[1]
         app_map[app] = pid
     filepath = os.path.join(rootpath, '')
-    f = open(filepath +  "appbaseinfo.csv")
+    f = open(filepath + "appbaseinfo.csv")
     r = csv.reader(f)  # app,日期,省份热度,年龄分布,性别分布,内容关键词热度
     r.__next__()
     count = 0
     for item in r:  # (app,日期,省份热度[{}],年龄分布[{}],性别分布[{}],内容关键词热度[{}])
 
         app = item[0]
-        pid = app_map[app]
+        try:
+            pid = app_map[app]
+        except Exception:
+            continue
         ddate = item[1]
 
         provincerate = item[2]  # 可能为空
 
         if provincerate == "":
-             continue
+            continue
 
         key_rate_list = eval(provincerate)
         for key_map in key_rate_list:
@@ -231,6 +243,62 @@ def upload_app_province_share():
     db.commit()
 
 
+def upload_app_sex():
+    # 上传app用户性别比例数据
+    db = pymysql.connect(host=host, user=user, password=password, database=database,
+                         port=port)
+
+    cur = db.cursor()
+    rootpath = os.path.abspath(os.path.curdir)
+
+    sql = "select id,name from digitalsmart.appinfo"
+
+    cur.execute(sql)
+    app_map = dict()
+    for item in cur.fetchall():
+        pid = item[0]
+        app = item[1]
+        app_map[app] = pid
+    filepath = os.path.join(rootpath, '')
+    f = open(filepath + "/" + "appbaseinfo.csv")
+    r = csv.reader(f)  # app,日期,省份热度,年龄分布,性别分布,内容关键词热度
+    r.__next__()
+    count = 0
+    for item in r:  # (app,日期,省份热度[{}],年龄分布[{}],性别分布[{}],内容关键词热度[{}])
+
+        app = item[0]
+        try:
+            pid = app_map[app]
+        except Exception:
+            continue
+        ddate = item[1]
+
+        sexshare = item[4]  # 可能为空
+
+        if sexshare == "":
+            continue
+        key_rate_list = eval(sexshare)
+        boy = girl = 0
+        for key_map in key_rate_list:
+
+            key_name = key_map['name']
+            key_rate = float(key_map['share'])
+            if key_name == "男":
+                boy = key_rate
+            if key_name == "女":
+                girl = key_rate
+
+        sql = "insert into digitalsmart.sexshare(pid, ddate, boy, girl) VALUE (%d,'%s',%f,%f)" % (
+            pid, ddate, boy, girl)
+        cur.execute(sql)
+        count += 1
+        if count % 1111 == 0:
+            print("commit")
+            db.commit()
+
+    db.commit()
+
 Thread(target=upload_app_province_share,args=()).start()
 Thread(target=upload_app_age_share,args=()).start()
 Thread(target=upload_app_like,args=()).start()
+Thread(target=upload_app_sex,args=()).start()

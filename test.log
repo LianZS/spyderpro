@@ -1,0 +1,659 @@
+Exception in thread Thread-39952:
+Traceback (most recent call last):
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/util/retry.py", line 368, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/packages/six.py", line 685, in reraise
+    raise value.with_traceback(tb)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+    self.run()
+  File "spyderpro/test/people2.py", line 444, in run
+    result = self._target(*self._args)
+  File "spyderpro/test/people2.py", line 402, in count_headdata
+    g = self.__get_heatdata_bytime(date, datetim, region_id)
+  File "spyderpro/test/people2.py", line 390, in __get_heatdata_bytime
+    g = self.request_heatdata(url)
+  File "spyderpro/test/people2.py", line 374, in request_heatdata
+    response = self.request.get(url=url, headers=self.headers)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 546, in get
+    return self.request('GET', url, **kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/adapters.py", line 498, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+Exception in thread Thread-40057:
+Traceback (most recent call last):
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/util/retry.py", line 368, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/packages/six.py", line 685, in reraise
+    raise value.with_traceback(tb)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+    self.run()
+  File "spyderpro/test/people2.py", line 444, in run
+    result = self._target(*self._args)
+  File "spyderpro/test/people2.py", line 402, in count_headdata
+    g = self.__get_heatdata_bytime(date, datetim, region_id)
+  File "spyderpro/test/people2.py", line 390, in __get_heatdata_bytime
+    g = self.request_heatdata(url)
+  File "spyderpro/test/people2.py", line 374, in request_heatdata
+    response = self.request.get(url=url, headers=self.headers)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 546, in get
+    return self.request('GET', url, **kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/adapters.py", line 498, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+Exception in thread Thread-41406:
+Traceback (most recent call last):
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/util/retry.py", line 368, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/packages/six.py", line 685, in reraise
+    raise value.with_traceback(tb)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+    self.run()
+  File "spyderpro/test/people2.py", line 444, in run
+    result = self._target(*self._args)
+  File "spyderpro/test/people2.py", line 402, in count_headdata
+    g = self.__get_heatdata_bytime(date, datetim, region_id)
+  File "spyderpro/test/people2.py", line 390, in __get_heatdata_bytime
+    g = self.request_heatdata(url)
+  File "spyderpro/test/people2.py", line 374, in request_heatdata
+    response = self.request.get(url=url, headers=self.headers)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 546, in get
+    return self.request('GET', url, **kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/adapters.py", line 498, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+Exception in thread Thread-42313:
+Traceback (most recent call last):
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/util/retry.py", line 368, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/packages/six.py", line 685, in reraise
+    raise value.with_traceback(tb)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+    self.run()
+  File "spyderpro/test/people2.py", line 444, in run
+    result = self._target(*self._args)
+  File "spyderpro/test/people2.py", line 402, in count_headdata
+    g = self.__get_heatdata_bytime(date, datetim, region_id)
+  File "spyderpro/test/people2.py", line 390, in __get_heatdata_bytime
+    g = self.request_heatdata(url)
+  File "spyderpro/test/people2.py", line 374, in request_heatdata
+    response = self.request.get(url=url, headers=self.headers)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 546, in get
+    return self.request('GET', url, **kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/adapters.py", line 498, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+Exception in thread Thread-65856:
+Traceback (most recent call last):
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/util/retry.py", line 368, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/packages/six.py", line 685, in reraise
+    raise value.with_traceback(tb)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+    self.run()
+  File "spyderpro/test/people2.py", line 444, in run
+    result = self._target(*self._args)
+  File "spyderpro/test/people2.py", line 402, in count_headdata
+    g = self.__get_heatdata_bytime(date, datetim, region_id)
+  File "spyderpro/test/people2.py", line 390, in __get_heatdata_bytime
+    g = self.request_heatdata(url)
+  File "spyderpro/test/people2.py", line 374, in request_heatdata
+    response = self.request.get(url=url, headers=self.headers)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 546, in get
+    return self.request('GET', url, **kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/adapters.py", line 498, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+Exception in thread Thread-80206:
+Traceback (most recent call last):
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/util/retry.py", line 368, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/packages/six.py", line 685, in reraise
+    raise value.with_traceback(tb)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+    self.run()
+  File "spyderpro/test/people2.py", line 444, in run
+    result = self._target(*self._args)
+  File "spyderpro/test/people2.py", line 402, in count_headdata
+    g = self.__get_heatdata_bytime(date, datetim, region_id)
+  File "spyderpro/test/people2.py", line 390, in __get_heatdata_bytime
+    g = self.request_heatdata(url)
+  File "spyderpro/test/people2.py", line 374, in request_heatdata
+    response = self.request.get(url=url, headers=self.headers)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 546, in get
+    return self.request('GET', url, **kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/adapters.py", line 498, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+Exception in thread Thread-135420:
+Traceback (most recent call last):
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/util/retry.py", line 368, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/packages/six.py", line 685, in reraise
+    raise value.with_traceback(tb)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+    self.run()
+  File "spyderpro/test/people2.py", line 444, in run
+    result = self._target(*self._args)
+  File "spyderpro/test/people2.py", line 402, in count_headdata
+    g = self.__get_heatdata_bytime(date, datetim, region_id)
+  File "spyderpro/test/people2.py", line 390, in __get_heatdata_bytime
+    g = self.request_heatdata(url)
+  File "spyderpro/test/people2.py", line 374, in request_heatdata
+    response = self.request.get(url=url, headers=self.headers)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 546, in get
+    return self.request('GET', url, **kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/adapters.py", line 498, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+Exception in thread Thread-135439:
+Traceback (most recent call last):
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/util/retry.py", line 368, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/packages/six.py", line 685, in reraise
+    raise value.with_traceback(tb)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+    self.run()
+  File "spyderpro/test/people2.py", line 444, in run
+    result = self._target(*self._args)
+  File "spyderpro/test/people2.py", line 402, in count_headdata
+    g = self.__get_heatdata_bytime(date, datetim, region_id)
+  File "spyderpro/test/people2.py", line 390, in __get_heatdata_bytime
+    g = self.request_heatdata(url)
+  File "spyderpro/test/people2.py", line 374, in request_heatdata
+    response = self.request.get(url=url, headers=self.headers)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 546, in get
+    return self.request('GET', url, **kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/adapters.py", line 498, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+Exception in thread Thread-164994:
+Traceback (most recent call last):
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/util/retry.py", line 368, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/packages/six.py", line 685, in reraise
+    raise value.with_traceback(tb)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+    self.run()
+  File "spyderpro/test/people2.py", line 444, in run
+    result = self._target(*self._args)
+  File "spyderpro/test/people2.py", line 402, in count_headdata
+    g = self.__get_heatdata_bytime(date, datetim, region_id)
+  File "spyderpro/test/people2.py", line 390, in __get_heatdata_bytime
+    g = self.request_heatdata(url)
+  File "spyderpro/test/people2.py", line 374, in request_heatdata
+    response = self.request.get(url=url, headers=self.headers)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 546, in get
+    return self.request('GET', url, **kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/adapters.py", line 498, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+Exception in thread Thread-168991:
+Traceback (most recent call last):
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/util/retry.py", line 368, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/packages/six.py", line 685, in reraise
+    raise value.with_traceback(tb)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+    self.run()
+  File "spyderpro/test/people2.py", line 444, in run
+    result = self._target(*self._args)
+  File "spyderpro/test/people2.py", line 402, in count_headdata
+    g = self.__get_heatdata_bytime(date, datetim, region_id)
+  File "spyderpro/test/people2.py", line 390, in __get_heatdata_bytime
+    g = self.request_heatdata(url)
+  File "spyderpro/test/people2.py", line 374, in request_heatdata
+    response = self.request.get(url=url, headers=self.headers)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 546, in get
+    return self.request('GET', url, **kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/Users/darkmoon/PycharmProjects/SpyderPro/venv/lib/python3.7/site-packages/requests/adapters.py", line 498, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))

@@ -28,6 +28,7 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
             return
         data = cur.fetchall()
         search = SearchKeyword()
+        flag = 0
         for item in data:
             pid: int = item[0]
             area: str = item[1]
@@ -51,7 +52,13 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
             month = 1
             year = 2016
             day = 1
+
+            if area=='三明站' :
+                flag=1
+            if flag!=1:
+                continue
             while 1:
+
                 startdate = datetime.datetime(year, month, day)
                 start = int(str(startdate.date()).replace("-", ""))
 
@@ -137,3 +144,5 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
         db.commit()
 
 
+#爬到了三明站 20170802 20170901
+ManagerMobileKey().manager_search()
