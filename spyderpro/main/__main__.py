@@ -1,7 +1,8 @@
 import sys
 import os
 import time
-sys.path[1] ='/home/SpyderPr'
+
+sys.path[1] = '/home/SpyderPr'
 sys.path[0] = os.path.abspath(os.path.join(os.path.curdir, "venv/lib/python3.7/site-packages"))  # 载入环境
 from threading import Semaphore, Timer
 
@@ -20,7 +21,7 @@ def monitoring_scencepeople_trend():
     try:
         manage.manager_scence_trend()
     except Exception:
-        return
+        pass
     lock_trend.release()
 
 
@@ -33,10 +34,8 @@ def monitoring_scencepeople_change():
     try:
         manage.manager_scenece_people()
     except Exception as e:
-        print(e )
-        return
+        pass
     lock_change.release()
-
 
 
 if __name__ == "__main__":

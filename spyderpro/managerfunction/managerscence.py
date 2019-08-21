@@ -18,6 +18,7 @@ cur = db.cursor()
 class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, PositioningPeople):
 
     def __init__(self):
+        # self.execute_count = 0#每cur.execute()100000条数据再提交，有利于主从同步
         self.connectqueue = Queue(15)  # 最多十个数据库连接
         for i in range(15):
             self.connectqueue.put(pymysql.connect(host=host, user=user, password=password, database=database,
@@ -176,8 +177,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 Thread(target=self.manager_scenece_people_situation(data, cid, ddate, detailtime)).start()
 
 
-            # Thread(target=fast, args=(region_id, table_id)).start()
-            fast(region_id, table_id)
+            fast(region_id, table_id) #千万不能这里多线程，否则会数据混乱
 
 
     def manager_scenece_people_distribution(self, data, region_id, tmp_date: int, centerlat: float, centerlon: float,
@@ -190,7 +190,6 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
 
         db2 = self.connectqueue.get()
         newcur = db2.cursor()
-        count = 0  # 每一百条提交一次
         table = "digitalsmart.peopleposition{0}".format(table_id)  # 确定哪张表
         select_table = "insert into {0}(pid, tmp_date, lat, lon, num) VALUES" \
                        " ('%d','%d','%f','%f','%d')".format(table)
@@ -202,12 +201,9 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             except Exception as e:
                 print(e)
                 continue
-            count += 1
-            if count == 100:
-                count = 0
-                db2.commit()
-        self.taskSemaphore.release()
+
         db2.commit()
+        self.taskSemaphore.release()
         print("success")
         sql = "update digitalsmart.tablemanager  " \
               "set last_date={0} where pid={1}".format(tmp_date, region_id)  # 更新修改时间
@@ -299,5 +295,4 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 db.commit()
             except Exception:
                 db.rollback()
-
 
