@@ -68,4 +68,3 @@ class ManagerWeather:
         queue.get()
 
 
-

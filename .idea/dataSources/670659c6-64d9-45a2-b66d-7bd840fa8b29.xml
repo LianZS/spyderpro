@@ -3274,366 +3274,373 @@ num</ColNames>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="694" parent="332" name="PRIMARY">
+    <column id="694" parent="332" name="type_flag">
+      <Position>11</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>0</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="695" parent="332" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="695" parent="333" name="id">
+    <column id="696" parent="333" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="696" parent="333" name="pid">
+    <column id="697" parent="333" name="pid">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="697" parent="333" name="trafficstate">
+    <column id="698" parent="333" name="trafficstate">
       <Position>3</Position>
       <DataType>varchar(16)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="698" parent="333" name="weatherstate">
+    <column id="699" parent="333" name="weatherstate">
       <Position>4</Position>
       <DataType>varchar(16)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="699" parent="333" name="coststate">
+    <column id="700" parent="333" name="coststate">
       <Position>5</Position>
       <DataType>varchar(16)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="700" parent="333" name="environmentstate">
+    <column id="701" parent="333" name="environmentstate">
       <Position>6</Position>
       <DataType>varchar(16)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="701" parent="333" name="PRIMARY">
+    <key id="702" parent="333" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="702" parent="334" name="id">
+    <column id="703" parent="334" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="703" parent="334" name="pid">
+    <column id="704" parent="334" name="pid">
       <Position>2</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="704" parent="334" name="ddate">
+    <column id="705" parent="334" name="ddate">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="705" parent="334" name="ttime">
+    <column id="706" parent="334" name="ttime">
       <Position>4</Position>
       <DataType>time|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="706" parent="334" name="rate">
+    <column id="707" parent="334" name="rate">
       <Position>5</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="707" parent="334" name="pid_date_time_rate">
+    <index id="708" parent="334" name="pid_date_time_rate">
       <ColNames>pid
 ddate
 ttime
 rate</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="708" parent="334" name="PRIMARY">
+    <key id="709" parent="334" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="709" parent="335" name="id">
+    <column id="710" parent="335" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="710" parent="335" name="pid">
+    <column id="711" parent="335" name="pid">
       <Position>2</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="711" parent="335" name="tmp_date">
+    <column id="712" parent="335" name="tmp_date">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="712" parent="335" name="area">
+    <column id="713" parent="335" name="area">
       <Position>4</Position>
       <DataType>varchar(18)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="713" parent="335" name="rate">
+    <column id="714" parent="335" name="rate">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="714" parent="335" name="name">
+    <column id="715" parent="335" name="name">
       <Position>6</Position>
       <DataType>varchar(8)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="715" parent="335" name="flag">
+    <column id="716" parent="335" name="flag">
       <Position>7</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="716" parent="335" name="pid_index">
+    <index id="717" parent="335" name="pid_index">
       <ColNames>pid</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="717" parent="335" name="PRIMARY">
+    <key id="718" parent="335" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="718" parent="336" name="id">
+    <column id="719" parent="336" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="719" parent="336" name="pid">
+    <column id="720" parent="336" name="pid">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="720" parent="336" name="ddate">
+    <column id="721" parent="336" name="ddate">
       <Position>3</Position>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="721" parent="336" name="boy">
+    <column id="722" parent="336" name="boy">
       <Position>4</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="722" parent="336" name="girl">
+    <column id="723" parent="336" name="girl">
       <Position>5</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="723" parent="336" name="pid">
+    <index id="724" parent="336" name="pid">
       <ColNames>pid</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="724" parent="336" name="PRIMARY">
+    <key id="725" parent="336" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="725" parent="336" name="sexshare_ibfk_1">
+    <foreign-key id="726" parent="336" name="sexshare_ibfk_1">
       <ColNames>pid</ColNames>
       <RefSchemaName>digitalsmart</RefSchemaName>
       <RefTableName>appinfo</RefTableName>
       <RefColNames>id</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="726" parent="337" name="id">
+    <column id="727" parent="337" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="727" parent="337" name="area">
+    <column id="728" parent="337" name="area">
       <Position>2</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="728" parent="337" name="pid">
+    <column id="729" parent="337" name="pid">
       <Position>3</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="729" parent="337" name="last_date">
+    <column id="730" parent="337" name="last_date">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="730" parent="337" name="table_id">
+    <column id="731" parent="337" name="table_id">
       <Position>5</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="731" parent="337" name="flag">
+    <column id="732" parent="337" name="flag">
       <Position>6</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="732" parent="337" name="PRIMARY">
+    <key id="733" parent="337" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="733" parent="338" name="id">
+    <column id="734" parent="338" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="734" parent="338" name="idcard">
+    <column id="735" parent="338" name="idcard">
       <Position>2</Position>
       <DataType>bigint(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="735" parent="338" name="user_id">
+    <column id="736" parent="338" name="user_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="736" parent="338" name="photo">
+    <column id="737" parent="338" name="photo">
       <Position>4</Position>
       <DataType>varchar(100)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="737" parent="338" name="user_id">
+    <index id="738" parent="338" name="user_id">
       <ColNames>user_id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="738" parent="338" name="PRIMARY">
+    <key id="739" parent="338" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="739" parent="338" name="user_id">
+    <key id="740" parent="338" name="user_id">
       <ColNames>user_id</ColNames>
       <UnderlyingIndexName>user_id</UnderlyingIndexName>
     </key>
-    <foreign-key id="740" parent="338" name="userdb_user_id_d2df0e9b_fk_auth_user_id">
+    <foreign-key id="741" parent="338" name="userdb_user_id_d2df0e9b_fk_auth_user_id">
       <ColNames>user_id</ColNames>
       <RefSchemaName>digitalsmart</RefSchemaName>
       <RefTableName>auth_user</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="741" parent="339" name="id">
+    <column id="742" parent="339" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="742" parent="339" name="ddate">
+    <column id="743" parent="339" name="ddate">
       <Position>2</Position>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="743" parent="339" name="installnum">
+    <column id="744" parent="339" name="installnum">
       <Position>3</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="744" parent="339" name="activenum">
+    <column id="745" parent="339" name="activenum">
       <Position>4</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="745" parent="339" name="PRIMARY">
+    <key id="746" parent="339" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="746" parent="340" name="id">
+    <column id="747" parent="340" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="747" parent="340" name="name">
+    <column id="748" parent="340" name="name">
       <Position>2</Position>
       <DataType>varchar(32)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="748" parent="340" name="idcard">
+    <column id="749" parent="340" name="idcard">
       <Position>3</Position>
       <DataType>varchar(32)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="749" parent="340" name="PRIMARY">
+    <key id="750" parent="340" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="750" parent="341" name="id">
+    <column id="751" parent="341" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="751" parent="341" name="pid">
+    <column id="752" parent="341" name="pid">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="752" parent="341" name="tmp_date">
+    <column id="753" parent="341" name="tmp_date">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="753" parent="341" name="rate">
+    <column id="754" parent="341" name="rate">
       <Position>4</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="754" parent="341" name="pid_date">
+    <index id="755" parent="341" name="pid_date">
       <ColNames>pid
 tmp_date</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="755" parent="341" name="PRIMARY">
+    <key id="756" parent="341" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>

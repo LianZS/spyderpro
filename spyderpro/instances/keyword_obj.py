@@ -19,24 +19,27 @@ class BaiduKeyWordObject:
 class WechatKeyWordObject:
     __slots__ = ['company', 'all_value', 'update']
 
-    def __init__(self, company, all_value, update):
-        self.company = company
-        self.all_value = all_value
-        self.update = update
+    def __init__(self, company: str, all_value: int, update: int):
+        self.company: str = company
+        self.all_value: int = all_value
+        self.update: int = update
 
     def __str__(self):
         return "搜索引擎:{0},全网频率:{1},更新时间:{2}".format(self.company, self.all_value, self.update)
+
 
 class SougouKeyWordObject:
     __slots__ = ['company', 'all_value', 'update']
 
-    def __init__(self, company, all_value, update):
-        self.company = company
-        self.all_value = all_value
-        self.update = update
+    def __init__(self, company: str, all_value: int, update: int):
+        self.company: str = company
+        self.all_value: int = all_value
+        self.update: int = update
 
     def __str__(self):
         return "搜索引擎:{0},全网频率:{1},更新时间:{2}".format(self.company, self.all_value, self.update)
+
+
 class Mobile_Info:
     __slots__ = ['type_kw', 'type_name', 'value', 'date']
 
