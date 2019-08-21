@@ -137,4 +137,3 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
         db.commit()
 
 
-ManagerMobileKey().manager_search()
