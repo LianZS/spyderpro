@@ -5,7 +5,7 @@ from spyderpro.models.traffic.gaodetraffic import GaodeTraffic
 
 def get_new_year_traffic_data():
     gao = GaodeTraffic()
-    writepath = os.path.abspath(os.path.join(os.path.pardir, "../datafile/城市季度交通情况2/"))
+    writepath = os.path.abspath(os.path.join(os.path.pardir, "../datafile/城市季度交通情况/"))
     filepath = os.path.abspath(os.path.join(os.path.pardir, "../datafile/gaodecity.csv"))
     f = open(filepath, 'r')
     read = csv.reader(f)
