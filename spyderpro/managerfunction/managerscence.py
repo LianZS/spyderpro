@@ -123,6 +123,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             Thread(target=fast, args=(pid, area)).start()
             lock.release()
         print("success")
+
     def manager_scenece_people(self):
         """
         某时刻的人流
@@ -145,7 +146,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         d = datetime.datetime.today()
         ddate = str(d.date())
         tmp_date = d.timestamp()  # 更新时间
-        if d.time().minute % 5 > 0:#纠正计算挤时间，分钟必须事5的倍数
+        if d.time().minute % 5 > 0:  # 纠正计算挤时间，分钟必须事5的倍数
             t = d.time()
             minute = t.minute - t.minute % 5
             detailtime = "{0:0>2}:{1:0>2}:00".format(t.hour, minute)
@@ -167,6 +168,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
 
             table_id = newcur.fetchone()[0]  # 数据对应在哪张表插入
             self.connectqueue.put(db2)
+
             def fast(cid, tale_pid):
 
                 data = self.get_data(date=ddate, dateTime=detailtime, region_id=cid)
@@ -176,9 +178,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                        args=(data, cid, up_date, lat, lon, tale_pid)).start()
                 Thread(target=self.manager_scenece_people_situation(data, cid, ddate, detailtime)).start()
 
-
-            fast(region_id, table_id) #千万不能这里多线程，否则会数据混乱
-
+            fast(region_id, table_id)  # 千万不能这里多线程，否则会数据混乱
 
     def manager_scenece_people_distribution(self, data, region_id, tmp_date: int, centerlat: float, centerlon: float,
                                             table_id: int):
@@ -240,31 +240,34 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         today = datetime.datetime.today()
         yesterday = int(str((today - inv).date()).replace("-", ""))
 
-        sql = "select pid from digitalsmart.scencemanager"
+        sql = "select pid,table_id from digitalsmart.tablemanager"
         cur.execute(sql)
         result = cur.fetchall()
         if not result:
             return None
 
-        def fast(data):
+        def fast(data, histtory_table_id):
             if not data:
                 return None
+
             db2 = self.connectqueue.get()
             newcur = db2.cursor()
             for item in data:
-                sql = "insert into digitalsmart.historyscenceflow(pid, ddate, ttime, num) VALUE (%d,%d,'%s',%d)" % item
+                sql_format = "insert into digitalsmart.historyscenceflow{0}(pid, ddate, ttime, num) VALUE (%d,%d,'%s',%d)".format(
+                    histtory_table_id)
+                sql =sql_format%item
                 newcur.execute(sql)
             db2.commit()
             self.connectqueue.put(db2)
 
         lock = Semaphore(1)
-        for pid in result:
-            sql = "select pid,ddate,ttime,num from digitalsmart.scenceflow where pid={0} and ddate={1} ".format(pid[0],
+        for pid, table_id in result:
+            sql = "select pid,ddate,ttime,num from digitalsmart.scenceflow where pid={0} and ddate={1} ".format(pid,
                                                                                                                 yesterday)
             cur.execute(sql)
             lock.acquire()
             yesterday_info = cur.fetchall()
-            Thread(target=fast, args=(yesterday_info,)).start()
+            Thread(target=fast, args=(yesterday_info, table_id,)).start()
             lock.release()
 
     def manager_china_positioning(self):
@@ -285,8 +288,9 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             db.commit()
         except Exception:
             db.rollback()
+
     def clear_peopleposition_table(self):
-        #清空peoplepositionN人口密度分布表
+        # 清空peoplepositionN人口密度分布表
         for i in range(10):
 
             sql = "truncate table digitalsmart.peopleposition{0}".format(i)
@@ -295,4 +299,5 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 db.commit()
             except Exception:
                 db.rollback()
+
 

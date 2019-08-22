@@ -67,7 +67,7 @@ class BaiduTraffic(Traffic):
             yield TrafficClass(citycode, ddate, iindex, detailtime)
 
     def yeartraffic(self, citycode: int, year: int = int(time.strftime("%Y", time.localtime())),
-                    quarter: int = int(time.strftime("%m", time.localtime())) / 3) -> Iterator[Road]:
+                    quarter: int = int(time.strftime("%m", time.localtime())) / 3) -> Iterator[Year]:
         """
         获取城市年度交通数据
         :param citycode: 城市id
