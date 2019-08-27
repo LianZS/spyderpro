@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ce88f83-d355-4299-8834-5d606a7aee1f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/spyderpro/test/init_SearchRateTest.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spyderpro/test/weather_test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/670659c6-64d9-45a2-b66d-7bd840fa8b29.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/670659c6-64d9-45a2-b66d-7bd840fa8b29.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FILE/南澳岛生态旅游区.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dump.rdb" beforeDir="false" afterPath="$PROJECT_DIR$/dump.rdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/instances/keyword_obj.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/instances/keyword_obj.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/main/__main__.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/main/__main__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/managerfunction/managerkeyword.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/managerfunction/managerkeyword.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spyderpro/managerfunction/managerweather.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/managerfunction/managerweather.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spyderpro/managerfunction/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/spyderpro/managerfunction/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.log" beforeDir="false" afterPath="$PROJECT_DIR$/test.log" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,96 +16,103 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/SpyderPr$loads.coverage" NAME="loads Coverage Results" MODIFIED="1563789434096" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/celerytask" />
-    <SUITE FILE_PATH="coverage/SpyderPr$placepeople.coverage" NAME="placepeople Coverage Results" MODIFIED="1563851588218" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/locationdata" />
     <SUITE FILE_PATH="coverage/SpyderPr$managerappinfo.coverage" NAME="managerappinfo Coverage Results" MODIFIED="1565833876028" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/managerfunction" />
-    <SUITE FILE_PATH="coverage/SpyderPr$userhabit.coverage" NAME="userhabit Coverage Results" MODIFIED="1564123262745" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/InternetData" />
     <SUITE FILE_PATH="coverage/SpyderPr$__main__.coverage" NAME="__main__ Coverage Results" MODIFIED="1566221791422" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/main" />
     <SUITE FILE_PATH="coverage/SpyderPr$posititioningscence.coverage" NAME="posititioningscence Coverage Results" MODIFIED="1563590064214" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/function/peoplefunction" />
-    <SUITE FILE_PATH="coverage/SpyderPr$appactive.coverage" NAME="appactive Coverage Results" MODIFIED="1565836382994" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/SpyderPro$__init____1_.coverage" NAME="__init__ (1) Coverage Results" MODIFIED="1560305963729" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/InternetData" />
-    <SUITE FILE_PATH="coverage/SpyderPr$WeatherLishi.coverage" NAME="WeatherLishi Coverage Results" MODIFIED="1560785788823" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/WeatherModel" />
+    <SUITE FILE_PATH="coverage/SpyderPr$weather_test.coverage" NAME="weather_test Coverage Results" MODIFIED="1566921245022" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
     <SUITE FILE_PATH="coverage/SpyderPr$mobilekeyword.coverage" NAME="mobilekeyword Coverage Results" MODIFIED="1563443567690" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/InternetData" />
-    <SUITE FILE_PATH="coverage/SpyderPr$wechat.coverage" NAME="wechat Coverage Results" MODIFIED="1564473926229" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
-    <SUITE FILE_PATH="coverage/SpyderPr$citys_lnglat.coverage" NAME="citys_lnglat Coverage Results" MODIFIED="1566288430025" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/traffic" />
     <SUITE FILE_PATH="coverage/SpyderPr$initMobiledatabase.coverage" NAME="initMobiledatabase Coverage Results" MODIFIED="1566130788080" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/init" />
     <SUITE FILE_PATH="coverage/SpyderPr$chat.coverage" NAME="chat Coverage Results" MODIFIED="1563647982388" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/SpyderPr$collectapp.coverage" NAME="collectapp Coverage Results" MODIFIED="1563009895221" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/function" />
-    <SUITE FILE_PATH="coverage/SpyderPr$mysqltest.coverage" NAME="mysqltest Coverage Results" MODIFIED="1566191119795" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
     <SUITE FILE_PATH="coverage/SpyderPr$app.coverage" NAME="app Coverage Results" MODIFIED="1563016419797" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/function/keywordfunction" />
-    <SUITE FILE_PATH="coverage/SpyderPr$infospyder.coverage" NAME="infospyder Coverage Results" MODIFIED="1563584853963" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
     <SUITE FILE_PATH="coverage/SpyderPro$Userhabit.coverage" NAME="Userhabit Coverage Results" MODIFIED="1559796783753" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/InternetData" />
     <SUITE FILE_PATH="coverage/SpyderPr$gaodetraffic.coverage" NAME="gaodetraffic Coverage Results" MODIFIED="1563938365118" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/traffic" />
-    <SUITE FILE_PATH="coverage/SpyderPr$airstate.coverage" NAME="airstate Coverage Results" MODIFIED="1566191581321" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/weather" />
-    <SUITE FILE_PATH="coverage/SpyderPr$task3.coverage" NAME="task3 Coverage Results" MODIFIED="1565417351726" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/celerytask" />
-    <SUITE FILE_PATH="coverage/SpyderPro$PlaceTraffic.coverage" NAME="PlaceTraffic Coverage Results" MODIFIED="1559796185345" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/LocationBigData" />
     <SUITE FILE_PATH="coverage/SpyderPr$manager_scence.coverage" NAME="manager_scence Coverage Results" MODIFIED="1563002871415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/managerfunction" />
-    <SUITE FILE_PATH="coverage/SpyderPr$searchkeyword.coverage" NAME="searchkeyword Coverage Results" MODIFIED="1563690012191" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/function/keywordfunction" />
-    <SUITE FILE_PATH="coverage/SpyderPro$PeopleNum.coverage" NAME="PeopleNum Coverage Results" MODIFIED="1559822853263" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/LocationBigData" />
-    <SUITE FILE_PATH="coverage/SpyderPro$WechatPublic.coverage" NAME="WechatPublic Coverage Results" MODIFIED="1560073164145" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/InternetData" />
     <SUITE FILE_PATH="coverage/SpyderPr$Weather.coverage" NAME="Weather Coverage Results" MODIFIED="1560662580818" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/WeatherModel" />
     <SUITE FILE_PATH="coverage/SpyderPr$mysqltestt.coverage" NAME="mysqltestt Coverage Results" MODIFIED="1566185134069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
-    <SUITE FILE_PATH="coverage/SpyderPr$managertraffic.coverage" NAME="managertraffic Coverage Results" MODIFIED="1566308297575" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/managerfunction" />
-    <SUITE FILE_PATH="coverage/SpyderPr$managerweather.coverage" NAME="managerweather Coverage Results" MODIFIED="1566310029345" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/managerfunction" />
     <SUITE FILE_PATH="coverage/SpyderPr$peopleflowfunction.coverage" NAME="peopleflowfunction Coverage Results" MODIFIED="1563000760532" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/function" />
-    <SUITE FILE_PATH="coverage/SpyderPr$start.coverage" NAME="start Coverage Results" MODIFIED="1564459306759" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/celerytask" />
     <SUITE FILE_PATH="coverage/SpyderPr$appinfo.coverage" NAME="appinfo Coverage Results" MODIFIED="1564122168481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/SpyderPro$No_2.coverage" NAME="No.2 Coverage Results" MODIFIED="1560422154146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/h" />
     <SUITE FILE_PATH="coverage/SpyderPr$__init____2_.coverage" NAME="__init__ (2) Coverage Results" MODIFIED="1562984305308" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/locationdata" />
-    <SUITE FILE_PATH="coverage/SpyderPr$task2.coverage" NAME="task2 Coverage Results" MODIFIED="1562948232064" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/celerytask" />
-    <SUITE FILE_PATH="coverage/SpyderPro$BaiduTraffic.coverage" NAME="BaiduTraffic Coverage Results" MODIFIED="1560500233950" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/TrafficData" />
     <SUITE FILE_PATH="coverage/SpyderPr$WechatPublic.coverage" NAME="WechatPublic Coverage Results" MODIFIED="1562675493552" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/InternetData" />
-    <SUITE FILE_PATH="coverage/SpyderPr$BaiduTraffic.coverage" NAME="BaiduTraffic Coverage Results" MODIFIED="1561462628491" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/TrafficData" />
     <SUITE FILE_PATH="coverage/SpyderPr$Userhabit.coverage" NAME="Userhabit Coverage Results" MODIFIED="1561743461185" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/InternetData" />
-    <SUITE FILE_PATH="coverage/SpyderPr$scencefunction.coverage" NAME="scencefunction Coverage Results" MODIFIED="1563367505061" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/function" />
     <SUITE FILE_PATH="coverage/SpyderPro$PeopleFlow.coverage" NAME="PeopleFlow Coverage Results" MODIFIED="1559818009673" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/LocationBigData" />
     <SUITE FILE_PATH="coverage/SpyderPro$__init____2_.coverage" NAME="__init__ (2) Coverage Results" MODIFIED="1560339297167" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro" />
     <SUITE FILE_PATH="coverage/SpyderPro$TrafficFunction.coverage" NAME="TrafficFunction Coverage Results" MODIFIED="1560501206987" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/FunctionMain" />
     <SUITE FILE_PATH="coverage/SpyderPr$MobileKeyword.coverage" NAME="MobileKeyword Coverage Results" MODIFIED="1561741397394" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/InternetData" />
     <SUITE FILE_PATH="coverage/SpyderPro$WeatherLishi.coverage" NAME="WeatherLishi Coverage Results" MODIFIED="1560503772635" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/Weather" />
+    <SUITE FILE_PATH="coverage/SpyderPr$initOperatordatabase.coverage" NAME="initOperatordatabase Coverage Results" MODIFIED="1566134623481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/init" />
+    <SUITE FILE_PATH="coverage/SpyderPr$keyword_obj.coverage" NAME="keyword_obj Coverage Results" MODIFIED="1561740228838" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/Instances" />
+    <SUITE FILE_PATH="coverage/SpyderPro$FundModel.coverage" NAME="FundModel Coverage Results" MODIFIED="1560429203718" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/FinancialModel" />
+    <SUITE FILE_PATH="coverage/SpyderPro$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1560498999441" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
+    <SUITE FILE_PATH="coverage/SpyderPro$test_main.coverage" NAME="test_main Coverage Results" MODIFIED="1560004397621" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
+    <SUITE FILE_PATH="coverage/SpyderPr$init_SearchRateTest.coverage" NAME="init_SearchRateTest Coverage Results" MODIFIED="1566385563121" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
+    <SUITE FILE_PATH="coverage/SpyderPr$test_city_yeartraffic.coverage" NAME="test_city_yeartraffic Coverage Results" MODIFIED="1566439010577" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
+    <SUITE FILE_PATH="coverage/SpyderPr$PlacePeople.coverage" NAME="PlacePeople Coverage Results" MODIFIED="1561696299318" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/LocationBigData" />
+    <SUITE FILE_PATH="coverage/SpyderPr$test_main.coverage" NAME="test_main Coverage Results" MODIFIED="1563003443762" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/function/keywordfunction" />
+    <SUITE FILE_PATH="coverage/SpyderPr$infospyder2.coverage" NAME="infospyder2 Coverage Results" MODIFIED="1563518987225" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
+    <SUITE FILE_PATH="coverage/SpyderPr$lbs.coverage" NAME="lbs Coverage Results" MODIFIED="1562982604452" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/instances" />
+    <SUITE FILE_PATH="coverage/SpyderPr$people3.coverage" NAME="people3 Coverage Results" MODIFIED="1564481117117" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
+    <SUITE FILE_PATH="coverage/SpyderPr$test_traffic.coverage" NAME="test_traffic Coverage Results" MODIFIED="1566371050130" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
+    <SUITE FILE_PATH="coverage/SpyderPr$KeyWordFunction.coverage" NAME="KeyWordFunction Coverage Results" MODIFIED="1561293326479" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/FunctionMain" />
+    <SUITE FILE_PATH="coverage/SpyderPr$PeopleFlowFunction.coverage" NAME="PeopleFlowFunction Coverage Results" MODIFIED="1560687892350" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/FunctionMain" />
+    <SUITE FILE_PATH="coverage/SpyderPro$GaodeTraffic.coverage" NAME="GaodeTraffic Coverage Results" MODIFIED="1560498563224" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/TrafficData" />
+    <SUITE FILE_PATH="coverage/SpyderPr$PeopleFlow.coverage" NAME="PeopleFlow Coverage Results" MODIFIED="1562769448263" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/locationdata" />
+    <SUITE FILE_PATH="coverage/SpyderPr$loads.coverage" NAME="loads Coverage Results" MODIFIED="1563789434096" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/celerytask" />
+    <SUITE FILE_PATH="coverage/SpyderPr$placepeople.coverage" NAME="placepeople Coverage Results" MODIFIED="1563851588218" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/locationdata" />
+    <SUITE FILE_PATH="coverage/SpyderPr$userhabit.coverage" NAME="userhabit Coverage Results" MODIFIED="1564123262745" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/InternetData" />
+    <SUITE FILE_PATH="coverage/SpyderPr$appactive.coverage" NAME="appactive Coverage Results" MODIFIED="1565836382994" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SpyderPr$WeatherLishi.coverage" NAME="WeatherLishi Coverage Results" MODIFIED="1560785788823" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/WeatherModel" />
+    <SUITE FILE_PATH="coverage/SpyderPr$wechat.coverage" NAME="wechat Coverage Results" MODIFIED="1564473926229" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
+    <SUITE FILE_PATH="coverage/SpyderPr$citys_lnglat.coverage" NAME="citys_lnglat Coverage Results" MODIFIED="1566288430025" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/traffic" />
+    <SUITE FILE_PATH="coverage/SpyderPr$mysqltest.coverage" NAME="mysqltest Coverage Results" MODIFIED="1566444912154" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
+    <SUITE FILE_PATH="coverage/SpyderPr$infospyder.coverage" NAME="infospyder Coverage Results" MODIFIED="1563584853963" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
+    <SUITE FILE_PATH="coverage/SpyderPr$airstate.coverage" NAME="airstate Coverage Results" MODIFIED="1566191581321" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/weather" />
+    <SUITE FILE_PATH="coverage/SpyderPr$task3.coverage" NAME="task3 Coverage Results" MODIFIED="1565417351726" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/celerytask" />
+    <SUITE FILE_PATH="coverage/SpyderPro$PlaceTraffic.coverage" NAME="PlaceTraffic Coverage Results" MODIFIED="1559796185345" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/LocationBigData" />
+    <SUITE FILE_PATH="coverage/SpyderPr$searchkeyword.coverage" NAME="searchkeyword Coverage Results" MODIFIED="1563690012191" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/function/keywordfunction" />
+    <SUITE FILE_PATH="coverage/SpyderPro$PeopleNum.coverage" NAME="PeopleNum Coverage Results" MODIFIED="1559822853263" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/LocationBigData" />
+    <SUITE FILE_PATH="coverage/SpyderPro$WechatPublic.coverage" NAME="WechatPublic Coverage Results" MODIFIED="1560073164145" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/InternetData" />
+    <SUITE FILE_PATH="coverage/SpyderPr$managertraffic.coverage" NAME="managertraffic Coverage Results" MODIFIED="1566308297575" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/managerfunction" />
+    <SUITE FILE_PATH="coverage/SpyderPr$managerweather.coverage" NAME="managerweather Coverage Results" MODIFIED="1566310029345" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/managerfunction" />
+    <SUITE FILE_PATH="coverage/SpyderPr$start.coverage" NAME="start Coverage Results" MODIFIED="1564459306759" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/celerytask" />
+    <SUITE FILE_PATH="coverage/SpyderPr$task2.coverage" NAME="task2 Coverage Results" MODIFIED="1562948232064" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/celerytask" />
+    <SUITE FILE_PATH="coverage/SpyderPro$BaiduTraffic.coverage" NAME="BaiduTraffic Coverage Results" MODIFIED="1560500233950" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/TrafficData" />
+    <SUITE FILE_PATH="coverage/SpyderPr$BaiduTraffic.coverage" NAME="BaiduTraffic Coverage Results" MODIFIED="1561462628491" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/TrafficData" />
+    <SUITE FILE_PATH="coverage/SpyderPr$scencefunction.coverage" NAME="scencefunction Coverage Results" MODIFIED="1563367505061" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/function" />
     <SUITE FILE_PATH="coverage/SpyderPr$initdatabase.coverage" NAME="initdatabase Coverage Results" MODIFIED="1564299543350" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/init" />
     <SUITE FILE_PATH="coverage/SpyderPr$Keyword.coverage" NAME="Keyword Coverage Results" MODIFIED="1562725030913" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/InternetData" />
     <SUITE FILE_PATH="coverage/SpyderPr$celeryconfig.coverage" NAME="celeryconfig Coverage Results" MODIFIED="1565413452670" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/celerytask" />
     <SUITE FILE_PATH="coverage/SpyderPr$WeatherFunction.coverage" NAME="WeatherFunction Coverage Results" MODIFIED="1560787596227" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/FunctionMain" />
-    <SUITE FILE_PATH="coverage/SpyderPr$initOperatordatabase.coverage" NAME="initOperatordatabase Coverage Results" MODIFIED="1566134623481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/init" />
     <SUITE FILE_PATH="coverage/SpyderPr$keywordfunction.coverage" NAME="keywordfunction Coverage Results" MODIFIED="1562980465111" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/function" />
     <SUITE FILE_PATH="coverage/SpyderPro$Keyword.coverage" NAME="Keyword Coverage Results" MODIFIED="1559842224963" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/InternetData" />
-    <SUITE FILE_PATH="coverage/SpyderPr$keyword_obj.coverage" NAME="keyword_obj Coverage Results" MODIFIED="1561740228838" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/Instances" />
-    <SUITE FILE_PATH="coverage/SpyderPro$FundModel.coverage" NAME="FundModel Coverage Results" MODIFIED="1560429203718" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/FinancialModel" />
     <SUITE FILE_PATH="coverage/SpyderPro$No_1.coverage" NAME="No.1 Coverage Results" MODIFIED="1560422848610" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/h" />
     <SUITE FILE_PATH="coverage/SpyderPr$task1.coverage" NAME="task1 Coverage Results" MODIFIED="1563795354542" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/celerytask" />
-    <SUITE FILE_PATH="coverage/SpyderPro$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1560498999441" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
     <SUITE FILE_PATH="coverage/SpyderPro$__init____3_.coverage" NAME="__init__ (3) Coverage Results" MODIFIED="1560074398840" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
-    <SUITE FILE_PATH="coverage/SpyderPro$test_main.coverage" NAME="test_main Coverage Results" MODIFIED="1560004397621" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
     <SUITE FILE_PATH="coverage/SpyderPr$positioningsituation.coverage" NAME="positioningsituation Coverage Results" MODIFIED="1563002549125" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/function/peoplefunction" />
     <SUITE FILE_PATH="coverage/SpyderPr$initUserHabitdatabase.coverage" NAME="initUserHabitdatabase Coverage Results" MODIFIED="1566132302395" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/init" />
-    <SUITE FILE_PATH="coverage/SpyderPr$init_SearchRateTest.coverage" NAME="init_SearchRateTest Coverage Results" MODIFIED="1566358530039" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
-    <SUITE FILE_PATH="coverage/SpyderPr$test.coverage" NAME="test Coverage Results" MODIFIED="1563791441837" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/celerytask" />
+    <SUITE FILE_PATH="coverage/SpyderPr$test.coverage" NAME="test Coverage Results" MODIFIED="1566379675664" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
     <SUITE FILE_PATH="coverage/SpyderPr$keyword.coverage" NAME="keyword Coverage Results" MODIFIED="1563689221729" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/InternetData" />
-    <SUITE FILE_PATH="coverage/SpyderPr$__init____1_.coverage" NAME="__init__ (1) Coverage Results" MODIFIED="1565854220006" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/init" />
+    <SUITE FILE_PATH="coverage/SpyderPr$__init____1_.coverage" NAME="__init__ (1) Coverage Results" MODIFIED="1566434781518" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/init" />
     <SUITE FILE_PATH="coverage/SpyderPr$initAttractionsDatabase.coverage" NAME="initAttractionsDatabase Coverage Results" MODIFIED="1566130804670" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/init" />
-    <SUITE FILE_PATH="coverage/SpyderPr$PlacePeople.coverage" NAME="PlacePeople Coverage Results" MODIFIED="1561696299318" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/LocationBigData" />
+    <SUITE FILE_PATH="coverage/SpyderPr$upload_traffic_data.coverage" NAME="upload_traffic_data Coverage Results" MODIFIED="1566374454010" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
+    <SUITE FILE_PATH="coverage/SpyderPr$up_load_searchrate.coverage" NAME="up_load_searchrate Coverage Results" MODIFIED="1566437551272" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
     <SUITE FILE_PATH="coverage/SpyderPr$historyweather.coverage" NAME="historyweather Coverage Results" MODIFIED="1566095365723" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/weather" />
-    <SUITE FILE_PATH="coverage/SpyderPr$test_main.coverage" NAME="test_main Coverage Results" MODIFIED="1563003443762" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/function/keywordfunction" />
     <SUITE FILE_PATH="coverage/SpyderPr$people2.coverage" NAME="people2 Coverage Results" MODIFIED="1566189733635" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
-    <SUITE FILE_PATH="coverage/SpyderPr$managerscence.coverage" NAME="managerscence Coverage Results" MODIFIED="1566288660199" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/managerfunction" />
-    <SUITE FILE_PATH="coverage/SpyderPr$infospyder2.coverage" NAME="infospyder2 Coverage Results" MODIFIED="1563518987225" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
+    <SUITE FILE_PATH="coverage/SpyderPr$dump_table.coverage" NAME="dump_table Coverage Results" MODIFIED="1566437064927" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
+    <SUITE FILE_PATH="coverage/SpyderPr$managerscence.coverage" NAME="managerscence Coverage Results" MODIFIED="1566452670953" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/managerfunction" />
     <SUITE FILE_PATH="coverage/SpyderPr$baidutraffic.coverage" NAME="baidutraffic Coverage Results" MODIFIED="1564458505331" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/traffic" />
-    <SUITE FILE_PATH="coverage/SpyderPr$lbs.coverage" NAME="lbs Coverage Results" MODIFIED="1562982604452" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/instances" />
     <SUITE FILE_PATH="coverage/SpyderPr$task4.coverage" NAME="task4 Coverage Results" MODIFIED="1563786543598" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/celerytask" />
     <SUITE FILE_PATH="coverage/SpyderPr$initWechatdatabase.coverage" NAME="initWechatdatabase Coverage Results" MODIFIED="1566133871979" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/init" />
     <SUITE FILE_PATH="coverage/SpyderPro$No_4.coverage" NAME="No.4 Coverage Results" MODIFIED="1560422706697" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/h" />
     <SUITE FILE_PATH="coverage/SpyderPr$wechatpublic.coverage" NAME="wechatpublic Coverage Results" MODIFIED="1564444539835" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/InternetData" />
-    <SUITE FILE_PATH="coverage/SpyderPr$people3.coverage" NAME="people3 Coverage Results" MODIFIED="1564481117117" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
-    <SUITE FILE_PATH="coverage/SpyderPr$KeyWordFunction.coverage" NAME="KeyWordFunction Coverage Results" MODIFIED="1561293326479" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/FunctionMain" />
+    <SUITE FILE_PATH="coverage/SpyderPr$upload_app_active_data.coverage" NAME="upload_app_active_data Coverage Results" MODIFIED="1566386095796" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/test" />
     <SUITE FILE_PATH="coverage/SpyderPr$InternetConnect.coverage" NAME="InternetConnect Coverage Results" MODIFIED="1560683226639" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/Connect" />
-    <SUITE FILE_PATH="coverage/SpyderPr$PeopleFlowFunction.coverage" NAME="PeopleFlowFunction Coverage Results" MODIFIED="1560687892350" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/FunctionMain" />
     <SUITE FILE_PATH="coverage/SpyderPr$managerkeyword.coverage" NAME="managerkeyword Coverage Results" MODIFIED="1566356549322" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/managerfunction" />
     <SUITE FILE_PATH="coverage/SpyderPr$people.coverage" NAME="people Coverage Results" MODIFIED="1564452729578" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro" />
-    <SUITE FILE_PATH="coverage/SpyderPro$GaodeTraffic.coverage" NAME="GaodeTraffic Coverage Results" MODIFIED="1560498563224" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/TrafficData" />
-    <SUITE FILE_PATH="coverage/SpyderPr$PeopleFlow.coverage" NAME="PeopleFlow Coverage Results" MODIFIED="1562769448263" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/locationdata" />
     <SUITE FILE_PATH="coverage/SpyderPr$wechatpublic__1_.coverage" NAME="wechatpublic (1) Coverage Results" MODIFIED="1564445662058" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/models/Internetdata" />
-    <SUITE FILE_PATH="coverage/SpyderPr$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1566304119117" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/init" />
+    <SUITE FILE_PATH="coverage/SpyderPr$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1566568254823" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spyderpro/managerfunction" />
   </component>
   <component name="CoverageViewManager">
     <option name="myElementSize" value="15" />
@@ -140,40 +144,51 @@
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="digitalsmart: schema" type="76f4a085:MysqlImplModel$Schema" />
       </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="digitalsmart@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="digitalsmart: schema" type="76f4a085:MysqlImplModel$Schema" />
-        <item name="searchrate: table" type="285a2a93:MysqlImplModel$Table" />
-      </path>
     </expand>
     <select />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spyderpro/test/init_SearchRateTest.py">
+        <entry file="file://$PROJECT_DIR$/spyderpro/managerfunction/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="179">
-              <caret line="66" column="34" lean-forward="true" selection-start-line="66" selection-start-column="34" selection-end-line="66" selection-end-column="34" />
+            <state relative-caret-position="476">
+              <caret line="35" column="19" selection-start-line="35" selection-start-column="6" selection-end-line="35" selection-end-column="19" />
               <folding>
-                <element signature="e#0#15#0" expanded="true" />
-                <element signature="e#7221#7684#0" />
-                <element signature="e#7760#8617#0" />
-                <element signature="e#8701#9176#0" />
+                <element signature="e#0#52#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/spyderpro/managerfunction/managerkeyword.py">
+        <entry file="file://$PROJECT_DIR$/spyderpro/test/weather_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="191" lean-forward="true" selection-start-line="191" selection-end-line="191" />
+            <state relative-caret-position="239">
+              <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
               <folding>
-                <element signature="e#0#15#0" expanded="true" />
+                <element signature="e#0#14#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/weatherdb">
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/spyderpro/test/up_load_searchrate.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="31">
+              <caret line="4" selection-start-line="4" selection-end-line="14" selection-end-column="17" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -191,16 +206,8 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>世界</find>
-      <find>exception</find>
-      <find>centerlat</find>
-      <find>22.5427</find>
-      <find>waiter.acquire()</find>
-      <find>sql_format</find>
-      <find>148</find>
       <find>taskSemaphore</find>
       <find>qq</find>
-      <find>男</find>
       <find>all</find>
       <find>广州</find>
       <find>北京</find>
@@ -221,6 +228,14 @@
       <find>out</find>
       <find>20160101</find>
       <find>fail</find>
+      <find>五台山风景区</find>
+      <find>440400</find>
+      <find>19</find>
+      <find>commit</find>
+      <find>os.path.pardir</find>
+      <find>三明站</find>
+      <find>男</find>
+      <find>connectqueue</find>
     </findStrings>
     <replaceStrings>
       <replace>database</replace>
@@ -235,23 +250,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/spyderpro/wechat.py" />
-        <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/celerytask/task2.py" />
-        <option value="$PROJECT_DIR$/spyderpro/function/keywordfunction/apphabit.py" />
-        <option value="$PROJECT_DIR$/celerytask/start.py" />
-        <option value="$PROJECT_DIR$/celerytask/task4.py" />
-        <option value="$PROJECT_DIR$/spyderpro/models/Internetdata/wechatpublic.py" />
-        <option value="$PROJECT_DIR$/spyderpro/test/wechat.py" />
-        <option value="$PROJECT_DIR$/init/initWechatdatabse.py" />
-        <option value="$PROJECT_DIR$/datafile/normalInfo/wechatinfo.csv" />
-        <option value="$PROJECT_DIR$/spyderpro/test/people3.py" />
-        <option value="$PROJECT_DIR$/spyderpro/test/FILE/世界之窗.csv" />
         <option value="$PROJECT_DIR$/spyderpro/testdata/__init__.py" />
         <option value="$PROJECT_DIR$/spyderpro/models/locationdata/placepeople.py" />
         <option value="$PROJECT_DIR$/spyderpro/function/trafficfunction/traffic.py" />
         <option value="$PROJECT_DIR$/spyderpro/instances/trafficclass.py" />
-        <option value="$PROJECT_DIR$/spyderpro/models/traffic/baidutraffic.py" />
         <option value="$PROJECT_DIR$/spyderpro/models/traffic/gaodetraffic.py" />
         <option value="$PROJECT_DIR$/spyderpro/models/Internetdata/userhabit.py" />
         <option value="$PROJECT_DIR$/spyderpro/managerfunction/managerappinfo.py" />
@@ -265,31 +267,44 @@
         <option value="$PROJECT_DIR$/init/initUserHabitdatabase.py" />
         <option value="$PROJECT_DIR$/init/initOperatordatabase.py" />
         <option value="$PROJECT_DIR$/init/initWechatdatabase.py" />
-        <option value="$PROJECT_DIR$/spyderpro/test/__init__.py" />
         <option value="670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/historyscenceflow.sql" />
         <option value="$PROJECT_DIR$/spyderpro/test/mysqltestt.py" />
         <option value="$PROJECT_DIR$/spyderpro/test/people2.py" />
         <option value="$PROJECT_DIR$/celerytask/task1.py" />
-        <option value="$PROJECT_DIR$/spyderpro/test/mysqltest.py" />
         <option value="$PROJECT_DIR$/spyderpro/models/traffic/citys_lnglat.py" />
         <option value="$PROJECT_DIR$/celerytask/task3.py" />
         <option value="$PROJECT_DIR$/celerytask/celeryconfig.py" />
         <option value="$PROJECT_DIR$/spyderpro/models/weather/airstate.py" />
         <option value="$PROJECT_DIR$/celerytask/task5.py" />
-        <option value="$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py" />
         <option value="$PROJECT_DIR$/init/initAttractionsDatabase.py" />
-        <option value="$PROJECT_DIR$/init/__init__.py" />
-        <option value="$PROJECT_DIR$/spyderpro/main/__main__.py" />
         <option value="$PROJECT_DIR$/spyderpro/managerfunction/managertraffic.py" />
         <option value="$PROJECT_DIR$/spyderpro/managerfunction/managerweather.py" />
         <option value="$PROJECT_DIR$/spyderpro/models/Internetdata/keyword.py" />
         <option value="$PROJECT_DIR$/spyderpro/instances/keyword_obj.py" />
-        <option value="$PROJECT_DIR$/spyderpro/test/init_SearchRateTest.py" />
         <option value="$PROJECT_DIR$/spyderpro/managerfunction/managerkeyword.py" />
+        <option value="$PROJECT_DIR$/spyderpro/test/test_traffic.py" />
+        <option value="$PROJECT_DIR$/spyderpro/test/upload_traffic_data.py" />
+        <option value="$PROJECT_DIR$/spyderpro/test/__init__.py" />
+        <option value="$PROJECT_DIR$/spyderpro/test/test.py" />
+        <option value="$PROJECT_DIR$/spyderpro/test/init_SearchRateTest.py" />
+        <option value="$PROJECT_DIR$/spyderpro/test/upload_app_active_data.py" />
+        <option value="$PROJECT_DIR$/spyderpro/main/__main__.py" />
+        <option value="$PROJECT_DIR$/init/__init__.py" />
+        <option value="$PROJECT_DIR$/spyderpro/test/dump_table.py" />
+        <option value="$PROJECT_DIR$/spyderpro/test/upload_searchrate.py" />
+        <option value="$PROJECT_DIR$/spyderpro/test/up_load_searchrate.py" />
+        <option value="$PROJECT_DIR$/spyderpro/models/traffic/baidutraffic.py" />
+        <option value="$PROJECT_DIR$/spyderpro/test/test_city_yeartraffic.py" />
+        <option value="$PROJECT_DIR$/spyderpro/test/mysqltest.py" />
+        <option value="$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py" />
+        <option value="$PROJECT_DIR$/celerytask/__init__.py" />
+        <option value="$PROJECT_DIR$/spyderpro/managerfunction/test.txt" />
+        <option value="$PROJECT_DIR$/spyderpro/managerfunction/__init__.py" />
+        <option value="$PROJECT_DIR$/spyderpro/test/weather_test.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="22" />
     <option name="width" value="1280" />
     <option name="height" value="703" />
@@ -299,6 +314,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -309,18 +325,7 @@
             <path>
               <item name="SpyderPr" type="b2602c69:ProjectViewProjectNode" />
               <item name="SpyderPr" type="462c0819:PsiDirectoryNode" />
-              <item name="celerytask" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SpyderPr" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SpyderPr" type="462c0819:PsiDirectoryNode" />
               <item name="spyderpro" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SpyderPr" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SpyderPr" type="462c0819:PsiDirectoryNode" />
-              <item name="spyderpro" type="462c0819:PsiDirectoryNode" />
-              <item name="managerfunction" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SpyderPr" type="b2602c69:ProjectViewProjectNode" />
@@ -332,7 +337,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -356,19 +360,19 @@
     </option>
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/datafile/normalInfo" />
-      <recent name="$PROJECT_DIR$/datafile" />
-      <recent name="$PROJECT_DIR$/init" />
-      <recent name="$PROJECT_DIR$/spyderpro/testdata" />
-      <recent name="$PROJECT_DIR$" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/spyderpro/function/weatherfunction" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/datafile/normalInfo" />
       <recent name="$PROJECT_DIR$/spyderpro/test" />
       <recent name="$PROJECT_DIR$/spyderpro/testdata" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/datafile/normalInfo" />
+      <recent name="$PROJECT_DIR$/datafile" />
+      <recent name="$PROJECT_DIR$/init" />
+      <recent name="$PROJECT_DIR$/spyderpro/testdata" />
+      <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -383,7 +387,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.init_SearchRateTest">
+  <component name="RunManager" selected="Python.weather_test">
     <configuration name="__init__" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SpyderPro" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -392,12 +396,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/init" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spyderpro/managerfunction" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/init/__init__.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spyderpro/managerfunction/__init__.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -406,7 +410,29 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="init_SearchRateTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="managerscence" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="SpyderPro" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spyderpro/managerfunction" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="mysqltest" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SpyderPro" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -419,7 +445,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spyderpro/test/init_SearchRateTest.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spyderpro/test/mysqltest.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -428,7 +454,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="managerkeyword" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="test_city_yeartraffic" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SpyderPro" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -436,12 +462,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spyderpro/managerfunction" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spyderpro/test" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spyderpro/managerfunction/managerkeyword.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spyderpro/test/test_city_yeartraffic.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -450,7 +476,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="managertraffic" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="weather_test" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SpyderPro" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -458,34 +484,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spyderpro/managerfunction" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spyderpro/test" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spyderpro/managerfunction/managertraffic.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="managerweather" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="SpyderPro" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spyderpro/managerfunction" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spyderpro/managerfunction/managerweather.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spyderpro/test/weather_test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -496,11 +500,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.init_SearchRateTest" />
-        <item itemvalue="Python.managerkeyword" />
-        <item itemvalue="Python.managerweather" />
-        <item itemvalue="Python.managertraffic" />
+        <item itemvalue="Python.weather_test" />
         <item itemvalue="Python.__init__" />
+        <item itemvalue="Python.managerscence" />
+        <item itemvalue="Python.mysqltest" />
+        <item itemvalue="Python.test_city_yeartraffic" />
       </list>
     </recent_temporary>
   </component>
@@ -653,12 +657,18 @@
       <workItem from="1566305109444" duration="474000" />
       <workItem from="1566308277859" duration="2040000" />
       <workItem from="1566345559508" duration="611000" />
-      <workItem from="1566354088980" duration="4599000" />
+      <workItem from="1566354088980" duration="18751000" />
+      <workItem from="1566385381260" duration="3058000" />
+      <workItem from="1566393772166" duration="2304000" />
+      <workItem from="1566434222217" duration="7231000" />
+      <workItem from="1566452656594" duration="7269000" />
+      <workItem from="1566564419888" duration="3280000" />
+      <workItem from="1566920609433" duration="633000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="676343000" />
+    <option name="totallyTimeSpent" value="714270000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -670,15 +680,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1280" height="703" extended-state="0" />
+    <frame x="0" y="22" width="1280" height="703" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4866828" visible="true" weight="0.1558966" />
-      <window_info id="Structure" order="1" sideWeight="0.51331717" side_tool="true" weight="0.29159936" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.48533332" visible="true" weight="0.17043619" />
+      <window_info id="Structure" order="1" sideWeight="0.5146667" side_tool="true" weight="0.1558966" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32569557" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4983845" visible="true" weight="0.3289689" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4983845" visible="true" weight="0.38625205" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39443535" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -698,7 +708,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="SciView" order="3" weight="0.32956383" />
-      <window_info anchor="right" id="Database" order="4" sideWeight="0.4874372" visible="true" weight="0.10258482" />
+      <window_info anchor="right" id="Database" order="4" sideWeight="0.4874372" weight="0.2819063" />
       <window_info anchor="right" id="Coverage" order="5" sideWeight="0.5125628" side_tool="true" weight="0.024232633" />
     </layout>
     <layout-to-restore>
@@ -735,283 +745,82 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/historyscenceflow.sql">
+    <entry file="file://$PROJECT_DIR$/datafile/normalInfo/appinfo.csv">
+      <provider selected="true" editor-type-id="csv-text-editor" />
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/init/initUserHabitdatabase.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
-          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+          <caret line="112" selection-start-line="112" selection-end-line="128" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#304#1039#0" />
+            <element signature="e#1065#1721#0" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/test/mysqltestt.py" />
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.3/python_stubs/1054867836/posix.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="604" column="19" selection-start-line="604" selection-end-line="605" />
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/applike">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/os.py">
+    <entry file="file://$PROJECT_DIR$/spyderpro/test/test_wechat.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="286" column="35" selection-start-line="286" selection-start-column="21" selection-end-line="286" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/test/FILE/坣岗荔枝公园.csv" />
-    <entry file="file://$PROJECT_DIR$/spyderpro/test/people2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="32">
-          <caret line="532" column="23" selection-start-line="532" selection-start-column="23" selection-end-line="532" selection-end-column="23" />
+        <state relative-caret-position="-2118">
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FILE/石家庄正定国际机场.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="-699544">
-          <caret line="1624" column="21" selection-start-line="1624" selection-start-column="21" selection-end-line="1624" selection-end-column="21" />
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/ageshare">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/insert.log">
+    <entry file="file://$PROJECT_DIR$/spyderpro/test/test.py" />
+    <entry file="file://$PROJECT_DIR$/spyderpro/test/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/setting.py">
+    <entry file="file://$PROJECT_DIR$/spyderpro/test/upload_traffic_data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" selection-end-line="9" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.3/python_stubs/1054867836/lxml/html/clean.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="847" column="18" selection-start-line="847" selection-start-column="10" selection-end-line="847" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/function/keywordfunction/apphabit.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="6" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/managerfunction/managerappinfo.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="43" column="16" selection-start-line="43" selection-start-column="16" selection-end-line="43" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FILE/石家庄站.csv">
-      <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="-2401075" />
-      </provider>
-    </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/threading.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="1142" column="47" selection-start-line="1142" selection-start-column="43" selection-end-line="1142" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/peopleposition8">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/historyscenceflow">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/tablemanager">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/peopleposition0">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/models/traffic/gaodetraffic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-125">
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/models/traffic/baidutraffic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2001">
-          <caret line="19" selection-start-line="19" selection-end-line="25" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/pymysql/connections.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="183" column="38" lean-forward="true" selection-start-line="182" selection-start-column="23" selection-end-line="183" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/pymysql/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="93" column="20" selection-start-line="93" selection-start-column="20" selection-end-line="93" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/models/traffic/citys_lnglat.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="52" column="39" selection-start-line="52" selection-start-column="39" selection-end-line="52" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/redis/connection.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="99">
-          <caret line="992" selection-start-line="992" selection-end-line="992" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/citymanager">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/models/weather/airstate.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1005">
-          <caret line="67" column="24" selection-start-line="67" selection-start-column="15" selection-end-line="67" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/celerytask/task1.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-115">
-          <caret line="5" column="19" lean-forward="true" selection-start-line="5" selection-end-line="6" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/celerytask/task3.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="62" column="10" selection-start-line="62" selection-start-column="10" selection-end-line="62" selection-end-column="10" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/celerytask/task4.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-325">
-          <caret line="4" selection-start-line="4" selection-end-line="37" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#67#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/celerytask/task5.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datafile/info.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/test/mysqltest.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+        <state relative-caret-position="163">
+          <caret line="43" selection-start-line="43" selection-end-line="43" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/datafile/scenceinfo2.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="105">
-          <caret line="24" column="8" selection-start-line="24" selection-end-line="24" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="132" column="93" selection-start-line="132" selection-start-column="88" selection-end-line="132" selection-end-column="93" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <element signature="e#2389#4407#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/scencemanager">
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/sexshare">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/init/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/datafile/normalInfo/appbaseinfo.csv">
+      <provider editor-type-id="csv-text-editor" />
+      <provider selected="true" editor-type-id="LargeFileEditor">
+        <state relative-caret-position="90">
+          <caret line="6" column="1740" selection-start-line="6" selection-start-column="1739" selection-end-line="6" selection-end-column="1740" />
+        </state>
+      </provider>
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/init/initAttractionsDatabase.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2070">
+        <state relative-caret-position="556">
           <caret line="140" column="47" selection-start-line="140" selection-start-column="35" selection-end-line="140" selection-end-column="47" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
@@ -1021,69 +830,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spyderpro/main/__main__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+        <state relative-caret-position="159">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/managerfunction/managertraffic.py">
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/random.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="148" lean-forward="true" selection-start-line="148" selection-end-line="148" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="109">
+          <caret line="285" column="8" selection-start-line="285" selection-start-column="8" selection-end-line="285" selection-end-column="8" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/managerfunction/managerweather.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="534">
-          <caret line="69" selection-start-line="69" selection-end-line="69" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/airstate">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/celerytask/celeryconfig.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="60" column="57" selection-start-line="60" selection-start-column="34" selection-end-line="60" selection-end-column="57" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/celerytask/task2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="13" column="27" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/2and3/datetime.pyi">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="193" column="12" selection-start-line="193" selection-start-column="12" selection-end-line="193" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/scencetrend">
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/scencemanager">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
@@ -1097,51 +859,301 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/instances/keyword_obj.py">
+    <entry file="file://$PROJECT_DIR$/spyderpro/test/upload_searchrate.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="33" column="64" selection-start-line="33" selection-start-column="64" selection-end-line="33" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/models/Internetdata/keyword.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="173" column="30" selection-start-line="173" selection-start-column="30" selection-end-line="173" selection-end-column="30" />
+        <state relative-caret-position="133">
+          <caret line="133" column="34" lean-forward="true" selection-start-line="133" selection-start-column="34" selection-end-line="133" selection-end-column="34" />
           <folding>
-            <element signature="e#391#851#0" />
-            <element signature="e#1041#3647#0" />
-            <element signature="e#7290#9027#0" />
+            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/function/keywordfunction/searchkeyword.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="39" column="41" selection-start-line="39" selection-start-column="41" selection-end-line="39" selection-end-column="41" />
+    <entry file="file://$PROJECT_DIR$/init/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datafile/searchrate.csv">
+      <provider editor-type-id="csv-text-editor">
+        <state relative-caret-position="198">
+          <caret line="18" column="27" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="27" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="LargeFileEditor">
+        <state>
+          <caret column="27" lean-forward="true" selection-end-line="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/test/init_SearchRateTest.py">
+    <entry file="file://$PROJECT_DIR$/spyderpro/test/dump_table.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="66" column="34" lean-forward="true" selection-start-line="66" selection-start-column="34" selection-end-line="66" selection-end-column="34" />
+        <state>
+          <caret selection-end-line="12" selection-end-column="31" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <element signature="e#7221#7684#0" />
-            <element signature="e#7760#8617#0" />
-            <element signature="e#8701#9176#0" />
+            <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spyderpro/managerfunction/managerkeyword.py">
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/citymanager">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/yeartraffic">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/models/traffic/baidutraffic.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="191" lean-forward="true" selection-start-line="191" selection-end-line="191" />
+        <state relative-caret-position="148">
+          <caret line="69" column="99" selection-start-line="69" selection-start-column="99" selection-end-line="69" selection-end-column="99" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#567#829#0" />
+            <element signature="e#1075#2320#0" />
+            <element signature="e#3580#4618#0" />
+            <element signature="e#4669#5071#0" />
+            <element signature="e#5145#5550#0" />
+            <element signature="e#5624#7096#0" />
+            <element signature="e#7158#7900#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/test/test_city_yeartraffic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="24" column="24" lean-forward="true" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/tablemanager">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/historyscenceflow7">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/historyscenceflow9">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/historyscenceflow2">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.log">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/historyscenceflow5">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/historyscenceflow0">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/historyscenceflow1">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/test/upload_app_active_data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="76" column="38" selection-start-line="76" selection-start-column="38" selection-end-line="76" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#256#1529#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/test/mysqltest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="444">
+          <caret line="62" column="18" selection-start-line="62" selection-start-column="18" selection-end-line="62" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/portconnect/internetconnect.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/portconnect/paramchecks.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="6" selection-start-column="6" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/function/peoplefunction/positioningparent.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="5" column="33" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/portconnect/sqlconnect.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="6" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/celerytask/task2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/managerfunction/managerscence.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2475">
+          <caret line="173" column="33" selection-start-line="173" selection-start-column="33" selection-end-line="173" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#9770#9886#0" />
+            <element signature="e#9935#10043#0" />
+            <element signature="e#10090#10254#0" />
+            <element signature="e#10306#10575#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/function/peoplefunction/positioningsituation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/celerytask/task1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/celerytask/celeryconfig.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-251">
+          <caret line="10" column="21" selection-start-line="10" selection-end-line="10" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#559#2701#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/celerytask/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="36" lean-forward="true" selection-start-line="3" selection-start-column="36" selection-end-line="3" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/models/locationdata/placepeople.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="261" column="61" selection-start-line="261" selection-start-column="56" selection-end-line="261" selection-end-column="61" />
+          <folding>
+            <element signature="e#4294#5450#0" />
+            <element signature="e#5501#5847#0" />
+            <element signature="e#6567#6950#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/managerfunction/test.txt" />
+    <entry file="file://$PROJECT_DIR$/spyderpro/managerfunction/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="35" column="19" selection-start-line="35" selection-start-column="6" selection-end-line="35" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/test/up_load_searchrate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="31">
+          <caret line="4" selection-start-line="4" selection-end-line="14" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/weathermanager">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/wechatpublic">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://670659c6-64d9-45a2-b66d-7bd840fa8b29/schema/digitalsmart/table/weatherdb">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spyderpro/test/weather_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
