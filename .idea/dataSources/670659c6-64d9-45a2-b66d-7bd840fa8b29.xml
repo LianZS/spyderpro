@@ -3997,7 +3997,7 @@ rate</ColNames>
     </column>
     <column id="821" parent="350" name="wind">
       <Position>5</Position>
-      <DataType>varchar(16)|0s</DataType>
+      <DataType>varchar(32)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>

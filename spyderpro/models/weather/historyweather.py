@@ -40,7 +40,7 @@ class WeatherHistory(object):
     def get_province_link(self) -> Iterator:
         """
         获取进入每个城市具体的区域--***省份***---链接入口
-        :return:
+        :return:{"province":,"url":}
         """
         url = 'http://www.tianqihoubao.com/lishi/'
         try:
@@ -89,6 +89,8 @@ class WeatherHistory(object):
 
     def get_city_all_partition(self, url: str) -> Iterator:
         """
+               url: http://www.tianqihoubao.com//lishi/bj.htm
+
                请求获取区域10多年来多每个月的天气数据链接
                :param url:
                :return: IIterator
@@ -139,6 +141,7 @@ class WeatherHistory(object):
 
     def get_weather_detail(self, url) -> Iterator[weatherstatus]:
         """
+        http://www.tianqihoubao.com//lishi/beijing/month/201102.html
         请求历史月份历史数据，'日期', '天气状况', '气温', '风力风向'
         :param url:
         :return: list[{'date', 'state', 'temperature', 'wind'}]
@@ -178,6 +181,35 @@ class WeatherHistory(object):
             yield self.weatherstatus(ddate=date, state=state, tempera=temperature, wind=wind)
 
 
+def get_all_data():
+    root = os.path.abspath(os.path.curdir)
+    try:
+        os.mkdir(os.path.join(root, 'Weather'))
+    except Exception:
+        pass
+    failfile = open(os.path.join(root, 'error.txt'), 'a+')
+    wait = Semaphore(3)
+    history = WeatherHistory()
+    # 获取所有省份入库链接
+    for item in history.get_province_link():
+        # 获取每个省份的城市入口链接
+        for data in history.get_city_past_link(item['url']):
+            filepath = os.path.join(root, "Weather/" + data['city'] + ".csv")
+            f = open(filepath, 'a+', newline='')
+            w = csv.writer(f)
+            for url in history.get_city_all_partition(data['url']):
+                wait.acquire()
+
+                def request(purl):
+
+                    for obj in history.get_weather_detail(purl):
+                        w.writerow([obj.date, obj.state, obj.temperature, obj.wind])
+                    print("success")
+                    wait.release()
+
+                Thread(target=request, args=(url,)).start()
+
+
 if __name__ == "__main__":
     root = os.path.abspath(os.path.curdir)
     try:
@@ -187,16 +219,32 @@ if __name__ == "__main__":
     failfile = open(os.path.join(root, 'error.txt'), 'a+')
     wait = Semaphore(3)
     history = WeatherHistory()
+    # 获取所有省份入库链接
+    flag = 0
     for item in history.get_province_link():
+        # 获取每个省份的城市入口链接
         for data in history.get_city_past_link(item['url']):
+
             filepath = os.path.join(root, "Weather/" + data['city'] + ".csv")
             f = open(filepath, 'a+', newline='')
             w = csv.writer(f)
+            print(data['city'])
+            if data['city'] == "南汇":
+                flag = 1
+                continue
+            if flag != 1:
+                continue
             for url in history.get_city_all_partition(data['url']):
                 wait.acquire()
+                ddate = int(re.findall("(\d{6})", url)[0])
+                if ddate <= 201906:
+                    wait.release()
+
+                    continue
 
 
                 def request(purl):
+
                     for obj in history.get_weather_detail(purl):
                         w.writerow([obj.date, obj.state, obj.temperature, obj.wind])
                     print("success")
@@ -204,3 +252,4 @@ if __name__ == "__main__":
 
 
                 Thread(target=request, args=(url,)).start()
+# 锦州
