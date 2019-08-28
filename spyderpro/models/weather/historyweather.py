@@ -229,7 +229,7 @@ if __name__ == "__main__":
             f = open(filepath, 'a+', newline='')
             w = csv.writer(f)
             print(data['city'])
-            if data['city'] == "南汇":
+            if data['city'] == "府谷":
                 flag = 1
                 continue
             if flag != 1:
