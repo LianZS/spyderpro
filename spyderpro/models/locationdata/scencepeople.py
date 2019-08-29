@@ -46,3 +46,4 @@ class ScencePeopleFlow(Connect):
 
             yield positioning
             # yield {"时刻": detailtime, "客流量": num}
+
