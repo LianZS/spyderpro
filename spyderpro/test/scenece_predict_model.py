@@ -50,15 +50,15 @@ for file in os.listdir("/Volumes/Tigo/易班项目数据/预测模型训练数�
 
     p1 = np.poly1d(f1)
     # # print('p1 is :\n', p1)
-    w.writerow([area, str(p1)])
+    # w.writerow([area, str(p1)])
     print("%s is SUCCESS" % area)
     # # 也可使用yvals=np.polyval(f1, x)
-    # yvals = p1(x)
+    yvals = p1(x)
     # # 绘图
-    # plot1 = plt.plot(x, y, 's', label='original values')
-    # plot2 = plt.plot(x, yvals, 'r', label='polyfit values')
-    # plt.xlabel('x')
-    # plt.ylabel('y')
-    # plt.legend(loc=4)  # 指定legend的位置右下角
-    # plt.title('polyfitting')
-    # plt.show()
+    plot1 = plt.plot(x, y, 's', label='original values')
+    plot2 = plt.plot(x, yvals, 'r', label='polyfit values')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.legend(loc=4)  # 指定legend的位置右下角
+    plt.title('polyfitting')
+    plt.show()
