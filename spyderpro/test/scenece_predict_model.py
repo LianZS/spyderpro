@@ -50,7 +50,7 @@ for file in os.listdir("/Volumes/Tigo/易班项目数据/预测模型训练数�
 
     p1 = np.poly1d(f1)
     # # print('p1 is :\n', p1)
-    # w.writerow([area, str(p1)])
+    w.writerow([area, str(p1)])
     print("%s is SUCCESS" % area)
     # # 也可使用yvals=np.polyval(f1, x)
     yvals = p1(x)
