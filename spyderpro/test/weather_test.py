@@ -18,14 +18,21 @@ cur.execute(sql)
 city_map = dict()
 for pid, city in cur.fetchall():
     city_map[city] = pid
-for filename in os.listdir("/Volumes/Tigo/易班项目数据/Weather"):
-    filepath = "/Volumes/Tigo/易班项目数据/Weather/" + filename
-    f = open(filepath, 'r', encoding="gbk")
+sql_file = open("./newweatherdb.sql", 'a+')
+sql_file.write("insert into digitalsmart.weatherdb(pid, ddate, weatherstate, template, wind) VALUES ")
+for filename in os.listdir("/Users/darkmoon/Project/SpyderPr/spyderpro/models/weather/Weather"):
+    filepath = "/Users/darkmoon/Project/SpyderPr/spyderpro/models/weather/Weather/" + filename
+    f = open(filepath, 'r', encoding="UTF-8")
     r = csv.reader(f)
     city = filename.split(".")[0]
-    print(city)
-    pid = city_map[city]
+
+    try:
+        pid = city_map[city]
+
+    except KeyError:
+        continue
     count = 1
+
     for item in r:
         ddate = item[0]
         state = item[1]
@@ -33,11 +40,17 @@ for filename in os.listdir("/Volumes/Tigo/易班项目数据/Weather"):
         wind = item[3]
         year, month, day = ddate[:4], ddate[5:7], ddate[8:10]
         ddate = int(year + month + day)
-        sql = "insert into digitalsmart.weatherdb(pid, ddate, weatherstate, template, wind) VALUE (%d,%d,'%s','%s','%s')" % (
-            pid, ddate, state, template, wind)
-        cur.execute(sql)
-        count += 1
-        if count % 1111 == 0:
-            db.commit()
-            count = 1
-    db.commit()
+        value = "(%d,%d,'%s','%s','%s')" % (pid, ddate, state, template, wind)
+        sql_file.write(value)
+        # sql = "insert into digitalsmart.weatherdb(pid, ddate, weatherstate, template, wind) VALUE (%d,%d,'%s','%s','%s')" % (
+        #     pid, ddate, state, template, wind)
+        # print(sql)
+        #     cur.execute(sql)
+        #     count += 1
+        #     if count % 1111 == 0:
+        #         db.commit()
+        #         count = 1
+        # db.commit()
+        sql_file.write(",")
+
+sql_file.write(";")
