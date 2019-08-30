@@ -170,14 +170,14 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             self.connectqueue.put(db2)
 
             def fast(cid, tale_pid):
-
-                data = self.get_data(date=ddate, dateTime=detailtime, region_id=cid)
-                if not data:
+                newdata = self.get_data(date=ddate, dateTime=detailtime, region_id=cid)
+                if not newdata:
                     return
                 Thread(target=self.manager_scenece_people_distribution,
-                       args=(data, cid, up_date, lat, lon, tale_pid)).start()
-                Thread(target=self.manager_scenece_people_situation(data, cid, ddate, detailtime)).start()
+                       args=(newdata, cid, up_date, lat, lon, tale_pid)).start()
+                self.manager_scenece_people_situation(newdata, cid, ddate, detailtime)
 
+            # Thread(target=fast, args=(region_id, table_id)).start()
             fast(region_id, table_id)  # 千万不能这里多线程，否则会数据混乱
 
     def manager_scenece_people_distribution(self, data, region_id, tmp_date: int, centerlat: float, centerlon: float,
@@ -204,7 +204,6 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
 
         db2.commit()
         self.taskSemaphore.release()
-        print("success")
         sql = "update digitalsmart.tablemanager  " \
               "set last_date={0} where pid={1}".format(tmp_date, region_id)  # 更新修改时间
         newcur.execute(sql)
@@ -229,7 +228,9 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             newcur.close()
         except Exception as e:
             print(e)
+        db2.commit()
         self.connectqueue.put(db2)
+
 
     def manager_history_sceneceflow(self):
         """
@@ -255,7 +256,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             for item in data:
                 sql_format = "insert into digitalsmart.historyscenceflow{0}(pid, ddate, ttime, num) VALUE (%d,%d,'%s',%d)".format(
                     histtory_table_id)
-                sql =sql_format%item
+                sql = sql_format % item
                 newcur.execute(sql)
             db2.commit()
             self.connectqueue.put(db2)
