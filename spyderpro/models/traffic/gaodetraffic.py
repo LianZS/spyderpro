@@ -228,4 +228,3 @@ class GaodeTraffic(Traffic):
         for date, index in zip(g["categories"], g['serieData']):
             yield Year(pid=citycode, date=int(date.replace("-", "")), index=index)
 
-

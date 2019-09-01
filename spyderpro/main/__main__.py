@@ -2,9 +2,9 @@ import sys
 import os
 import time
 import datetime
-
-sys.path[1] = '/root/SpyderPr'
-sys.path[0] = os.path.abspath(os.path.join(os.path.curdir, "venv/lib/python3.7/site-packages"))  # 载入环境
+#
+# sys.path[1] = '/root/SpyderPr'
+# sys.path[0] = os.path.abspath(os.path.join(os.path.curdir, "venv/lib/python3.7/site-packages"))  # 载入环境
 from threading import Semaphore, Timer
 
 from spyderpro.managerfunction.managerscence import ManagerScence
@@ -61,11 +61,11 @@ if __name__ == "__main__":
         # if (now.hour == 23 and now.minute < 30) or (now.hour == 22 and now.minute > 30):
         #     time.sleep(3600)
         lock_scenece.acquire()
-        lock_change.acquire()
+        # lock_change.acquire()
         lock_traffic.acquire()
-        Timer(interval=300, function=monitoring_scencepeople_change).start()
-        Timer(interval=1800, function=monitoring_scencepeople).start()
-        Timer(interval=1800, function=monitoring_traffic).start()
+        # Timer(interval=10, function=monitoring_scencepeople_change).start()
+        Timer(interval=10, function=monitoring_scencepeople).start()
+        Timer(interval=10, function=monitoring_traffic).start()
 
 
         # Timer(interval=300, function=monitoring_scencepeople_trend).start()

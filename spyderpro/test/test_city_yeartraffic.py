@@ -5,7 +5,7 @@ from spyderpro.models.traffic.baidutraffic import BaiduTraffic
 
 user = 'root'
 password = 'lzs87724158'
-host = "47.103.105.236"
+host = "39.108.13.150"
 port = 3306
 scencefilepath = os.getcwd()
 city_file_path = os.getcwd()
@@ -22,6 +22,7 @@ for item in cur.fetchall():
     for colum in result:
         sql = "insert into digitalsmart.yeartraffic(pid, tmp_date, rate) VALUE (%d,%d,%f)" % (
         colum.region_id, colum.date, colum.index)
+        print(sql)
         cur.execute(sql)
     print("commit")
     db.commit()

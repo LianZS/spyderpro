@@ -3,15 +3,17 @@ import csv
 import os
 import matplotlib.pyplot as plt
 
-wf = open("/Volumes/Tigo/易班项目数据/节假日模型.csv", 'a+')
+wf = open("/Volumes/Tigo/易班项目数据/非节假日模型3.csv", 'a+')
 w = csv.writer(wf)
 # w.writerow(["地区", "模型"])
-for file in os.listdir("/Volumes/Tigo/易班项目数据/预测模型训练数据2/"):
+for file in os.listdir("/Volumes/Tigo/易班项目数据/景区客流数据/"):
     area = file.split(".")[0]
+    if area!="深圳欢乐谷":
+        continue
     filetype = file.split(".")[1]
     if filetype != "csv":
         continue
-    f = open("/Volumes/Tigo/易班项目数据/预测模型训练数据2/" + file, 'r')
+    f = open("/Volumes/Tigo/易班项目数据/景区客流数据/" + file, 'r')
     r = csv.reader(f)
     data_map = dict()
     try:
@@ -26,9 +28,9 @@ for file in os.listdir("/Volumes/Tigo/易班项目数据/预测模型训练数�
         for date_time in date_index:
             ddate = date_time.split(" ")[0]
             # 元旦等重大节假日不分析，先分析一个月的情况
-            if ddate <= "2018-09-30":
+            if ddate <= "2018-07-04":
                 continue
-            if ddate == "2018-10-02":
+            if ddate == "2018-07-06":
                 break
             date_time_range.append(date_time)
             data.append(data_map[date_time])
@@ -50,12 +52,13 @@ for file in os.listdir("/Volumes/Tigo/易班项目数据/预测模型训练数�
 
     p1 = np.poly1d(f1)
     # # print('p1 is :\n', p1)
-    w.writerow([area, str(p1)])
+    # w.writerow([area, str(p1)])
     print("%s is SUCCESS" % area)
     # # 也可使用yvals=np.polyval(f1, x)
     yvals = p1(x)
     # # 绘图
     plot1 = plt.plot(x, y, 's', label='original values')
+    print(p1)
     plot2 = plt.plot(x, yvals, 'r', label='polyfit values')
     plt.xlabel('x')
     plt.ylabel('y')

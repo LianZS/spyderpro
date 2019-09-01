@@ -1,14 +1,15 @@
 import requests
 import re
 import datetime
-import time
 import json
-import csv
 import sys
 import os
-import threading
-from queue import Queue
+import pymysql
+import time
+from threading import Thread, Semaphore, Timer
 from urllib.parse import urlencode
+
+lock = Semaphore(12)
 
 
 class Connect:
@@ -147,8 +148,11 @@ class PlaceFlow(PlaceInterface):
         :param url:
         :return:json
         """
-
-        response = self.request.get(url=url, headers=self.headers)
+        try:
+            response = self.request.get(url=url, headers=self.headers)
+        except Exception:
+            lock.release()
+            return None
         if response.status_code == 200:
             g = json.loads(response.text)
             return g
@@ -168,7 +172,7 @@ class PlaceFlow(PlaceInterface):
 
         return g
 
-    def count_headdata(self, date: str, datetim: str, region_id: int):
+    def count_headdata(self, ddate: str, ttime: str, region_id: int):
         """
         某一时刻的人数有多少
         :param date:日期：格式yyyy-mm-dd
@@ -176,12 +180,30 @@ class PlaceFlow(PlaceInterface):
         :param region_id:地区唯一表示
         :return:总人数
         """
-        g = self.__get_heatdata_bytime(date, datetim, region_id)
+
+        g = self.__get_heatdata_bytime(ddate, ttime, region_id)
         if not g:
             return None
         count = sum(g.values())  # 总人数
-        data = {"date": "".join([date, ' ', datetim]), "num": count}
-        return data
+        lock.release()
+        user = 'root'
+        password = 'lzs87724158'
+        host = "localhost"
+        port = 3306
+        database = 'digitalsmart'
+        ddate = int(ddate.replace("-", ""))
+        try:
+            db2 = pymysql.connect(host=host, user=user, password=password, database=database,
+                                  port=port)
+        except Exception:
+            return
+        cur2 = db2.cursor()
+        sql = "insert into digitalsmart.scenceflow(pid, ddate, ttime, num) VALUE (%d,%d,'%s',%d)" % (
+            region_id, ddate, ttime, count)
+        cur2.execute(sql)
+        db2.commit()
+        db2.close()
+        print("success")
 
     def complete_heatdata(self, date: str, datetim: str, region_id: int):
         """
@@ -210,118 +232,52 @@ class PlaceFlow(PlaceInterface):
         return escape
 
 
-class CeleryThread(threading.Thread):
-    def __init__(self, group=None, target=None, name=None,
-                 args=(), kwargs=None, *, daemon=None):
-        threading.Thread.__init__(self)
-        self._target = target
-        self._args = args
-
-    def run(self):
-        result = self._target(*self._args)
-        if result:
-            data_queue.put(result)
-        semaphore.release()
-
-
 def get_count(region_id):
-    p = PlaceFlow()
     datelist = dateiter(region_id)
-
-    global data_file
-    global wf
     place = PlaceFlow()
     func = place.count_headdata
-    wait.acquire()
-    fileclose.put(1)
-    print("start")
-    data_file = open(file_path, 'a+', newline="")
-    wf = csv.writer(data_file)
-
-    for date, datetim, region_id in datelist:
-        semaphore.acquire()
-        t = CeleryThread(target=func, args=(date, datetim, regin_id))
-        t.start()
-    print("wait")
-    fileclose.join()
-
-    wait.release()
-    time.sleep(10)
-    data_file.close()
-    print("close")
-    exit()
-
-def write():
-    while 1:
-        try:
-            data = data_queue.get(timeout=5)
-        except Exception as e:
-            fileclose.get()
-            fileclose.task_done()
-
-            continue
-        date = data['date']
-
-        num = data['num']
-        wf.writerow([date, num])
-        data_file.flush()
-
+    for date, ttime, region_id in datelist:
+        lock.acquire()
+        Thread(target=func, args=(date, ttime, region_id,)).start()
 
 
 def dateiter(region_id):
-    inittime = datetime.datetime(2019, 7, 30, 0, 0, 0)
-    timedelta = datetime.timedelta(minutes=5)
-    flag = 0
+    date_time = datetime.datetime.now()
+    today = date_time.date()
+    hour = date_time.time().hour - 1
+    if hour < 0:
+        hour = 23
+    inittime = datetime.datetime(today.year, today.month, today.day, hour, 0, 0)
 
-    if not last:
-        flag = 1
+    timedelta = datetime.timedelta(minutes=5)
     while 1:
-        inittime = inittime + timedelta
-        if inittime.year == 2019 and inittime.month == 7 and inittime.day == 31:
+        ttime = datetime.datetime.now().time()
+        if inittime.year == today.year and inittime.month == today.month and inittime.day == today.day \
+                and inittime.hour == ttime.hour and inittime.minute > ttime.minute:
             break
 
-        if flag:
-            yield str(inittime.date()), str(inittime.time()), region_id
+        yield str(inittime.date()), str(inittime.time()), region_id
+        inittime = inittime + timedelta
 
 
 base_dir = os.getcwd()
 sys.path[0] = base_dir
-semaphore = threading.Semaphore(5)
-fileclose = Queue(1)
-wait = threading.Semaphore(1)
-data_queue = Queue(maxsize=10)
-global data_file
-global wf  # csv实例
 
 if __name__ == "__main__":
-    # exit()
-    file = open('/Users/darkmoon/Project/SpyderPr/spyderpro/testdata/region_id.csv', "r")
-    r = csv.reader(file)
-    r.__next__()
-    dir_path = os.path.join(base_dir, "FILE")
-    try:
-        os.mkdir(dir_path)
-    except FileExistsError:
-        pass
-    count = 0
-    CeleryThread(target=write, args=()).start()  # 实时数据处理
-    for item in r:
-        count += 1
-        name = item[0]
-        regin_id = item[1]
-        file_path = os.path.join(dir_path, name + ".csv")
-        last = None
+    user = 'root'
+    password = 'lzs87724158'
+    host = "localhost"
+    port = 3306
+    database = 'digitalsmart'
+    db = pymysql.connect(host=host, user=user, password=password, database=database,
+                         port=port)
+    cur = db.cursor()
+    sql = "select pid from digitalsmart.scencemanager where flag=0 and type_flag=0"
+    cur.execute(sql)
+    while 1:
 
-        if os.path.exists(file_path):
-            ff = open(file_path, 'r')
-            data = csv.reader(ff)
-            for row in data:
-                last = row[0]
-            if last:
-                lastdate, lastdatetim = last.split(' ')  # 最后一行数据
-            ff.close()
-
-        print(name)
-        if count == 4:
-
-            get_count(regin_id)
+        for item in cur.fetchall():
+            pid = item[0]
+            print(pid)
+            get_count(pid)
+        time.sleep(3600)
