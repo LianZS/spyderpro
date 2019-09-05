@@ -3,7 +3,7 @@ import json
 import time
 from urllib.parse import urlencode
 from typing import Iterator, Dict
-from threading import Semaphore, Thread
+from threading import Semaphore
 from queue import Queue
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.models.traffic.trafficinterface import Traffic
@@ -166,7 +166,7 @@ class GaodeTraffic(Traffic):
     def __realtime_roaddata(self, road_url: str, i: int):
         """
         具体请求某条道路的数据
-        :param roadurl: 道路数据链接
+        :param road_url: 道路数据链接
         :param i: 排名
         :return: dict->{"num": i, "time": time_list, "data": data}
 
@@ -201,7 +201,6 @@ class GaodeTraffic(Traffic):
         """
         获取城市年度交通数据
         :param citycode: 城市id
-        :param name: 城市名
         :param year: 年份
         :param quarter: 第几季度
         :return: iterable(dict)
@@ -240,6 +239,3 @@ class GaodeTraffic(Traffic):
             return []
         for date, index in zip(json_data["categories"], json_data['serieData']):
             yield Year(pid=citycode, date=int(date.replace("-", "")), index=index)
-
-
-
