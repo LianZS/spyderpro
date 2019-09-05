@@ -91,10 +91,10 @@ class PlaceInterface(Connect, ParamTypeCheck):
         :return:
         """
         str_href = "https://heat.qq.com/api/getRegionHeatMapInfoById.php?id=" + str(pid)
-        dict_headers = dict()
-        dict_headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
+        headers = dict()
+        headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
                                      '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
-        response = requests.get(url=str_href, headers=dict_headers).text
+        response = requests.get(url=str_href, headers=headers).text
         json_data = json.loads(response)
         str_list_bounds = json_data['boundary']  # 格式'维度,经度|纬度,经度|'
         list_center = json_data['center_gcj'].split(',', 2)
@@ -114,8 +114,8 @@ class PlaceTrend(PlaceInterface):
         :type intervallong:int
         :param intervallong:数据间隔时间，最小为1分钟
 
-        :param date_begin:开始搜索时间,格式yyyymmdd
-        :param date_end:结束搜索时间,格式yyyymmdd
+        :param date_begin:开始搜索时间,格式yyyy-mm-dd
+        :param date_end:结束搜索时间,格式yyyy-mm-dd
         :param user_agent:浏览器头
         """
         self.yyyy_mm_dd_date_begin = date_begin
@@ -123,15 +123,15 @@ class PlaceTrend(PlaceInterface):
         self.intervallong = intervallong
         if not PlaceTrend.bool_instance_flag:
             PlaceTrend.bool_instance_flag = True
-            self.dict_headers = dict()
+            self.headers = dict()
             if user_agent is None:
-                self.dict_headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) ' \
+                self.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) ' \
                                                   'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 ' \
                                                   'Safari/537.36'
 
             else:
-                self.dict_headers['User-Agent'] = user_agent
-            self.dict_headers['Host'] = 'heat.qq.com'
+                self.headers['User-Agent'] = user_agent
+            self.headers['Host'] = 'heat.qq.com'
 
             self.request = requests.Session()
 
@@ -163,7 +163,6 @@ class PlaceTrend(PlaceInterface):
         datetime_starttime = datetime(2019, 1, 1, 0, 0, 0)
         # 获取用户需要请求的日期时间
         for date in self.date_iterator():
-
             for index, detail_time in zip(dict_data[date],
                                           [str((datetime_starttime + intervallong * i).time()) for i in
                                            range(len(dict_data[date]))]):
@@ -203,14 +202,14 @@ class PlaceFlow(PlaceInterface):
 
         if not PlaceFlow.bool_instance_flag:
             PlaceFlow.bool_instance_flag = True
-            self.dict_headers = dict()
+            self.headers = dict()
             if user_agent is None:
-                self.dict_headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/' \
+                self.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/' \
                                                   '537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
 
             else:
-                self.dict_headers['User-Agent'] = user_agent
-            self.dict_headers['Host'] = 'heat.qq.com'
+                self.headers['User-Agent'] = user_agent
+            self.headers['Host'] = 'heat.qq.com'
 
             self.request = requests.Session()
 
@@ -223,7 +222,7 @@ class PlaceFlow(PlaceInterface):
 
         """
         try:
-            response = self.request.get(url=url, headers=self.dict_headers)
+            response = self.request.get(url=url, headers=self.headers)
         except Exception as e:
             print(e)
             return {}
