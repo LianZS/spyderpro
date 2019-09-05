@@ -290,8 +290,10 @@ class PlaceFlow(PlaceInterface):
         for int_inv_lat, int_inv_lon in map_tuple__coords:
             key = '{0},{1}'.format(int_inv_lat, int_inv_lon)
             # 人数
-
-            int_num = heatmap_data[key]
+            try:
+                int_num = heatmap_data[key]
+            except KeyError:
+                continue
             # 经纬度人数结构体
             geographi = Geographi(latitude=float(int_inv_lat) / 10000, longitude=float(int_inv_lon) / 10000,
                                   number=int_num)
