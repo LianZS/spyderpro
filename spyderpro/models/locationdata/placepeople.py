@@ -3,8 +3,7 @@ import requests
 import re
 import json
 from datetime import datetime, timedelta
-import threading
-from queue import Queue
+
 from urllib.parse import urlencode
 from typing import Iterator, List, Dict
 from spyderpro.portconnect.internetconnect import Connect
@@ -14,7 +13,7 @@ from spyderpro.instances.lbs import Trend, Geographi, Positioning
 
 class PlaceInterface(Connect, ParamTypeCheck):
     instance = None
-    instance_flag: bool = False
+    bool_instance_flag = False
 
     def __new__(cls, *args, **kwargs):
         if cls.instance is None:
@@ -27,11 +26,11 @@ class PlaceInterface(Connect, ParamTypeCheck):
         获取所有省份
         :return: list
         """
-        href = "https://heat.qq.com/api/getAllProvince.php?sub_domain="
+        str_href = "https://heat.qq.com/api/getAllProvince.php?sub_domain="
         par: str = None
-        g = self.connect(par, href)
-        data = [value["province"] for value in g]
-        return data
+        dict_data = self.connect(par, str_href)
+        list_data = [value["province"] for value in dict_data]
+        return list_data
 
     # 所有城市
     def get_citys(self, province: str) -> List[Dict]:
@@ -42,15 +41,15 @@ class PlaceInterface(Connect, ParamTypeCheck):
         """
         # 这里不需要quote中文转url，因为后面的urlencode自动会转
 
-        parameter = {
+        dict_parameter = {
             "province": province,
             "sub_domain": ''
         }
-        href = "https://heat.qq.com/api/getCitysByProvince.php?" + urlencode(parameter)
+        str_href = "https://heat.qq.com/api/getCitysByProvince.php?" + urlencode(dict_parameter)
         par: str = None
-        g = self.connect(par, href)
-        results = [{"province": province, "city": value["city"]} for value in g]
-        return results
+        dict_g = self.connect(par, str_href)
+        list_of_dict_results = [{"province": province, "city": value["city"]} for value in dict_g]
+        return list_of_dict_results
 
     def get_regions_bycity(self, province: str, city: str) -> List[Dict]:
         """
@@ -64,37 +63,44 @@ class PlaceInterface(Connect, ParamTypeCheck):
         """
         self.type_check(province, str)
         self.type_check(city, str)
-        parameter = {
+        dict_parameter = {
             'province': province,
             'city': city,
             'sub_domain': ''
         }
 
-        href = "https://heat.qq.com/api/getRegionsByCity.php?" + urlencode(parameter)
+        str_href = "https://heat.qq.com/api/getRegionsByCity.php?" + urlencode(dict_parameter)
 
         par: str = None
-        g = self.connect(par, href)
-        datalist = list()
-        for value in g:
-            placename = value['name']  # 地点
-            placeid = value["id"]  # id
-            dic = {'province': province, 'city': city, "place": placename, "id": placeid}
-            datalist.append(dic)
-        return datalist
-        # range表示数据间隔，最小1,region_name是地点名字,id是景区pid
+        # 获取返回数据
+        dict_data = self.connect(par, str_href)
+        # 用来存放数据
+        list_data = list()
+        for value in dict_data:
+            str_placename = value['name']  # 地点
+            int_placeid = value["id"]  # id
+            dict_data = {'province': province, 'city': city, "place": str_placename, "id": int_placeid}
+            list_data.append(dict_data)
+        return list_data
 
-    def get_bounds(self, pid: int) -> Dict:
-        href = "https://heat.qq.com/api/getRegionHeatMapInfoById.php?id=" + str(pid)
-        headers = dict()
-        headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
-                                '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
-        response = requests.get(url=href, headers=headers).text
-        g = json.loads(response)
-        bounds = g['boundary']
-        center = g['center_gcj'].split(',', 2)
-        lat = center[0]
-        lon = center[1]
-        return {"bounds": bounds, "lat": lat, "lon": lon}
+    @staticmethod
+    def get_bounds(pid: int) -> Dict:
+        """
+        获取某个地方地理位置数据
+        :param pid:区域标识
+        :return:
+        """
+        str_href = "https://heat.qq.com/api/getRegionHeatMapInfoById.php?id=" + str(pid)
+        dict_headers = dict()
+        dict_headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
+                                     '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+        response = requests.get(url=str_href, headers=dict_headers).text
+        json_data = json.loads(response)
+        str_list_bounds = json_data['boundary']  # 格式'维度,经度|纬度,经度|'
+        list_center = json_data['center_gcj'].split(',', 2)
+        float_lat = float(list_center[0])  # 维度
+        float_lon = float(list_center[1])  # 经度
+        return {"bounds": str_list_bounds, "lat": float_lat, "lon": float_lon}
 
 
 class PlaceTrend(PlaceInterface):
@@ -108,22 +114,24 @@ class PlaceTrend(PlaceInterface):
         :type intervallong:int
         :param intervallong:数据间隔时间，最小为1分钟
 
-        :param date_begin:开始搜索时间
-        :param date_end:结束搜索时间
+        :param date_begin:开始搜索时间,格式yyyymmdd
+        :param date_end:结束搜索时间,格式yyyymmdd
+        :param user_agent:浏览器头
         """
-        self.date_begin = date_begin
-        self.date_end = date_end
+        self.yyyy_mm_dd_date_begin = date_begin
+        self.yyyy_mm_dd_date_end = date_end
         self.intervallong = intervallong
-        if not PlaceTrend.instance_flag:
-            PlaceTrend.instance_flag = True
-            self.headers = dict()
+        if not PlaceTrend.bool_instance_flag:
+            PlaceTrend.bool_instance_flag = True
+            self.dict_headers = dict()
             if user_agent is None:
-                self.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
-                                             '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+                self.dict_headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) ' \
+                                                  'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 ' \
+                                                  'Safari/537.36'
 
             else:
-                self.headers['User-Agent'] = user_agent
-            self.headers['Host'] = 'heat.qq.com'
+                self.dict_headers['User-Agent'] = user_agent
+            self.dict_headers['Host'] = 'heat.qq.com'
 
             self.request = requests.Session()
 
@@ -136,41 +144,54 @@ class PlaceTrend(PlaceInterface):
 
         :return  Iterator[Trend]
         """
-        parameter = {
+        # 请求参数
+        dict_parameter = {
             'region': pid,
-            'date_begin': self.date_begin,
-            'date_end': self.date_end,
+            'date_begin': self.yyyy_mm_dd_date_begin,
+            'date_end': self.yyyy_mm_dd_date_end,
             'range': self.intervallong,
             'predict': False  # 是否获取预测数据,若为true，预测那天的键需要加上「预测」两字
         }
-        href = "https://heat.qq.com/api/getLocation_uv_percent_new.php?" + urlencode(parameter)
+        # 请求链接
+        str_href = "https://heat.qq.com/api/getLocation_uv_percent_new.php?" + urlencode(dict_parameter)
         par: str = None
-        g = self.connect(par, href)
-        '''获取间隔日期 ----仅限于最大周期15天'''
+        # 获取返回数据
+        dict_data = self.connect(par, str_href)
+        # 获取间隔日期 ----仅限于最大周期15天
         intervallong = timedelta(minutes=5)
-        starttime = datetime(2019, 1, 1, 0, 0, 0)  # 时间从00：00：00开始计算
-        for date in self.dateiter():
+        # # 时间从00：00：00开始计算，不管日期，这里只是为了取时间
+        datetime_starttime = datetime(2019, 1, 1, 0, 0, 0)
+        # 获取用户需要请求的日期时间
+        for date in self.date_iterator():
 
-            for index, detailt in zip(g[date],
-                                      [str((starttime + intervallong * i).time()) for i in range(len(g[date]))]):
+            for index, detail_time in zip(dict_data[date],
+                                          [str((datetime_starttime + intervallong * i).time()) for i in
+                                           range(len(dict_data[date]))]):
                 if index == "null":
                     break
-
+                # 趋势结构体
                 trend = Trend(pid=pid, place=region_name, date=int(date.replace("-", "")), index=float(index),
-                              detailtime=detailt)
+                              detailtime=detail_time)
                 yield trend
 
-    def dateiter(self) -> Iterator[str]:
-        formatdate = time.strptime(self.date_begin, "%Y-%m-%d")
-        intervallong = timedelta(days=1)
-        date = datetime(formatdate.tm_year, formatdate.tm_mon, formatdate.tm_mday)
+    def date_iterator(self) -> Iterator[str]:
+        """
+        解析用户需要请求的时间，将yyyymmdd转为 yyyy-mm-dd格式
+        :return:日期迭代器
+        """
+        # yyyymmdd转为yyyy-mm-dd格式
+        str_format_date = time.strptime(self.yyyy_mm_dd_date_begin, "%Y-%m-%d")
+        # 时间间隔
+        timedelta_intervallong = timedelta(days=1)
+        # 初始化时间
+        init_date = datetime(str_format_date.tm_year, str_format_date.tm_mon, str_format_date.tm_mday)
         while 1:
-            d = str(date.date())
-            if d == self.date_end:
+            yyyy_mm_dd_date = str(init_date.date())
+            if yyyy_mm_dd_date == self.yyyy_mm_dd_date_end:
                 break
-            yield d
-
-            date = date + intervallong
+            yield yyyy_mm_dd_date
+            # 下一刻时间
+            init_date = init_date + timedelta_intervallong
 
 
 class PlaceFlow(PlaceInterface):
@@ -180,152 +201,151 @@ class PlaceFlow(PlaceInterface):
 
     def __init__(self, user_agent: str = None):
 
-        if not PlaceFlow.instance_flag:
-            PlaceFlow.instance_flag = True
-            self.headers = dict()
+        if not PlaceFlow.bool_instance_flag:
+            PlaceFlow.bool_instance_flag = True
+            self.dict_headers = dict()
             if user_agent is None:
-                self.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
-                                             '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+                self.dict_headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
+                                                  '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
 
             else:
-                self.headers['User-Agent'] = user_agent
-            self.headers['Host'] = 'heat.qq.com'
+                self.dict_headers['User-Agent'] = user_agent
+            self.dict_headers['Host'] = 'heat.qq.com'
 
             self.request = requests.Session()
 
-    def request_heatdata(self, url: str) -> json:
+    def request_heatdata(self, url: str) -> Dict:
         """
-        网络请求
-        :param url:
-        :return:json
-        pr
+        请求热力图数据
+        :param url:热力图请求链接
+        :return:dict热力图经纬度人数数据
+
 
         """
         try:
-            response = self.request.get(url=url, headers=self.headers)
-        except Exception as  e:
+            response = self.request.get(url=url, headers=self.dict_headers)
+        except Exception as e:
             print(e)
-            return None
+            return {}
         if response.status_code == 200:
-            g = json.loads(response.text)
-            return g
+            # 热力图数据
+            json_data = json.loads(response.text)
+            return json_data
         else:
-            return None
+            return {}
 
-    def get_heatdata_bytime(self, date: str, datetim: str, region_id: int):
+    def get_heatdata_bytime(self, date: str, date_time: str, region_id: int):
         """
         某一时刻的人口分布详情
         :param date:日期：格式yyyy-mm-dd
-        :param dateTime:时间：格式hh:MM:SS
-        :param region_id:地区唯一表示
-        :return: json
+        :param date_time:时间：格式hh:MM:SS
+        :param region_id:地区唯一标识
+        :return: dict经纬度人数数据，可能为{}
         """
+        # 类型检查
         self.date_format_check(date)
-        self.time_format_check(datetim)
+        self.time_format_check(date_time)
         self.type_check(region_id, int)
-        paramer = {
+        # 请求参数
+        dict_paramer = {
             'region_id': region_id,
-            'datetime': "".join([date, ' ', datetim]),
+            'datetime': "".join([date, ' ', date_time]),
             'sub_domain': ''
         }
         # https://heat.qq.com/api/getHeatDataByTime.php?region_id=5381&datetime=2019-01-01+01%3A10%3A00&sub_domain=
-        url = "https://heat.qq.com/api/getHeatDataByTime.php?" + urlencode(paramer)
-        g = self.request_heatdata(url)
-        return g
+        str_url = "https://heat.qq.com/api/getHeatDataByTime.php?" + urlencode(dict_paramer)
+        # 请求热力图数据
+        json_result = self.request_heatdata(str_url)
+        return json_result
 
-    def count_headdata(self, data: json, ddate: str, dateTime: str, region_id: int) -> Positioning:
+    def count_headdata(self, heatmap_data: json, ddate: str, date_time: str, region_id: int) -> Positioning:
 
         """
         某一时刻的人数有多少
         :param date:日期：格式yyyy-mm-dd
-        :param dateTime:时间：格式hh:MM:SS
+        :param date_time:时间：格式hh:MM:SS
         :param region_id:地区唯一表示
         :return:总人数
         """
-
-        g = data
-        if not g:
+        # 热力图数据
+        json_heatmap_data = heatmap_data
+        if not json_heatmap_data:
             return Positioning(None, None, None, None)
-        num = sum(g.values())  # 总人数
-        positioning = Positioning(region_id=region_id, date=int(ddate.replace("-", "")), detailtime=dateTime, num=num)
+        int_total_num = sum(json_heatmap_data.values())  # 总人数
+        positioning = Positioning(region_id=region_id, date=int(ddate.replace("-", "")), detailtime=date_time,
+                                  num=int_total_num)
         return positioning
 
-    def complete_headata(self, g: json) -> Iterator[Geographi]:
-        """ 某一时刻的人数以及分布情况的json格式
-            :returnrn {"lat": lat, "lng": lng, "num": num}->与中心经纬度的距离与相应人数
+    def complete_headata(self, heatmap_data: json) -> Iterator[Geographi]:
         """
-        coords = map(self.deal_coordinates, g.keys())  # 围绕中心经纬度加减向四周扩展
-        numlist = iter(g.values())
-        for xy, num in zip(coords, numlist):
-            lat = xy[0]
-            lng = xy[1]
-            geographi = Geographi(latitude=float(lat) / 10000, longitude=float(lng) / 10000, number=int(num))
+        处理每个经纬度对应的人数
+        :param heatmap_data:热力图数据
+        :return:Iterator[Geographi]
+        """
+        # 经纬度围绕中心经纬度差*10000
+
+        map_tuple__coords = map(self.deal_coordinates, heatmap_data.keys())
+
+        for int_inv_lat, int_inv_lon in map_tuple__coords:
+            key = '{0},{1}'.format(int_inv_lat, int_inv_lon)
+            # 人数
+
+            int_num = heatmap_data[key]
+            # 经纬度人数结构体
+            geographi = Geographi(latitude=float(int_inv_lat) / 10000, longitude=float(int_inv_lon) / 10000,
+                                  number=int_num)
             yield geographi
 
-    def complete_heatdata_simple(self, date: str, dateTime: str, region_id: int) -> Iterator[Geographi]:
+    def complete_heatdata_simple(self, date: str, date_time: str, region_id: int) -> Iterator[Geographi]:
         """
-           某一时刻的人数以及分布情况
+           请求某一时刻的人数以及分布情况
            :param date:日期：格式yyyy-mm-dd
-           :param dateTime:时间：格式hh:MM:SS
+           :param date_time:时间：格式hh:MM:SS
            :param region_id:地区唯一表示
-           :return:dict格式：{"lat": lat, "lng": lng, "num": num}->与中心经纬度的距离与相应人数
+           :return:dict格式： Iterator[Geographi]->与中心经纬度的距离与相应人数
            """
-        g = self.get_heatdata_bytime(date, dateTime, region_id)
-        coords = map(self.deal_coordinates, g.keys())  # 围绕中心经纬度加减向四周扩展
-        numlist = iter(g.values())
-        for xy, num in zip(coords, numlist):
-            lat = xy[0]
-            lng = xy[1]
-            geographi = Geographi(latitude=float(lat) / 10000, longitude=float(lng) / 10000, number=int(num))
+        # 请求热力图数据
+        heatmap_data = self.get_heatdata_bytime(date, date_time, region_id)
+        # 处理热力图经纬度差数据，转为（维度，经度）数组map
+        map_tuple_coords = map(self.deal_coordinates, heatmap_data.keys())  # 围绕中心经纬度加减向四周扩展
+
+        for int_inv_lat, int_inv_lon in map_tuple_coords:
+            key = '{0},{1}'.format(int_inv_lat, int_inv_lon)
+            # 人数
+            int_num = heatmap_data[key]
+            # 经纬度人数结构体
+
+            geographi = Geographi(latitude=float(int_inv_lat) / 10000, longitude=float(int_inv_lon) / 10000,
+                                  number=int(int_num))
             yield geographi
 
     @staticmethod
     def deal_coordinates(coord):
+        """
+        将'维度,经度'转为tuple
+        :param coord:
+        :return:tuple（维度差，经度差）
+        """
         if coord == ',':
             return (0, 0)
-        escape = eval(coord)
+        tuple_escape = eval(coord)
 
-        return escape
+        return tuple_escape
 
     def date_format_check(self, param):
+        """日期类型格式检查
+        :param param:日期参数
+        """
         check = re.match("^\d{4}-\d{2}-\d{2}$", param)
 
         self.type_check(check, re.Match)
 
     def time_format_check(self, param):
+        """
+        时间类型格式检查
+        :param param:时间参数
+        :return:
+        """
         check = re.match("^\d{2}:\d{2}:\d{2}$", param)
 
         self.type_check(check, re.Match)
-
-
-# class CeleryThread(threading.Thread):
-#     def __init__(self, group=None, target=None, name=None,
-#                  args=(), kwargs=None, *, daemon=None):
-#         threading.Thread.__init__(self)
-#         self._target = target
-#         self._args = args
-#
-#     def run(self):
-#         result = self._target(*self._args)
-#         data_queue.put(result)
-#         semaphore.release()
-
-
-# def writeinfo():
-#     place = PlaceTrend()
-#
-#     executor = futures.ThreadPoolExecutor(max_workers=4)
-#     provinces = place.get_allprovince()
-#     tasklist = executor.map(place.get_allcity, provinces)
-#     filepath = os.path.join(os.path.pardir, "testdata/region_id.csv")
-#     f = open(filepath, "a+", newline="")
-#     w = csv.writer(f)
-#     w.writerow(['地区', "id"])
-#
-#     for task in tasklist:
-#         resultlist = executor.map(lambda value: place.get_regions_bycity(value['province'], value['city']), task)
-#         for result in resultlist:
-#             writeresult = map(lambda item: w.writerow([item['place'], item['id']]), result)
-#             set(writeresult)
-#     f.close()
-
