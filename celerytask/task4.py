@@ -36,6 +36,4 @@ def clear_roadtraffic():
 
     """
     traffic.clear_road_data()
-# monitoring_roadtraffic.delay()
-# monitoring_dailycitytraffic.delay()
-# monitoring_roadtraffic.delay()
+

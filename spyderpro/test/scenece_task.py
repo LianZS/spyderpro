@@ -203,8 +203,6 @@ class PlaceFlow(PlaceInterface):
         cur2.execute(sql)
         db2.commit()
         db2.close()
-        print("success")
-
     def complete_heatdata(self, date: str, datetim: str, region_id: int):
         """
            某一时刻的人数以及分布情况
@@ -274,9 +272,11 @@ if __name__ == "__main__":
     cur = db.cursor()
     sql = "select pid from digitalsmart.scencemanager where flag=0 and type_flag=0"
     cur.execute(sql)
+    data_result =list(cur.fetchall())
     while 1:
 
-        for item in cur.fetchall():
+        for item in data_result:
+
             pid = item[0]
             print(pid)
             get_count(pid)
