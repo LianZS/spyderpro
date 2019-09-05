@@ -19,9 +19,13 @@ class Traffic(metaclass=abc.ABCMeta):
     def yeartraffic(self, citycode, year, quarter):
         pass
 
-    # 经纬度查询
     @staticmethod
     def getlnglat(city):
+        """
+        获取经纬度
+        :param city:城市名
+        :return:
+        """
         pre_url = 'https://apis.map.qq.com/jsapi?'
         req = {
             "newmap": 1,
@@ -37,4 +41,4 @@ class Traffic(metaclass=abc.ABCMeta):
         bounds = g['detail']['city']
         lon = bounds['pointx']
         lat = bounds['pointy']
-        return {"lat": lat, "lon": lon}
+        return {"lat": lat, "lon": lon ,'city':city}
