@@ -5,22 +5,25 @@ from spyderpro.instances.lbs import Geographi
 
 
 class PeoplePositionin(Connect):
+    """
+    获取全国定位数据，此模块慎用
+    """
     instance = None
-    instance_flag = False
+    bool_instance_flag = False
 
     def __new__(cls, *args, **kwargs):
         if cls.instance is None:
             cls.instance = super().__new__(cls)
-            cls.instance_flag = True
+            cls.bool_instance_flag = True
         return cls.instance
 
     def __init__(self):
-        if PeoplePositionin.instance_flag:
+        if PeoplePositionin.bool_instance_flag:
             self.headers = {
                 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'
 
             }
-            PeoplePositionin.instance_flag = False
+            PeoplePositionin.bool_instance_flag = False
 
     def get_people_positionin_data(self, rank: int, max_num=4) -> list:
         """
@@ -32,35 +35,36 @@ class PeoplePositionin(Connect):
         """
         assert isinstance(max_num, int)
         assert isinstance(rank, int)
-        href = 'https://xingyun.map.qq.com/api/getXingyunPoints'
-
-        query_string_parameters = {
+        # 请求链接
+        str_href = 'https://xingyun.map.qq.com/api/getXingyunPoints'
+        # 请求参数
+        dict_query_string_parameters = {
             'count': max_num,  # 将整个数据文件切割成几份
             'rank': rank  # 设置请求第几个数据文件
         }
 
-        response = requests.post(url=href, headers=self.headers, data=json.dumps(query_string_parameters))
+        response = requests.post(url=str_href, headers=self.headers, data=json.dumps(dict_query_string_parameters))
         if response.status_code != 200:
             return None
-        g = json.loads(response.text)
+        json_data = json.loads(response.text)
         # realtime = g['time']  # 目前定位时间
         # yield {"搜索时间": realtime}
         flag = 0
-        lat: float = None
-        lon: float = None
-        # num: int = None
-        for item in iter(g['locs'].split(',')):
+        #维度
+        float_lat = None
+        #经度
+        float_lon = None
+        for item in iter(json_data['locs'].split(',')):
             flag += 1
             if flag == 1:
                 try:
-                    lat = float(item) / 100  # 纬度
+                    float_lat = float(item) / 100  # 纬度
                 except ValueError:
                     continue
             if flag == 2:
-                lon = float(item) / 100  # 经度
+                float_lon = float(item) / 100  # 经度
             if flag == 3:
                 num = int(item)  # 人数
                 flag = 0
 
-                yield Geographi(latitude=lat, longitude=lon, number=num)
-                # yield {"纬度": lat, "经度": lon, "人数": num}
+                yield Geographi(latitude=float_lat, longitude=float_lon, number=num)
