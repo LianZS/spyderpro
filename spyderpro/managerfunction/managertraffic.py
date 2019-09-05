@@ -49,6 +49,7 @@ class ManagerTraffic(Traffic):
                           " values('%d', '%d', '%s', '%f');" % (
                               region_id, item.date, item.detailtime, item.index)
                     self.write_data(db2, sql)
+
                 self.taskSemaphore.release()
                 db2.close()
 
@@ -91,6 +92,7 @@ class ManagerTraffic(Traffic):
                           "(%d,'%s',%d,%f,'%s','%s','%s',%d,%f) " % (
                               region_id, roadname, up_date, speed, direction, bounds,
                               indexSet, roadid,rate)
+
                     self.write_data(db2, sql)
                     sql = "update  digitalsmart.roadmanager set up_date={0}  where pid={1} and roadid={2}" \
                         .format(up_date, region_id,roadid)
@@ -144,5 +146,6 @@ class ManagerTraffic(Traffic):
             db.commit()
         except Exception:
             db.rollback()
+
 
 
