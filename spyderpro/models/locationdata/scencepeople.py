@@ -28,21 +28,23 @@ class ScencePeopleFlow(Connect):
         :param historytype: 1表示现在的数据，2表示昨日数据，3表示最近的节假日数据
         :return: iter[Positioning,,]
         """
-
-        pre_url = 'http://jiaotong.baidu.com/trafficindex/dashboard/curve?'
-        query_string_parameters = {
+        #请求链接
+        str_pre_url = 'http://jiaotong.baidu.com/trafficindex/dashboard/curve?'
+        #请求参数
+        dict_query_string_parameters = {
             'type': historytype,
             "area_type": "1",
             'area_id': str(peoplepid)
         }
-        url = pre_url + urlencode(query_string_parameters)
+        #构造请求链接
+        str_url = str_pre_url + urlencode(dict_query_string_parameters)
         par: str = None
-        g = self.connect(par, url=url)
+        g = self.connect(par, url=str_url)
         for item in g["data"]['list']:
-            detailtime = item["data_time"].split(" ")[1] + ":00"
+            str_detailtime = item["data_time"].split(" ")[1] + ":00"  #字符串格式HH:MM:00
 
-            num = int(item['count'])
-            positioning = Positioning(region_id=int(peoplepid), date=ddate, detailtime=detailtime, num=num)
+            int_num = int(item['count'])
+            positioning = Positioning(region_id=int(peoplepid), date=ddate, detailtime=str_detailtime, num=int_num)
 
             yield positioning
             # yield {"时刻": detailtime, "客流量": num}
