@@ -5,7 +5,7 @@ from urllib.parse import urlencode
 from typing import Dict, Iterator
 from threading import Semaphore, Thread
 from queue import Queue
-
+from concurrent.futures import ThreadPoolExecutor
 from spyderpro.models.traffic.trafficinterface import Traffic
 from spyderpro.instances.trafficclass import TrafficClass, Road, Year
 from spyderpro.instances.infomation import CityInfo
@@ -34,37 +34,37 @@ class BaiduTraffic(Traffic):
     #     return Load
     #
     # @deco
-    def citytraffic(self, citycode, timetype='minute') -> list:
+    def citytraffic(self, citycode: int, timetype='minute') -> Iterator[TrafficClass]:
         """获取实时交通状态，包括日期，拥堵指数，具体时刻
 
         :param citycode:城市id
         :param timetype:时间间隔单位，day 和minute，默认minute
         :return iterable(dict)
         dict->{'date': '2019-06-14', 'index': 1.49, 'detailTime': '14:00'}"""
-        parameter = {
+        dict_parameter = {
             'cityCode': citycode,
             'type': timetype
         }
-        href = 'https://jiaotong.baidu.com/trafficindex/city/curve?' + urlencode(parameter)
+        str_href = 'https://jiaotong.baidu.com/trafficindex/city/curve?' + urlencode(dict_parameter)
         try:
-            data = self.s.get(url=href, headers=self.headers)
-            g = json.loads(data.text)
+            response = self.s.get(url=str_href, headers=self.headers)
+            json_data = json.loads(response.text)
         except Exception as e:
             print("网络链接error:%s" % e)
-            return None
-        today = time.strftime("%Y-%m-%d", time.localtime())  # 今天的日期
-        date = today
-        if '00:00' in str(g):
+            return []
+        today_date = time.strftime("%Y-%m-%d", time.localtime())  # 今天的日期
+        date = today_date
+        if '00:00' in str(json_data):
             date = time.strftime("%Y-%m-%d", time.localtime(time.time() - 3600 * 24))  # 昨天的日期
         # 含有24小时的数据
-        for item in g['data']['list']:
+        for item in json_data['data']['list']:
             # {'index': '1.56', 'speed': '32.83', 'time': '13:45'}
-            if item["time"] == '00:00':
-                date = today
-            ddate = int(date.replace("-", ""))  # 日期
-            iindex = float(item['index'])  # 拥堵指数
-            detailtime = item['time'] + ":00"  # 具体时刻
-            yield TrafficClass(citycode, ddate, iindex, detailtime)
+            if item["time"] == '00:00':  # 因为部分数据属于昨天的，所以日期需要区分
+                date = today_date
+            int_ddate = int(date.replace("-", ""))  # 日期
+            float_iindex = float(item['index'])  # 拥堵指数
+            str_detail_time = item['time'] + ":00"  # 具体时刻
+            yield TrafficClass(citycode, int_ddate, float_iindex, str_detail_time)
 
     def yeartraffic(self, citycode: int, year: int = int(time.strftime("%Y", time.localtime())),
                     quarter: int = int(time.strftime("%m", time.localtime())) / 3) -> Iterator[Year]:
@@ -76,69 +76,77 @@ class BaiduTraffic(Traffic):
         :return: iterable(dict)
         dict->{"date": date, "index": index, "city": name} """
 
-        parameter = {
+        dict_parameter = {
             'cityCode': citycode,
             'type': 'day'  # 有分钟也有day
         }
-        href = 'https://jiaotong.baidu.com/trafficindex/city/curve?' + urlencode(parameter)
+        str_href = 'https://jiaotong.baidu.com/trafficindex/city/curve?' + urlencode(dict_parameter)
 
         try:
-            data = self.s.get(url=href, headers=self.headers)
-            obj = json.loads(data.text)
+            response = self.s.get(url=str_href, headers=self.headers)
+            obj = json.loads(response.text)
         except Exception as e:
             print("百度年度交通爬取失败！:%s" % e)
             return None
         if not len(obj):
             return None
-        year = time.strftime("%Y-", time.localtime())  # 年份
+        year = time.strftime("%Y-", time.localtime())  # 年份格式为2019-
 
         for item in obj['data']['list']:
             # {'index': '1.56', 'speed': '32.83', 'time': '04-12'}
             date = year + item['time']
-            index = float(item["index"])
-            yield Year(pid=citycode, date=int(date.replace("-", "")), index=index)
+            float_index = float(item["index"])
+            yield Year(pid=citycode, date=int(date.replace("-", "")), index=float_index)
 
-    def roaddata(self, citycode) -> Iterator[Road]:
+    def roaddata(self, citycode: int) -> Iterator[Road]:
         """
         获取拥堵道路前10名数据, 数据包括路名，速度，数据包，道路方向，道路经纬度数据
 
         :param citycode:城市id
-        :return: iterable(dict)
-        dict->{"RoadName": roadname, "Speed": speed, "Direction": direction, "Bounds": bounds, 'Data': data}
+        :return: iterable(Road)
         """
-        dic = self.__roads(citycode)
-        if dic['status'] == 1:
+        # 请求道路数据, 获取道路信息包，包括道路pid，道路名，道路方向，速度
+
+        json_road_data = self.__roads(citycode)
+        if json_road_data['status'] == 1:
             print("参数不合法")
             return None
-        datalist = self.__realtime_road(dic, citycode)
+        datalist = self.__realtime_road(json_road_data, citycode)
 
         datalist = sorted(datalist, key=lambda x: x["num"])  # 数据必须排序，不然和下面的信息不对称
-        for item, data in zip(dic['data']['list'], datalist):
+        for item, data in zip(json_road_data['data']['list'], datalist):
             roadname = item["roadname"]
             speed = float(item["speed"])
             direction = item['semantic']
             bounds = json.dumps({"coords": data['coords']})
             data = json.dumps(data['data'])
             num = eval(data)['num']
-            rate =float(item['index'])
+            rate = float(item['index'])
             road = Road(pid=citycode, roadname=roadname, speed=speed, dircetion=direction, bounds=bounds, data=data,
-                        num=num,rate=rate)
+                        num=num, rate=rate)
             yield road
 
-    def __roads(self, citycode) -> json:
+    def __roads(self, citycode) -> Dict:
         """
         获取道路信息包，包括道路pid，道路名，道路方向，速度
         :param citycode:城市id
         :return:dict
         """
-        parameter = {
+        dict_parameter = {
             'cityCode': citycode,
             'roadtype': 0
         }
-        href = ' https://jiaotong.baidu.com/trafficindex/city/roadrank?' + urlencode(parameter)
-        data = self.s.get(url=href, headers=self.headers)
-        dic = json.loads(data.text)
-        return dic
+        str_href = ' https://jiaotong.baidu.com/trafficindex/city/roadrank?' + urlencode(dict_parameter)
+        try:
+            response = self.s.get(url=str_href, headers=self.headers)
+        except ConnectionError:
+            print("网络错误!")
+            return {"status": 1}
+        if response.status_code == 200:
+            json_data = json.loads(response.text)
+        else:
+            json_data = {"status": 1}
+        return json_data
 
     def __realtime_road(self, dic, citycode) -> Iterator[Dict]:
         """
@@ -147,16 +155,18 @@ class BaiduTraffic(Traffic):
            :param citycode:
            :return: dict
            """
+        pool = ThreadPoolExecutor(max_workers=10)
+        # 存放任务对象
+        reuslt_list = list()
         for item, i in zip(dic['data']['list'], range(10)):
-            self.wait.acquire()
-            Thread(target=self.__realtime_roaddata, args=(item['roadsegid'], i, citycode)).start()
-
-        while self.quitcount:
-            data = self.dataqueue.get()
-            yield data
+            t = pool.submit(self.__realtime_roaddata, item['roadsegid'], i, citycode)
+            reuslt_list.append(t)
+        for t in reuslt_list:
+            # 返回结果
+            yield t.result()
 
     # 道路请求
-    def __realtime_roaddata(self, pid, i, citycode):
+    def __realtime_roaddata(self, pid, i, citycode) -> Dict:
         """
          具体请求某条道路的数据
          :param pid:道路id
@@ -164,46 +174,42 @@ class BaiduTraffic(Traffic):
          :param i: 排名
 
          """
-        parameter = {
+        dict_parameter = {
             'cityCode': citycode,
             'id': pid
         }
-        href = 'https://jiaotong.baidu.com/trafficindex/city/roadcurve?' + urlencode(parameter)
+        str_href = 'https://jiaotong.baidu.com/trafficindex/city/roadcurve?' + urlencode(dict_parameter)
         try:
-            data = self.s.get(url=href, headers=self.headers)
-            obj = json.loads(data.text)
+            data = self.s.get(url=str_href, headers=self.headers)
+            json_data = json.loads(data.text)
         except Exception as e:
             print(e)
-            self.dataqueue.put({"data": None, "coords": None, "num": i})
-            self.lock.acquire()
-            self.quitcount -= 1
-            self.lock.release()
 
-            return
-        timelist = []
-        data = []
-        for item in obj['data']['curve']:  # 交通数据
-            timelist.append(item['datatime'])
-            data.append(item['congestIndex'])
-        realdata = {"num": i, "time": timelist, "data": data}
-        bounds = []
-        for item in obj['data']['location']:  # 卫星数据
+            return {"data": None, "coords": None, "num": i}
+        # 存放时间序列
+        list_time = list()
+        # 存放指数
+        list_data = list()
+        for item in json_data['data']['curve']:  # 交通数据
+            list_time.append(item['datatime'])
+            list_data.append(item['congestIndex'])
+        realdata = {"num": i, "time": list_time, "data": list_data}
+        list_bounds = []
+        for item in json_data['data']['location']:  # 卫星数据
             bound = {}
             for locations, count in zip(item.split(","), range(0, item.split(",").__len__())):
                 if count % 2 != 0:
 
-                    bound['lat'] = locations  # 纬度
+                    bound['lat']: float = locations  # 纬度
 
                 else:
-                    bound['lon'] = locations  # 纬度
-            bounds.append(bound)
-        self.dataqueue.put({"data": realdata, "coords": bounds, "num": i})
-        self.wait.release()
-        self.lock.acquire()
-        self.quitcount -= 1
-        self.lock.release()
+                    bound['lon']: float = locations  # 纬度
+            list_bounds.append(bound)
+        result = {"data": realdata, "coords": list_bounds, "num": i}
 
-    def getallcitycode(self) -> Iterator[CityInfo]:
+        return result
+
+    def get_all_citycode(self) -> Iterator[CityInfo]:
         """
         获取最新的交通基本信息，比如id，省份，位置等等等
         :return: list
@@ -222,5 +228,4 @@ class BaiduTraffic(Traffic):
             provincecode = value['provincecode']  # 省份id
             provincename = value['provincename']  # 省份
             yield CityInfo(provincename, provincecode, cityname, citycode, lat, lon)
-
 
