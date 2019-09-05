@@ -3,8 +3,6 @@ import json
 import time
 from urllib.parse import urlencode
 from typing import Dict, Iterator
-from threading import Semaphore, Thread
-from queue import Queue
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.models.traffic.trafficinterface import Traffic
 from spyderpro.instances.trafficclass import TrafficClass, Road, Year
@@ -45,8 +43,12 @@ class BaiduTraffic(Traffic):
         try:
             response = self.s.get(url=str_href, headers=self.headers)
             json_data = json.loads(response.text)
-        except Exception as e:
-            print("网络链接error:%s" % e)
+
+        except requests.exceptions.ConnectionError:
+            print("网络链接error")
+            return []
+        except AttributeError:
+            print("数据格式错误")
             return []
         today_date = time.strftime("%Y-%m-%d", time.localtime())  # 今天的日期
         date = today_date
@@ -80,15 +82,18 @@ class BaiduTraffic(Traffic):
 
         try:
             response = self.s.get(url=str_href, headers=self.headers)
-            obj = json.loads(response.text)
-        except Exception as e:
-            print("百度年度交通爬取失败！:%s" % e)
-            return None
-        if not len(obj):
-            return None
+            json_data = json.loads(response.text)
+        except requests.exceptions.ConnectionError:
+            print("网络链接error")
+            return []
+        except AttributeError:
+            print("数据错误")
+            return []
+        if not len(json_data):
+            return []
         year = time.strftime("%Y-", time.localtime())  # 年份格式为2019-
 
-        for item in obj['data']['list']:
+        for item in json_data['data']['list']:
             # {'index': '1.56', 'speed': '32.83', 'time': '04-12'}
             date = year + item['time']
             float_index = float(item["index"])
@@ -111,15 +116,16 @@ class BaiduTraffic(Traffic):
 
         datalist = sorted(datalist, key=lambda x: x["num"])  # 数据必须排序，不然和下面的信息不对称
         for item, data in zip(json_road_data['data']['list'], datalist):
-            roadname = item["roadname"]
-            speed = float(item["speed"])
-            direction = item['semantic']
-            bounds = json.dumps({"coords": data['coords']})
+            roadname = item["roadname"]  # 路名
+            float_speed = float(item["speed"])  # 速度
+            direction = item['semantic']  # 路线方向
+            dict_of_list_of_dict_bounds = json.dumps({"coords": data['coords']})  # 路线经纬度
+            float_index = data['num']  # 指数
             data = json.dumps(data['data'])
-            num = eval(data)['num']
             rate = float(item['index'])
-            road = Road(pid=citycode, roadname=roadname, speed=speed, dircetion=direction, bounds=bounds, data=data,
-                        num=num, rate=rate)
+            road = Road(pid=citycode, roadname=roadname, speed=float_speed, dircetion=direction,
+                        bounds=dict_of_list_of_dict_bounds, data=data,
+                        num=float_index, rate=rate)
             yield road
 
     def __roads(self, citycode) -> Dict:
@@ -135,13 +141,17 @@ class BaiduTraffic(Traffic):
         str_href = ' https://jiaotong.baidu.com/trafficindex/city/roadrank?' + urlencode(dict_parameter)
         try:
             response = self.s.get(url=str_href, headers=self.headers)
-        except ConnectionError:
-            print("网络错误!")
+            if response.status_code == 200:
+                json_data = json.loads(response.text)
+            else:
+                json_data = {"status": 1}
+        except requests.exceptions.ConnectionError:
+            print("网络链接error")
             return {"status": 1}
-        if response.status_code == 200:
-            json_data = json.loads(response.text)
-        else:
-            json_data = {"status": 1}
+        except AttributeError:
+            print("数据格式错误")
+            return {"status": 1}
+
         return json_data
 
     def __realtime_road(self, dic, citycode) -> Iterator[Dict]:
@@ -178,10 +188,16 @@ class BaiduTraffic(Traffic):
         try:
             data = self.s.get(url=str_href, headers=self.headers)
             json_data = json.loads(data.text)
-        except Exception as e:
-            print(e)
-
+        except requests.exceptions.ConnectionError:
+            print("网络链接error")
             return {"data": None, "coords": None, "num": i}
+        except requests.exceptions.ChunkedEncodingError:
+            print("网络链接error")
+            return {"data": None, "coords": None, "num": i}
+        except AttributeError:
+            print("数据格式错误")
+            return {"data": None, "coords": None, "num": i}
+
         # 存放时间序列
         list_time = list()
         # 存放指数
