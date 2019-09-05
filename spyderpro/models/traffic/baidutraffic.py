@@ -12,10 +12,6 @@ from spyderpro.instances.infomation import CityInfo
 
 
 class BaiduTraffic(Traffic):
-    wait = Semaphore(5)  # 允许同时运行5个任务
-    dataqueue = Queue(8)  # 存放数据队列
-    quitcount = 10  # 记录任务是否完成了，完成了-1
-    lock = Semaphore(1)  # 锁住-1操作
 
     def __init__(self):
         self.s = requests.Session()
@@ -228,4 +224,3 @@ class BaiduTraffic(Traffic):
             provincecode = value['provincecode']  # 省份id
             provincename = value['provincename']  # 省份
             yield CityInfo(provincename, provincecode, cityname, citycode, lat, lon)
-
