@@ -47,16 +47,22 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         for pid in pids:
 
             def fast(reg_pid):
-                db2 = pymysql.connect(host=host, user=user, password=password, database=database,
+                try:
+                    db2 = pymysql.connect(host=host, user=user, password=password, database=database,
                                       port=port)  # 必须重新connect，不然由于高并发导致数据库混乱报错
+                except Exception as e:
+                    print("链接无效"+e)
+                    return
                 instances = self.get_scence_situation(db=db2, peoplepid=reg_pid)
                 wait.release()
-
+                cur2  = db2.cursor()
                 for info in instances:
                     sql = "insert into digitalsmart.scenceflow(pid, ddate, ttime, num) values ('%d','%d','%s','%d')" % (
                         info.region_id, info.date, info.detailTime, info.num)
-                    self.write_data(db2, sql)
+                    # self.write_data(db2, sql)
+                    cur2.execute(sql)
 
+                db2.commit()
                 db2.close()
 
             wait.acquire()
