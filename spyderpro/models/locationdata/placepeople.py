@@ -205,8 +205,8 @@ class PlaceFlow(PlaceInterface):
             PlaceFlow.bool_instance_flag = True
             self.dict_headers = dict()
             if user_agent is None:
-                self.dict_headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
-                                                  '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+                self.dict_headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/' \
+                                                  '537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
 
             else:
                 self.dict_headers['User-Agent'] = user_agent
@@ -258,20 +258,22 @@ class PlaceFlow(PlaceInterface):
         json_result = self.request_heatdata(str_url)
         return json_result
 
-    def count_headdata(self, heatmap_data: json, ddate: str, date_time: str, region_id: int) -> Positioning:
+    @staticmethod
+    def count_headdata(heatmap_data: dict, ddate: str, date_time: str, region_id: int) -> Positioning:
 
         """
         某一时刻的人数有多少
-        :param date:日期：格式yyyy-mm-dd
+        :param heatmap_data: 热力图数据
+        :param ddate:日期：格式yyyy-mm-dd
         :param date_time:时间：格式hh:MM:SS
         :param region_id:地区唯一表示
         :return:总人数
         """
         # 热力图数据
-        json_heatmap_data = heatmap_data
-        if not json_heatmap_data:
+        dict_heatmap_data = heatmap_data
+        if not dict_heatmap_data:
             return Positioning(None, None, None, None)
-        int_total_num = sum(json_heatmap_data.values())  # 总人数
+        int_total_num: int = sum(dict_heatmap_data.values())  # 总人数
         positioning = Positioning(region_id=region_id, date=int(ddate.replace("-", "")), detailtime=date_time,
                                   num=int_total_num)
         return positioning
@@ -312,11 +314,11 @@ class PlaceFlow(PlaceInterface):
         for int_inv_lat, int_inv_lon in map_tuple_coords:
             key = '{0},{1}'.format(int_inv_lat, int_inv_lon)
             # 人数
-            int_num = heatmap_data[key]
+            int_num: int = heatmap_data[key]
             # 经纬度人数结构体
 
             geographi = Geographi(latitude=float(int_inv_lat) / 10000, longitude=float(int_inv_lon) / 10000,
-                                  number=int(int_num))
+                                  number=int_num)
             yield geographi
 
     @staticmethod
