@@ -3,18 +3,12 @@ import json
 import time
 from urllib.parse import urlencode
 from typing import Iterator, Dict
-from threading import Semaphore
-from queue import Queue
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.models.traffic.trafficinterface import Traffic
 from spyderpro.instances.trafficclass import TrafficClass, Road, Year
 
 
 class GaodeTraffic(Traffic):
-    wait = Semaphore(5)  # 允许同时运行5个任务
-    dataqueue = Queue(8)  # 存放数据队列
-    quitcount = 10  # 记录任务是否完成了，完成了-1
-    lock = Semaphore(1)  # 锁住-1操作
 
     def __init__(self):
         self.s = requests.Session()
