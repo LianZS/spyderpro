@@ -252,22 +252,20 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
 
     def clear_sceneflow_table(self):
         sql = "truncate table digitalsmart.scenceflow"
-        try:
-            cur.execute(sql)
-            db.commit()
-        except Exception:
-            db.rollback()
+        pool =ConnectPool(max_workers=1)
+        pool.sumbit(sql)
 
     def clear_peopleposition_table(self):
         # 清空peoplepositionN人口密度分布表
-        for i in range(10):
+        pass
 
-            sql = "truncate table digitalsmart.peopleposition{0}".format(i)
-            try:
-                cur.execute(sql)
-                db.commit()
-            except Exception:
-                db.rollback()
+        # for i in range(10):
+        #
+        #     sql = "truncate table digitalsmart.peopleposition{0}".format(i)
+        #     try:
+        #         cur.execute(sql)
+        #         db.commit()
+        #     except Exception:
+        #         db.rollback()
 
 
-ManagerScence().manager_history_sceneceflow()
