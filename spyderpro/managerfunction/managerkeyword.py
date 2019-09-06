@@ -10,9 +10,6 @@ from spyderpro.function.keywordfunction.mobilekey import MobileKey
 from spyderpro.function.keywordfunction.searchkeyword import SearchKeyword
 
 rootpath = os.path.dirname(os.path.abspath(os.path.pardir))
-db = pymysql.connect(host=host, user=user, password=password, database='digitalsmart',
-                     port=port)
-cur = db.cursor()
 
 
 class ManagerMobileKey(MobileKey, MysqlOperation):
@@ -169,7 +166,7 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
             if not baidu:
                 continue
             last_date = self._get_last_date(pid, area, "baidu")  # 最近更新时间,0表示数据库里没有任何数据
-            for sql_cmd in self.sql_format(last_date, baidu, pid, area, flag):
+            for sql_cmd in self._sql_format(last_date, baidu, pid, area, flag):
                 print(sql_cmd)
                 pool.sumbit(sql_cmd)
 
@@ -203,7 +200,7 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
 
         return last_date
 
-    def sql_format(self, last_date, obj, region_id, place, flag):
+    def _sql_format(self, last_date, obj, region_id, place, flag):
         """
         格式化sql语句
         :param last_date:最近更新时间
@@ -258,5 +255,3 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
             sql = "insert into digitalsmart.searchrate(pid, tmp_date, area, rate, name,flag) values " \
                   "(%d,%d,'%s',%d,'%s',%d)" % (pid, tmp_date, area, rate, name, flag)
             pool.sumbit(sql)
-
-
