@@ -131,10 +131,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 region_id = item[0]
                 float_lat = item[1]
                 float_lon = item[2]
-                # if region_id == 627 or region_id == 1524:
-                #     pass
-                # else:
-                #     return
+
 
                 sql = "select table_id from digitalsmart.tablemanager where pid={0}".format(region_id)
                 # 数据对应在哪张表插入
@@ -142,9 +139,9 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 last_people_data = self.get_data(date=ddate, dateTime=detailtime, region_id=region_id)
                 if not last_people_data:
                     return
-                Thread(target=self.manager_scenece_people_distribution,
-                       args=(last_people_data, region_id, up_date, float_lat, float_lon, table_id)).start()
-                # self.manager_scenece_people_situation(last_people_data, region_id, ddate, detailtime)
+                # Thread(target=self.manager_scenece_people_distribution,
+                #        args=(last_people_data, region_id, up_date, float_lat, float_lon, table_id)).start()
+                self.manager_scenece_people_situation(last_people_data, region_id, ddate, detailtime)
 
             thread_pool.submit(fast, info)
         print("景区人流数据挖掘完毕")
@@ -198,19 +195,11 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         :return:
 
         """
-        db2 = self.connectqueue.get()
-        newcur = db2.cursor()
-        # time.strftime("%YYYY-%mm-%dd %HH:%MM:00",time.localtime())
+
         instance = self.get_count(data, date, ttime, pid)
         sql = "insert into digitalsmart.scenceflow(pid, ddate, ttime, num) values (%d,%d,'%s',%d)" % (
             instance.region_id, instance.date, instance.detailTime, instance.num)
-        try:
-            newcur.execute(sql)
-            newcur.close()
-        except Exception as e:
-            print(e)
-        db2.commit()
-        self.connectqueue.put(db2)
+        self.pool.sumbit(sql)
 
     def manager_history_sceneceflow(self):
         """
@@ -282,4 +271,3 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 db.rollback()
 
 
-ManagerScence().manager_scenece_people()
