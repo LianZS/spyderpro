@@ -1,5 +1,4 @@
 import os
-import time
 from threading import Thread, Lock, Semaphore
 
 from queue import Queue
@@ -28,8 +27,6 @@ class _Worker(object):
 class ThreadPool():
     def __init__(self, max_workers=None):
         if max_workers is None:
-            # Use this number because ThreadPoolExecutor is often
-            # used to overlap I/O instead of CPU work.
             max_workers = (os.cpu_count() or 1) * 5
         if max_workers <= 0:
             raise ValueError("最大线程数必须大于0")
