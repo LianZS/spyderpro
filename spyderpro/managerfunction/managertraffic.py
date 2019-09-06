@@ -1,16 +1,10 @@
-import sys
-import os
-import requests
 import datetime
 from threading import Thread, Semaphore
+from concurrent.futures import ThreadPoolExecutor
+from pymysql.connections import Connection
+from spyderpro.managerfunction.connect import ConnectPool
 from spyderpro.function.trafficfunction.traffic import Traffic
 from setting import *
-from pymysql.connections import Connection
-
-db: Connection = pymysql.connect(host=host, user=user, password=password,
-                                 database=database,
-                                 port=port)
-cur = db.cursor()
 
 
 class ManagerTraffic(Traffic):
@@ -18,29 +12,26 @@ class ManagerTraffic(Traffic):
         self.taskSemaphore = Semaphore(5)  # 任务并发锁头🔒
         self.pidLock = Semaphore(1)  # 数据锁🔒
 
-
     def manager_city_traffic(self):
         """
         获取城市实时交通拥堵情况并写入数据库,半小时执行一次
         :return:
         """
-
+        pool = ConnectPool(max_workers=10)
         sql = "select pid from digitalsmart.citymanager"
-        cur.execute(sql)
-        data = cur.fetchall()  # 获取pid集合
+        data = pool.select(sql)
+        thread_pool = ThreadPoolExecutor(max_workers=10)
         for item in data:
-            self.taskSemaphore.acquire()
-            self.pidLock.acquire()
+
             pid = item[0]
 
             def fast(region_id):
-                db2: Connection = pymysql.connect(host=host, user=user, password=password,
-                                                  database=database,
-                                                  port=port)
-                info = self.get_city_traffic(citycode=region_id, db=db2)  # 获取交通数据
+
+                db = pool.work_queue.get()
+                info = self.get_city_traffic(citycode=region_id, db=db)  # 获取交通数据
+                pool.work_queue.put(db)
                 if len(info) == 0:
                     print("%d没有数据" % (region_id))
-                    self.taskSemaphore.release()
 
                     return
                 # 数据写入
@@ -48,34 +39,29 @@ class ManagerTraffic(Traffic):
                     sql = "insert into  digitalsmart.citytraffic(pid, ddate, ttime, rate)" \
                           " values('%d', '%d', '%s', '%f');" % (
                               region_id, item.date, item.detailtime, item.index)
-                    self.write_data(db2, sql)
+                    pool.sumbit(sql)
 
-                self.taskSemaphore.release()
-                db2.close()
-
-            # fast(pid)
-            Thread(target=fast, args=(pid,)).start()
-            self.pidLock.release()
+            thread_pool.submit(fast, pid)
+        print("城市交通数据挖掘完毕")
 
     def manager_city_road_traffic(self):
         """
         获取每个城市实时前10名拥堵道路数据-----10分钟执行一遍
         :return:
         """
+        pool = ConnectPool(max_workers=10)
+
         up_date = int(datetime.datetime.now().timestamp())  # 记录最新的更新时间
 
         sql = "select pid from digitalsmart.citymanager"
-        cur.execute(sql)
-        data = cur.fetchall()  # pid集合
+
+        data = pool.select(sql)  # pid集合
         for item in data:  # 这里最好不要并发进行，因为每个pid任务下都有10个子线程，在这里开并发 的话容易被封杀
 
             pid = item[0]
 
             def fast(region_id):
 
-                db2: Connection = pymysql.connect(host=host, user=user, password=password,
-                                                  database=database,
-                                                  port=port)
                 resultObjs = self.road_manager(region_id)  # 获取道路数据
 
                 for obj in resultObjs:
@@ -91,49 +77,39 @@ class ManagerTraffic(Traffic):
                           "roadid,rate) VALUE" \
                           "(%d,'%s',%d,%f,'%s','%s','%s',%d,%f) " % (
                               region_id, roadname, up_date, speed, direction, bounds,
-                              indexSet, roadid,rate)
+                              indexSet, roadid, rate)
 
-                    self.write_data(db2, sql)
+                    pool.sumbit(sql)
                     sql = "update  digitalsmart.roadmanager set up_date={0}  where pid={1} and roadid={2}" \
-                        .format(up_date, region_id,roadid)
+                        .format(up_date, region_id, roadid)
 
-                    self.write_data(db2, sql)  # 更新最近更新时间
-
-                db2.close()
+                    pool.sumbit(sql)  # 更新最近更新时间
 
             fast(pid)
-            # Thread(target=fast, args=(pid,)).start()
-            # self.pidLock.release()
+        print("城市道路交通数据挖掘完毕")
 
     def manager_city_year_traffic(self):
-
+        pool = ConnectPool(max_workers=10)
         sql = "select yearpid from digitalsmart.citymanager"
-        cur.execute(sql)
-        data = cur.fetchall()
+        thread_pool = ThreadPoolExecutor(max_workers=10)
+        data = pool.select(sql)
         for item in data:
-            self.taskSemaphore.acquire()
-            self.pidLock.acquire()
+
             yearpid = item[0]
 
             def fast(region_id):
-                db2: Connection = pymysql.connect(host=host, user=user, password=password,
-                                                  database=database,
-                                                  port=port)
-                resultObj = self.yeartraffic(region_id, db2)
+                db = pool.work_queue.get()
+                resultObj = self.yeartraffic(region_id, db)
+                pool.work_queue.put(db)
                 for item in resultObj:
                     region_id = item.region_id
                     date = item.date
                     index = item.index
-                    sql = "insert into digitalsmart.yeartraffic(pid, tmp_date, rate) VALUE (%d,%d,%f)" % (
+                    sql_cmd = "insert into digitalsmart.yeartraffic(pid, tmp_date, rate) VALUE (%d,%d,%f)" % (
                         region_id, date, index)
-                    self.write_data(db, sql)
-                self.taskSemaphore.release()
-                db2.close()
+                    pool.sumbit(sql_cmd)
 
-            Thread(target=fast, args=(yearpid,)).start()
-            # fast(yearpid)
-
-            self.pidLock.release()
+            thread_pool.submit(fast, yearpid)
 
     def clear_road_data(self):
         """
@@ -141,11 +117,7 @@ class ManagerTraffic(Traffic):
         :return:
         """
         sql = "truncate table digitalsmart.roadtraffic"
-        try:
-            cur.execute(sql)
-            db.commit()
-        except Exception:
-            db.rollback()
-
+        pool = ConnectPool(max_workers=1)
+        pool.sumbit(sql)
 
 
