@@ -132,7 +132,6 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 float_lat = item[1]
                 float_lon = item[2]
 
-
                 sql = "select table_id from digitalsmart.tablemanager where pid={0}".format(region_id)
                 # 数据对应在哪张表插入
                 table_id = self.pool.select(sql)[0][0]
@@ -168,6 +167,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             # 拆分成几次插入
             count: int = int(len(list_data) / 20000)
             i = 0
+            # 切分插入
             for i in range(count):
                 # 数据拆分
                 slice_data = list_data[i * 20000:(i + 1) * 20000]
@@ -211,8 +211,8 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         yesterday = int(str((today - inv).date()).replace("-", ""))
 
         sql = "select pid,table_id from digitalsmart.tablemanager"
-        cur.execute(sql)
-        result = cur.fetchall()
+        pool = ConnectPool(max_workers=10)
+        result = pool.select(sql)
         if not result:
             return None
 
@@ -220,25 +220,24 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             if not data:
                 return None
 
-            db2 = self.connectqueue.get()
-            newcur = db2.cursor()
+            sql_format = "insert into digitalsmart.historyscenceflow{0}(pid, ddate, ttime, num) VALUES".format(
+                histtory_table_id)
+            # 将元祖元素转为字符串
+            list_data = list()
             for item in data:
-                sql_format = "insert into digitalsmart.historyscenceflow{0}(pid, ddate, ttime, num) VALUE (%d,%d,'%s',%d)".format(
-                    histtory_table_id)
-                sql = sql_format % item
-                newcur.execute(sql)
-            db2.commit()
-            self.connectqueue.put(db2)
+                list_data.append(str((item[0], item[1], str(item[2]), item[3])))
+            #拼接字符串
+            sql = sql_format + ','.join(list_data)
+            #写入
+            pool.sumbit(sql)
 
-        lock = Semaphore(1)
+        thread_pool = ThreadPoolExecutor(max_workers=10)
         for pid, table_id in result:
             sql = "select pid,ddate,ttime,num from digitalsmart.scenceflow where pid={0} and ddate={1} ".format(pid,
                                                                                                                 yesterday)
-            cur.execute(sql)
-            lock.acquire()
-            yesterday_info = cur.fetchall()
-            Thread(target=fast, args=(yesterday_info, table_id,)).start()
-            lock.release()
+            yesterday_info = pool.select(sql)
+            thread_pool.submit(fast, yesterday_info, table_id)
+        print("昨日数据写入历史记录表成功")
 
     def manager_china_positioning(self):
         """
@@ -271,3 +270,4 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 db.rollback()
 
 
+ManagerScence().manager_history_sceneceflow()
