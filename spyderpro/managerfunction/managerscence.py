@@ -131,7 +131,10 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 region_id = item[0]
                 float_lat = item[1]
                 float_lon = item[2]
-
+                # if region_id == 627 or region_id == 1524:
+                #     pass
+                # else:
+                #     return
 
                 sql = "select table_id from digitalsmart.tablemanager where pid={0}".format(region_id)
                 # 数据对应在哪张表插入
@@ -142,7 +145,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 Thread(target=self.manager_scenece_people_distribution,
                        args=(last_people_data, region_id, up_date, float_lat, float_lon, table_id)).start()
                 # self.manager_scenece_people_situation(last_people_data, region_id, ddate, detailtime)
-            # fast(info)
+
             thread_pool.submit(fast, info)
         print("景区人流数据挖掘完毕")
 
@@ -154,7 +157,6 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         """
         # 获取经纬度人数结构体迭代器
         instances = self.get_distribution_situation(data)
-
         # 确定哪张表
         table = "digitalsmart.peopleposition{0}".format(table_id)
         select_table = "insert into {0}(pid, tmp_date, lat, lon, num) VALUES".format(table)
@@ -164,10 +166,27 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             list_data.append(
                 str((region_id, tmp_date, centerlat + item.latitude, centerlon + item.longitude, item.number)))
         # 一条条提交到话会话很多时间在日志生成上，占用太多IO了，拼接起来再写入，只用一次日志时间而已
-        #但是需要注意的是，一次性不能拼接太多，管道大小有限制---需要在MySQL中增大Max_allowed_packet，否则会报错
-        sql_value = ','.join(list_data)
-        sql = select_table + sql_value
-        self.pool.sumbit(sql)
+        # 但是需要注意的是，一次性不能拼接太多，管道大小有限制---需要在MySQL中增大Max_allowed_packet，否则会报错
+        if len(list_data) > 20000:
+            # 拆分成几次插入
+            count: int = int(len(list_data) / 20000)
+            i = 0
+            for i in range(count):
+                # 数据拆分
+                slice_data = list_data[i * 20000:(i + 1) * 20000]
+                sql_value = ','.join(slice_data)
+                sql = select_table + sql_value
+                self.pool.sumbit(sql)
+            slice_data = list_data[(i + 1) * 20000:]
+            sql_value = ','.join(slice_data)
+            sql = select_table + sql_value
+            self.pool.sumbit(sql)
+
+        else:
+            sql_value = ','.join(list_data)
+
+            sql = select_table + sql_value
+            self.pool.sumbit(sql)
         # 更新人流分布管理表的修改时间
         sql = "update digitalsmart.tablemanager  " \
               "set last_date={0} where pid={1}".format(tmp_date, region_id)
