@@ -3,15 +3,13 @@ import csv
 from threading import Thread, Semaphore
 
 from queue import Queue
+from spyderpro.managerfunction.connect import ConnectPool
 from spyderpro.portconnect.sqlconnect import MysqlOperation
 from setting import *
 from spyderpro.function.keywordfunction.mobilekey import MobileKey
 from spyderpro.function.keywordfunction.apphabit import AppUserhabit
 
 rootpath = os.path.dirname(os.path.abspath(os.path.pardir))
-db = pymysql.connect(host=host, user=user, password=password, database='digitalsmart',
-                     port=port)
-cur = db.cursor()
 
 
 class ManagerApp(MobileKey, MysqlOperation):
@@ -104,13 +102,16 @@ class ManagerApp(MobileKey, MysqlOperation):
 
     def manager_app_active_data(self):  # 每个月一次
         """    获取app的用户画像数据,性别占比,年龄分布,省份覆盖率,app用户关键词"""
+        pool = ConnectPool(max_workers=10)
         app = AppUserhabit()
         sql = "select id,name from digitalsmart.appinfo"
-        cur.execute(sql)
-        result = cur.fetchall()
+
+        result = pool.select(sql)
         if not result:
             return None
-        start_date = str(datetime.datetime.today().date())  # "yyyy-mm-01
+        today = datetime.datetime.today()
+        # 每次启动都挖掘前2个月的数据
+        start_date = str(datetime.datetime(today.year, today.month - 2, 1).date())  # "yyyy-mm-01
         for pid, appname in result:
             obj = app.get_app_active_data(appname, pid, start_date)
             if obj is None:
@@ -121,6 +122,6 @@ class ManagerApp(MobileKey, MysqlOperation):
             active_rate = obj.active_rate  # 活跃用户率
             rate_hight = obj.rate_hight  # 行业基准
             rate_low = obj.rate_low  # 行业均值
-            sql = "insert into digitalsmart.appactive(pid, ddate, activenum, activerate, base_activerate, aver_activerate) " \
-                  "VALUE (%d,'%s',%d,%f,%f,%f)" % (pid, date, active_num, active_rate, rate_hight, rate_low)
-            self.write_data(db, sql)
+            sql_cmd = "insert into digitalsmart.appactive(pid, ddate, activenum, activerate, base_activerate, aver_activerate) " \
+                      "VALUE (%d,'%s',%d,%f,%f,%f)" % (pid, date, active_num, active_rate, rate_hight, rate_low)
+            pool.sumbit(sql_cmd)
