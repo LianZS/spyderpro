@@ -68,7 +68,6 @@ def init_datbase_of_scencemanager():  # 如果景点重复，flag=1时，type_fl
         except Exception as e:
             print(e)
             db.rollback()
-    print("success")
 
 
 def init_tablemanager():
@@ -212,10 +211,36 @@ def init_roadmanager():
     db.commit()
 
 
+def init_all_history_scenceflow_table():
+    """
+    创建景区历史人流统计记录表
+    :return:
+    """
+    sql = "select table_id from digitalsmart.tablemanager"
+    cur.execute(sql)
+    result = cur.fetchall()
+    sql = "use digitalsmart"
+
+    cur.execute(sql)
+    db.commit()
+    for item in result:
+        table_id = item[0]
+        # sql ="ALTER TABLE historyscenceflow{0}   engine = MyISAM , charset = utf8;".format(table_id)
+        element = " (id    int auto_increment primary key,pid   smallint(6) not null,ddate int  not null," \
+                  "ttime time not null,num  int  not null)engine = MyISAM set default charset = utf8;"
+        sql = "create table   if not exists historyscenceflow{0} ".format(table_id) + element
+        try:
+            cur.execute(sql)
+            db.commit()
+        except Exception as e:
+
+            db.rollback()
+
 if __name__ == "__main__":
     init_datbase_of_scencemanager()
     init_tablemanager()
-    init_all_peopleposition_table()
+    # init_all_history_scenceflow_table()
+    # init_all_peopleposition_table()
     init_citymanager()
     init_geographic()
     init_roadmanager()
