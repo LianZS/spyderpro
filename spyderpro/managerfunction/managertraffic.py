@@ -1,10 +1,8 @@
 import datetime
-from threading import Thread, Semaphore
+from threading import Semaphore
 from concurrent.futures import ThreadPoolExecutor
-from pymysql.connections import Connection
 from spyderpro.managerfunction.connect import ConnectPool
 from spyderpro.function.trafficfunction.traffic import Traffic
-from setting import *
 
 
 class ManagerTraffic(Traffic):
@@ -35,11 +33,11 @@ class ManagerTraffic(Traffic):
 
                     return
                 # 数据写入
-                for item in info:
-                    sql = "insert into  digitalsmart.citytraffic(pid, ddate, ttime, rate)" \
-                          " values('%d', '%d', '%s', '%f');" % (
-                              region_id, item.date, item.detailtime, item.index)
-                    pool.sumbit(sql)
+                for it in info:
+                    sql_cmd = "insert into  digitalsmart.citytraffic(pid, ddate, ttime, rate)" \
+                              " values('%d', '%d', '%s', '%f');" % (
+                                  region_id, it.date, it.detailtime, it.index)
+                    pool.sumbit(sql_cmd)
 
             thread_pool.submit(fast, pid)
         print("城市交通数据挖掘完毕")
@@ -62,9 +60,9 @@ class ManagerTraffic(Traffic):
 
             def fast(region_id):
 
-                resultObjs = self.road_manager(region_id)  # 获取道路数据
+                result_objs = self.road_manager(region_id)  # 获取道路数据
 
-                for obj in resultObjs:
+                for obj in result_objs:
                     region_id = obj.region_id
                     roadname = obj.roadname
                     speed = obj.speed
@@ -73,17 +71,17 @@ class ManagerTraffic(Traffic):
                     indexSet = obj.data
                     rate = obj.rate
                     roadid = obj.num  # 用排名表示道路id
-                    sql = "insert into digitalsmart.roadtraffic(pid, roadname, up_date, speed, direction, bound, data," \
-                          "roadid,rate) VALUE" \
-                          "(%d,'%s',%d,%f,'%s','%s','%s',%d,%f) " % (
-                              region_id, roadname, up_date, speed, direction, bounds,
-                              indexSet, roadid, rate)
+                    sql_insert = "insert into digitalsmart.roadtraffic(pid, roadname, up_date, speed, direction, bound, data," \
+                                 "roadid,rate) VALUE" \
+                                 "(%d,'%s',%d,%f,'%s','%s','%s',%d,%f) " % (
+                                     region_id, roadname, up_date, speed, direction, bounds,
+                                     indexSet, roadid, rate)
 
-                    pool.sumbit(sql)
-                    sql = "update  digitalsmart.roadmanager set up_date={0}  where pid={1} and roadid={2}" \
+                    pool.sumbit(sql_insert)
+                    sql_cmd = "update  digitalsmart.roadmanager set up_date={0}  where pid={1} and roadid={2}" \
                         .format(up_date, region_id, roadid)
 
-                    pool.sumbit(sql)  # 更新最近更新时间
+                    pool.sumbit(sql_cmd)  # 更新最近更新时间
 
             fast(pid)
         print("城市道路交通数据挖掘完毕")
@@ -99,19 +97,20 @@ class ManagerTraffic(Traffic):
 
             def fast(region_id):
                 db = pool.work_queue.get()
-                resultObj = self.yeartraffic(region_id, db)
+                result_objs = self.yeartraffic(region_id, db)
                 pool.work_queue.put(db)
-                for item in resultObj:
-                    region_id = item.region_id
-                    date = item.date
-                    index = item.index
+                for it in result_objs:
+                    region_id = it.region_id
+                    date = it.date
+                    index = it.index
                     sql_cmd = "insert into digitalsmart.yeartraffic(pid, tmp_date, rate) VALUE (%d,%d,%f)" % (
                         region_id, date, index)
                     pool.sumbit(sql_cmd)
 
             thread_pool.submit(fast, yearpid)
 
-    def clear_road_data(self):
+    @staticmethod
+    def clear_road_data():
         """
         清除昨天的道路数据
         :return:
@@ -119,5 +118,3 @@ class ManagerTraffic(Traffic):
         sql = "truncate table digitalsmart.roadtraffic"
         pool = ConnectPool(max_workers=1)
         pool.sumbit(sql)
-
-
