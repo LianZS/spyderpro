@@ -12,7 +12,31 @@ db = pymysql.connect(host=host, user=user, password=password, database=database,
 cur = db.cursor()
 
 
-def inintdatbaseOfscencemanager():  # 如果景点重复，flag=1时，type_flag一定是1，这个需要人工对比的，因为相同景点名字可能不同
+def init_all_peopleposition_table():
+    """
+    创建景区人流数据新表
+    :return:
+    """
+    sql = "select table_id from digitalsmart.tablemanager where  flag=0"
+    cur.execute(sql)
+    result = cur.fetchall()
+    sql = "use digitalsmart"
+    cur.execute(sql)
+    db.commit()
+    for item in result:
+        table_id = item[0]
+        element = " (id  int auto_increment primary key,pid  smallint(6) not null,tmp_date int " \
+                  "not null,lat float not null,lon float  not null,num smallint(6) not null)"
+        sql = "create table   if not exists peopleposition{0} ".format(table_id) + element
+        try:
+            cur.execute(sql)
+            db.commit()
+        except Exception:
+
+            db.rollback()
+
+
+def init_datbase_of_scencemanager():  # 如果景点重复，flag=1时，type_flag一定是1，这个需要人工对比的，因为相同景点名字可能不同
     sql = 'select id from digitalsmart.scencemanager'
     cur.execute(sql)
     if len(cur.fetchall()) >= 500:
@@ -47,7 +71,7 @@ def inintdatbaseOfscencemanager():  # 如果景点重复，flag=1时，type_flag
     print("success")
 
 
-def initTableManager():
+def init_tablemanager():
     """
     初始化人口分表管理tablemanager
     :return:
@@ -62,8 +86,8 @@ def initTableManager():
     read = csv.reader(f)
     read.__next__()
     #  省份,城市,地名,地区标识,城市标识,天气标识,类别,中心经度,中心维度,经纬度范围
-    #每个景区一个表
-    count = 0 #几号表
+    # 每个景区一个表
+    count = 0  # 几号表
     table = -1
     for item in read:
         count += 1
@@ -87,7 +111,11 @@ def initTableManager():
     # cur.close()
 
 
-def initCitymanager():
+def init_citymanager():
+    """
+    初始化城市管理表
+    :return:
+    """
     sql = 'select id from digitalsmart.citymanager'
     cur.execute(sql)
     if len(cur.fetchall()) >= 100:
@@ -117,7 +145,11 @@ def initCitymanager():
             db.rollback()
 
 
-def initGeographic():
+def init_geographic():
+    """
+    初始化景区地理数据
+    :return:
+    """
     sql = 'select id from digitalsmart.geographic'
     cur.execute(sql)
     if len(cur.fetchall()) >= 500:
@@ -156,7 +188,7 @@ def initGeographic():
             db.commit()
 
 
-def initRoadManager():
+def init_roadmanager():
     """
      初始化道路管理
     """
@@ -181,11 +213,12 @@ def initRoadManager():
 
 
 if __name__ == "__main__":
-    inintdatbaseOfscencemanager()
-    initTableManager()
-    initCitymanager()
-    initGeographic()
-    initRoadManager()
+    init_datbase_of_scencemanager()
+    init_tablemanager()
+    init_all_peopleposition_table()
+    init_citymanager()
+    init_geographic()
+    init_roadmanager()
 
     cur.close()
     db.close()
