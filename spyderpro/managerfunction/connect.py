@@ -21,7 +21,7 @@ class ConnectPool(object):
             if max_workers <= 0:
                 raise ValueError("连接池必须大于0")
             self._max_workers = max_workers
-            self._work_queue = Queue(max_workers)
+            self.work_queue = Queue(max_workers)
             self._broken = False
             self._shutdown = False
             self._init_pool_()
@@ -34,7 +34,7 @@ class ConnectPool(object):
         for i in range(self._max_workers):
             db = pymysql.connect(host=host, user=user, password=password, database='digitalsmart',
                                  port=port)
-            self._work_queue.put(db)
+            self.work_queue.put(db)
 
     def sumbit(self, sql_cmd: str):
         """
@@ -45,7 +45,7 @@ class ConnectPool(object):
         if self._shutdown:
             raise RuntimeError('连接池已经关闭，无法创建新的连接')
 
-        db = self._work_queue.get()
+        db = self.work_queue.get()
         cur = db.cursor()
         try:
 
@@ -54,7 +54,7 @@ class ConnectPool(object):
         except Exception:
             db.rollback()
         cur.close()
-        self._work_queue.put(db)
+        self.work_queue.put(db)
 
     def select(self, sql_cmd: str):
         """
@@ -64,7 +64,7 @@ class ConnectPool(object):
         """
         if self._shutdown:
             raise RuntimeError('连接池已经关闭，无法创建新的连接')
-        db = self._work_queue.get()
+        db = self.work_queue.get()
         cur = db.cursor()
 
         try:
@@ -81,7 +81,7 @@ class ConnectPool(object):
             raise e
         iterator_pid = cur.fetchall()
         cur.close()
-        self._work_queue.put(db)
+        self.work_queue.put(db)
 
         return iterator_pid
 
@@ -89,4 +89,4 @@ class ConnectPool(object):
         self._shutdown = True
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self._work_queue.empty()
+        self.work_queue.empty()
