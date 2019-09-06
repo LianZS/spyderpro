@@ -1,9 +1,7 @@
 import datetime
 import time
 from threading import Thread, Semaphore
-from queue import Queue
 from concurrent.futures import ThreadPoolExecutor
-from setting import *
 from spyderpro.managerfunction.connect import ConnectPool
 from spyderpro.function.peoplefunction.posititioningscence import ScenceFlow
 from spyderpro.function.peoplefunction.positioningtrend import PositioningTrend
@@ -26,24 +24,22 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         sql = "select pid from digitalsmart.scencemanager where type_flag=1"
         iterator_pids = pool.select(sql)
         # 防止并发太多
-        semaphore = Semaphore(10)
+        thread_pool = ThreadPoolExecutor(max_workers=10)
         for pid in iterator_pids:
             def fast(area_id):
-                db2 = pool._work_queue.get()
+                print(area_id)
+                db2 = pool.work_queue.get()
                 instances = self.get_scence_situation(db=db2, peoplepid=area_id)
-                pool._work_queue.put(db2)
+                pool.work_queue.put(db2)
                 for info in instances:
-                    sql = "insert into digitalsmart.scenceflow(pid, ddate, ttime, num) values ('%d','%d','%s','%d')" % (
-                        info.region_id, info.date, info.detailTime, info.num)
+                    sql_cmd = "insert into digitalsmart.scenceflow(pid, ddate, ttime, num) " \
+                              "values ('%d','%d','%s','%d')" % (
+                                  info.region_id, info.date, info.detailTime, info.num)
                     # 提交
-                    pool.sumbit(sql)
-                # 解锁
-                semaphore.release()
+                    pool.sumbit(sql_cmd)
 
-            # 加锁
-            semaphore.acquire()
             region_id = pid[0]
-            Thread(target=fast, args=(region_id,)).start()
+            thread_pool.submit(fast, region_id)
 
         print("百度资源景区数据挖掘完毕")
 
@@ -68,7 +64,6 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
 
         sql = "select pid,area from digitalsmart.scencemanager where type_flag=0 "
         data = pool.select(sql)
-        semaphore = Semaphore(10)
         thread_pool = ThreadPoolExecutor(max_workers=10)
         for item in data:
 
@@ -77,19 +72,20 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
 
             def fast(region_id, place):
                 # 最近的更新时间
-                sql = "select ttime from digitalsmart.scencetrend where pid={0} and ddate='{1}' order by ttime".format(
-                    region_id, int(str_start.replace("-", "")))
+                sql_cmd = "select ttime from digitalsmart.scencetrend where pid={0} and ddate='{1}' " \
+                          "order by ttime".format(region_id, int(str_start.replace("-", "")))
                 last_ttime = "-1:00:00"  # 默认-1点
 
                 try:
                     # 最近时间
-                    table_last_time = pool.select(sql)[-1][0]
+                    table_last_time = pool.select(sql_cmd)[-1][0]
                     last_ttime = str(table_last_time)
                 except IndexError:
                     pass
                 # 获取趋势数据
-                resultObjs = self.get_place_index(name=place, placeid=region_id, date_start=str_start, date_end=str_end)
-                for obj in resultObjs:
+                result_objs = self.get_place_index(name=place, placeid=region_id, date_start=str_start,
+                                                   date_end=str_end)
+                for obj in result_objs:
                     ttime = obj.detailtime
                     if ttime <= last_ttime:
                         continue
@@ -97,9 +93,9 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                     region_id = obj.region_id
                     ddate = obj.ddate
                     rate = obj.index
-                    sql = "insert into digitalsmart.scencetrend(pid, ddate, ttime, rate) VALUE(%d,%d,'%s',%f)" % (
+                    sql_cmd = "insert into digitalsmart.scencetrend(pid, ddate, ttime, rate) VALUE(%d,%d,'%s',%f)" % (
                         region_id, ddate, ttime, rate)
-                    pool.sumbit(sql)
+                    pool.sumbit(sql_cmd)
 
             thread_pool.submit(fast, pid, area)
         print("景区趋势挖掘完毕")
@@ -111,9 +107,9 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         """
         self.pool = ConnectPool(10)
         up_date = int(datetime.datetime.now().timestamp())
-        sql = "select pid,latitude,longitude from digitalsmart.scencemanager where type_flag=0"
+        sql_cmd = "select pid,latitude,longitude from digitalsmart.scencemanager where type_flag=0"
 
-        data = self.pool.select(sql)
+        data = self.pool.select(sql_cmd)
 
         date_today = datetime.datetime.today()
         ddate = str(date_today.date())
@@ -132,14 +128,14 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 float_lat = item[1]
                 float_lon = item[2]
 
-                sql = "select table_id from digitalsmart.tablemanager where pid={0}".format(region_id)
+                sql_cmd = "select table_id from digitalsmart.tablemanager where pid={0}".format(region_id)
                 # 数据对应在哪张表插入
-                table_id = self.pool.select(sql)[0][0]
+                table_id = self.pool.select(sql_cmd)[0][0]
                 last_people_data = self.get_data(date=ddate, dateTime=detailtime, region_id=region_id)
                 if not last_people_data:
                     return
-                # Thread(target=self.manager_scenece_people_distribution,
-                #        args=(last_people_data, region_id, up_date, float_lat, float_lon, table_id)).start()
+                Thread(target=self.manager_scenece_people_distribution,
+                       args=(last_people_data, region_id, up_date, float_lat, float_lon, table_id)).start()
                 self.manager_scenece_people_situation(last_people_data, region_id, ddate, detailtime)
 
             thread_pool.submit(fast, info)
@@ -154,8 +150,8 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         # 获取经纬度人数结构体迭代器
         instances = self.get_distribution_situation(data)
         # 确定哪张表
-        table = "digitalsmart.peopleposition{0}".format(table_id)
-        select_table = "insert into {0}(pid, tmp_date, lat, lon, num) VALUES".format(table)
+        select_table = "insert into digitalsmart.peopleposition{0} (pid, tmp_date, lat, lon, num) VALUES".format(
+            table_id)
         # 存放经纬度人数数据
         list_data = list()
         for item in instances:
@@ -192,8 +188,6 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
     def manager_scenece_people_situation(self, data, pid, date, ttime):
         """
         地区人口情况数据  ---这部分每次只有一条数据插入
-        :return:
-
         """
 
         instance = self.get_count(data, date, ttime, pid)
@@ -226,9 +220,9 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             list_data = list()
             for item in data:
                 list_data.append(str((item[0], item[1], str(item[2]), item[3])))
-            #拼接字符串
+            # 拼接字符串
             sql = sql_format + ','.join(list_data)
-            #写入
+            # 写入
             pool.sumbit(sql)
 
         thread_pool = ThreadPoolExecutor(max_workers=10)
@@ -252,7 +246,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
 
     def clear_sceneflow_table(self):
         sql = "truncate table digitalsmart.scenceflow"
-        pool =ConnectPool(max_workers=1)
+        pool = ConnectPool(max_workers=1)
         pool.sumbit(sql)
 
     def clear_peopleposition_table(self):
@@ -267,5 +261,3 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         #         db.commit()
         #     except Exception:
         #         db.rollback()
-
-
