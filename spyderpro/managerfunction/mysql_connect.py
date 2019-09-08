@@ -1,21 +1,22 @@
 import pymysql
 from setting import *
 from queue import Queue
+from spyderpro.managerfunction.connect_interface import ConnectInterface
 
 
-class ConnectPool(object):
-    instance = None
-    bool_instance_flag = False
+class ConnectPool(ConnectInterface):
+    _instance = None
+    _bool_instance_flag = False
 
     def __new__(cls, *args, **kwargs):
-        if cls.instance is None:
-            cls.instance = super().__new__(cls)
-            cls.bool_instance_flag = True
-        return cls.instance
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+            cls._bool_instance_flag = True
+        return cls._instance
 
     def __init__(self, max_workers=None):
 
-        if ConnectPool.bool_instance_flag:
+        if ConnectPool._bool_instance_flag:
             if max_workers is None:
                 max_workers = 10
             if max_workers <= 0:
