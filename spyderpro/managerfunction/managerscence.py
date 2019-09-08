@@ -2,7 +2,7 @@ import datetime
 import time
 from threading import Thread, Semaphore
 from concurrent.futures import ThreadPoolExecutor
-from spyderpro.managerfunction.connect import ConnectPool
+from spyderpro.managerfunction.mysql_connect import ConnectPool
 from spyderpro.function.peoplefunction.posititioningscence import ScenceFlow
 from spyderpro.function.peoplefunction.positioningtrend import PositioningTrend
 from spyderpro.function.peoplefunction.positioningsituation import PositioningSituation
@@ -27,7 +27,6 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         thread_pool = ThreadPoolExecutor(max_workers=10)
         for pid in iterator_pids:
             def fast(area_id):
-                print(area_id)
                 db2 = pool.work_queue.get()
                 instances = self.get_scence_situation(db=db2, peoplepid=area_id)
                 pool.work_queue.put(db2)

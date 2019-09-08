@@ -1,7 +1,7 @@
 import datetime
 from threading import Semaphore
 from concurrent.futures import ThreadPoolExecutor
-from spyderpro.managerfunction.connect import ConnectPool
+from spyderpro.managerfunction.mysql_connect import ConnectPool
 from spyderpro.function.trafficfunction.traffic import Traffic
 
 

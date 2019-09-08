@@ -3,7 +3,7 @@ import csv
 from threading import Thread, Semaphore
 
 from queue import Queue
-from spyderpro.managerfunction.connect import ConnectPool
+from spyderpro.managerfunction.mysql_connect import ConnectPool
 from spyderpro.portconnect.sqlconnect import MysqlOperation
 from setting import *
 from spyderpro.function.keywordfunction.mobilekey import MobileKey

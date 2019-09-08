@@ -5,7 +5,7 @@ from threading import Thread, Semaphore
 from queue import Queue
 from spyderpro.portconnect.sqlconnect import MysqlOperation
 from setting import *
-from spyderpro.managerfunction.connect import ConnectPool
+from spyderpro.managerfunction.mysql_connect import ConnectPool
 from spyderpro.function.keywordfunction.mobilekey import MobileKey
 from spyderpro.function.keywordfunction.searchkeyword import SearchKeyword
 
