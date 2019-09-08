@@ -260,3 +260,4 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         #         db.commit()
         #     except Exception:
         #         db.rollback()
+ManagerScence().manager_scence_situation()
