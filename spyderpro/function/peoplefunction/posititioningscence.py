@@ -1,7 +1,9 @@
 import time
 import datetime
+import redis
 from typing import List
 from setting import *
+from spyderpro.managerfunction.mysql_connect import ConnectPool
 from spyderpro.models.locationdata.scencepeople import ScencePeopleFlow
 from spyderpro.models.weather.weather import WeatherForect
 from concurrent.futures import ThreadPoolExecutor
@@ -43,11 +45,11 @@ class ScenceFlow(Parent):
         :param peoplepid: 景区id
         :return: bool
         """
-        # date = time.strftime('%Y-%m-%d', time.localtime())
         ddate: int = int(str(datetime.datetime.today().date()).replace("-", ''))
         flow = ScencePeopleFlow()
+        # 获取数据
         instances = flow.peopleflow_info(peoplepid, ddate)
-
+        # 过滤已存在的数据
         info = self.__filter_peopleflow(db, instances, ddate, peoplepid)
 
         return info
@@ -73,7 +75,7 @@ class ScenceFlow(Parent):
         cursor.close()
         dic = {}
         for info in objs:
-            dic[info.detailTime] = info
+            dic[info.detailTime] = info.num
 
         for item in data:  # 将存在的数据淘汰掉
             item = str(item[0])
@@ -83,12 +85,8 @@ class ScenceFlow(Parent):
                 dic.pop(detailtime)
             except KeyError:
                 continue
-
+        print(dic)
         return list(dic.values())
-        # for detailTime, num in dic.items():  # 因为过滤后的数据少，所以直接新实例化对象，增强可读性
-        #     yield Positioning(region_id=peoplepid, date=date, detailtime=detailTime, num=num)
-
-
 
 
 class Weather(Parent):
@@ -104,46 +102,47 @@ class Weather(Parent):
                 cls.instance = super().__new__(cls)
             cls.instance.programmerpool(cls.instance.getweather, weatherpidlist)
 
-    def getweather(self, weatherpid):
-        """
-        获取天气数据
-        :param weatherpid:
-        :return:
-        """
-        db = pymysql.connect(host=host, user=user, password=password, database=scencedatabase,
-                             port=port)
-
-        sql = "select WeatherTablePid from webdata.ScenceInfoData where  WeatherPid=" \
-              + "'" + weatherpid + "';"
-
-        cursor = self.get_cursor(db, sql)
-        if cursor is None:
-            return False
-        weathertablepid = cursor.fetchone()[0]
-        cursor.close()
-        wea = WeatherForect()
-        info = wea.weatherforcest(weatherpid)
-
-        # 每次爬取都是获取未来7天的数据，所以再次爬取时只需要以此刻为起点，看看数据库存不存在7天后的数据
-        date = time.strftime('%Y-%m-%d', time.localtime(
-            time.time() + 7 * 3600 * 24))
-        info = self.__dealwith_weather(info, db, weathertablepid, date)
-        for item in info:
-            date = item['date']
-            detailtime = item['detailTime']
-            state = item['state']
-            temperature = item['temperature']
-            wind = item['wind']
-            sql = "insert into  webdata.weather(pid_id,date,detailTime,state,temperature,wind) " \
-                  "values('%d','%s','%s','%s','%s','%s');" % (
-                      weathertablepid, date, detailtime, state, temperature, wind)
-            if not self.loaddatabase(db, sql):
-                print("插入失败！")
-                continue
-
-        db.close()
-        print("success")
-        return True
+    # def getweather(self, weatherpid):
+    #     """
+    #     获取天气数据
+    #     :param weatherpid:
+    #     :return:
+    #     """
+    #     pool = ConnectPool(max_workers=1)
+    #     db = pymysql.connect(host=host, user=user, password=password, database=scencedatabase,
+    #                          port=port)
+    #
+    #     sql = "select WeatherTablePid from webdata.ScenceInfoData where  WeatherPid=" \
+    #           + "'" + weatherpid + "';"
+    #
+    #     cursor = self.get_cursor(db, sql)
+    #     if cursor is None:
+    #         return False
+    #     weathertablepid = cursor.fetchone()[0]
+    #     cursor.close()
+    #     wea = WeatherForect()
+    #     info = wea.weatherforcest(weatherpid)
+    #
+    #     # 每次爬取都是获取未来7天的数据，所以再次爬取时只需要以此刻为起点，看看数据库存不存在7天后的数据
+    #     date = time.strftime('%Y-%m-%d', time.localtime(
+    #         time.time() + 7 * 3600 * 24))
+    #     info = self.__dealwith_weather(info, db, weathertablepid, date)
+    #     for item in info:
+    #         date = item['date']
+    #         detailtime = item['detailTime']
+    #         state = item['state']
+    #         temperature = item['temperature']
+    #         wind = item['wind']
+    #         sql = "insert into  webdata.weather(pid_id,date,detailTime,state,temperature,wind) " \
+    #               "values('%d','%s','%s','%s','%s','%s');" % (
+    #                   weathertablepid, date, detailtime, state, temperature, wind)
+    #         if not self.loaddatabase(db, sql):
+    #             print("插入失败！")
+    #             continue
+    #
+    #     db.close()
+    #     print("success")
+    #     return True
 
     # 有bug
     def __dealwith_weather(self, info, db, pid, date) -> list:
@@ -185,7 +184,9 @@ class Weather(Parent):
 
 if __name__ == "__main__":
     p = ScenceFlow()
-
+    pool = ConnectPool(max_workers=1)
+    db = pool.work_queue.get()
+    p.get_scence_situation(db, 1365)
     # db = pymysql.connect(host=host, user=user, password=password, database=scencedatabase,
     #                      port=port)
     # data = p.get_scence_situation(db, 1174)
