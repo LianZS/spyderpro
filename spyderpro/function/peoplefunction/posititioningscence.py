@@ -55,7 +55,7 @@ class ScenceFlow(Parent):
 
     def __redis_cache(self, data_objs):
         """
-        缓存数据
+        缓存数据,缓存key格式为 scence:pid
         :param data_objs: 数据实例
         :return:
         """
@@ -66,7 +66,8 @@ class ScenceFlow(Parent):
             num = obj.num
             dict_data[detail_time] = num
         redis_pool = RedisConnectPool(max_workers=1)
-        redis_pool.hashset(name="scence:11", mapping=dict_data)
+        key = "scence:" + pid
+        redis_pool.hashset(name=key, mapping=dict_data)
 
     # 检查数据库是否存在部分数据，存在则不再插入
     def __filter_peopleflow(self, db_connect, objs, ddate: int, peoplepid: int) -> List[Positioning]:
