@@ -98,9 +98,9 @@ class RedisConnectPool(object):
     def get(self, name: str, start: int = None, end: int = None):
         """
 
-        :param name:
-        :param start:
-        :param end:
+        :param name:键值
+        :param start:起始索引
+        :param end:结束索引
         :return:
         """
 
@@ -116,6 +116,12 @@ class RedisConnectPool(object):
         return result
 
     @check_state
+    def strlen(self, name) -> int:
+
+        length: int = self._redis_pool.strlen(name)
+        return length
+
+    @check_state
     def hashset(self, name, mapping) -> bool:
         pipe = self._redis_pool.pipeline()
         result = self._redis_pool.hmset(name, mapping)
@@ -127,11 +133,67 @@ class RedisConnectPool(object):
         result = self._redis_pool.hmget(name=name, keys=keys)
         return result
 
+    @check_state
+    def hashkeys(self, name) -> list:
+        result: list = self._redis_pool.hkeys(name)
+        return result
+
+    @check_state
+    def hlen(self, name) -> int:
+        length = self._redis_pool.hlen(name)
+        return length
+
+    @check_state
+    def lpush(self, name, values: list) -> bool:
+        pipe = self._redis_pool.pipeline()
+        result: bool = self._redis_pool.lpush(name, *values)
+        pipe.execute()
+        return result
+
+    @check_state
+    def rpush(self, name, values: list) -> bool:
+        pipe = self._redis_pool.pipeline()
+        result: bool = self._redis_pool.rpush(name, *values)
+        pipe.execute()
+        return result
+
+    @check_state
+    def lrange(self, name, start, end) -> list:
+        max_len = self.llen(name)
+        if end > max_len:
+            raise AttributeError("索引值过大")
+        result: list = self._redis_pool.lrange(name, start, end)
+        return result
+
+    @check_state
+    def llen(self, name):
+        result: int = self._redis_pool.llen(name)
+        return result
+
+    @check_state
+    def zset(self, name, mapping: dict):
+        pipe = self._redis_pool.pipeline()
+
+        self._redis_pool.zadd(name, mapping)
+        pipe.execute()
+
+    @check_state
+    def zlen(self, name) -> int:
+        length: int = self._redis_pool.zcard(name)
+        return length
+
+    def zrange_members(self, name) -> list:
+        """
+        获取zset里面的所有元素
+        :param name:
+        :return:
+        """
+        length = self._redis_pool.zcard(name)
+        result: list = self._redis_pool.zrange(name, 0, length, withscores=True)
+        return result
+
     def shutdown(self):
         self._shutdown = True
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        pass
-
-
-
+        self._redis_pool.connection_pool.disconnect()
