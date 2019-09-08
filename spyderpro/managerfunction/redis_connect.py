@@ -56,8 +56,10 @@ class RedisConnectPool(object):
         :param time_interval: 有效时间
         :return:
         """
-
+        pipe = self._redis_pool.pipeline()
         result: int = self._redis_pool.expire(name, time_interval)
+        pipe.execute()
+
         return result
 
     @check_state
@@ -75,7 +77,10 @@ class RedisConnectPool(object):
             if it already exists.
         :return:
         """
+        pipe = self._redis_pool.pipeline()
         resuslt: bool = self._redis_pool.set(name, value, ex=ex, px=px, nx=nx, xx=xx)
+        pipe.execute()
+
         return resuslt
 
     @check_state
@@ -98,19 +103,28 @@ class RedisConnectPool(object):
         :param end:
         :return:
         """
+
         if isinstance(start, int) and isinstance(end, int):
-            if start >= 0 and end >= 0 and start <= end:
+
+            if start >= 0 and start <= end:
                 result = self._redis_pool.getrange(name, start, end)
             else:
                 raise AttributeError("索引错误")
         else:
             result = self._redis_pool.get(name)
+
         return result
 
     @check_state
     def hashset(self, name, mapping) -> bool:
-
+        pipe = self._redis_pool.pipeline()
         result = self._redis_pool.hmset(name, mapping)
+        pipe.execute()
+        return result
+
+    @check_state
+    def hashget(self, name, keys):
+        result = self._redis_pool.hmget(name=name, keys=keys)
         return result
 
     def shutdown(self):
@@ -120,8 +134,4 @@ class RedisConnectPool(object):
         pass
 
 
-r = RedisConnectPool(max_workers=1)
-r.set("name", "lian")
-a = r.get("name")
-print(a)
-r.hashset("people", {"age": 2, "name": 'lian'})
+
