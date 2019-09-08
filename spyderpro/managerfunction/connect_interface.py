@@ -1,8 +1,7 @@
 import abc
 
 
-class ConnectInterface(abc.ABCMeta):
-
+class ConnectInterface(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def _init_pool_(self):
@@ -11,6 +10,7 @@ class ConnectInterface(abc.ABCMeta):
         :return:
         """
         pass
+
     @abc.abstractmethod
     def sumbit(self, sql_cmd: str):
         """
@@ -36,6 +36,7 @@ class ConnectInterface(abc.ABCMeta):
         :return:
         """
         pass
+
     @abc.abstractmethod
     def __exit__(self, exc_type, exc_val, exc_tb):
         pass
