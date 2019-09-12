@@ -1,5 +1,6 @@
 import datetime
 import time
+import json
 from threading import Thread
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.managerfunction.mysql_connect import ConnectPool
@@ -13,7 +14,9 @@ from spyderpro.function.peoplefunction.monitoring_area import PositioningPeople
 class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, PositioningPeople):
 
     def __init__(self):
-        pass
+        self.redis_obj = RedisConnectPool(max_workers=10)
+
+
 
     def manager_scence_situation(self):
         """
@@ -170,9 +173,10 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         # 一条条提交到话会话很多时间在日志生成上，占用太多IO了，拼接起来再写入，只用一次日志时间而已
         # 但是需要注意的是，一次性不能拼接太多，管道大小有限制---需要在MySQL中增大Max_allowed_packet，否则会报错
         redis_key = "distribution:{0}".format(region_id)  # 缓存key
-        redis_obj = RedisConnectPool(max_workers=1)
-        #缓存待定
-        redis_obj.lpush(name=redis_key,values=redis_data)
+        # 缓存待定
+        value = json.dumps(redis_data)
+
+        self.redis_obj.set(name=redis_key, value=value)
         if len(list_data) > 20000:
             # 拆分成几次插入
             count: int = int(len(list_data) / 20000)
