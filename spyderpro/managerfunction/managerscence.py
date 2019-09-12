@@ -214,6 +214,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         sql = sql_format % (
             instance.region_id, instance.date, instance.detailTime, instance.num)
         self.pool.sumbit(sql)
+        # 缓存
         redis_key = "scence:{0}".format(pid)
         self._redis_worker.hash_value_append(name=redis_key, mapping={instance.detailTime: instance.num})
 
@@ -285,4 +286,3 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
     #         db.rollback()
 
 
-ManagerScence().manager_scenece_people()
