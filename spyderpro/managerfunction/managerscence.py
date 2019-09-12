@@ -14,9 +14,7 @@ from spyderpro.function.peoplefunction.monitoring_area import PositioningPeople
 class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, PositioningPeople):
 
     def __init__(self):
-        self.redis_obj = RedisConnectPool(max_workers=10)
-
-
+        self._redis_worker = RedisConnectPool(max_workers=10)
 
     def manager_scence_situation(self):
         """
@@ -144,8 +142,8 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 last_people_data = self.get_data(date=ddate, dateTime=detailtime, region_id=region_id)
                 if not last_people_data:
                     return
-                Thread(target=self.manager_scenece_people_distribution,
-                       args=(last_people_data, region_id, up_date, float_lat, float_lon, table_id)).start()
+                # Thread(target=self.manager_scenece_people_distribution,
+                #        args=(last_people_data, region_id, up_date, float_lat, float_lon, table_id)).start()
                 self.manager_scenece_people_situation(table_id, last_people_data, region_id, ddate, detailtime)
 
             thread_pool.submit(fast, info)
@@ -176,7 +174,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         # 缓存待定
         value = json.dumps(redis_data)
 
-        self.redis_obj.set(name=redis_key, value=value)
+        self._redis_worker.set(name=redis_key, value=value)
         if len(list_data) > 20000:
             # 拆分成几次插入
             count: int = int(len(list_data) / 20000)
@@ -212,9 +210,12 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         sql_format = "insert into digitalsmart.historyscenceflow{0}(pid, ddate, ttime, num)  " \
                      "values (%d,%d,'%s',%d) ".format(
             table_id)
+
         sql = sql_format % (
             instance.region_id, instance.date, instance.detailTime, instance.num)
         self.pool.sumbit(sql)
+        redis_key = "scence:{0}".format(pid)
+        self._redis_worker.hash_value_append(name=redis_key, mapping={instance.detailTime: instance.num})
 
     # def manager_history_sceneceflow(self):
     #     """
@@ -254,16 +255,16 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
     #         thread_pool.submit(fast, yesterday_info, table_id)
     #     print("昨日数据写入历史记录表成功")
 
-    def manager_china_positioning(self):
-        """
-        中国人定位数据管理---待完善
-        :return:
-        """
-        instances = self.positioning_people_num(max_num=10)
+    # def manager_china_positioning(self):
+    #     """
+    #     中国人定位数据管理---待完善
+    #     :return:
+    #     """
+    #     instances = self.positioning_people_num(max_num=10)
 
-    def manager_monitoring_area(self):
-        """"""
-        self.get_the_scope_of_pace_data(start_lat=23.2, start_lon=110.2, end_lat=30.2, end_lon=113.2)
+    # def manager_monitoring_area(self):
+    #     """"""
+    #     self.get_the_scope_of_pace_data(start_lat=23.2, start_lon=110.2, end_lat=30.2, end_lon=113.2)
 
     # def clear_sceneflow_table(self):
     #     sql = "truncate table digitalsmart.scenceflow"
