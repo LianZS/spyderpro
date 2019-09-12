@@ -1,7 +1,8 @@
 import datetime
-from threading import Thread, Semaphore
+from threading import Semaphore
 from queue import Queue
-from setting import *
+from concurrent.futures import ThreadPoolExecutor
+from spyderpro.managerfunction.mysql_connect import ConnectPool
 from spyderpro.function.weatherfunction.weather import Weather
 
 
@@ -10,30 +11,32 @@ class ManagerWeather:
         self.lock = Semaphore(20)
 
     def manager_city_airstate(self):
-        queue = Queue(1)
-        db = pymysql.connect(host=host, user=user, password=password, database=database,
-                             port=port)
+        semaphore = Semaphore(1)
+        queue = Queue(1)#用来通知更新时间
+        pool = ConnectPool(max_workers=10)
+
         now = datetime.datetime.now()
 
-        cur = db.cursor()
         sql = "select pid,name from digitalsmart.citymanager"
-        cur.execute(sql)
-        result = cur.fetchall()
+        result = list(pool.select(sql))
         sql = "select lasttime from digitalsmart.airstate where flag=1"
-        cur.execute(sql)
         try:
-            lasttime = cur.fetchone()[0]  # 最近更新时间
+            lasttime = pool.select(sql)[0][0]  # 最近更新时间
         except TypeError:
-            lasttime =''
+            lasttime = ''
         weather = Weather()
-        city_map = weather.get_city_weather_pid()
+        city_map = weather.get_city_weather_pid()  # 获取城市天气id
+
+        thread_pool = ThreadPoolExecutor(max_workers=10)
+        count = len(result)
+        i = 0
         for item in result:
             citypid = item[0]
             city = item[1]
             city_weather_pid = city_map[city]
 
             def fast(pid, weather_pid):
-                aqi_state = weather.last_air_state(weather_pid)
+                aqi_state = weather.last_air_state(weather_pid)  # 请求数据
 
                 aqi = aqi_state.aqi
                 pm2 = aqi_state.pm2
@@ -43,28 +46,21 @@ class ManagerWeather:
                 co = aqi_state.co
                 o3 = aqi_state.o3
 
-                sql = "insert into digitalsmart.airstate(pid, aqi, pm2, pm10, co, no2, o3, so2, flag, lasttime) " \
-                      "value (%d,%d,%d,%d,%f,%d,%d,%d,%d,'%s')" % (pid, aqi, pm2, pm10, co, no2, o3, so2, 1, now)
-                queue.put(1)
-                try:
-                    cur.execute(sql)
-                    db.commit()
-                except Exception as e:
-                    db.rollback()
-                    db.commit()
-                queue.get()
-                self.lock.release()
+                sql_cmd = "insert into digitalsmart.airstate(pid, aqi, pm2, pm10, co, no2, o3, so2, flag, lasttime) " \
+                          "value (%d,%d,%d,%d,%f,%d,%d,%d,%d,'%s')" % (pid, aqi, pm2, pm10, co, no2, o3, so2, 1, now)
+                # pool.sumbit(sql_cmd)
+                semaphore.acquire()
+                nonlocal count
+                count -= 1
+                if count == 0:
+                    queue.put(1)
 
-            self.lock.acquire()
-            Thread(target=fast, args=(citypid, city_weather_pid,)).start()
+                semaphore.release()
+
+            thread_pool.submit(fast, citypid, city_weather_pid)
+        #更新时间
         sql = "update digitalsmart.airstate set flag=0 where lasttime='{0}'".format(lasttime)
-        queue.put(1)
-        try:
-            cur.execute(sql)
-            db.commit()
-        except Exception :
-            db.rollback()
-            db.commit()
         queue.get()
+        pool.sumbit(sql)
 
 
