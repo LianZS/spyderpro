@@ -1,8 +1,9 @@
 import datetime
 import time
-from threading import Thread, Semaphore
+from threading import Thread
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.managerfunction.mysql_connect import ConnectPool
+from spyderpro.managerfunction.redis_connect import RedisConnectPool
 from spyderpro.function.peoplefunction.posititioningscence import ScenceFlow
 from spyderpro.function.peoplefunction.positioningtrend import PositioningTrend
 from spyderpro.function.peoplefunction.positioningsituation import PositioningSituation
@@ -35,12 +36,11 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 :return:
                 """
                 db2 = pool.work_queue.get()
-                instances = self.get_scence_situation(db=db2, peoplepid=area_id,table_id=table_index)
+                instances = self.get_scence_situation(db=db2, peoplepid=area_id, table_id=table_index)
                 pool.work_queue.put(db2)
                 sql_format = "insert into digitalsmart.historyscenceflow{0}(pid, ddate, ttime, num) " \
                              "values ('%d','%d','%s','%d')".format(table_index)
                 for info in instances:
-
                     sql_cmd = sql_format % (
                         info.region_id, info.date, info.detailTime, info.num)
                     # 提交
@@ -161,11 +161,18 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             table_id)
         # 存放经纬度人数数据
         list_data = list()
+        redis_data = list()  # 缓存列表
         for item in instances:
             list_data.append(
                 str((region_id, tmp_date, centerlat + item.latitude, centerlon + item.longitude, item.number)))
+            redis_data.append([{"latitude": centerlat + item.latitude}, {"longitude": centerlon + item.longitude},
+                               {"num": item.number}])
         # 一条条提交到话会话很多时间在日志生成上，占用太多IO了，拼接起来再写入，只用一次日志时间而已
         # 但是需要注意的是，一次性不能拼接太多，管道大小有限制---需要在MySQL中增大Max_allowed_packet，否则会报错
+        redis_key = "distribution:{0}".format(region_id)  # 缓存key
+        redis_obj = RedisConnectPool(max_workers=1)
+        #缓存待定
+        redis_obj.lpush(name=redis_key,values=redis_data)
         if len(list_data) > 20000:
             # 拆分成几次插入
             count: int = int(len(list_data) / 20000)
@@ -273,4 +280,4 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
     #         db.rollback()
 
 
-ManagerScence().manager_scence_situation()
+ManagerScence().manager_scenece_people()
