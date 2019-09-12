@@ -21,24 +21,32 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         """
         # 接连接池
         pool = ConnectPool(max_workers=10)
-        sql = "select pid from digitalsmart.scencemanager where type_flag=1"
+        sql = "select ds.pid,dt.table_id from digitalsmart.scencemanager as ds inner join digitalsmart.tablemanager " \
+              "as dt on ds.type_flag=dt.flag   and ds.pid=dt.pid where ds.type_flag=1"
         iterator_pids = pool.select(sql)
         # 防止并发太多
         thread_pool = ThreadPoolExecutor(max_workers=10)
-        for pid in iterator_pids:
-            def fast(area_id):
+        for pid, table_id in iterator_pids:
+            def fast(area_id, table_index):
+                """
+
+                :param area_id: 景区id
+                :param table_index: 景区所处表序号
+                :return:
+                """
                 db2 = pool.work_queue.get()
-                instances = self.get_scence_situation(db=db2, peoplepid=area_id)
+                instances = self.get_scence_situation(db=db2, peoplepid=area_id,table_id=table_index)
                 pool.work_queue.put(db2)
+                sql_format = "insert into digitalsmart.historyscenceflow{0}(pid, ddate, ttime, num) " \
+                             "values ('%d','%d','%s','%d')".format(table_index)
                 for info in instances:
-                    sql_cmd = "insert into digitalsmart.scenceflow(pid, ddate, ttime, num) " \
-                              "values ('%d','%d','%s','%d')" % (
-                                  info.region_id, info.date, info.detailTime, info.num)
+
+                    sql_cmd = sql_format % (
+                        info.region_id, info.date, info.detailTime, info.num)
                     # 提交
                     pool.sumbit(sql_cmd)
 
-            region_id = pid[0]
-            thread_pool.submit(fast, region_id)
+            thread_pool.submit(fast, pid, table_id)
 
         print("百度资源景区数据挖掘完毕")
 
@@ -135,7 +143,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                     return
                 Thread(target=self.manager_scenece_people_distribution,
                        args=(last_people_data, region_id, up_date, float_lat, float_lon, table_id)).start()
-                self.manager_scenece_people_situation(last_people_data, region_id, ddate, detailtime)
+                self.manager_scenece_people_situation(table_id, last_people_data, region_id, ddate, detailtime)
 
             thread_pool.submit(fast, info)
         print("景区人流数据挖掘完毕")
@@ -184,53 +192,56 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
               "set last_date={0} where pid={1}".format(tmp_date, region_id)
         self.pool.sumbit(sql)
 
-    def manager_scenece_people_situation(self, data, pid, date, ttime):
+    def manager_scenece_people_situation(self, table_id, data, pid, date, ttime):
         """
         地区人口情况数据  ---这部分每次只有一条数据插入
         """
 
         instance = self.get_count(data, date, ttime, pid)
-        sql = "insert into digitalsmart.scenceflow(pid, ddate, ttime, num) values (%d,%d,'%s',%d)" % (
+        sql_format = "insert into digitalsmart.historyscenceflow{0}(pid, ddate, ttime, num)  " \
+                     "values (%d,%d,'%s',%d) ".format(
+            table_id)
+        sql = sql_format % (
             instance.region_id, instance.date, instance.detailTime, instance.num)
         self.pool.sumbit(sql)
 
-    def manager_history_sceneceflow(self):
-        """
-        将昨天的数据存放到历史记录表里
-        :return:
-        """
-        inv = datetime.timedelta(days=1)
-        today = datetime.datetime.today()
-        yesterday = int(str((today - inv).date()).replace("-", ""))
-
-        sql = "select pid,table_id from digitalsmart.tablemanager"
-        pool = ConnectPool(max_workers=10)
-        result = pool.select(sql)
-        if not result:
-            return None
-
-        def fast(data, histtory_table_id):
-            if not data:
-                return None
-
-            sql_format = "insert into digitalsmart.historyscenceflow{0}(pid, ddate, ttime, num) VALUES".format(
-                histtory_table_id)
-            # 将元祖元素转为字符串
-            list_data = list()
-            for item in data:
-                list_data.append(str((item[0], item[1], str(item[2]), item[3])))
-            # 拼接字符串
-            sql = sql_format + ','.join(list_data)
-            # 写入
-            pool.sumbit(sql)
-
-        thread_pool = ThreadPoolExecutor(max_workers=10)
-        for pid, table_id in result:
-            sql = "select pid,ddate,ttime,num from digitalsmart.scenceflow where pid={0} and ddate={1} ".format(pid,
-                                                                                                                yesterday)
-            yesterday_info = pool.select(sql)
-            thread_pool.submit(fast, yesterday_info, table_id)
-        print("昨日数据写入历史记录表成功")
+    # def manager_history_sceneceflow(self):
+    #     """
+    #     将昨天的数据存放到历史记录表里
+    #     :return:
+    #     """
+    #     inv = datetime.timedelta(days=1)
+    #     today = datetime.datetime.today()
+    #     yesterday = int(str((today - inv).date()).replace("-", ""))
+    #
+    #     sql = "select pid,table_id from digitalsmart.tablemanager"
+    #     pool = ConnectPool(max_workers=10)
+    #     result = pool.select(sql)
+    #     if not result:
+    #         return None
+    #
+    #     def fast(data, histtory_table_id):
+    #         if not data:
+    #             return None
+    #
+    #         sql_format = "insert into digitalsmart.historyscenceflow{0}(pid, ddate, ttime, num) VALUES".format(
+    #             histtory_table_id)
+    #         # 将元祖元素转为字符串
+    #         list_data = list()
+    #         for item in data:
+    #             list_data.append(str((item[0], item[1], str(item[2]), item[3])))
+    #         # 拼接字符串
+    #         sql = sql_format + ','.join(list_data)
+    #         # 写入
+    #         pool.sumbit(sql)
+    #
+    #     thread_pool = ThreadPoolExecutor(max_workers=10)
+    #     for pid, table_id in result:
+    #         sql = "select pid,ddate,ttime,num from digitalsmart.scenceflow where pid={0} and ddate={1} ".format(pid,
+    #                                                                                                             yesterday)
+    #         yesterday_info = pool.select(sql)
+    #         thread_pool.submit(fast, yesterday_info, table_id)
+    #     print("昨日数据写入历史记录表成功")
 
     def manager_china_positioning(self):
         """
@@ -243,21 +254,23 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         """"""
         self.get_the_scope_of_pace_data(start_lat=23.2, start_lon=110.2, end_lat=30.2, end_lon=113.2)
 
-    def clear_sceneflow_table(self):
-        sql = "truncate table digitalsmart.scenceflow"
-        pool = ConnectPool(max_workers=1)
-        pool.sumbit(sql)
+    # def clear_sceneflow_table(self):
+    #     sql = "truncate table digitalsmart.scenceflow"
+    #     pool = ConnectPool(max_workers=1)
+    #     pool.sumbit(sql)
+    #
+    # def clear_peopleposition_table(self):
+    #     # 清空peoplepositionN人口密度分布表
+    #     pass
 
-    def clear_peopleposition_table(self):
-        # 清空peoplepositionN人口密度分布表
-        pass
+    # for i in range(10):
+    #
+    #     sql = "truncate table digitalsmart.peopleposition{0}".format(i)
+    #     try:
+    #         cur.execute(sql)
+    #         db.commit()
+    #     except Exception:
+    #         db.rollback()
 
-        # for i in range(10):
-        #
-        #     sql = "truncate table digitalsmart.peopleposition{0}".format(i)
-        #     try:
-        #         cur.execute(sql)
-        #         db.commit()
-        #     except Exception:
-        #         db.rollback()
+
 ManagerScence().manager_scence_situation()
