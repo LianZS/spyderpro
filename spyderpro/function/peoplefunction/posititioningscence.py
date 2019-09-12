@@ -48,7 +48,7 @@ class ScenceFlow(Parent):
         instances = flow.peopleflow_info(peoplepid, ddate)
         # 缓冲数据
         positioning_data = list(instances)
-        self.__redis_cache(positioning_data)
+        self.__redis_cache(positioning_data)#缓存数据
         # 过滤已存在的数据
         info = self.__filter_peopleflow(db, positioning_data, ddate, peoplepid, table_id)
 
