@@ -44,7 +44,8 @@ class RedisConnectPool(object):
         初始化连接池
         :return:
         """
-        pool = redis.ConnectionPool(max_connections=self._max_workers)
+
+        pool = redis.ConnectionPool(max_connections=self._max_workers,host='localhost', port=6379)
         self._redis_pool = redis.Redis(connection_pool=pool)
 
     @check_state
