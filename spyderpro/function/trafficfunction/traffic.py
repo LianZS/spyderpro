@@ -43,6 +43,7 @@ class Traffic(MysqlOperation):
         info = traffic.citytraffic(citycode)
         if not info:  # 请求失败
             return []
+
         info = self.__dealwith_daily_traffic(info, citycode, db, today, yesterday)  # 过滤掉昨天和已经存在的数据
 
         return info
