@@ -12,6 +12,15 @@ from spyderpro.function.peoplefunction.monitoring_area import PositioningPeople
 
 
 class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, PositioningPeople):
+    """
+    缓存数据格式
+        景区人数： key= "scence:{0}".format(pid),value={"HH:MM:SS":num,.....}
+        人流分布： key = "distribution:{0}".format(pide)  value=str([{"latitude": centerlat + item.latitude}, {"longitude": centerlon + item.longitude},
+                               {"num": item.number}])
+
+
+
+    """
 
     def __init__(self):
         self._redis_worker = RedisConnectPool(max_workers=10)
@@ -115,9 +124,9 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         """
         self.pool = ConnectPool(10)
         up_date = int(datetime.datetime.now().timestamp())
-        sql_cmd = "select pid,latitude,longitude from digitalsmart.scencemanager where type_flag=0"
+        sql: str = "select pid,latitude,longitude from digitalsmart.scencemanager where type_flag=0"
 
-        data = self.pool.select(sql_cmd)
+        data = self.pool.select(sql)
 
         date_today = datetime.datetime.today()
         ddate = str(date_today.date())
@@ -142,8 +151,8 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 last_people_data = self.get_data(date=ddate, dateTime=detailtime, region_id=region_id)
                 if not last_people_data:
                     return
-                # Thread(target=self.manager_scenece_people_distribution,
-                #        args=(last_people_data, region_id, up_date, float_lat, float_lon, table_id)).start()
+                Thread(target=self.manager_scenece_people_distribution,
+                       args=(last_people_data, region_id, up_date, float_lat, float_lon, table_id)).start()
                 self.manager_scenece_people_situation(table_id, last_people_data, region_id, ddate, detailtime)
 
             thread_pool.submit(fast, info)
@@ -158,7 +167,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         # 获取经纬度人数结构体迭代器
         instances = self.get_distribution_situation(data)
         # 确定哪张表
-        select_table = "insert into digitalsmart.peopleposition{0} (pid, tmp_date, lat, lon, num) VALUES".format(
+        select_table: str = "insert into digitalsmart.peopleposition{0} (pid, tmp_date, lat, lon, num) VALUES".format(
             table_id)
         # 存放经纬度人数数据
         list_data = list()
@@ -168,13 +177,14 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 str((region_id, tmp_date, centerlat + item.latitude, centerlon + item.longitude, item.number)))
             redis_data.append([{"latitude": centerlat + item.latitude}, {"longitude": centerlon + item.longitude},
                                {"num": item.number}])
+        # 缓存数据
+
+        redis_key = "distribution:{0}".format(region_id)  # 缓存key
+        value = json.dumps(redis_data)
+        self._redis_worker.set(name=redis_key, value=value)
         # 一条条提交到话会话很多时间在日志生成上，占用太多IO了，拼接起来再写入，只用一次日志时间而已
         # 但是需要注意的是，一次性不能拼接太多，管道大小有限制---需要在MySQL中增大Max_allowed_packet，否则会报错
-        redis_key = "distribution:{0}".format(region_id)  # 缓存key
-        # 缓存待定
-        value = json.dumps(redis_data)
 
-        self._redis_worker.set(name=redis_key, value=value)
         if len(list_data) > 20000:
             # 拆分成几次插入
             count: int = int(len(list_data) / 20000)
@@ -213,6 +223,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
 
         sql = sql_format % (
             instance.region_id, instance.date, instance.detailTime, instance.num)
+        # 插入mysql数据库
         self.pool.sumbit(sql)
         # 缓存
         redis_key = "scence:{0}".format(pid)
@@ -284,5 +295,3 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
     #         db.commit()
     #     except Exception:
     #         db.rollback()
-
-
