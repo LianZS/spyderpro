@@ -2,13 +2,13 @@ import datetime
 from threading import Semaphore
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.managerfunction.mysql_connect import ConnectPool
+from spyderpro.managerfunction.redis_connect import RedisConnectPool
 from spyderpro.function.trafficfunction.traffic import Traffic
 
 
 class ManagerTraffic(Traffic):
     def __init__(self):
-        self.taskSemaphore = Semaphore(5)  # 任务并发锁头🔒
-        self.pidLock = Semaphore(1)  # 数据锁🔒
+        self._redis_worker = RedisConnectPool(10)
 
     def manager_city_traffic(self):
         """
@@ -26,18 +26,25 @@ class ManagerTraffic(Traffic):
             def fast(region_id):
 
                 db = pool.work_queue.get()
-                info = self.get_city_traffic(citycode=region_id, db=db)  # 获取交通数据
+                # 完整数据，过滤后的数据
+                filter_info = self.get_city_traffic(citycode=region_id, db=db)  # 获取交通数据
                 pool.work_queue.put(db)
-                if len(info) == 0:
+                if len(filter_info) == 0:
                     print("%d没有数据" % (region_id))
 
                     return
+                redis_data_map = dict()
+
                 # 数据写入
-                for it in info:
+                for it in filter_info:
                     sql_cmd = "insert into  digitalsmart.citytraffic(pid, ddate, ttime, rate)" \
                               " values('%d', '%d', '%s', '%f');" % (
                                   region_id, it.date, it.detailtime, it.index)
+                    redis_data_map[it.detailtime] = it.index
                     pool.sumbit(sql_cmd)
+                # 缓存数据
+                redis_key = "traffic:{0}".format(region_id)
+                self._redis_worker.hash_value_append(name=redis_key, mapping=redis_data_map)
 
             thread_pool.submit(fast, pid)
         print("城市交通数据挖掘完毕")
@@ -109,12 +116,15 @@ class ManagerTraffic(Traffic):
 
             thread_pool.submit(fast, yearpid)
 
-    @staticmethod
-    def clear_road_data():
-        """
-        清除昨天的道路数据
-        :return:
-        """
-        sql = "truncate table digitalsmart.roadtraffic"
-        pool = ConnectPool(max_workers=1)
-        pool.sumbit(sql)
+    # @staticmethod
+    # def clear_road_data():
+    #     """
+    #     清除昨天的道路数据
+    #     :return:
+    #     """
+    #     sql = "truncate table digitalsmart.roadtraffic"
+    #     pool = ConnectPool(max_workers=1)
+    #     pool.sumbit(sql)
+
+
+ManagerTraffic().manager_city_traffic()
