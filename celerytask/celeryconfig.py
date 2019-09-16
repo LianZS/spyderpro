@@ -29,7 +29,7 @@ CELERYBEAT_SCHEDULE = {
 
     'scence_situation': {
         'task': 'celerytask.task3.monitoring_scencepeople',
-        'schedule': crontab('*/40'),  # 每天30min运行一次
+        'schedule': crontab('*/30'),  # 每天30min运行一次
     },
     'scencepeople_trend': {
         'task': 'celerytask.task3.monitoring_scencepeople_trend',
