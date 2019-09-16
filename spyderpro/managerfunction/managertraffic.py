@@ -8,7 +8,14 @@ from spyderpro.function.trafficfunction.traffic import Traffic
 class ManagerTraffic(Traffic):
     """
     缓存数据：
-    日常交通拥堵延迟指数：key= "traffic:{0}".format(region_id),mapping ={"HH:MM:SS":rate,....}
+        日常交通拥堵延迟指数：key= "traffic:{0}".format(region_id),mapping ={"HH:MM:SS":rate,....}
+        道路交通数据：key ="road:{pid}:{road_id}".format(pid=region_id, road_id=roadid)
+                        value =str( {
+                            "pid": pid, "roadname": roadname, "up_date": up_date, "speed": speed,
+                            "direction": direction, "bound": bound, "data": data,
+                            "road_id": roadid, "rate": rate
+                        })
+        季度交通数据：key = "yeartraffic:{pid}".format(pid=region_id) ,value={'yyyymmdd':rate,....}
 
     """
 
@@ -39,18 +46,18 @@ class ManagerTraffic(Traffic):
                     print("%d没有数据" % (region_id))
 
                     return
-                redis_data_map = dict()
+                mapping = dict()
 
                 # 数据写入
                 for it in filter_info:
                     sql_cmd = "insert into  digitalsmart.citytraffic(pid, ddate, ttime, rate)" \
                               " values('%d', '%d', '%s', '%f');" % (
                                   region_id, it.date, it.detailtime, it.index)
-                    redis_data_map[it.detailtime] = it.index
+                    mapping[it.detailtime] = it.index
                     pool.sumbit(sql_cmd)
                 # 缓存数据
                 redis_key = "traffic:{0}".format(region_id)
-                self._redis_worker.hash_value_append(name=redis_key, mapping=redis_data_map)
+                self._redis_worker.hash_value_append(name=redis_key, mapping=mapping)
 
             thread_pool.submit(fast, pid)
         print("城市交通数据挖掘完毕")
@@ -74,7 +81,6 @@ class ManagerTraffic(Traffic):
             def fast(region_id):
 
                 result_objs = self.road_manager(region_id)  # 获取道路数据
-
                 for obj in result_objs:
                     region_id = obj.region_id  # 标识
                     roadname = obj.roadname  # 路名
@@ -89,8 +95,7 @@ class ManagerTraffic(Traffic):
                                  "(%d,'%s',%d,%f,'%s','%s','%s',%d,%f) " % (
                                      region_id, roadname, up_date, speed, direction, bounds,
                                      indexSet, roadid, rate)
-                    print(sql_insert)
-                    continue
+
                     pool.sumbit(sql_insert)
                     sql_cmd = "update  digitalsmart.roadmanager set up_date={0}  where pid={1} and roadid={2}" \
                         .format(up_date, region_id, roadid)
@@ -101,28 +106,31 @@ class ManagerTraffic(Traffic):
                     redis_key = "road:{pid}:{road_id}".format(pid=region_id, road_id=roadid)
                     mapping = {
                         "pid": pid, "roadname": roadname, "up_date": up_date, "speed": speed,
-                        "direction": direction, "bound": bound, "data": data,
+                        "direction": direction, "bound": bounds, "data": data,
                         "road_id": roadid, "rate": rate
                     }
-                    self._redis_worker.hashset(redis_key, mapping)
+                    self._redis_worker.set(redis_key, str(mapping))
 
-                fast(pid)
+            fast(pid)
 
-            print("城市道路交通数据挖掘完毕")
+        print("城市道路交通数据挖掘完毕")
 
     def manager_city_year_traffic(self):
         pool = ConnectPool(max_workers=10)
-        sql = "select yearpid from digitalsmart.citymanager"
+        # sql = "select yearpid from digitalsmart.citymanager"
+        sql = "select pid from digitalsmart.citymanager"
+
         thread_pool = ThreadPoolExecutor(max_workers=10)
         data = pool.select(sql)
         for item in data:
             yearpid = item[0]
-
             def fast(region_id):
+
                 db = pool.work_queue.get()
                 result_objs = self.yeartraffic(region_id, db)
                 pool.work_queue.put(db)
                 mapping = dict()
+
                 for it in result_objs:
                     region_id = it.region_id
                     date = it.date
@@ -131,8 +139,10 @@ class ManagerTraffic(Traffic):
                         region_id, date, index)
                     pool.sumbit(sql_cmd)
                     mapping[date] = index
-                redis_key = "yeartraffic:{pid}".format(region_id)
+
+                redis_key = "yeartraffic:{pid}".format(pid=region_id)
                 self._redis_worker.hash_value_append(redis_key, mapping)
+
 
             thread_pool.submit(fast, yearpid)
 
@@ -147,4 +157,3 @@ class ManagerTraffic(Traffic):
         #     pool.sumbit(sql)
 
 
-ManagerTraffic().manager_city_year_traffic()
