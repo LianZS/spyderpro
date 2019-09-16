@@ -110,7 +110,6 @@ class Traffic(MysqlOperation):
             g = GaodeTraffic()
         elif yearpid < 1000:
             g = BaiduTraffic()
-
         result = g.yeartraffic(yearpid)
         result = self.__dealwith_year_traffic(result, yearpid, db,
                                               lastdate=int(time.strftime("%Y%m%d",
@@ -121,18 +120,22 @@ class Traffic(MysqlOperation):
         sql = "select tmp_date from digitalsmart.yeartraffic where pid={0} and tmp_date>= {1} order by tmp_date".format(
             pid, lastdate)
         cursor = self.get_cursor(db, sql)
+
         if cursor == "error":
             print("年度数据查询日期数据失败！")
             return []
         data = cursor.fetchall()
+
         if not data:
             return list(info)
         result:int = data[-1]  # 最近的日期
+
         info = list(info)
         i = -1
         for i in range(len(info)):
             if info[i].date == result:
                 break
+
         return info[i + 1:]
 
     @staticmethod
