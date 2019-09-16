@@ -110,28 +110,28 @@ class ManagerTraffic(Traffic):
 
             print("城市道路交通数据挖掘完毕")
 
-        def manager_city_year_traffic(self):
-            pool = ConnectPool(max_workers=10)
-            sql = "select yearpid from digitalsmart.citymanager"
-            thread_pool = ThreadPoolExecutor(max_workers=10)
-            data = pool.select(sql)
-            for item in data:
+    def manager_city_year_traffic(self):
+        pool = ConnectPool(max_workers=10)
+        sql = "select yearpid from digitalsmart.citymanager"
+        thread_pool = ThreadPoolExecutor(max_workers=10)
+        data = pool.select(sql)
+        for item in data:
 
-                yearpid = item[0]
+            yearpid = item[0]
 
-                def fast(region_id):
-                    db = pool.work_queue.get()
-                    result_objs = self.yeartraffic(region_id, db)
-                    pool.work_queue.put(db)
-                    for it in result_objs:
-                        region_id = it.region_id
-                        date = it.date
-                        index = it.index
-                        sql_cmd = "insert into digitalsmart.yeartraffic(pid, tmp_date, rate) VALUE (%d,%d,%f)" % (
-                            region_id, date, index)
-                        pool.sumbit(sql_cmd)
+            def fast(region_id):
+                db = pool.work_queue.get()
+                result_objs = self.yeartraffic(region_id, db)
+                pool.work_queue.put(db)
+                for it in result_objs:
+                    region_id = it.region_id
+                    date = it.date
+                    index = it.index
+                    sql_cmd = "insert into digitalsmart.yeartraffic(pid, tmp_date, rate) VALUE (%d,%d,%f)" % (
+                        region_id, date, index)
+                    pool.sumbit(sql_cmd)
 
-                thread_pool.submit(fast, yearpid)
+            thread_pool.submit(fast, yearpid)
 
         # @staticmethod
         # def clear_road_data():
@@ -142,5 +142,3 @@ class ManagerTraffic(Traffic):
         #     sql = "truncate table digitalsmart.roadtraffic"
         #     pool = ConnectPool(max_workers=1)
         #     pool.sumbit(sql)
-
-    ManagerTraffic().manager_city_road_traffic()
