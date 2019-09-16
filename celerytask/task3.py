@@ -42,28 +42,4 @@ def monitoring_scencepeople_change():
 #     pass
 
 
-@app.task(queue='statistics_scence_people')
-def statistics_scencepeople():
-    """
-    统计昨天一整天的人流情况并且录入数据库¬
 
-    """
-    manage.manager_history_sceneceflow()
-
-
-# @app.task(queue='location')
-def clear_scenceflow():
-    """
-    15天清除一遍scenceflow表
-    """
-    manage.clear_sceneflow_table()
-# @app.task(queue='location')
-def clear_scence_distribution():
-    """
-    每天凌晨5点,晚23点清空人口分布密度数据表
-    :return:
-    """
-    manage.clear_peopleposition_table()
-# monitoring_scencepeople.delay()
-# monitoring_scencepeople_trend.delay()
-# monitoring_scencepeople_change.delay()
