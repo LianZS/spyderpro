@@ -26,10 +26,7 @@ CELERYBEAT_SCHEDULE = {
         'task': 'celerytask.task4.monitoring_yeartraffic',
         'schedule': crontab(minute=0, hour=7),  # 每天早上7点运行一次
     },
-    'clear_roadtraffic': {
-        'task': 'celerytask.task4.clear_roadtraffic',
-        'schedule': crontab(minute=5, hour=0),  # 每天凌晨00：05清除道路数据
-    },
+
     'scence_situation': {
         'task': 'celerytask.task3.monitoring_scencepeople',
         'schedule': crontab('*/40'),  # 每天30min运行一次
@@ -46,18 +43,7 @@ CELERYBEAT_SCHEDULE = {
         'task': 'celerytask.task3.statistics_scencepeople',
         'schedule': crontab(minute=3, hour=1),  # 每天凌晨01：03运行
     },
-    # 'clear_scenceflow': {
-    #     'task': 'celerytask.task3.clear_scenceflow',
-    #     'schedule': crontab(day_of_month=15),  # 每月15号清除一遍scenceflow数据库
-    # },
-    # 'clear_peopleposition1': {
-    #     'task': 'celerytask.task3.clear_scence_distribution',
-    #     'schedule': crontab(minute=0, hour=23),  # 每天23点运行一次
-    # },
-    # 'clear_peopleposition2': {
-    #     'task': 'celerytask.task3.clear_scence_distribution',
-    #     'schedule': crontab(minute=0, hour=5),  # 每天5点运行一次
-    # },
+
     'keyword_rate': {
         'task': 'celerytask.task2.monitoring_keyword_rate',
         'schedule': crontab(minute=0, hour=12),  # 每天12点运行一次
@@ -83,16 +69,12 @@ CELERY_QUEUES = (
     Queue('baidu_scence_people', routing_key='celerytask.task3.monitoring_scencepeople',
           exchange=Exchange('task3', type='direct')),
 
-    Queue('statistics_scence_people', routing_key='celerytask.task3.statistics_scencepeople',
-          exchange=Exchange('task3', type='direct')),
     Queue('daily_traffic', routing_key='celerytask.task4.monitoring_dailycitytraffic',
           exchange=Exchange('task4', type='direct')),
 
     Queue('road_traffic', routing_key='celerytask.task4.monitoring_roadtraffic',
           exchange=Exchange('task4', type='direct')),
     Queue('year_traffic', routing_key='celerytask.task4.monitoring_yeartraffic',
-          exchange=Exchange('task4', type='direct')),
-    Queue('clear_traffic', routing_key='celerytask.task4.clear_roadtraffic',
           exchange=Exchange('task4', type='direct')),
 
     Queue('weather', routing_key='celerytask.task5.#', exchange=Exchange('task5', type='direct')),
@@ -105,7 +87,6 @@ CELERY_ROUTES = {
     'celerytask.task3.monitoring_scencepeople_change': {'queue': 'scenece_people_change'},
     'celerytask.task3.monitoring_scencepeople_trend': {'queue': 'scence_trend'},
     'celerytask.task3.monitoring_scencepeople': {'queue': 'baidu_scence_people'},
-    'celerytask.task3.statistics_scence_people': {'queue': 'statistics_scence_people'},
 
     # 'celerytask.task3.*': {'queue': 'location'},
     'celerytask.task4.monitoring_dailycitytraffic': {'queue': 'daily_traffic'},
@@ -114,7 +95,6 @@ CELERY_ROUTES = {
 
     'celerytask.task4.monitoring_yeartraffic': {'queue': 'year_traffic'},
 
-    'celerytask.task4.clear_traffic': {'queue': 'clear_traffic'},
     'celerytask.task5.*': {'queue': 'weather'},
 
 }  # 路由器列表
