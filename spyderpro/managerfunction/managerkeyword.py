@@ -1,8 +1,5 @@
 import datetime
 import csv
-from threading import Thread, Semaphore
-
-from queue import Queue
 from spyderpro.portconnect.sqlconnect import MysqlOperation
 from setting import *
 from spyderpro.managerfunction.mysql_connect import ConnectPool
@@ -144,7 +141,7 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
 
     def manager_search(self):
         """
-        关键词网络我搜索频率----这里没要使用高并发，因为一天才进行一次
+        关键词网络我搜索频率----这里没要使用并发，因为一天才进行一次
         :return:
         """
         pool = ConnectPool(max_workers=5)
@@ -167,7 +164,6 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
                 continue
             last_date = self._get_last_date(pid, area, "baidu")  # 最近更新时间,0表示数据库里没有任何数据
             for sql_cmd in self._sql_format(last_date, baidu, pid, area, flag):
-                print(sql_cmd)
                 pool.sumbit(sql_cmd)
 
             last_date = self._get_last_date(pid, area, "wechat")
