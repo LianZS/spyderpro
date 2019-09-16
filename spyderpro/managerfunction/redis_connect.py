@@ -43,7 +43,7 @@ class RedisConnectPool(object):
             self._broken = False
             self._shutdown = False
             self._init_pool_()
-            self._semaphore = Semaphore(10)#解决并发时too many connect 错误
+            self._semaphore = Semaphore(10)  # 解决并发时too many connect 错误
 
     def _init_pool_(self):
         """
@@ -167,6 +167,9 @@ class RedisConnectPool(object):
         :param mapping: 追加的dict
         :return:
         """
+        if len(mapping.keys()) == 0:
+            return True
+
         with self._redis_pool.pipeline() as pipe:
             pipe.watch(name)
             pre_value = pipe.hgetall(name=name)  # 原先的数据
@@ -174,8 +177,9 @@ class RedisConnectPool(object):
                 key = key.decode("utf-8")
                 value = value.decode("utf-8")
                 mapping[key] = value
-            result = self._redis_pool.hmset(name, mapping)
+            result = pipe.hmset(name, mapping)
             pipe.execute()
+
             return result
 
     @check_state
@@ -229,7 +233,6 @@ class RedisConnectPool(object):
             except redis.exceptions.WatchError:
                 print("%s --WatchError" % name)
 
-
     @check_state
     def rpush(self, name, values: list) -> bool:
         """
@@ -249,7 +252,6 @@ class RedisConnectPool(object):
 
             except redis.exceptions.WatchError:
                 print("%s --WatchError" % name)
-
 
     @check_state
     def lrange(self, name, start, end) -> list:
