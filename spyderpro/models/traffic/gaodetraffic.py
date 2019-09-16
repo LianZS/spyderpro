@@ -231,5 +231,10 @@ class GaodeTraffic(Traffic):
         except AttributeError:
             print("数据格式错误")
             return []
+        try:
+            test =json_data["categories"]
+        except KeyError:
+            print("请求失败")
+            return []
         for date, index in zip(json_data["categories"], json_data['serieData']):
             yield Year(pid=citycode, date=int(date.replace("-", "")), index=index)
