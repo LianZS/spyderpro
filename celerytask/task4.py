@@ -29,10 +29,3 @@ def monitoring_yeartraffic():
     traffic.manager_city_year_traffic()
 
 
-@app.task(queue='clear_traffic')
-def clear_roadtraffic():
-    """
-    清除道路数据
-
-    """
-    traffic.clear_road_data()
