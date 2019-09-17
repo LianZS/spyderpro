@@ -89,6 +89,7 @@ class BaiduTraffic(Traffic):
         try:
             response = self.s.get(url=str_href, headers=self.headers)
             json_data = json.loads(response.text)
+            test = json_data['data']['list']#测试数据是否存在，失败说明请求失败
         except requests.exceptions.ConnectionError:
             print("网络链接error")
             return []
@@ -104,7 +105,6 @@ class BaiduTraffic(Traffic):
         if not len(json_data):
             return []
         year = time.strftime("%Y-", time.localtime())  # 年份格式为2019-
-
         for item in json_data['data']['list']:
             # {'index': '1.56', 'speed': '32.83', 'time': '04-12'}
             date = year + item['time']
@@ -265,5 +265,3 @@ class BaiduTraffic(Traffic):
             provincecode = value['provincecode']  # 省份id
             provincename = value['provincename']  # 省份
             yield CityInfo(provincename, provincecode, cityname, citycode, lat, lon)
-
-
