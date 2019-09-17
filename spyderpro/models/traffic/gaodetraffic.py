@@ -91,7 +91,7 @@ class GaodeTraffic(Traffic):
             direction = item['dir']  # 道路方向
             bounds = json.dumps({"coords": item['coords']})  # 道路经纬度数据
             num = eval(data)['num']
-            rate = float(item['index'])#当前拥堵指数
+            rate = float(item['index'])  # 当前拥堵指数
             road = Road(pid=citycode, roadname=roadname, speed=speed, dircetion=direction, bounds=bounds, data=data,
                         num=num, rate=rate)
 
@@ -232,6 +232,8 @@ class GaodeTraffic(Traffic):
         try:
             response = self.s.get(url=url, headers=self.headers)
             json_data = eval(response.text)
+            test = json_data["categories"]  # 测试数据是否存在，失败说明请求失败
+            test2 = json_data['serieData']  # 测试数据是否存在，失败说明请求失败
         except SyntaxError:
             print("高德地图年度数据请求失败！")
             return []
@@ -250,13 +252,6 @@ class GaodeTraffic(Traffic):
         except Exception as e:
             print(e)
             return []
-        try:
-            test = json_data["categories"]
-        except KeyError:
-            print("请求失败")
-            return []
 
         for date, index in zip(json_data["categories"], json_data['serieData']):
             yield Year(pid=citycode, date=int(date.replace("-", "")), index=index)
-for i in GaodeTraffic().roaddata(321200):
-    print(i)
