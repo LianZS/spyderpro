@@ -118,25 +118,27 @@ class BaiduTraffic(Traffic):
         :param citycode:城市id
         :return: iterable(Road)
         """
-        # 请求道路数据, 获取道路信息包，包括道路pid，道路名，道路方向，速度
 
-        json_road_data = self.__roads(citycode)
+        json_road_data = self.__roads(citycode)  # 请求道路数据, 获取道路信息包，包括道路pid，道路名，道路方向，速度
         if json_road_data['status'] == 1:
             print("参数不合法")
-            return None
-        datalist = self.__realtime_road(json_road_data, citycode)
+            return []
+        datalist = self.__realtime_road(json_road_data, citycode)  # 请求并处理10条道路路实时路况数据
 
         datalist = sorted(datalist, key=lambda x: x["num"])  # 数据必须排序，不然和下面的信息不对称
         for item, data in zip(json_road_data['data']['list'], datalist):
             roadname = item["roadname"]  # 路名
             float_speed = float(item["speed"])  # 速度
             direction = item['semantic']  # 路线方向
-            dict_of_list_of_dict_bounds = json.dumps({"coords": data['coords']})  # 路线经纬度
-            float_index = data['num']  # 指数
-            data = json.dumps(data['data'])
-            rate = float(item['index'])
+            dict_of_list_of_dict_bounds = json.dumps({"coords": data['coords']})  # 路线经纬度，当请求失败时为None
+            float_index = data['num']  # 排名
+
+            today_data = json.dumps(
+                data['data'])  # 今天的拥堵指数集合数据，包括时间，拥堵指数，排名 {'num': 排名,
+            # 'time':时间序列,'data":拥堵指数集},当请求失败时为None
+            rate = float(item['index'])  # 当前指数
             road = Road(pid=citycode, roadname=roadname, speed=float_speed, dircetion=direction,
-                        bounds=dict_of_list_of_dict_bounds, data=data,
+                        bounds=dict_of_list_of_dict_bounds, data=today_data,
                         num=float_index, rate=rate)
             yield road
 
@@ -172,22 +174,22 @@ class BaiduTraffic(Traffic):
 
         return json_data
 
-    def __realtime_road(self, dic, citycode) -> Iterator[Dict]:
+    def __realtime_road(self, road_mapping: dict, citycode) -> Iterator[Dict]:
         """
            处理10条道路路实时路况数据
-           :param dic:
-           :param citycode:
-           :return: dict
+           :param road_mapping:存放十条道路的基本信息
+           :param citycode:城市id
+           :return: Iterator[{"data": realdata, "coords": list_bounds, "num": i}]
            """
         pool = ThreadPoolExecutor(max_workers=10)
         # 存放任务对象
         reuslt_list = list()
-        for item, i in zip(dic['data']['list'], range(10)):
-            t = pool.submit(self.__realtime_roaddata, item['roadsegid'], i, citycode)
+        for item, i in zip(road_mapping['data']['list'], range(10)):
+            t = pool.submit(self.__realtime_roaddata, item['roadsegid'], i, citycode)  # 请求该道路数据
             reuslt_list.append(t)
         for t in reuslt_list:
             # 返回结果
-            yield t.result()
+            yield t.result()  # {"data": realdata, "coords": list_bounds, "num": i}
 
     # 道路请求
     def __realtime_roaddata(self, pid, i, citycode) -> Dict:
@@ -263,3 +265,7 @@ class BaiduTraffic(Traffic):
             provincecode = value['provincecode']  # 省份id
             provincename = value['provincename']  # 省份
             yield CityInfo(provincename, provincecode, cityname, citycode, lat, lon)
+
+
+for i in BaiduTraffic().roaddata(148):
+    print(i)
