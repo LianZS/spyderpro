@@ -46,6 +46,12 @@ class GaodeTraffic(Traffic):
             print("编号%d--网络链接error:%s" % (citycode, e))
 
             return None
+        except json.JSONDecodeError:
+            print("json解析异常")
+            return None
+        except Exception as e:
+            print(e)
+            return NameError
         date_today = time.strftime("%Y-%m-%d", time.localtime())  # 今天的日期
 
         date_yesterday = time.strftime("%Y-%m-%d", time.localtime(time.time() - 3600 * 24))  # 昨天的日期
@@ -105,13 +111,15 @@ class GaodeTraffic(Traffic):
         str_href = "https://report.amap.com/ajax/roadRank.do?" + urlencode(dict_parameter)
         try:
             response = self.s.get(url=str_href, headers=self.headers)
+            json_data = json.loads(response.text)  # 道路信息包
         except requests.exceptions.ConnectionError:
             print("网络错误")
             return {}
-
-        try:
-            json_data = json.loads(response.text)  # 道路信息包
-        except AttributeError:
+        except json.JSONDecodeError:
+            print("json解析异常")
+            return {}
+        except Exception as e:
+            print("异常")
             return {}
         list_id = []  # 记录道路pid
         list_roadname = []  # 记录道路名
@@ -178,7 +186,11 @@ class GaodeTraffic(Traffic):
         except AttributeError:
             print("数据格式错误")
             return {"data": None, "num": i}
-
+        except json.JSONDecodeError:
+            return {"data": None, "num": i}
+        except Exception as e:
+            print(e)
+            return {"data": None, "num": i}
         list_data = []  # 拥堵指数
         list_time = []  # 时间
         for item in json_data:
@@ -231,10 +243,17 @@ class GaodeTraffic(Traffic):
         except AttributeError:
             print("数据格式错误")
             return []
+        except json.JSONDecodeError:
+            print("json解析异常")
+            return []
+        except Exception as e:
+            print(e)
+            return []
         try:
-            test =json_data["categories"]
+            test = json_data["categories"]
         except KeyError:
             print("请求失败")
             return []
+
         for date, index in zip(json_data["categories"], json_data['serieData']):
             yield Year(pid=citycode, date=int(date.replace("-", "")), index=index)
