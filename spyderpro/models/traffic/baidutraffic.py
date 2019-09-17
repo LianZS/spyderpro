@@ -50,6 +50,12 @@ class BaiduTraffic(Traffic):
         except AttributeError:
             print("数据格式错误")
             return []
+        except json.JSONDecodeError:
+            print("json解析异常")
+            return []
+        except Exception as e:
+            print(e)
+            return []
         today_date = time.strftime("%Y-%m-%d", time.localtime())  # 今天的日期
         date = today_date
         if '00:00' in str(json_data):
@@ -88,6 +94,12 @@ class BaiduTraffic(Traffic):
             return []
         except AttributeError:
             print("数据错误")
+            return []
+        except json.JSONDecodeError:
+            print("json解析异常")
+            return []
+        except Exception as e:
+            print(e)
             return []
         if not len(json_data):
             return []
@@ -151,6 +163,12 @@ class BaiduTraffic(Traffic):
         except AttributeError:
             print("数据格式错误")
             return {"status": 1}
+        except json.JSONDecodeError:
+            print("json解析异常")
+            return {"status": 1}
+        except Exception as e:
+            print(e)
+            return {"status": 1}
 
         return json_data
 
@@ -199,7 +217,9 @@ class BaiduTraffic(Traffic):
             return {"data": None, "coords": None, "num": i}
         except json.decoder.JSONDecodeError:
             return {"data": None, "coords": None, "num": i}
-
+        except Exception as e:
+            print(e)
+            return {"data": None, "coords": None, "num": i}
 
         # 存放时间序列
         list_time = list()
