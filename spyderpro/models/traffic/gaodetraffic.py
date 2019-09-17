@@ -40,23 +40,26 @@ class GaodeTraffic(Traffic):
         str_href = "http://report.amap.com/ajax/cityHourly.do?cityCode=" + str(citycode)
         try:
             response = self.s.get(url=str_href, headers=self.headers)
-            json_data = json.loads(response.text)
-        except ConnectionError as e:
+            json_data = json.loads(response.text)  # 请求成功时时list类型数据
+            if isinstance(json_data, dict):  # 请求失败时时dict类型
+                raise ConnectionError
+        except ConnectionError:
 
-            print("编号%d--网络链接error:%s" % (citycode, e))
+            print("标识:%d--网络连接error" % (citycode))
 
-            return []
+            return iter([])
         except json.JSONDecodeError:
             print("json解析异常")
-            return []
+            return iter([])
         except Exception as e:
             print(e)
-            return []
+            return iter([])
         date_today = time.strftime("%Y-%m-%d", time.localtime())  # 今天的日期
 
         date_yesterday = time.strftime("%Y-%m-%d", time.localtime(time.time() - 3600 * 24))  # 昨天的日期
         date = date_yesterday
         # 含有24小时的数据
+
         for item in json_data:
             detail_time = time.strftime("%H:%M", time.localtime(int(item[0]) / 1000))
             if detail_time == '00:00':
@@ -113,11 +116,15 @@ class GaodeTraffic(Traffic):
         try:
             response = self.s.get(url=str_href, headers=self.headers)
             json_data = json.loads(response.text)  # 道路信息包
+            test = json_data["tableData"]
         except requests.exceptions.ConnectionError:
             print("网络错误")
             return {}
         except json.JSONDecodeError:
             print("json解析异常")
+            return {}
+        except KeyError:
+            print("请求失败")
             return {}
         except Exception as e:
             print("异常")
