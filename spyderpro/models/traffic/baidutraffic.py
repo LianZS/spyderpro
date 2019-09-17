@@ -46,16 +46,16 @@ class BaiduTraffic(Traffic):
 
         except requests.exceptions.ConnectionError:
             print("网络链接error")
-            return []
+            return iter([])
         except AttributeError:
             print("数据格式错误")
-            return []
+            return iter([])
         except json.JSONDecodeError:
             print("json解析异常")
-            return []
+            return iter([])
         except Exception as e:
             print(e)
-            return []
+            return iter([])
         today_date = time.strftime("%Y-%m-%d", time.localtime())  # 今天的日期
         date = today_date
         if '00:00' in str(json_data):
