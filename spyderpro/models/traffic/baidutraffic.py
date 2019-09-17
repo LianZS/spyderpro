@@ -267,5 +267,3 @@ class BaiduTraffic(Traffic):
             yield CityInfo(provincename, provincecode, cityname, citycode, lat, lon)
 
 
-for i in BaiduTraffic().roaddata(148):
-    print(i)
