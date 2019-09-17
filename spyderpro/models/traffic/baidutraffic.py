@@ -197,6 +197,9 @@ class BaiduTraffic(Traffic):
         except AttributeError:
             print("数据格式错误")
             return {"data": None, "coords": None, "num": i}
+        except json.decoder.JSONDecodeError:
+            return {"data": None, "coords": None, "num": i}
+
 
         # 存放时间序列
         list_time = list()
