@@ -1,4 +1,5 @@
 import datetime
+from threading import Lock, Thread, Semaphore
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.managerfunction.mysql_connect import ConnectPool
 from spyderpro.managerfunction.redis_connect import RedisConnectPool
@@ -30,8 +31,9 @@ class ManagerTraffic(Traffic):
         pool = ConnectPool(max_workers=10)
         sql = "select pid, name from digitalsmart.citymanager"
         data = pool.select(sql)
-        thread_pool = ThreadPoolExecutor(max_workers=10)
-
+        # thread_pool = ThreadPoolExecutor(max_workers=10)
+        #千万不要开系统自带的线程池，占用的内存过大，而且每次线程退出后内存都没有释放，而是一直累加。使用自定义线程池
+        semaphore = Semaphore(10)
         for item in data:
 
             pid = item[0]
@@ -41,12 +43,16 @@ class ManagerTraffic(Traffic):
 
                 db = pool.work_queue.get()
                 # 完整数据，过滤后的数据
+
                 filter_info = self.get_city_traffic(citycode=region_id, db=db)  # 获取交通数据
                 pool.work_queue.put(db)
+
                 if len(filter_info) == 0:
                     print("pid:%d -- city:%s 没有数据" % (region_id, cityname))
+                    semaphore.release()
 
                     return
+
                 mapping = dict()  # 存放缓存数据
 
                 # 数据写入
@@ -58,9 +64,14 @@ class ManagerTraffic(Traffic):
                     pool.sumbit(sql_cmd)
                 # 缓存数据
                 redis_key = "traffic:{0}".format(region_id)
-                self._redis_worker.hash_value_append(name=redis_key, mapping=mapping)
 
-            thread_pool.submit(fast, pid, city)
+                self._redis_worker.hash_value_append(name=redis_key, mapping=mapping)
+                print(mapping)
+                semaphore.release()
+
+            semaphore.acquire()
+            Thread(target=fast, args=(pid, city)).start()
+            # thread_pool.submit(fast, pid, city)
         print("城市交通数据挖掘完毕")
 
     def manager_city_road_traffic(self):
@@ -80,7 +91,6 @@ class ManagerTraffic(Traffic):
             pid = item[0]
 
             def fast(region_id):
-
                 result_objs = self.road_manager(region_id)  # 获取道路数据
                 for obj in result_objs:
                     region_id = obj.region_id  # 标识
@@ -160,3 +170,12 @@ class ManagerTraffic(Traffic):
         #     sql = "truncate table digitalsmart.roadtraffic"
         #     pool = ConnectPool(max_workers=1)
         #     pool.sumbit(sql)
+
+
+from multiprocessing import Process
+
+if __name__ == "__main__":
+
+    m = ManagerTraffic()
+    for i in range(1):
+        Process(target=m.manager_city_road_traffic).start()
