@@ -128,9 +128,11 @@ class Traffic(MysqlOperation):
 
         if not data:
             return list(info)
-        result:int = data[-1]  # 最近的日期
+        result: int = data[-1]  # 最近的日期
 
         info = list(info)
+        if len(info) == 0:  # 请求失败情况下
+            return []
         i = -1
         for i in range(len(info)):
             if info[i].date == result:
