@@ -28,25 +28,26 @@ class ManagerTraffic(Traffic):
         :return:
         """
         pool = ConnectPool(max_workers=10)
-        sql = "select pid from digitalsmart.citymanager"
+        sql = "select pid, name from digitalsmart.citymanager"
         data = pool.select(sql)
         thread_pool = ThreadPoolExecutor(max_workers=10)
 
         for item in data:
 
             pid = item[0]
+            city = item[1]
 
-            def fast(region_id):
+            def fast(region_id, cityname):
 
                 db = pool.work_queue.get()
                 # 完整数据，过滤后的数据
                 filter_info = self.get_city_traffic(citycode=region_id, db=db)  # 获取交通数据
                 pool.work_queue.put(db)
                 if len(filter_info) == 0:
-                    print("%d没有数据" % (region_id))
+                    print("pid:%d -- city:%s 没有数据" % (region_id, cityname))
 
                     return
-                mapping = dict()
+                mapping = dict()  # 存放缓存数据
 
                 # 数据写入
                 for it in filter_info:
@@ -59,7 +60,7 @@ class ManagerTraffic(Traffic):
                 redis_key = "traffic:{0}".format(region_id)
                 self._redis_worker.hash_value_append(name=redis_key, mapping=mapping)
 
-            thread_pool.submit(fast, pid)
+            thread_pool.submit(fast, pid, city)
         print("城市交通数据挖掘完毕")
 
     def manager_city_road_traffic(self):
@@ -102,7 +103,8 @@ class ManagerTraffic(Traffic):
 
                     pool.sumbit(sql_cmd)  # 更新最近更新时间
                     # 缓存数据
-
+                    # if data is None or bounds is None:  # 道路拥堵指数数据包请求失败情况下
+                    #     continue
                     redis_key = "road:{pid}:{road_id}".format(pid=region_id, road_id=roadid)
                     mapping = {
                         "pid": pid, "roadname": roadname, "up_date": up_date, "speed": speed,
@@ -124,11 +126,15 @@ class ManagerTraffic(Traffic):
         data = pool.select(sql)
         for item in data:
             yearpid = item[0]
+
             def fast(region_id):
 
                 db = pool.work_queue.get()
                 result_objs = self.yeartraffic(region_id, db)
+
                 pool.work_queue.put(db)
+                if len(result_objs) == 0:  # 此次请求没有数据
+                    return
                 mapping = dict()
 
                 for it in result_objs:
@@ -143,7 +149,6 @@ class ManagerTraffic(Traffic):
                 redis_key = "yeartraffic:{pid}".format(pid=region_id)
                 self._redis_worker.hash_value_append(redis_key, mapping)
 
-
             thread_pool.submit(fast, yearpid)
 
         # @staticmethod
@@ -155,5 +160,3 @@ class ManagerTraffic(Traffic):
         #     sql = "truncate table digitalsmart.roadtraffic"
         #     pool = ConnectPool(max_workers=1)
         #     pool.sumbit(sql)
-
-
