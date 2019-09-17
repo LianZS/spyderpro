@@ -45,13 +45,13 @@ class GaodeTraffic(Traffic):
 
             print("编号%d--网络链接error:%s" % (citycode, e))
 
-            return None
+            return []
         except json.JSONDecodeError:
             print("json解析异常")
-            return None
+            return []
         except Exception as e:
             print(e)
-            return NameError
+            return []
         date_today = time.strftime("%Y-%m-%d", time.localtime())  # 今天的日期
 
         date_yesterday = time.strftime("%Y-%m-%d", time.localtime(time.time() - 3600 * 24))  # 昨天的日期
@@ -79,18 +79,19 @@ class GaodeTraffic(Traffic):
         dic = self.__roads(citycode)  # 道路基本信息
         if not len(dic['route']):
             print("参数不合法或者网络链接失败")
-            return None
+            return []
 
-        datalist = self.__realtimeroad(dic, citycode)  # 获取数据
+        datalist = self.__realtimeroad(dic, citycode)  # 请求10条道路路实时路况数据
         datalist = sorted(datalist, key=lambda x: x["num"])  # 数据必须排序，不然和下面的信息不对称
         for item, data in zip(dic['route'], datalist):
             roadname = item["name"]  # 路名
             speed = float(item["speed"])  # 速度
-            data = json.dumps(data['data'])  # 数据包
+            data = json.dumps(data['data'])  # 数据包,今天的拥堵指数集合数据，包括时间，拥堵指数，排名 {'num': 排名,
+            # 'time':时间序列,'data":拥堵指数集},当请求失败时为None
             direction = item['dir']  # 道路方向
             bounds = json.dumps({"coords": item['coords']})  # 道路经纬度数据
             num = eval(data)['num']
-            rate = float(item['index'])
+            rate = float(item['index'])#当前拥堵指数
             road = Road(pid=citycode, roadname=roadname, speed=speed, dircetion=direction, bounds=bounds, data=data,
                         num=num, rate=rate)
 
@@ -257,3 +258,5 @@ class GaodeTraffic(Traffic):
 
         for date, index in zip(json_data["categories"], json_data['serieData']):
             yield Year(pid=citycode, date=int(date.replace("-", "")), index=index)
+for i in GaodeTraffic().roaddata(321200):
+    print(i)
