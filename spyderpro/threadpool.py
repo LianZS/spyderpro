@@ -1,4 +1,5 @@
 import os
+import threading
 from threading import Thread, Lock, Semaphore
 
 from queue import Queue
@@ -28,26 +29,42 @@ class ThreadPool():
             max_workers = (os.cpu_count() or 1) * 5
         if max_workers <= 0:
             raise ValueError("最大线程数必须大于0")
-        self._max_workers = Semaphore(max_workers)
+        self._max_workers = max_workers
         self._work_queue = Queue(max_workers)  # 存放任务
         self._broken = False
         self._shutdown = False
         self._shutdown_lock = Lock()
+        self._create_thread()
+
+    def _create_thread(self):
+        """
+        创建线程池
+        :return:
+        """
+        for i in range(self._max_workers):
+            Thread(target=self._adjust_thread_count, args=()).start()
 
     def submit(self, fn, *args, **kwargs):
+        """
+        提交任务
+        :param fn:
+        :param args:
+        :param kwargs:
+        :return:
+        """
         if self._shutdown:
             raise RuntimeError('线程池已经关闭，无法创建新的线程')
         w = _Worker(fn, args, kwargs)
         self._work_queue.put(w)  # 任务队列
 
-        self._max_workers.acquire()
-
-        Thread(target=self._adjust_thread_count, args=()).start()
-
     def _adjust_thread_count(self):
-        w = self._work_queue.get()
-        w.run()
-        self._max_workers.release()
+        """
+        监听线程
+        :return:
+        """
+        while 1:
+            w = self._work_queue.get()
+            w.run()
 
     def shut_down(self):
         """
@@ -67,4 +84,5 @@ if __name__ == "__main__":
 
     pool = ThreadPool(max_workers=5)
     for k in range(14):
-        pool.sumbit(test, k)
+        pool.submit(test, k)
+    pool.shut_down()
