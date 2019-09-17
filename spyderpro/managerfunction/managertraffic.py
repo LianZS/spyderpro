@@ -1,6 +1,5 @@
 import datetime
-from threading import Lock, Thread, Semaphore
-from concurrent.futures import ThreadPoolExecutor
+from spyderpro.threadpool import ThreadPool
 from spyderpro.managerfunction.mysql_connect import ConnectPool
 from spyderpro.managerfunction.redis_connect import RedisConnectPool
 from spyderpro.function.trafficfunction.traffic import Traffic
@@ -31,9 +30,9 @@ class ManagerTraffic(Traffic):
         pool = ConnectPool(max_workers=10)
         sql = "select pid, name from digitalsmart.citymanager"
         data = pool.select(sql)
-        # thread_pool = ThreadPoolExecutor(max_workers=10)
-        #千万不要开系统自带的线程池，占用的内存过大，而且每次线程退出后内存都没有释放，而是一直累加。使用自定义线程池
-        semaphore = Semaphore(10)
+        # 千万不要开系统自带的线程池，占用的内存过大，而且每次线程退出后内存都没有释放，而是一直累加。使用自定义线程池，
+        # semaphore = Semaphore(10)
+        thread_pool = ThreadPool(max_workers=10)
         for item in data:
 
             pid = item[0]
@@ -49,7 +48,6 @@ class ManagerTraffic(Traffic):
 
                 if len(filter_info) == 0:
                     print("pid:%d -- city:%s 没有数据" % (region_id, cityname))
-                    semaphore.release()
 
                     return
 
@@ -67,11 +65,8 @@ class ManagerTraffic(Traffic):
 
                 self._redis_worker.hash_value_append(name=redis_key, mapping=mapping)
                 print(mapping)
-                semaphore.release()
 
-            semaphore.acquire()
-            Thread(target=fast, args=(pid, city)).start()
-            # thread_pool.submit(fast, pid, city)
+            thread_pool.submit(fast, pid, city)
         print("城市交通数据挖掘完毕")
 
     def manager_city_road_traffic(self):
@@ -122,6 +117,7 @@ class ManagerTraffic(Traffic):
                         "road_id": roadid, "rate": rate
                     }
                     self._redis_worker.set(redis_key, str(mapping))
+                    print(mapping)
 
             fast(pid)
 
@@ -132,7 +128,7 @@ class ManagerTraffic(Traffic):
         # sql = "select yearpid from digitalsmart.citymanager"
         sql = "select pid from digitalsmart.citymanager"
 
-        thread_pool = ThreadPoolExecutor(max_workers=10)
+        thread_pool = ThreadPool(max_workers=10)
         data = pool.select(sql)
         for item in data:
             yearpid = item[0]
@@ -172,10 +168,9 @@ class ManagerTraffic(Traffic):
         #     pool.sumbit(sql)
 
 
-from multiprocessing import Process
-
 if __name__ == "__main__":
+    from multiprocessing import Process
 
     m = ManagerTraffic()
-    for i in range(1):
-        Process(target=m.manager_city_road_traffic).start()
+    Process(target=m.manager_city_road_traffic).start()
+    Process(target=m.manager_city_traffic).start()
