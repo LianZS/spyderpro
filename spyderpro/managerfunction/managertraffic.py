@@ -67,6 +67,8 @@ class ManagerTraffic(Traffic):
                 print(mapping)
 
             thread_pool.submit(fast, pid, city)
+        thread_pool.run()
+        thread_pool.close()
         print("城市交通数据挖掘完毕")
 
     def manager_city_road_traffic(self):
@@ -81,7 +83,6 @@ class ManagerTraffic(Traffic):
         sql = "select pid from digitalsmart.citymanager"
 
         data = pool.select(sql)  # pid集合
-        thread_pool = ThreadPool(max_workers=3)
         for item in data:  # 这里最好不要并发进行，因为每个pid任务下都有10个子线程，在这里开并发 的话容易被封杀
 
             pid = item[0]
@@ -118,11 +119,9 @@ class ManagerTraffic(Traffic):
                         "road_id": roadid, "rate": rate
                     }
                     self._redis_worker.set(redis_key, str(mapping))
+                    print(mapping)
 
-            if pid < 1000:
-                thread_pool.submit(fast, pid)
-            else:
-                fast(pid)
+            fast(pid)
 
         print("城市道路交通数据挖掘完毕")
 
@@ -157,8 +156,11 @@ class ManagerTraffic(Traffic):
 
                 redis_key = "yeartraffic:{pid}".format(pid=region_id)
                 self._redis_worker.hash_value_append(redis_key, mapping)
+                print(mapping)
 
             thread_pool.submit(fast, yearpid)
+        thread_pool.run()
+        thread_pool.close()
 
         # @staticmethod
         # def clear_road_data():
@@ -175,5 +177,5 @@ if __name__ == "__main__":
     from multiprocessing import Process
 
     m = ManagerTraffic()
-    Process(target=m.manager_city_road_traffic).start()
     # Process(target=m.manager_city_traffic).start()
+    Process(target=m.manager_city_year_traffic).start()
