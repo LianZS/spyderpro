@@ -1,7 +1,7 @@
 import datetime
-from typing import List
-from spyderpro.managerfunction.redis_connect import RedisConnectPool
-from spyderpro.managerfunction.mysql_connect import ConnectPool
+from typing import Iterator, List
+from spyderpro.tool.redis_connect import RedisConnectPool
+from spyderpro.tool.mysql_connect import ConnectPool
 from spyderpro.models.locationdata.scencepeople import ScencePeopleFlow
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.portconnect.sqlconnect import MysqlOperation
@@ -47,18 +47,18 @@ class ScenceFlow(Parent):
         # 获取数据
         instances = flow.peopleflow_info(peoplepid, ddate)
         # 缓冲数据
-        positioning_data = list(instances)
-        self.__redis_cache(positioning_data)#缓存数据
+        # positioning_data = list(instances)
+        # self.__redis_cache(positioning_data)#缓存数据
         # 过滤已存在的数据
-        info = self.__filter_peopleflow(db, positioning_data, ddate, peoplepid, table_id)
+        info = self.__filter_peopleflow(db, instances, ddate, peoplepid, table_id)
 
         return info
 
     @staticmethod
-    def __redis_cache(data_objs):
+    def __redis_cache(data_objs: List[Positioning]):
         """
         缓存数据,缓存key格式为 scence:pid
-        :param data_objs: 数据实例
+        :param data_objs: 数据实例Positioning
         :return:
         """
         dict_data = dict()  # {"HH:MM:SS":num}
@@ -73,7 +73,7 @@ class ScenceFlow(Parent):
         redis_pool.hashset(name=key, mapping=dict_data)
 
     # 检查数据库是否存在部分数据，存在则不再插入
-    def __filter_peopleflow(self, db_connect, objs: List[Positioning], ddate: int, peoplepid: int, table_id: int) -> \
+    def __filter_peopleflow(self, db_connect, objs: Iterator[Positioning], ddate: int, peoplepid: int, table_id: int) -> \
             List[Positioning]:
         """
         检查数据库是否存在部分数据，存在则不再插入
@@ -204,7 +204,7 @@ if __name__ == "__main__":
     p = ScenceFlow()
     pool = ConnectPool(max_workers=1)
     db = pool.work_queue.get()
-    p.get_scence_situation(db, 1365,555)
+    p.get_scence_situation(db, 1365, 555)
     # db = pymysql.connect(host=host, user=user, password=password, database=scencedatabase,
     #                      port=port)
     # data = p.get_scence_situation(db, 1174)
