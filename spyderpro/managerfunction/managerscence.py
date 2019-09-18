@@ -66,6 +66,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             thread_pool.submit(fast, pid, table_id)
         thread_pool.run()
         thread_pool.close()
+        pool.close()
 
         print("百度资源景区数据挖掘完毕")
 
@@ -130,6 +131,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             thread_pool.submit(fast, pid, area)
         thread_pool.run()
         thread_pool.close()
+        pool.close()
         print("景区趋势挖掘完毕")
 
     def manager_scenece_people(self):
@@ -173,6 +175,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             thread_pool.submit(fast, info)
         thread_pool.run()
         thread_pool.close()
+
         print("景区人流数据挖掘完毕")
 
     def manager_scenece_people_distribution(self, data, region_id, tmp_date: int, centerlat: float, centerlon: float,
