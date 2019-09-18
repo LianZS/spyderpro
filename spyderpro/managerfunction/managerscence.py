@@ -3,8 +3,8 @@ import time
 import json
 from threading import Thread
 from concurrent.futures import ThreadPoolExecutor
-from spyderpro.managerfunction.mysql_connect import ConnectPool
-from spyderpro.managerfunction.redis_connect import RedisConnectPool
+from spyderpro.tool.mysql_connect import ConnectPool
+from spyderpro.tool.redis_connect import RedisConnectPool
 from spyderpro.function.peoplefunction.posititioningscence import ScenceFlow
 from spyderpro.function.peoplefunction.positioningtrend import PositioningTrend
 from spyderpro.function.peoplefunction.positioningsituation import PositioningSituation

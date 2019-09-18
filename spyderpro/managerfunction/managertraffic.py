@@ -1,7 +1,7 @@
 import datetime
-from spyderpro.threadpool import ThreadPool
-from spyderpro.managerfunction.mysql_connect import ConnectPool
-from spyderpro.managerfunction.redis_connect import RedisConnectPool
+from spyderpro.tool.threadpool import ThreadPool
+from spyderpro.tool.mysql_connect import ConnectPool
+from spyderpro.tool.redis_connect import RedisConnectPool
 from spyderpro.function.trafficfunction.traffic import Traffic
 
 
@@ -64,7 +64,7 @@ class ManagerTraffic(Traffic):
                 redis_key = "traffic:{0}".format(region_id)
 
                 self._redis_worker.hash_value_append(name=redis_key, mapping=mapping)
-                print(mapping)
+                print("daily", region_id)
 
             thread_pool.submit(fast, pid, city)
         thread_pool.run()
@@ -119,7 +119,6 @@ class ManagerTraffic(Traffic):
                         "road_id": roadid, "rate": rate
                     }
                     self._redis_worker.set(redis_key, str(mapping))
-                    print(mapping)
 
             fast(pid)
 
@@ -156,7 +155,6 @@ class ManagerTraffic(Traffic):
 
                 redis_key = "yeartraffic:{pid}".format(pid=region_id)
                 self._redis_worker.hash_value_append(redis_key, mapping)
-                print(mapping)
 
             thread_pool.submit(fast, yearpid)
         thread_pool.run()
@@ -177,5 +175,6 @@ if __name__ == "__main__":
     from multiprocessing import Process
 
     m = ManagerTraffic()
-    # Process(target=m.manager_city_traffic).start()
+    # Process(target=m.manager_city_road_traffic).start()
+    Process(target=m.manager_city_traffic).start()
     Process(target=m.manager_city_year_traffic).start()

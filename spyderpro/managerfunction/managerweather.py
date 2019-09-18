@@ -2,8 +2,8 @@ import datetime
 from threading import Semaphore
 from queue import Queue
 from concurrent.futures import ThreadPoolExecutor
-from spyderpro.managerfunction.redis_connect import RedisConnectPool
-from spyderpro.managerfunction.mysql_connect import ConnectPool
+from spyderpro.tool.redis_connect import RedisConnectPool
+from spyderpro.tool.mysql_connect import ConnectPool
 from spyderpro.function.weatherfunction.weather import Weather
 
 
