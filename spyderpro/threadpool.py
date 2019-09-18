@@ -1,5 +1,5 @@
 import os
-from threading import Thread, Event, Lock
+from threading import Thread
 
 from queue import Queue
 
