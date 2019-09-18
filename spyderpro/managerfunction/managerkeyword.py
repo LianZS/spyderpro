@@ -175,6 +175,7 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
             sougou = search.sougou_browser_keyword_frequency(searcharea, startdate=pre_yesterday,
                                                              enddate=yesterday)  # 获取前两天的数据
             self.sumbit_commit(pid, area, last_date, sougou, flag)
+        pool.close()
 
     def _get_last_date(self, region_id, place, company) -> int:
         """
@@ -193,7 +194,7 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
             print(last_date)
         else:
             last_date = last_date[0][0]
-
+        pool.close()
         return last_date
 
     def _sql_format(self, last_date, obj, region_id, place, flag):
@@ -251,3 +252,4 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
             sql = "insert into digitalsmart.searchrate(pid, tmp_date, area, rate, name,flag) values " \
                   "(%d,%d,'%s',%d,'%s',%d)" % (pid, tmp_date, area, rate, name, flag)
             pool.sumbit(sql)
+        pool.close()
