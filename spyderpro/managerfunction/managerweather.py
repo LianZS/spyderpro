@@ -36,6 +36,7 @@ class ManagerWeather:
         city_map = weather.get_city_weather_pid()  # 获取城市天气id
         thread_pool = ThreadPool(max_workers=10)
         count = len(result)  # 任务计数，0时通知更新时间
+        time_interval = datetime.timedelta(minutes=60)
         for item in result:
             citypid = item[0]
             city = item[1]
@@ -56,6 +57,7 @@ class ManagerWeather:
                 value = {"pid": pid, "aqi": aqi, "pm2": pm2, "pm10": pm10, "co": co, "no2": no2, "o3": o3, "so2": so2,
                          "flag": 1, "lasttime": str(now)}
                 self._redis_work.hashset(redis_key, value)
+                self._redis_work.expire(name=redis_key, time_interval=time_interval)
                 # 更新数据库
                 sql_cmd = "insert into digitalsmart.airstate(pid, aqi, pm2, pm10, co, no2, o3, so2, flag, lasttime) " \
                           "value (%d,%d,%d,%d,%f,%d,%d,%d,%d,'%s')" % (pid, aqi, pm2, pm10, co, no2, o3, so2, 1, now)
@@ -64,7 +66,6 @@ class ManagerWeather:
                 semaphore.acquire()
                 nonlocal count
                 count -= 1  # 计数
-                print(pid)
                 semaphore.release()
                 if count == 0:  # 所有任务完成，通知数据库可以更新天气时间了
                     queue.put(1)
@@ -78,6 +79,7 @@ class ManagerWeather:
         queue.get()
         pool.sumbit(sql)
         pool.close()
+        print("天气数据写入成功")
 
 
 if __name__ == "__main__":
