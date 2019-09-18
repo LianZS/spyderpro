@@ -1,7 +1,7 @@
 import datetime
 from threading import Semaphore
 from queue import Queue
-from concurrent.futures import ThreadPoolExecutor
+from spyderpro.tool.threadpool import ThreadPool
 from spyderpro.tool.redis_connect import RedisConnectPool
 from spyderpro.tool.mysql_connect import ConnectPool
 from spyderpro.function.weatherfunction.weather import Weather
@@ -14,8 +14,8 @@ class ManagerWeather:
                 value = {"pid": pid, "aqi": aqi, "pm2": pm2, "pm10": pm10, "co": co, "no2": no2, "o3": o3, "so2": so2,
                          "flag": 1, "lasttime": str(now)}
     """
+
     def __init__(self):
-        self.lock = Semaphore(20)
         self._redis_work = RedisConnectPool(10)  # redis连接池
 
     def manager_city_airstate(self):
@@ -34,8 +34,7 @@ class ManagerWeather:
             lasttime = ''
         weather = Weather()
         city_map = weather.get_city_weather_pid()  # 获取城市天气id
-
-        thread_pool = ThreadPoolExecutor(max_workers=10)
+        thread_pool = ThreadPool(max_workers=10)
         count = len(result)  # 任务计数，0时通知更新时间
         for item in result:
             citypid = item[0]
@@ -65,13 +64,24 @@ class ManagerWeather:
                 semaphore.acquire()
                 nonlocal count
                 count -= 1  # 计数
-                if count == 0:
-                    queue.put(1)
-
+                print(pid)
                 semaphore.release()
+                if count == 0:  # 所有任务完成，通知数据库可以更新天气时间了
+                    queue.put(1)
+                return
 
             thread_pool.submit(fast, citypid, city_weather_pid)
+        thread_pool.run()
+        thread_pool.close()
         # 更新时间
         sql = "update digitalsmart.airstate set flag=0 where lasttime='{0}'".format(lasttime)
         queue.get()
         pool.sumbit(sql)
+        pool.close()
+
+
+if __name__ == "__main__":
+    from multiprocessing import Process
+
+    m = ManagerWeather()
+    Process(target=m.manager_city_airstate).start()
