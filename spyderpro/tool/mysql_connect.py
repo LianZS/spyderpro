@@ -1,7 +1,6 @@
-import pymysql
 from setting import *
 from queue import Queue
-from spyderpro.managerfunction.connect_interface import ConnectInterface
+from spyderpro.tool.connect_interface import ConnectInterface
 
 
 class ConnectPool(ConnectInterface):
