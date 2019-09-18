@@ -13,7 +13,7 @@ class ManagerTraffic(Traffic):
                         value =str( {
                             "pid": pid, "roadname": roadname, "up_date": up_date, "speed": speed,
                             "direction": direction, "bound": bound, "data": data,
-                            "road_id": roadid, "rate": rate
+                            "roadpid": roadid, "rate": rate
                         })
         季度交通数据：key = "yeartraffic:{pid}".format(pid=region_id) ,value={'yyyymmdd':rate,....}
 
@@ -31,8 +31,8 @@ class ManagerTraffic(Traffic):
         sql = "select pid, name from digitalsmart.citymanager"
         data = pool.select(sql)
         # 千万不要开系统自带的线程池，占用的内存过大，而且每次线程退出后内存都没有释放，而是一直累加。使用自定义线程池，
-        # semaphore = Semaphore(10)
         thread_pool = ThreadPool(max_workers=10)
+        time_interval = datetime.timedelta(minutes=30)  # 缓存时间
         for item in data:
 
             pid = item[0]
@@ -64,6 +64,7 @@ class ManagerTraffic(Traffic):
                 redis_key = "traffic:{0}".format(region_id)
 
                 self._redis_worker.hash_value_append(name=redis_key, mapping=mapping)
+                self._redis_worker.expire(name=redis_key, time_interval=time_interval)
 
             thread_pool.submit(fast, pid, city)
         thread_pool.run()
@@ -83,6 +84,8 @@ class ManagerTraffic(Traffic):
         sql = "select pid from digitalsmart.citymanager"
 
         data = pool.select(sql)  # pid集合
+        time_interval = datetime.timedelta(minutes=11)  # 缓存时间
+
         for item in data:  # 这里最好不要并发进行，因为每个pid任务下都有10个子线程，在这里开并发 的话容易被封杀
 
             pid = item[0]
@@ -116,9 +119,10 @@ class ManagerTraffic(Traffic):
                     mapping = {
                         "pid": pid, "roadname": roadname, "up_date": up_date, "speed": speed,
                         "direction": direction, "bound": bounds, "data": data,
-                        "road_id": roadid, "rate": rate
+                        "roadpid": roadid, "rate": rate
                     }
                     self._redis_worker.set(redis_key, str(mapping))
+                    self._redis_worker.expire(name=redis_key, time_interval=time_interval)
 
             fast(pid)
         pool.close()
