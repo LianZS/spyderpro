@@ -122,7 +122,7 @@ class BaiduTraffic(Traffic):
         json_road_data = self.__roads(citycode)  # 请求道路数据, 获取道路信息包，包括道路pid，道路名，道路方向，速度
         if json_road_data['status'] == 1:
             print("参数不合法")
-            return []
+            return iter([])
         datalist = self.__realtime_road(json_road_data, citycode)  # 请求并处理10条道路路实时路况数据
 
         datalist = sorted(datalist, key=lambda x: x["num"])  # 数据必须排序，不然和下面的信息不对称
