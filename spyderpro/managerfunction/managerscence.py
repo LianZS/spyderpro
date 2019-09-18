@@ -15,6 +15,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
     """
     缓存数据格式
         景区人数： key= "scence:{0}".format(pid),value={"HH:MM:SS":num,.....}
+        人流趋势：key = "trend:{pid}".format(pid=region_id) ，value={'00:00:00':rate}
         人流分布： key = "distribution:{0}".format(pide)  value=str([{"latitude": centerlat + item.latitude}, {"longitude": centerlon + item.longitude},
                                {"num": item.number}])
 
@@ -73,7 +74,6 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         地区人口趋势数据管理---5分钟一次
         :return:
         """
-
         # 今天
         date_today = datetime.datetime.today()
         # 时间间隔
@@ -103,24 +103,29 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
 
                 try:
 
-                    table_last_time = pool.select(sql_cmd)[-1][0]# 最近记录的时间
+                    table_last_time = pool.select(sql_cmd)[-1][0]  # 最近记录的时间
                     last_ttime = str(table_last_time)
                 except IndexError:
                     pass
                 # 获取趋势数据
                 result_objs = self.get_place_index(name=place, placeid=region_id, date_start=str_start,
                                                    date_end=str_end)
+                mapping = dict()  # 用来缓存数据
                 for obj in result_objs:
-                    ttime = obj.detailtime
-                    if ttime <= last_ttime:
+                    ttime = obj.detailtime  # 该时间点
+                    if ttime <= last_ttime:  # 过滤最近记录时间前的数据
                         continue
 
-                    region_id = obj.region_id
-                    ddate = obj.ddate
-                    rate = obj.index
+                    region_id = obj.region_id  # 景区标识
+                    ddate = obj.ddate  # 目前日期
+                    rate = obj.index  # 该时间点指数
                     sql_cmd = "insert into digitalsmart.scencetrend(pid, ddate, ttime, rate) VALUE(%d,%d,'%s',%f)" % (
                         region_id, ddate, ttime, rate)
-                    pool.sumbit(sql_cmd)
+                    pool.sumbit(sql_cmd)  # 写入数据库
+                    mapping[ttime] = rate
+                # 缓存数据
+                redis_key = "trend:{pid}".format(pid=region_id)
+                self._redis_worker.hash_value_append(name=redis_key, mapping=mapping)
 
             thread_pool.submit(fast, pid, area)
         thread_pool.run()
