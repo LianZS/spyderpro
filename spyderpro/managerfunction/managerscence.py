@@ -16,8 +16,8 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
     缓存数据格式
         景区人数： key= "scence:{0}".format(pid),value={"HH:MM:SS":num,.....}
         人流趋势：key = "trend:{pid}".format(pid=region_id) ，value={'00:00:00':rate}
-        人流分布： key = "distribution:{0}".format(pide)  value=str([{"latitude": centerlat + item.latitude}, {"longitude": centerlon + item.longitude},
-                               {"num": item.number}])
+        人流分布： key = "distribution:{0}".format(pide)  value=str([[{"latitude": centerlat + item.latitude}, {"longitude": centerlon + item.longitude},
+                               {"num": item.number}],......])
 
 
 
@@ -169,11 +169,10 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 Thread(target=self.manager_scenece_people_distribution,
                        args=(last_people_data, region_id, up_date, float_lat, float_lon, table_id)).start()
                 self.manager_scenece_people_situation(table_id, last_people_data, region_id, ddate, detailtime)
-                print(item)
 
             thread_pool.submit(fast, info)
-            thread_pool.run()
-            thread_pool.close()
+        thread_pool.run()
+        thread_pool.close()
         print("景区人流数据挖掘完毕")
 
     def manager_scenece_people_distribution(self, data, region_id, tmp_date: int, centerlat: float, centerlon: float,
@@ -320,5 +319,5 @@ if __name__ == "__main__":
 
     m = ManagerScence()
     Process(target=m.manager_scence_trend).start()
-    # Process(target=m.manager_scence_situation).start()
-    # Process(target=m.manager_scenece_people).start()
+    Process(target=m.manager_scence_situation).start()
+    Process(target=m.manager_scenece_people).start()
