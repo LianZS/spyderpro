@@ -2,7 +2,7 @@ import datetime
 import time
 import json
 from threading import Thread
-from concurrent.futures import ThreadPoolExecutor
+from spyderpro.tool.threadpool import ThreadPool
 from spyderpro.tool.mysql_connect import ConnectPool
 from spyderpro.tool.redis_connect import RedisConnectPool
 from spyderpro.function.peoplefunction.posititioningscence import ScenceFlow
@@ -36,7 +36,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
               "as dt on ds.type_flag=dt.flag   and ds.pid=dt.pid where ds.type_flag=1"
         iterator_pids = pool.select(sql)
         # 防止并发太多
-        thread_pool = ThreadPoolExecutor(max_workers=10)
+        thread_pool = ThreadPool(max_workers=10)
         for pid, table_id in iterator_pids:
             def fast(area_id, table_index):
                 """
@@ -45,18 +45,26 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 :param table_index: 景区所处表序号
                 :return:
                 """
-                db2 = pool.work_queue.get()
-                instances = self.get_scence_situation(db=db2, peoplepid=area_id, table_id=table_index)
-                pool.work_queue.put(db2)
+                db = pool.work_queue.get()
+                instances = self.get_scence_situation(db=db, peoplepid=area_id, table_id=table_index)
+                pool.work_queue.put(db)
                 sql_format = "insert into digitalsmart.historyscenceflow{0}(pid, ddate, ttime, num) " \
                              "values ('%d','%d','%s','%d')".format(table_index)
+                mapping = dict()
+                redis_key = "scence:{0}".format(area_id)
+
                 for info in instances:
                     sql_cmd = sql_format % (
                         info.region_id, info.date, info.detailTime, info.num)
                     # 提交
                     pool.sumbit(sql_cmd)
+                    mapping[info.detailTime] = info.num
+                # 缓存
+                self._redis_worker.hash_value_append(name=redis_key, mapping=mapping)
 
             thread_pool.submit(fast, pid, table_id)
+        thread_pool.run()
+        thread_pool.close()
 
         print("百度资源景区数据挖掘完毕")
 
@@ -81,7 +89,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
 
         sql = "select pid,area from digitalsmart.scencemanager where type_flag=0 "
         data = pool.select(sql)
-        thread_pool = ThreadPoolExecutor(max_workers=10)
+        thread_pool = ThreadPool(max_workers=10)
         for item in data:
 
             pid = item[0]
@@ -91,11 +99,11 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 # 最近的更新时间
                 sql_cmd = "select ttime from digitalsmart.scencetrend where pid={0} and ddate='{1}' " \
                           "order by ttime".format(region_id, int(str_start.replace("-", "")))
-                last_ttime = "-1:00:00"  # 默认-1点
+                last_ttime: str = "-1:00:00"  # 默认-1点
 
                 try:
-                    # 最近时间
-                    table_last_time = pool.select(sql_cmd)[-1][0]
+
+                    table_last_time = pool.select(sql_cmd)[-1][0]# 最近记录的时间
                     last_ttime = str(table_last_time)
                 except IndexError:
                     pass
@@ -115,6 +123,8 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                     pool.sumbit(sql_cmd)
 
             thread_pool.submit(fast, pid, area)
+        thread_pool.run()
+        thread_pool.close()
         print("景区趋势挖掘完毕")
 
     def manager_scenece_people(self):
@@ -137,7 +147,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             detailtime = "{0:0>2}:{1:0>2}:00".format(now_time.hour, minute)
         else:
             detailtime = time.strftime("%H:%M:00", time.localtime(tmp_date))
-        thread_pool = ThreadPoolExecutor(max_workers=10)
+        thread_pool = ThreadPool(max_workers=10)
         for info in data:
 
             def fast(item):
@@ -154,8 +164,11 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 Thread(target=self.manager_scenece_people_distribution,
                        args=(last_people_data, region_id, up_date, float_lat, float_lon, table_id)).start()
                 self.manager_scenece_people_situation(table_id, last_people_data, region_id, ddate, detailtime)
+                print(item)
 
             thread_pool.submit(fast, info)
+            thread_pool.run()
+            thread_pool.close()
         print("景区人流数据挖掘完毕")
 
     def manager_scenece_people_distribution(self, data, region_id, tmp_date: int, centerlat: float, centerlon: float,
@@ -295,3 +308,12 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
     #         db.commit()
     #     except Exception:
     #         db.rollback()
+
+
+if __name__ == "__main__":
+    from multiprocessing import Process
+
+    m = ManagerScence()
+    Process(target=m.manager_scence_trend).start()
+    # Process(target=m.manager_scence_situation).start()
+    # Process(target=m.manager_scenece_people).start()
