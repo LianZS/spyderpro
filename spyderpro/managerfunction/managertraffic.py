@@ -64,7 +64,6 @@ class ManagerTraffic(Traffic):
                 redis_key = "traffic:{0}".format(region_id)
 
                 self._redis_worker.hash_value_append(name=redis_key, mapping=mapping)
-                print("daily", region_id)
 
             thread_pool.submit(fast, pid, city)
         thread_pool.run()
@@ -175,6 +174,6 @@ if __name__ == "__main__":
     from multiprocessing import Process
 
     m = ManagerTraffic()
-    # Process(target=m.manager_city_road_traffic).start()
+    Process(target=m.manager_city_road_traffic).start()
     Process(target=m.manager_city_traffic).start()
     Process(target=m.manager_city_year_traffic).start()
