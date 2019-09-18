@@ -25,6 +25,7 @@ class ConnectPool(ConnectInterface):
             self._broken = False
             self._shutdown = False
             self._init_pool_()
+            ConnectPool._bool_instance_flag = False
 
     def _init_pool_(self):
         """
@@ -88,5 +89,22 @@ class ConnectPool(ConnectInterface):
     def shutdown(self):
         self._shutdown = True
 
+    def close(self):
+        """
+        关闭连接池所有连接
+        :return:
+        """
+        while 1:
+            try:
+                db = self.work_queue.get_nowait()
+
+                db.close()
+            except Exception:
+                break
+
     def __exit__(self, exc_type, exc_val, exc_tb):
+
         self.work_queue.empty()
+
+
+
