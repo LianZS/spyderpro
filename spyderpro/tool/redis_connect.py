@@ -152,7 +152,7 @@ class RedisConnectPool(object):
             try:
                 pipe.watch(name)
                 pipe.multi()
-                resuslt: bool = pipe.hset(name, mapping)
+                resuslt: bool = pipe.hmset(name, mapping)
                 pipe.execute()
                 return resuslt
 
@@ -172,6 +172,7 @@ class RedisConnectPool(object):
 
         with self._redis_pool.pipeline() as pipe:
             pipe.watch(name)
+            # pipe.multi()
             pre_value = pipe.hgetall(name=name)  # 原先的数据
             for key, value in pre_value.items():
                 key = key.decode("utf-8")
