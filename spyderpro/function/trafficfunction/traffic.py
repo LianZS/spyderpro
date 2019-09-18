@@ -39,10 +39,7 @@ class Traffic(MysqlOperation):
         # 分好昨今以便分类过滤
         today = int(time.strftime('%Y%m%d', time.localtime(t)))
         yesterday = int(time.strftime('%Y%m%d', time.localtime(t - 3600 * 24)))
-
         info = traffic.citytraffic(citycode)
-        if not info:  # 请求失败
-            return []
 
         info = self.__dealwith_daily_traffic(info, citycode, db, today, yesterday)  # 过滤掉昨天和已经存在的数据
 
@@ -64,10 +61,12 @@ class Traffic(MysqlOperation):
             if objs[i].date > yesterday:
                 objs = objs[i:]
                 break
+
         "下面是过滤今天已经存在的数据---今天重复的数据剔除"
         sql = "select ttime from  digitalsmart.citytraffic where pid={0} and ddate={1} order by ttime".format(pid,
                                                                                                               today)
         cursor = self.get_cursor(db, sql)
+
         if cursor == "error":  # cursor()失败
             print("error")
             return []
@@ -82,6 +81,7 @@ class Traffic(MysqlOperation):
                 ttime = "-1:00:00"  # 今天还未录入数据的情况
         cursor.close()
         # 剔除今天重复的数据
+
         info = self.filter(objs, ttime)
 
         return info
@@ -98,8 +98,6 @@ class Traffic(MysqlOperation):
         elif citycode < 1000:
             g = BaiduTraffic()
         result = g.roaddata(citycode)
-        if result is None:
-            return []
 
         return result
 
@@ -164,7 +162,6 @@ class Traffic(MysqlOperation):
         """
         过滤数据，清空已存在的数据
         :param info:数据包
-        :param date:日期
         :param detailtime:具体时间段
         :return:list
         """
@@ -175,23 +172,23 @@ class Traffic(MysqlOperation):
                 break
         return info
 
-    def find_name(self, citycode: int, db) -> str:
-        """
-        查询城市名字
-        :param citycode:  城市id
-        :param db: 数据库实例
-        :return: str ->城市名
-        """
-        sql = "select  name from trafficdatabase.MainTrafficInfo where cityCode=" + str(citycode) + ";"
-        cursor = db.cursor()
-        cityname = None
-        try:
-            cursor.execute(sql)
-            db.commit()
-            cityname = cursor.fetchone()[0]
-
-        except TypeError as e:
-            print("数据库执行出错:%s" % e)
-            db.rollback()
-            cursor.close()
-        return cityname
+    # def find_name(self, citycode: int, db) -> str:
+    #     """
+    #     查询城市名字
+    #     :param citycode:  城市id
+    #     :param db: 数据库实例
+    #     :return: str ->城市名
+    #     """
+    #     sql = "select  name from trafficdatabase.MainTrafficInfo where cityCode=" + str(citycode) + ";"
+    #     cursor = db.cursor()
+    #     cityname = None
+    #     try:
+    #         cursor.execute(sql)
+    #         db.commit()
+    #         cityname = cursor.fetchone()[0]
+    #
+    #     except TypeError as e:
+    #         print("数据库执行出错:%s" % e)
+    #         db.rollback()
+    #         cursor.close()
+    #     return cityname
