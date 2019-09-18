@@ -68,6 +68,7 @@ class ManagerTraffic(Traffic):
             thread_pool.submit(fast, pid, city)
         thread_pool.run()
         thread_pool.close()
+        pool.close()
         print("城市交通数据挖掘完毕")
 
     def manager_city_road_traffic(self):
@@ -120,6 +121,7 @@ class ManagerTraffic(Traffic):
                     self._redis_worker.set(redis_key, str(mapping))
 
             fast(pid)
+        pool.close()
 
         print("城市道路交通数据挖掘完毕")
 
@@ -158,16 +160,7 @@ class ManagerTraffic(Traffic):
             thread_pool.submit(fast, yearpid)
         thread_pool.run()
         thread_pool.close()
-
-        # @staticmethod
-        # def clear_road_data():
-        #     """
-        #     清除昨天的道路数据
-        #     :return:
-        #     """
-        #     sql = "truncate table digitalsmart.roadtraffic"
-        #     pool = ConnectPool(max_workers=1)
-        #     pool.sumbit(sql)
+        pool.close()
 
 
 if __name__ == "__main__":
