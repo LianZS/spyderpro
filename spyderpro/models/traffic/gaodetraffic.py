@@ -82,7 +82,7 @@ class GaodeTraffic(Traffic):
         dic = self.__roads(citycode)  # 道路基本信息
         if not len(dic['route']):
             print("参数不合法或者网络链接失败")
-            return []
+            return iter([])
 
         datalist = self.__realtimeroad(dic, citycode)  # 请求10条道路路实时路况数据
         datalist = sorted(datalist, key=lambda x: x["num"])  # 数据必须排序，不然和下面的信息不对称
