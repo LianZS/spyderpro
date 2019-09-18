@@ -12,7 +12,7 @@ class ManagerTraffic(Traffic):
         道路交通数据：key ="road:{pid}:{road_id}".format(pid=region_id, road_id=roadid)
                         value =str( {
                             "pid": pid, "roadname": roadname, "up_date": up_date, "speed": speed,
-                            "direction": direction, "bound": bound, "data": data,
+                            "direction": direction, "bounds": bound, "data": data,
                             "roadpid": roadid, "rate": rate
                         })
         季度交通数据：key = "yeartraffic:{pid}".format(pid=region_id) ,value={'yyyymmdd':rate,....}
@@ -98,14 +98,14 @@ class ManagerTraffic(Traffic):
                     speed = obj.speed  # 速度
                     direction = obj.direction  # 方向
                     bounds = obj.bounds  # 经纬度数据集
-                    indexSet = obj.data  # 拥堵指数
+                    traffic_rate_data = obj.data  # 拥堵指数
                     rate = obj.rate  # 当前拥堵指数
                     roadid = obj.num  # 用排名表示道路id
                     sql_insert = "insert into digitalsmart.roadtraffic(pid, roadname, up_date, speed, direction, bound, data," \
                                  "roadid,rate) VALUE" \
                                  "(%d,'%s',%d,%f,'%s','%s','%s',%d,%f) " % (
                                      region_id, roadname, up_date, speed, direction, bounds,
-                                     indexSet, roadid, rate)
+                                     traffic_rate_data, roadid, rate)
 
                     pool.sumbit(sql_insert)
                     sql_cmd = "update  digitalsmart.roadmanager set up_date={0}  where pid={1} and roadid={2}" \
@@ -118,7 +118,7 @@ class ManagerTraffic(Traffic):
                     redis_key = "road:{pid}:{road_id}".format(pid=region_id, road_id=roadid)
                     mapping = {
                         "pid": pid, "roadname": roadname, "up_date": up_date, "speed": speed,
-                        "direction": direction, "bound": bounds, "data": data,
+                        "direction": direction, "bounds": bounds, "data": traffic_rate_data,
                         "roadpid": roadid, "rate": rate
                     }
                     self._redis_worker.set(redis_key, str(mapping))
