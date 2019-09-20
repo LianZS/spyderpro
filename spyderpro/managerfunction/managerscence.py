@@ -16,8 +16,8 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
     缓存数据格式
         景区人数： key= "scence:{0}:{1}".format(pid,type_flag),value={"HH:MM:SS":num,.....}
         人流趋势：key = "trend:{pid}".format(pid=region_id) ，value={'00:00:00':rate}
-        人流分布： key = "distribution:{0}".format(pide)  value=str([[{"latitude": centerlat + item.latitude}, {"longitude": centerlon + item.longitude},
-                               {"num": item.number}],......])
+        人流分布： key = "distribution:{0}".format(pide)  value=str([{"lat": centerlat + item.latitude, "lng": centerlon + item.longitude,
+                               "count": item.number},......)
 
 
 
@@ -42,6 +42,8 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         iterator_pids = pool.select(sql)
         # 线程池
         thread_pool = ThreadPool(max_workers=10)
+        # 缓存时间
+        time_interval = datetime.timedelta(minutes=31)
         # 开始请求
         for pid, table_id in iterator_pids:
             def fast(area_id, table_index):
@@ -73,6 +75,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                     mapping[info.detailTime] = info.num
                 # 缓存
                 self._redis_worker.hash_value_append(name=redis_key, mapping=mapping)
+                self._redis_worker.expire(name=redis_key, time_interval=time_interval)
 
             # 提交任务
             thread_pool.submit(fast, pid, table_id)
@@ -109,6 +112,8 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         data = pool.select(sql)
         # 连接线程池
         thread_pool = ThreadPool(max_workers=10)
+        # 缓存时间
+        time_interval = datetime.timedelta(minutes=6)
         # 更新数据
         for item in data:
             # 景区唯一标识
@@ -157,6 +162,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 redis_key = "trend:{pid}".format(pid=region_id)
                 # 缓存数据
                 self._redis_worker.hash_value_append(name=redis_key, mapping=mapping)
+                self._redis_worker.expire(name=redis_key, time_interval=time_interval)
 
             # 提交任务
             thread_pool.submit(fast, pid, area)
@@ -249,14 +255,17 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         for item in instances:
             list_data.append(
                 str((region_id, tmp_date, centerlat + item.latitude, centerlon + item.longitude, item.number)))
-            redis_data.append([{"latitude": centerlat + item.latitude}, {"longitude": centerlon + item.longitude},
-                               {"num": item.number}])
+            redis_data.append(
+                {"lat": centerlat + item.latitude, "lng": centerlon + item.longitude, "count": item.number})
+        # 缓存时间
+        time_interval = datetime.timedelta(minutes=6)
         # 缓存key
         redis_key = "distribution:{0}".format(region_id)
         # 缓存数据
         value = json.dumps(redis_data)
         # 缓存
         self._redis_worker.set(name=redis_key, value=value)
+        self._redis_worker.expire(name=redis_key, time_interval=time_interval)
         # 一条条提交到话会话很多时间在日志生成上，占用太多IO了，拼接起来再写入，只用一次日志时间而已
         # 但是需要注意的是，一次性不能拼接太多，管道大小有限制---需要在MySQL中增大Max_allowed_packet，否则会报错
 
@@ -305,10 +314,13 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             instance.region_id, instance.date, instance.detailTime, instance.num)
         # 插入mysql数据库
         self.pool.sumbit(sql)
+        # 缓存时间
+        time_interval = datetime.timedelta(minutes=6)
         # 缓存key
         redis_key = "scence:{0}:{1}".format(pid, type_flag)
         # 缓存
         self._redis_worker.hash_value_append(name=redis_key, mapping={instance.detailTime: instance.num})
+        self._redis_worker.expire(name=redis_key, time_interval=time_interval)
 
     # def manager_history_sceneceflow(self):
     #     """
@@ -382,6 +394,6 @@ if __name__ == "__main__":
     from multiprocessing import Process
 
     m = ManagerScence()
-    Process(target=m.manager_scence_trend).start()
-    Process(target=m.manager_scence_situation).start()
+    # Process(target=m.manager_scence_trend).start()
+    # Process(target=m.manager_scence_situation).start()
     Process(target=m.manager_scenece_people).start()
