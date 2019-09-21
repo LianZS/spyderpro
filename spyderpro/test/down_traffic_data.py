@@ -5,7 +5,7 @@ from threading import Thread, Semaphore
 
 user = 'root'
 password = 'lzs87724158'
-host = "47.103.105.236"
+host = "localhost"
 port = 3306
 database = 'digitalsmart'
 rootpath = os.path.abspath(os.path.join(os.path.curdir))
