@@ -43,7 +43,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         # 线程池
         thread_pool = ThreadPool(max_workers=10)
         # 缓存时间
-        time_interval = datetime.timedelta(minutes=31)
+        time_interval = datetime.timedelta(minutes=60)
         # 开始请求
         for pid, table_id in iterator_pids:
             def fast(area_id, table_index):
@@ -113,7 +113,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         # 连接线程池
         thread_pool = ThreadPool(max_workers=10)
         # 缓存时间
-        time_interval = datetime.timedelta(minutes=6)
+        time_interval = datetime.timedelta(minutes=60)
         # 更新数据
         for item in data:
             # 景区唯一标识
@@ -258,7 +258,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             redis_data.append(
                 {"lat": centerlat + item.latitude, "lng": centerlon + item.longitude, "count": item.number})
         # 缓存时间
-        time_interval = datetime.timedelta(minutes=6)
+        time_interval = datetime.timedelta(minutes=60)
         # 缓存key
         redis_key = "distribution:{0}".format(region_id)
         # 缓存数据
@@ -315,7 +315,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         # 插入mysql数据库
         self.pool.sumbit(sql)
         # 缓存时间
-        time_interval = datetime.timedelta(minutes=6)
+        time_interval = datetime.timedelta(minutes=60)
         # 缓存key
         redis_key = "scence:{0}:{1}".format(pid, type_flag)
         # 缓存
@@ -394,6 +394,6 @@ if __name__ == "__main__":
     from multiprocessing import Process
 
     m = ManagerScence()
-    # Process(target=m.manager_scence_trend).start()
-    # Process(target=m.manager_scence_situation).start()
+    Process(target=m.manager_scence_trend).start()
+    Process(target=m.manager_scence_situation).start()
     Process(target=m.manager_scenece_people).start()
