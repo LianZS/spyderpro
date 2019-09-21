@@ -225,9 +225,9 @@ def init_all_history_scenceflow_table():
     db.commit()
     for item in result:
         table_id = item[0]
-        # sql ="ALTER TABLE historyscenceflow{0}   engine = MyISAM , charset = utf8;".format(table_id)
+        # sql ="ALTER TABLE historyscenceflow{0}   engine = innodb , charset = utf8mb4;".format(table_id)
         element = " (id    int auto_increment primary key,pid   smallint(6) not null,ddate int  not null," \
-                  "ttime time not null,num  int  not null)engine = MyISAM set default charset = utf8;"
+                  "ttime time not null,num  int  not null)engine = innodb set default charset = utf8;"
         sql = "create table   if not exists historyscenceflow{0} ".format(table_id) + element
         try:
             cur.execute(sql)
@@ -239,7 +239,7 @@ def init_all_history_scenceflow_table():
 if __name__ == "__main__":
     init_datbase_of_scencemanager()
     init_tablemanager()
-    # init_all_history_scenceflow_table()
+    init_all_history_scenceflow_table()
     # init_all_peopleposition_table()
     init_citymanager()
     init_geographic()
