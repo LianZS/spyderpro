@@ -7,16 +7,16 @@ from urllib.parse import urlencode
 class Traffic(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
-    def citytraffic(self, citycode):
+    def city_daily_traffic_data(self, citycode):
         pass
 
     # 道路数据获取
     @abc.abstractmethod
-    def roaddata(self, citycode):
+    def city_road_traffic_data(self, citycode):
         pass
 
     @abc.abstractmethod
-    def yeartraffic(self, citycode, year, quarter):
+    def city_year_traffic_data(self, citycode, year, quarter):
         pass
 
     @staticmethod
