@@ -297,9 +297,6 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         sql = "update digitalsmart.tablemanager  " \
               "set last_date={0} where pid={1}".format(tmp_date, region_id)
         self.pool.sumbit(sql)
-        print("write over", region_id)
-        time.sleep(3)
-        print("ok", region_id)
 
     def manager_scenece_people_situation(self, table_id, data, pid, date, ttime):
         """
