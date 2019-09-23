@@ -1,4 +1,5 @@
 import datetime
+import json
 from spyderpro.tool.threadpool import ThreadPool
 from spyderpro.tool.mysql_connect import ConnectPool
 from spyderpro.tool.redis_connect import RedisConnectPool
@@ -92,21 +93,25 @@ class ManagerTraffic(Traffic):
 
             def fast(region_id):
                 result_objs = self.road_manager(region_id)  # 获取道路数据
+                if result_objs is None:
+                    return
                 for obj in result_objs:
                     region_id = obj.region_id  # 标识
                     roadname = obj.roadname  # 路名
                     speed = obj.speed  # 速度
                     direction = obj.direction  # 方向
                     bounds = obj.bounds  # 经纬度数据集
-                    traffic_rate_data = obj.data  # 拥堵指数
+                    road_traffic_rate_list = obj.road_index_data_list  # 拥堵指数集合
+                    road_traffic_time_list = obj.time_data_list
+                    num = obj.num
+                    data = json.dumps({"num": num, "time": road_traffic_time_list, "data": road_traffic_rate_list})
                     rate = obj.rate  # 当前拥堵指数
                     roadid = obj.num  # 用排名表示道路id
                     sql_insert = "insert into digitalsmart.roadtraffic(pid, roadname, up_date, speed, direction, bound, data," \
                                  "roadid,rate) VALUE" \
                                  "(%d,'%s',%d,%f,'%s','%s','%s',%d,%f) " % (
                                      region_id, roadname, up_date, speed, direction, bounds,
-                                     traffic_rate_data, roadid, rate)
-
+                                     data, roadid, rate)
                     pool.sumbit(sql_insert)
                     sql_cmd = "update  digitalsmart.roadmanager set up_date={0}  where pid={1} and roadid={2}" \
                         .format(up_date, region_id, roadid)
@@ -118,13 +123,16 @@ class ManagerTraffic(Traffic):
                     redis_key = "road:{pid}:{road_id}".format(pid=region_id, road_id=roadid)
                     mapping = {
                         "pid": pid, "roadname": roadname, "up_date": up_date, "speed": speed,
-                        "direction": direction, "bounds": bounds, "data": traffic_rate_data,
+                        "direction": direction, "bounds": bounds, "data": data,
                         "roadpid": roadid, "rate": rate
                     }
                     self._redis_worker.set(redis_key, str(mapping))
                     self._redis_worker.expire(name=redis_key, time_interval=time_interval)
 
+            # if pid < 1000:
+            #     continue
             fast(pid)
+
         pool.close()
 
         print("城市道路交通数据挖掘完毕")
@@ -172,5 +180,6 @@ if __name__ == "__main__":
 
     m = ManagerTraffic()
     Process(target=m.manager_city_road_traffic).start()
+
     Process(target=m.manager_city_traffic).start()
     Process(target=m.manager_city_year_traffic).start()
