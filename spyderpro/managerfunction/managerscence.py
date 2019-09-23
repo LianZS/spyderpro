@@ -11,7 +11,7 @@ from spyderpro.function.peoplefunction.positioningsituation import PositioningSi
 from spyderpro.function.peoplefunction.monitoring_area import PositioningPeople
 
 
-class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, PositioningPeople):
+class ManagerScence(PositioningPeople):
     """
     缓存数据格式
         景区人数： key= "scence:{0}:{1}".format(pid,type_flag),value={"HH:MM:SS":num,.....}
@@ -44,6 +44,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         thread_pool = ThreadPool(max_workers=10)
         # 缓存时间
         time_interval = datetime.timedelta(minutes=60)
+        scence = ScenceFlow()
         # 开始请求
         for pid, table_id in iterator_pids:
             def fast(area_id, table_index):
@@ -56,7 +57,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 # 从队列取出db实例
                 db = pool.work_queue.get()
                 # 获取最新的客流量数据
-                instances = self.get_scence_situation(db=db, peoplepid=area_id, table_id=table_index)
+                instances = scence.get_scence_situation(db=db, peoplepid=area_id, table_id=table_index)
                 # 从db实例放回队列
                 pool.work_queue.put(db)
                 # 确定插入哪张表
@@ -114,6 +115,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         thread_pool = ThreadPool(max_workers=10)
         # 缓存时间
         time_interval = datetime.timedelta(minutes=60)
+        pos_trend = PositioningTrend()
         # 更新数据
         for item in data:
             # 景区唯一标识
@@ -141,7 +143,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 except IndexError:
                     pass
                 # 获取趋势数据
-                result_objs = self.get_place_index(name=place, placeid=region_id, date_start=str_start,
+                result_objs = pos_trend.get_place_index(name=place, placeid=region_id, date_start=str_start,
                                                    date_end=str_end)
                 # 用来缓存数据
                 mapping = dict()
@@ -202,6 +204,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
             detailtime = time.strftime("%H:%M:00", time.localtime(tmp_date))
         # 开启线程池
         thread_pool = ThreadPool(max_workers=10)
+        pos = PositioningSituation()
         # 更新数据
         for info in data:  #
 
@@ -220,7 +223,7 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
 
                 table_id = self.pool.select(sql_cmd)[0][0]
                 # 请求数据
-                last_people_data = self.get_data(date=ddate, dateTime=detailtime, region_id=region_id)
+                last_people_data = pos.get_data(date=ddate, dateTime=detailtime, region_id=region_id)
                 if not last_people_data:  # 请求失败
                     return
                 # 更新人流分布情况数据
@@ -246,7 +249,8 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         :return:
         """
         # 获取经纬度人数结构体迭代器
-        instances = self.get_distribution_situation(data)
+        pos = PositioningSituation()
+        instances = pos.get_distribution_situation(data)
         # 确定哪张表
         select_table: str = "insert into digitalsmart.peopleposition{0} (pid, tmp_date, lat, lon, num) VALUES".format(
             table_id)
@@ -305,7 +309,8 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         # 景区数据源类别--百度为1，腾讯为0
 
         type_flag = 0
-        instance = self.get_count(data, date, ttime, pid)
+        pos = PositioningSituation()
+        instance = pos.get_count(data, date, ttime, pid)
         sql_format = "insert into digitalsmart.historyscenceflow{0}(pid, ddate, ttime, num)  " \
                      "values (%d,%d,'%s',%d) ".format(
             table_id)
@@ -327,6 +332,6 @@ if __name__ == "__main__":
     from multiprocessing import Process
 
     m = ManagerScence()
-    # Process(target=m.manager_scence_trend).start()
-    # Process(target=m.manager_scence_situation).start()
+    Process(target=m.manager_scence_trend).start()
+    Process(target=m.manager_scence_situation).start()
     Process(target=m.manager_scenece_people).start()
