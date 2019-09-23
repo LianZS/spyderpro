@@ -5,7 +5,7 @@ from urllib.parse import urlencode
 from typing import Dict, Iterator, List
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.models.traffic.road import Road, RoadData, RoadInfo
-from spyderpro.models.traffic.trafficclass import TrafficClass, Year
+from spyderpro.models.traffic.citytraffic import DayilTraffic, YearTraffic
 from spyderpro.instances.infomation import CityInfo
 from spyderpro.models.traffic.trafficinterface import Traffic
 
@@ -20,7 +20,7 @@ class BaiduTraffic(Traffic):
 
         }
 
-    def city_daily_traffic_data(self, citycode: int, timetype='minute') -> Iterator[TrafficClass]:
+    def city_daily_traffic_data(self, citycode: int, timetype='minute') -> Iterator[DayilTraffic]:
         """获取实时交通状态，包括日期，拥堵指数，具体时刻
 
         :param citycode:城市id
@@ -60,10 +60,10 @@ class BaiduTraffic(Traffic):
             int_ddate = int(date.replace("-", ""))  # 日期
             float_iindex = float(item['index'])  # 拥堵指数
             str_detail_time = item['time'] + ":00"  # 具体时刻
-            yield TrafficClass(citycode, int_ddate, float_iindex, str_detail_time)
+            yield DayilTraffic(citycode, int_ddate, float_iindex, str_detail_time)
 
     def city_year_traffic_data(self, citycode: int, year: int = int(time.strftime("%Y", time.localtime())),
-                               quarter: int = int(time.strftime("%m", time.localtime())) / 3) -> Iterator[Year]:
+                               quarter: int = int(time.strftime("%m", time.localtime())) / 3) -> Iterator[YearTraffic]:
         """
         获取城市年度交通数据
         :param citycode: 城市id
@@ -101,7 +101,7 @@ class BaiduTraffic(Traffic):
             # {'index': '1.56', 'speed': '32.83', 'time': '04-12'}
             date = year + item['time']
             float_index = float(item["index"])
-            yield Year(pid=citycode, date=int(date.replace("-", "")), index=float_index)
+            yield YearTraffic(pid=citycode, date=int(date.replace("-", "")), index=float_index)
 
     def city_road_traffic_data(self, citycode: int) -> Iterator[Road]:
         """
@@ -114,8 +114,7 @@ class BaiduTraffic(Traffic):
         iter_road_info: Iterator[RoadInfo] = self.__info_of_ten_roads(citycode)  # 请求道路数据, 获取道路信息包，包括道路pid，道路名，道路方向，速度
         if iter_road_info is None:
             print("参数不合法")
-            yield None
-            return
+            return None
         list_raod_info = list(iter_road_info)
 
         iter_raod_data: Iterator[RoadData] = self.__get_realtime_road(list_raod_info, citycode)  # 请求并处理10条道路路实时路况数据
@@ -272,6 +271,3 @@ class BaiduTraffic(Traffic):
             provincecode = value['provincecode']  # 省份id
             provincename = value['provincename']  # 省份
             yield CityInfo(provincename, provincecode, cityname, citycode, lat, lon)
-
-
-
