@@ -1,8 +1,9 @@
 import sys
 import os
 
-sys.path[0] = os.path.abspath(os.path.join(os.path.curdir,
-                                           "/Users/darkmoon/Project/SpyderPr/venv/lib/python3.7/site-packages/"))  # 载入环境from celery.schedules import crontab
+# sys.path[0] = os.path.abspath(os.path.join(os.path.pardir,
+#                                            "/Users/darkmoon/Project/SpyderPr/venv/lib/python3.7/site-packages/"))  # 载入环境from celery.schedules import crontab
+sys.path[0] = os.path.abspath("./venv/lib/python3.7/site-packages/")
 from celery.schedules import crontab
 from celery import Celery
 from kombu import Queue, Exchange
