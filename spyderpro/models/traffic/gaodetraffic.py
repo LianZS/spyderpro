@@ -83,14 +83,16 @@ class GaodeTraffic(Traffic):
         for road_info_obj, road_data_obj in zip(list_raod_info, list_raod_data):
             road_name = road_info_obj.road_name  # 路名
             speed = float(road_info_obj.road_speed)  # 速度
-            data = road_data_obj.road_data_list  # 数据包,今天的拥堵指数集合数据，包括时间，拥堵指数，排名 {'num': 排名,
             # 'time':时间序列,'data":拥堵指数集},当请求失败时为None
             direction = road_info_obj.road_dir  # 道路方向
+            rate = float(road_info_obj.cur_rate)  # 当前拥堵指数
+            times_list = road_data_obj.detailt_time_list  # 时间列表
             bounds = json.dumps({"coords": road_info_obj.coords})  # 道路经纬度数据
             num = road_data_obj.num  # 排名
-            rate = float(road_info_obj.cur_rate)  # 当前拥堵指数
-            road = Road(pid=citycode, roadname=road_name, speed=speed, dircetion=direction, bounds=bounds, data=data,
-                        num=num, rate=rate)
+            data = road_data_obj.road_data_list  # 数据包,今天的拥堵指数集合数据，包括时间，拥堵指数，排名
+
+            road = Road(pid=citycode, roadname=road_name, speed=speed, dircetion=direction, bounds=bounds,
+                        road_index_data_list=data, time_data_list=times_list, num=num, rate=rate)
 
             yield road
 
@@ -110,7 +112,7 @@ class GaodeTraffic(Traffic):
         try:
             response = self.s.get(url=str_href, headers=self.headers)
             json_data = json.loads(response.text)  # 道路信息包
-            test = json_data["tableData"]
+            test = json_data["tableData"]  # 测试存在该键
         except requests.exceptions.ConnectionError:
             print("网络错误")
             return None
@@ -123,10 +125,7 @@ class GaodeTraffic(Traffic):
         except Exception as e:
             print("异常", e)
             return None
-        # list_id = []  # 记录道路pid
-        # list_roadname = []  # 记录道路名
-        # list_dir = []  # 记录道路方向
-        # list_speed = []  # 记录速度
+
         for item in json_data["tableData"]:
             road_name = item["name"]  # 道路名
             road_dir = item["dir"]  # 方向
@@ -136,19 +135,6 @@ class GaodeTraffic(Traffic):
             coords = item['coords']
             yield RoadInfo(road_name=road_name, road_dir=road_dir, road_speed=road_speed, road_id=road_id,
                            cur_rate=cur_rate, coords=coords)
-        #     list_roadname.append(item["name"])
-        #     list_dir.append(item["dir"])
-        #     list_speed.append(item["speed"])
-        #     list_id.append(item["id"])
-        # dict_collections = dict()  # 存放所有数据
-        # dict_collections["route"] = json_data['tableData']
-        # dict_collections["listId"] = list_id
-        # dict_collections["listRoadName"] = list_roadname
-        # dict_collections["listDir"] = list_dir
-        # dict_collections["listSpeed"] = list_speed
-        # print(json_data)
-
-        # return dict_collections
 
     def __get_realtime_road(self, iter_road_info: Iterator[RoadInfo], citycode: int) -> Iterator[RoadData]:
         """
@@ -176,10 +162,6 @@ class GaodeTraffic(Traffic):
             i += 1
             reuslt_list.append(t)
 
-        # for pid, i in zip(dic["listId"],
-        #                   range(0, (dic["listId"]).__len__())):
-        #     str_road_url = str_href + str(pid)
-        #     t = pool.submit(self.__realtime_roaddata, str_road_url, i)
         for t in reuslt_list:
             # 返回结果
             yield t.result()
@@ -215,11 +197,7 @@ class GaodeTraffic(Traffic):
         for item in json_data:
             road_time_list.append(time.strftime("%H:%M", time.strptime(time.ctime(int(item[0] / 1000 + 3600 * 8)))))
             road_data_list.append(item[1])
-        # {排名，时间，交通数据}
         road_data = RoadData(num=i, detailt_time_list=road_time_list, road_data_list=road_data_list)
-        # real_data = {"num": i, "time": road_time_list, "data": road_data_list}
-        # result = {"data": real_data, "num": i}
-        # return result
         return road_data
 
     def yeartraffic(self, citycode: int, year: int = int(time.strftime("%Y", time.localtime())),
@@ -274,5 +252,6 @@ class GaodeTraffic(Traffic):
 
         for date, index in zip(json_data["categories"], json_data['serieData']):
             yield Year(pid=citycode, date=int(date.replace("-", "")), index=index)
+
 
 
