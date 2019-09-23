@@ -6,7 +6,7 @@ from typing import Iterator, List
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.models.traffic.trafficinterface import Traffic
 from spyderpro.models.traffic.road import RoadData, RoadInfo, Road
-from spyderpro.models.traffic.trafficclass import TrafficClass, Year
+from spyderpro.models.traffic.citytraffic import DayilTraffic, YearTraffic
 
 
 class GaodeTraffic(Traffic):
@@ -20,7 +20,7 @@ class GaodeTraffic(Traffic):
 
         }
 
-    def city_daily_traffic_data(self, citycode: int) -> Iterator[TrafficClass]:
+    def city_daily_traffic_data(self, citycode: int) -> Iterator[DayilTraffic]:
 
         """获取实时交通状态，包括日期，拥堵指数，具体时刻
         Args:
@@ -61,7 +61,7 @@ class GaodeTraffic(Traffic):
             int_date = int(date.replace("-", ""))  # 日期
             float_index = float(item[1])  # 拥堵指数
             detail_time = detail_time + ":00"  # 具体时刻
-            yield TrafficClass(citycode, int_date, float_index, detail_time)
+            yield DayilTraffic(citycode, int_date, float_index, detail_time)
 
     def city_road_traffic_data(self, citycode: int) -> Iterator[Road]:
         """
@@ -97,7 +97,7 @@ class GaodeTraffic(Traffic):
             yield road
 
     def city_year_traffic_data(self, citycode: int, year: int = int(time.strftime("%Y", time.localtime())),
-                               quarter: int = int(time.strftime("%m", time.localtime())) / 3) -> Iterator[Year]:
+                               quarter: int = int(time.strftime("%m", time.localtime())) / 3) -> Iterator[YearTraffic]:
         """
         获取城市年度交通数据
         :param citycode: 城市id
@@ -147,7 +147,7 @@ class GaodeTraffic(Traffic):
             return []
 
         for date, index in zip(json_data["categories"], json_data['serieData']):
-            yield Year(pid=citycode, date=int(date.replace("-", "")), index=index)
+            yield YearTraffic(pid=citycode, date=int(date.replace("-", "")), index=index)
 
     def __info_of_ten_roads(self, citycode: int) -> Iterator[RoadInfo]:
         """
