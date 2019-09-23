@@ -230,12 +230,13 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
                 self.manager_scenece_people_situation(table_id, last_people_data, region_id, ddate, detailtime)
 
             # 提交任务
+
             thread_pool.submit(fast, info)
         # 执行任务队列
         thread_pool.run()
         # 关闭线程池
         thread_pool.close()
-
+        self.pool.close()
         print("景区人流数据挖掘完毕")
 
     def manager_scenece_people_distribution(self, data, region_id, tmp_date: int, centerlat: float, centerlon: float,
@@ -268,7 +269,6 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         self._redis_worker.expire(name=redis_key, time_interval=time_interval)
         # 一条条提交到话会话很多时间在日志生成上，占用太多IO了，拼接起来再写入，只用一次日志时间而已
         # 但是需要注意的是，一次性不能拼接太多，管道大小有限制---需要在MySQL中增大Max_allowed_packet，否则会报错
-
         if len(list_data) > 20000:
             # 拆分成几次插入
             count: int = int(len(list_data) / 20000)
@@ -297,6 +297,9 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         sql = "update digitalsmart.tablemanager  " \
               "set last_date={0} where pid={1}".format(tmp_date, region_id)
         self.pool.sumbit(sql)
+        print("write over", region_id)
+        time.sleep(3)
+        print("ok", region_id)
 
     def manager_scenece_people_situation(self, table_id, data, pid, date, ttime):
         """
@@ -322,78 +325,11 @@ class ManagerScence(ScenceFlow, PositioningTrend, PositioningSituation, Position
         self._redis_worker.hash_value_append(name=redis_key, mapping={instance.detailTime: instance.num})
         self._redis_worker.expire(name=redis_key, time_interval=time_interval)
 
-    # def manager_history_sceneceflow(self):
-    #     """
-    #     将昨天的数据存放到历史记录表里
-    #     :return:
-    #     """
-    #     inv = datetime.timedelta(days=1)
-    #     today = datetime.datetime.today()
-    #     yesterday = int(str((today - inv).date()).replace("-", ""))
-    #
-    #     sql = "select pid,table_id from digitalsmart.tablemanager"
-    #     pool = ConnectPool(max_workers=10)
-    #     result = pool.select(sql)
-    #     if not result:
-    #         return None
-    #
-    #     def fast(data, histtory_table_id):
-    #         if not data:
-    #             return None
-    #
-    #         sql_format = "insert into digitalsmart.historyscenceflow{0}(pid, ddate, ttime, num) VALUES".format(
-    #             histtory_table_id)
-    #         # 将元祖元素转为字符串
-    #         list_data = list()
-    #         for item in data:
-    #             list_data.append(str((item[0], item[1], str(item[2]), item[3])))
-    #         # 拼接字符串
-    #         sql = sql_format + ','.join(list_data)
-    #         # 写入
-    #         pool.sumbit(sql)
-    #
-    #     thread_pool = ThreadPoolExecutor(max_workers=10)
-    #     for pid, table_id in result:
-    #         sql = "select pid,ddate,ttime,num from digitalsmart.scenceflow where pid={0} and ddate={1} ".format(pid,
-    #                                                                                                             yesterday)
-    #         yesterday_info = pool.select(sql)
-    #         thread_pool.submit(fast, yesterday_info, table_id)
-    #     print("昨日数据写入历史记录表成功")
-
-    # def manager_china_positioning(self):
-    #     """
-    #     中国人定位数据管理---待完善
-    #     :return:
-    #     """
-    #     instances = self.positioning_people_num(max_num=10)
-
-    # def manager_monitoring_area(self):
-    #     """"""
-    #     self.get_the_scope_of_pace_data(start_lat=23.2, start_lon=110.2, end_lat=30.2, end_lon=113.2)
-
-    # def clear_sceneflow_table(self):
-    #     sql = "truncate table digitalsmart.scenceflow"
-    #     pool = ConnectPool(max_workers=1)
-    #     pool.sumbit(sql)
-    #
-    # def clear_peopleposition_table(self):
-    #     # 清空peoplepositionN人口密度分布表
-    #     pass
-
-    # for i in range(10):
-    #
-    #     sql = "truncate table digitalsmart.peopleposition{0}".format(i)
-    #     try:
-    #         cur.execute(sql)
-    #         db.commit()
-    #     except Exception:
-    #         db.rollback()
-
 
 if __name__ == "__main__":
     from multiprocessing import Process
 
     m = ManagerScence()
-    Process(target=m.manager_scence_trend).start()
-    Process(target=m.manager_scence_situation).start()
+    # Process(target=m.manager_scence_trend).start()
+    # Process(target=m.manager_scence_situation).start()
     Process(target=m.manager_scenece_people).start()
