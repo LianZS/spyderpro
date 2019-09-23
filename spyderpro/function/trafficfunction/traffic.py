@@ -4,10 +4,9 @@ from pymysql.connections import Connection
 
 from spyderpro.models.traffic.baidutraffic import BaiduTraffic
 from spyderpro.models.traffic.gaodetraffic import GaodeTraffic
-from setting import *
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.portconnect.sqlconnect import MysqlOperation
-from spyderpro.instances.trafficclass import TrafficClass, Year
+from spyderpro.models.traffic.citytraffic import DayilTraffic, YearTraffic
 
 
 class Traffic(MysqlOperation):
@@ -20,13 +19,12 @@ class Traffic(MysqlOperation):
                 cls.instance = super().__new__(cls)
             cls.instance.programmerpool(cls.instance.get_city_traffic, citycodelist)
 
-    def get_city_traffic(self, citycode: int, db: Connection) -> List[TrafficClass]:
+    def get_city_traffic(self, citycode: int, db: Connection) -> List[DayilTraffic]:
         """
         获取城市实时交通拥堵指数数据
         :param citycode:
         :return:List[TrafficClass]
         """
-        traffic = None
         if citycode > 1000:
             traffic = GaodeTraffic()
 
@@ -39,13 +37,13 @@ class Traffic(MysqlOperation):
         # 分好昨今以便分类过滤
         today = int(time.strftime('%Y%m%d', time.localtime(t)))
         yesterday = int(time.strftime('%Y%m%d', time.localtime(t - 3600 * 24)))
-        info = traffic.citytraffic(citycode)
+        info = traffic.city_daily_traffic_data(citycode)
 
         info = self.__dealwith_daily_traffic(info, citycode, db, today, yesterday)  # 过滤掉昨天和已经存在的数据
 
         return info
 
-    def __dealwith_daily_traffic(self, info, pid, db, today, yesterday) -> List[TrafficClass]:
+    def __dealwith_daily_traffic(self, info, pid, db, today, yesterday) -> List[DayilTraffic]:
         """
         重复数据处理
         :param info: 数据包
@@ -97,7 +95,7 @@ class Traffic(MysqlOperation):
             g = GaodeTraffic()
         elif citycode < 1000:
             g = BaiduTraffic()
-        result = g.roaddata(citycode)
+        result = g.city_road_traffic_data(citycode)
 
         return result
 
@@ -108,13 +106,13 @@ class Traffic(MysqlOperation):
             g = GaodeTraffic()
         elif yearpid < 1000:
             g = BaiduTraffic()
-        result = g.yeartraffic(yearpid)
+        result = g.city_year_traffic_data(yearpid)
         result = self.__dealwith_year_traffic(result, yearpid, db,
                                               lastdate=int(time.strftime("%Y%m%d",
                                                                          time.localtime(time.time() - 24 * 3600))))
         return result
 
-    def __dealwith_year_traffic(self, info: Iterator, pid: int, db: Connection, lastdate: int) -> List[Year]:
+    def __dealwith_year_traffic(self, info: Iterator, pid: int, db: Connection, lastdate: int) -> List[YearTraffic]:
         sql = "select tmp_date from digitalsmart.yeartraffic where pid={0} and tmp_date>= {1} order by tmp_date".format(
             pid, lastdate)
         cursor = self.get_cursor(db, sql)
@@ -158,7 +156,7 @@ class Traffic(MysqlOperation):
 
     # 数据过滤器
     @staticmethod
-    def filter(info: list, detailtime: str) -> List[TrafficClass]:
+    def filter(info: list, detailtime: str) -> List[DayilTraffic]:
         """
         过滤数据，清空已存在的数据
         :param info:数据包
