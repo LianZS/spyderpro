@@ -7,20 +7,22 @@ import datetime
 from typing import Iterator
 from threading import Thread, Semaphore
 from bs4 import BeautifulSoup
+from spyderpro.models.weather.province import WeatherOfProvinceLink, WeatherOfCityLink
 
 '''获取2k多个城市的历史天气情况'''
 
 
+class WeatherStatus:
+    __slots__ = ['date', 'state', 'temperature', 'wind']
+
+    def __init__(self, ddate, state, tempera, wind):
+        self.date = ddate  # 日期
+        self.state = state  # 天气状况
+        self.temperature = tempera  # 气温
+        self.wind = wind  # 风力风向
+
+
 class WeatherHistory(object):
-    class weatherstatus:
-
-        __slots__ = ['date', 'state', 'temperature', 'wind']
-
-        def __init__(self, ddate, state, tempera, wind):
-            self.date = ddate  # 日期
-            self.state = state  # 天气状况
-            self.temperature = tempera  # 气温
-            self.wind = wind  # 风力风向
 
     def __init__(self):
         self.request = requests.Session()
@@ -42,25 +44,30 @@ class WeatherHistory(object):
         获取进入每个城市具体的区域--***省份***---链接入口
         :return:{"province":,"url":}
         """
-        url = 'http://www.tianqihoubao.com/lishi/'
+        # 获取所有省份链接
+        href = 'http://www.tianqihoubao.com/lishi/'
         try:
-            data = self.request.get(url=url, headers=self.headers)
+            response = self.request.get(url=href, headers=self.headers)
+        except requests.exceptions.ConnectionError:
+            print("连接失败")
+            return None
+
         except Exception as e:
             print(e)
             return None
+        if response.status_code != 200:
+            return None
         pre_url = 'http://www.tianqihoubao.com/'
-        sounp = BeautifulSoup(data.content, 'lxml')  # 此处不要使用data.text，会出现乱码，改用response保证原有样子
+        # 解析
+        sounp = BeautifulSoup(response.content, 'lxml')  # 此处不要使用data.text，会出现乱码，改用response保证原有样子
         sounp.prettify()
         for res in sounp.find_all(name='a', href=re.compile('^/lishi.*[htm]$')):
             url_lis = list()
             url_lis.append(pre_url)
             url_lis.append(res['href'])
             url = ''.join(url_lis)  # 链接拼接
-            dic = dict()
             province = res.string  # 省份
-            dic['province'] = province
-            dic['url'] = url
-            yield dic
+            yield WeatherOfProvinceLink(province=province, url=url)
 
     def get_city_past_link(self, url: str) -> Iterator:
         """
@@ -68,24 +75,30 @@ class WeatherHistory(object):
         :param url: 省份链接入口
         :return:list[{'url':,"city"}]
         """
+        try:
+            response = self.request.get(url=url, headers=self.headers)
+        except requests.exceptions.ConnectionError:
+            print("连接失败")
+            return None
 
-        data = self.request.get(url=url, headers=self.headers)
+        except Exception as e:
+            print(e)
+            return None
+        if response.status_code != 200:
+            return None
         pre_url = 'http://www.tianqihoubao.com/'
-        sounp = BeautifulSoup(data.content, 'lxml')  # 此处不要使用data.text，会出现乱码，改用response保证原有样子
+        sounp = BeautifulSoup(response.content, 'lxml')  # 此处不要使用data.text，会出现乱码，改用response保证原有样子
         sounp.prettify()
         for res in sounp.find_all(name='dd'):
             res = res.find_all(name='a')
             for info in res:
-                dic = dict()
-
-                cityname = info.string  # 城市名字
+                cityname = info.string.strip(' ')  # 城市名字
                 url_lis = list()
                 url_lis.append(pre_url)
                 url_lis.append(info['href'])
-                url = ''.join(url_lis)  # 城区天气历史链接
-                dic['url'] = url
-                dic['city'] = cityname.strip(' ')
-                yield dic
+                href = ''.join(url_lis)  # 城区天气历史链接
+
+                yield WeatherOfCityLink(city=cityname, url=href)
 
     def get_city_all_partition(self, url: str) -> Iterator:
         """
@@ -110,9 +123,8 @@ class WeatherHistory(object):
         }
         pre_url = "http://www.tianqihoubao.com/"
         try:
-            data = requests.get(url=url, headers=headers)
-            if data.status_code != 200:
-                return "网络链接%d" % data.status_code
+            response = requests.get(url=url, headers=headers)
+
         except ConnectionResetError:
             print("断网了")
             return ["ConnectionResetError"]
@@ -125,21 +137,24 @@ class WeatherHistory(object):
             print(e)
             print("%s出问题了" % url)
             return ["Error --%s" % e]
-        sounp = BeautifulSoup(data.text, 'lxml')  # 此处不要使用data.text，会出现乱码，改用response保证原有样子
+        if response.status_code != 200:
+            return "网络链接%d" % data.status_code
+        # 解析
+        sounp = BeautifulSoup(response.text, 'lxml')  # 此处不要使用data.text，会出现乱码，改用response保证原有样子
         sounp.prettify()
         content = sounp.find(name='div', attrs={"class": "wdetail"})
         tags = content.find_all(name="a")
-
+        # 今天日期：yyyymmdd
         last = str(datetime.datetime.today().date()).replace("-", "")
         for tag in tags[:-2]:  # 将date这个说明跳过
             href = tag.get("href")
             if last in href:
-                url = "http://www.tianqihoubao.com/lishi/" + href
+                waether_url = "http://www.tianqihoubao.com/lishi/" + href
             else:
-                url = pre_url + href
-            yield url
+                waether_url = pre_url + href
+            yield waether_url
 
-    def get_weather_detail(self, url) -> Iterator[weatherstatus]:
+    def get_weather_detail(self, url) -> Iterator[WeatherStatus]:
         """
         http://www.tianqihoubao.com//lishi/beijing/month/201102.html
         请求历史月份历史数据，'日期', '天气状况', '气温', '风力风向'
@@ -147,25 +162,37 @@ class WeatherHistory(object):
         :return: list[{'date', 'state', 'temperature', 'wind'}]
         {'date', 'state', 'temperature', 'wind'}->{'日期', '天气状况', '气温', '风力风向'}
         """
+        try:
+            response = self.request.get(url=url, headers=self.headers)
+        except ConnectionResetError:
+            print("断网了")
+            return None
 
-        response = self.request.get(url=url, headers=self.headers)
+        except ConnectionError:
+            print("该链接链接出现问题%s" % url)
+
+            return ["ConnectionError"]
+        except Exception as e:
+            print(e)
+            print("%s出问题了" % url)
+            return None
         if response.status_code != 200:
             print("%s请求--失败" % url)
-            failfile.write(url + "\n")
 
             return None
+        # 解析
         soup = BeautifulSoup(response.text, 'lxml')
         table = soup.find(name="table")
         tr = table.find_all(name="tr")
 
-        dates = table.find_all(name='a')
         state = None
         temperature = None
         wind = None
         for item in tr:
             if not item.td.a:
                 continue
-            date = re.sub("\s", "", str(item.td.a.string))
+            # 时间
+            cur_date = re.sub("\s", "", str(item.td.a.string))
             count = 0
             for t in item:
                 if not t.string or t.string == "\n":
@@ -178,78 +205,4 @@ class WeatherHistory(object):
                     temperature = d
                 elif count == 3:
                     wind = d
-            yield self.weatherstatus(ddate=date, state=state, tempera=temperature, wind=wind)
-
-
-def get_all_data():
-    root = os.path.abspath(os.path.curdir)
-    try:
-        os.mkdir(os.path.join(root, 'Weather'))
-    except Exception:
-        pass
-    failfile = open(os.path.join(root, 'error.txt'), 'a+')
-    wait = Semaphore(3)
-    history = WeatherHistory()
-    # 获取所有省份入库链接
-    for item in history.get_province_link():
-        # 获取每个省份的城市入口链接
-        for data in history.get_city_past_link(item['url']):
-            filepath = os.path.join(root, "Weather/" + data['city'] + ".csv")
-            f = open(filepath, 'a+', newline='')
-            w = csv.writer(f)
-            for url in history.get_city_all_partition(data['url']):
-                wait.acquire()
-
-                def request(purl):
-
-                    for obj in history.get_weather_detail(purl):
-                        w.writerow([obj.date, obj.state, obj.temperature, obj.wind])
-                    print("success")
-                    wait.release()
-
-                Thread(target=request, args=(url,)).start()
-
-
-if __name__ == "__main__":
-    root = os.path.abspath(os.path.curdir)
-    try:
-        os.mkdir(os.path.join(root, 'Weather'))
-    except Exception:
-        pass
-    failfile = open(os.path.join(root, 'error.txt'), 'a+')
-    wait = Semaphore(3)
-    history = WeatherHistory()
-    # 获取所有省份入库链接
-    flag = 0
-    for item in history.get_province_link():
-        # 获取每个省份的城市入口链接
-        for data in history.get_city_past_link(item['url']):
-
-            filepath = os.path.join(root, "Weather/" + data['city'] + ".csv")
-            f = open(filepath, 'a+', newline='')
-            w = csv.writer(f)
-            print(data['city'])
-            if data['city'] == "中卫":
-                flag = 1
-                continue
-            if flag != 1:
-                continue
-            for url in history.get_city_all_partition(data['url']):
-                wait.acquire()
-                ddate = int(re.findall("(\d{6})", url)[0])
-                if ddate <= 201906:
-                    wait.release()
-
-                    continue
-
-
-                def request(purl):
-
-                    for obj in history.get_weather_detail(purl):
-                        w.writerow([obj.date, obj.state, obj.temperature, obj.wind])
-                    print("success")
-                    wait.release()
-
-
-                Thread(target=request, args=(url,)).start()
-# 锦州
+            yield WeatherStatus(ddate=cur_date, state=state, tempera=temperature, wind=wind)
