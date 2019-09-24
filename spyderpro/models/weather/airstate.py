@@ -1,8 +1,8 @@
 import requests
 import re
-from typing import Dict
+from typing import Dict, Iterator
 from bs4 import BeautifulSoup
-from spyderpro.instances.weather import AQIState
+from spyderpro.models.weather.aqi import AQIState, InfoOfCityOfAQI
 
 
 class AirState:
@@ -28,28 +28,36 @@ class AirState:
                 }
             AirState.instanceflag = 1
 
-    def get_city_air_pid(self)->Dict:
+    def get_city_air_pid(self) -> Iterator[InfoOfCityOfAQI]:
         # 获取每个城市的专属id
         response = self.request.get(url="http://tianqi.2345.com/js/citySelectData.js", headers=self.headers)
         if response.status_code != 200:
             return None
-        city_dic = dict()
         city_map = re.findall("\s(\D+)-(\d+)", response.text)
         for item in city_map:
             city = item[0]
             pid = int(item[1])
-            city_dic[city] = pid
-        return city_dic
+            yield InfoOfCityOfAQI(city=city, aqi_pid=pid)
 
     def get_city_air_state(self, citypid) -> AQIState:
         # 获取城市最新的空气数据
         href = "http://tianqi.2345.com/t/his/" + str(citypid) + "his.js"
         response = self.request.get(url=href, headers=self.headers)
+        if response.status_code != 200:
+            return None
         soup = BeautifulSoup(response.text, 'lxml')
         aqi = int(soup.find(name="span").text)  # AQI  指数
         href = "http://tianqi.2345.com/air-" + str(citypid) + ".htm"
-
-        response = self.request.get(url=href, headers=self.headers)
+        try:
+            response = self.request.get(url=href, headers=self.headers)
+        except requests.exceptions.ConnectionError:
+            print("网络链接error")
+            return None
+        except requests.exceptions.ChunkedEncodingError:
+            print("网络链接error")
+            return None
+        if response.status_code != 200:
+            return None
         soup = BeautifulSoup(response.text, 'lxml')
         ul = soup.find(name="ul", attrs={"class": "clearfix"})
         air_map = dict()
@@ -65,9 +73,9 @@ class AirState:
                     air_value = int(air_value[0])
 
                 air_map[air_type] = air_value
-        except Exception :
+        except Exception:
 
-            return AQIState(aqi,0,0,0,0,0,0)
+            return AQIState(aqi, 0, 0, 0, 0, 0, 0)
         pm2 = air_map["PM2.5"]
         pm10 = air_map['PM10']
         so2 = air_map['二氧化硫']
@@ -75,6 +83,3 @@ class AirState:
         co = air_map['一氧化碳']
         o3 = air_map['臭氧']
         return AQIState(aqi, pm2, pm10, so2, no2, co, o3)
-
-
-
