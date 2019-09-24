@@ -12,6 +12,9 @@ from spyderpro.instances.lbs import Trend, Geographi, Positioning
 
 
 class PlaceInterface(Connect, ParamTypeCheck):
+    """
+    通过腾讯地图获取景区客流量数据
+    """
     instance = None
     bool_instance_flag = False
 
@@ -93,7 +96,7 @@ class PlaceInterface(Connect, ParamTypeCheck):
         str_href = "https://heat.qq.com/api/getRegionHeatMapInfoById.php?id=" + str(pid)
         headers = dict()
         headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
-                                     '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+                                '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
         response = requests.get(url=str_href, headers=headers).text
         json_data = json.loads(response)
         str_list_bounds = json_data['boundary']  # 格式'维度,经度|纬度,经度|'
@@ -126,8 +129,8 @@ class PlaceTrend(PlaceInterface):
             self.headers = dict()
             if user_agent is None:
                 self.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) ' \
-                                                  'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 ' \
-                                                  'Safari/537.36'
+                                             'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 ' \
+                                             'Safari/537.36'
 
             else:
                 self.headers['User-Agent'] = user_agent
@@ -205,57 +208,13 @@ class PlaceFlow(PlaceInterface):
             self.headers = dict()
             if user_agent is None:
                 self.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/' \
-                                                  '537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+                                             '537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
 
             else:
                 self.headers['User-Agent'] = user_agent
             self.headers['Host'] = 'heat.qq.com'
 
             self.request = requests.Session()
-
-    def request_heatdata(self, url: str) -> Dict:
-        """
-        请求热力图数据
-        :param url:热力图请求链接
-        :return:dict热力图经纬度人数数据
-
-
-        """
-        try:
-            response = self.request.get(url=url, headers=self.headers)
-        except Exception as e:
-            print(e)
-            return {}
-        if response.status_code == 200:
-            # 热力图数据
-            json_data = json.loads(response.text)
-            return json_data
-        else:
-            return {}
-
-    def get_heatdata_bytime(self, date: str, date_time: str, region_id: int):
-        """
-        某一时刻的人口分布详情
-        :param date:日期：格式yyyy-mm-dd
-        :param date_time:时间：格式hh:MM:SS
-        :param region_id:地区唯一标识
-        :return: dict经纬度人数数据，可能为{}
-        """
-        # 类型检查
-        self.date_format_check(date)
-        self.time_format_check(date_time)
-        self.type_check(region_id, int)
-        # 请求参数
-        dict_paramer = {
-            'region_id': region_id,
-            'datetime': "".join([date, ' ', date_time]),
-            'sub_domain': ''
-        }
-        # https://heat.qq.com/api/getHeatDataByTime.php?region_id=5381&datetime=2019-01-01+01%3A10%3A00&sub_domain=
-        str_url = "https://heat.qq.com/api/getHeatDataByTime.php?" + urlencode(dict_paramer)
-        # 请求热力图数据
-        json_result = self.request_heatdata(str_url)
-        return json_result
 
     @staticmethod
     def count_headdata(heatmap_data: dict, ddate: str, date_time: str, region_id: int) -> Positioning:
@@ -321,6 +280,50 @@ class PlaceFlow(PlaceInterface):
             geographi = Geographi(latitude=float(int_inv_lat) / 10000, longitude=float(int_inv_lon) / 10000,
                                   number=int_num)
             yield geographi
+
+    def request_heatdata(self, url: str) -> Dict:
+        """
+        请求热力图数据
+        :param url:热力图请求链接
+        :return:dict热力图经纬度人数数据
+
+
+        """
+        try:
+            response = self.request.get(url=url, headers=self.headers)
+        except Exception as e:
+            print(e)
+            return {}
+        if response.status_code == 200:
+            # 热力图数据
+            json_data = json.loads(response.text)
+            return json_data
+        else:
+            return {}
+
+    def get_heatdata_bytime(self, date: str, date_time: str, region_id: int):
+        """
+        某一时刻的人口分布详情
+        :param date:日期：格式yyyy-mm-dd
+        :param date_time:时间：格式hh:MM:SS
+        :param region_id:地区唯一标识
+        :return: dict经纬度人数数据，可能为{}
+        """
+        # 类型检查
+        self.date_format_check(date)
+        self.time_format_check(date_time)
+        self.type_check(region_id, int)
+        # 请求参数
+        dict_paramer = {
+            'region_id': region_id,
+            'datetime': "".join([date, ' ', date_time]),
+            'sub_domain': ''
+        }
+        # https://heat.qq.com/api/getHeatDataByTime.php?region_id=5381&datetime=2019-01-01+01%3A10%3A00&sub_domain=
+        str_url = "https://heat.qq.com/api/getHeatDataByTime.php?" + urlencode(dict_paramer)
+        # 请求热力图数据
+        json_result = self.request_heatdata(str_url)
+        return json_result
 
     @staticmethod
     def deal_coordinates(coord):
