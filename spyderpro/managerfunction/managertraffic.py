@@ -47,7 +47,7 @@ class ManagerTraffic(Traffic):
                 filter_info = self.get_city_traffic(citycode=region_id, db=db)  # 获取交通数据
                 pool.work_queue.put(db)
 
-                if len(filter_info) == 0:
+                if filter_info is None:
                     print("pid:%d -- city:%s 没有数据" % (region_id, cityname))
 
                     return
@@ -129,8 +129,6 @@ class ManagerTraffic(Traffic):
                     self._redis_worker.set(redis_key, str(mapping))
                     self._redis_worker.expire(name=redis_key, time_interval=time_interval)
 
-            # if pid < 1000:
-            #     continue
             fast(pid)
 
         pool.close()
@@ -153,7 +151,7 @@ class ManagerTraffic(Traffic):
                 result_objs = self.yeartraffic(region_id, db)
 
                 pool.work_queue.put(db)
-                if len(result_objs) == 0:  # 此次请求没有数据
+                if len(result_objs) == 0 or result_objs is None:  # 此次请求没有数据
                     return
                 mapping = dict()
 
