@@ -2,7 +2,7 @@ import requests
 import json
 import time
 from urllib.parse import urlencode
-from typing import Dict, Iterator, List
+from typing import Iterator, List
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.models.traffic.road import Road, RoadData, RoadInfo
 from spyderpro.models.traffic.citytraffic import DayilTraffic, YearTraffic
@@ -34,26 +34,26 @@ class BaiduTraffic(Traffic):
         str_href = 'https://jiaotong.baidu.com/trafficindex/city/curve?' + urlencode(dict_parameter)
         try:
             response = self.s.get(url=str_href, headers=self.headers)
-            json_data = json.loads(response.text)
+            city_daily_traffic_json_data = json.loads(response.text)
 
         except requests.exceptions.ConnectionError:
             print("网络链接error")
-            return iter([])
+            return None
         except AttributeError:
             print("数据格式错误")
-            return iter([])
+            return None
         except json.JSONDecodeError:
             print("json解析异常")
-            return iter([])
+            return None
         except Exception as e:
             print(e)
-            return iter([])
+            return None
         today_date = time.strftime("%Y-%m-%d", time.localtime())  # 今天的日期
         date = today_date
-        if '00:00' in str(json_data):
+        if '00:00' in str(city_daily_traffic_json_data):
             date = time.strftime("%Y-%m-%d", time.localtime(time.time() - 3600 * 24))  # 昨天的日期
         # 含有24小时的数据
-        for item in json_data['data']['list']:
+        for item in city_daily_traffic_json_data['data']['list']:
             # {'index': '1.56', 'speed': '32.83', 'time': '13:45'}
             if item["time"] == '00:00':  # 因为部分数据属于昨天的，所以日期需要区分
                 date = today_date
@@ -84,18 +84,18 @@ class BaiduTraffic(Traffic):
             test = json_data['data']['list']  # 测试数据是否存在，失败说明请求失败
         except requests.exceptions.ConnectionError:
             print("网络链接error")
-            return []
+            return None
         except AttributeError:
             print("数据错误")
-            return []
+            return None
         except json.JSONDecodeError:
             print("json解析异常")
-            return []
+            return None
         except Exception as e:
             print(e)
-            return []
+            return None
         if not len(json_data):
-            return []
+            return None
         year = time.strftime("%Y-", time.localtime())  # 年份格式为2019-
         for item in json_data['data']['list']:
             # {'index': '1.56', 'speed': '32.83', 'time': '04-12'}
