@@ -37,9 +37,10 @@ class Traffic(MysqlOperation):
         # 分好昨今以便分类过滤
         today = int(time.strftime('%Y%m%d', time.localtime(t)))
         yesterday = int(time.strftime('%Y%m%d', time.localtime(t - 3600 * 24)))
-        info = traffic.city_daily_traffic_data(citycode)
-
-        info = self.__dealwith_daily_traffic(info, citycode, db, today, yesterday)  # 过滤掉昨天和已经存在的数据
+        result = traffic.city_daily_traffic_data(citycode)
+        if result is None:
+            return None
+        info = self.__dealwith_daily_traffic(result, citycode, db, today, yesterday)  # 过滤掉昨天和已经存在的数据
 
         return info
 
@@ -107,6 +108,8 @@ class Traffic(MysqlOperation):
         elif yearpid < 1000:
             g = BaiduTraffic()
         result = g.city_year_traffic_data(yearpid)
+        if result is None:
+            return None
         result = self.__dealwith_year_traffic(result, yearpid, db,
                                               lastdate=int(time.strftime("%Y%m%d",
                                                                          time.localtime(time.time() - 24 * 3600))))
