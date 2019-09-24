@@ -33,27 +33,27 @@ class GaodeTraffic(Traffic):
         str_href = "http://report.amap.com/ajax/cityHourly.do?cityCode=" + str(citycode)
         try:
             response = self.s.get(url=str_href, headers=self.headers)
-            json_data = json.loads(response.text)  # 请求成功时时list类型数据
-            if isinstance(json_data, dict):  # 请求失败时时dict类型
+            city_daily_traffic_json_data = json.loads(response.text)  # 请求成功时时list类型数据
+            if isinstance(city_daily_traffic_json_data, dict):  # 请求失败时时dict类型
                 raise ConnectionError
         except ConnectionError:
 
             print("标识:%d--网络连接error" % (citycode))
 
-            return iter([])
+            return None
         except json.JSONDecodeError:
             print("json解析异常")
-            return iter([])
+            return None
         except Exception as e:
             print(e)
-            return iter([])
+            return None
         date_today = time.strftime("%Y-%m-%d", time.localtime())  # 今天的日期
 
         date_yesterday = time.strftime("%Y-%m-%d", time.localtime(time.time() - 3600 * 24))  # 昨天的日期
         date = date_yesterday
         # 含有24小时的数据
 
-        for item in json_data:
+        for item in city_daily_traffic_json_data:
             detail_time = time.strftime("%H:%M", time.localtime(int(item[0]) / 1000))
             if detail_time == '00:00':
                 date = date_today
@@ -129,22 +129,22 @@ class GaodeTraffic(Traffic):
             test2 = json_data['serieData']  # 测试数据是否存在，失败说明请求失败
         except SyntaxError:
             print("高德地图年度数据请求失败！")
-            return []
+            return None
         except requests.exceptions.ConnectionError:
             print("网络链接error")
-            return []
+            return None
         except requests.exceptions.ChunkedEncodingError:
             print("网络链接error")
-            return []
+            return None
         except AttributeError:
             print("数据格式错误")
-            return []
+            return None
         except json.JSONDecodeError:
             print("json解析异常")
-            return []
+            return None
         except Exception as e:
             print(e)
-            return []
+            return None
 
         for date, index in zip(json_data["categories"], json_data['serieData']):
             yield YearTraffic(pid=citycode, date=int(date.replace("-", "")), index=index)
