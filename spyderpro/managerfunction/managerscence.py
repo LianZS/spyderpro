@@ -228,10 +228,6 @@ class ManagerScence(PositioningPeople):
                 if not last_people_data:  # 请求失败
                     return
                 # 更新人流分布情况数据
-                if table_id == 323 or table_id == 326:
-                    pass
-                else:
-                    return
                 Thread(target=self.manager_scenece_people_distribution,
                        args=(last_people_data, region_id, up_date, float_lat, float_lon, table_id)).start()
                 # 更新客流量数据
@@ -340,6 +336,6 @@ if __name__ == "__main__":
     from multiprocessing import Process
 
     m = ManagerScence()
-    # Process(target=m.manager_scence_trend).start()
-    # Process(target=m.manager_scence_situation).start()
+    Process(target=m.manager_scence_trend).start()
+    Process(target=m.manager_scence_situation).start()
     Process(target=m.manager_scenece_people).start()
