@@ -52,7 +52,9 @@ class ConnectPool(ConnectInterface):
 
             cur.execute(sql_cmd)
             db.commit()
-        except Exception:
+        except Exception as e:
+            print(e)
+            print(sql_cmd)
             db.rollback()
         cur.close()
         self.work_queue.put(db)
