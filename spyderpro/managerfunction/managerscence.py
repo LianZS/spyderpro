@@ -223,10 +223,15 @@ class ManagerScence(PositioningPeople):
 
                 table_id = self.pool.select(sql_cmd)[0][0]
                 # 请求数据
-                last_people_data = pos.get_data(date=ddate, dateTime=detailtime, region_id=region_id)
+                last_people_data = pos.get_scenece_people_json_data(date=ddate, dateTime=detailtime,
+                                                                    region_id=region_id)
                 if not last_people_data:  # 请求失败
                     return
                 # 更新人流分布情况数据
+                if table_id == 323 or table_id == 326:
+                    pass
+                else:
+                    return
                 Thread(target=self.manager_scenece_people_distribution,
                        args=(last_people_data, region_id, up_date, float_lat, float_lon, table_id)).start()
                 # 更新客流量数据
@@ -242,19 +247,16 @@ class ManagerScence(PositioningPeople):
         self.pool.close()
         print("景区人流数据挖掘完毕")
 
-    def manager_scenece_people_distribution(self, data, region_id, tmp_date: int, centerlat: float, centerlon: float,
+    def manager_scenece_people_distribution(self, scence_people_data: dict, region_id, tmp_date: int, centerlat: float,
+                                            centerlon: float,
                                             table_id: int):
         """
         更新地区人口分布数据---这部分每次有几k条数据插入
         :return:
         """
-        if table_id == 323 or table_id == 326:
-            pass
-        else:
-            return
         # 获取经纬度人数结构体迭代器
         pos = PositioningSituation()
-        instances = pos.get_distribution_situation(data)
+        instances = pos.get_scence_distribution_situation(scence_people_data)
         # 确定哪张表
         select_table: str = "insert into digitalsmart.peopleposition{0} (pid, tmp_date, lat, lon, num) VALUES".format(
             table_id)
@@ -307,7 +309,8 @@ class ManagerScence(PositioningPeople):
               "set last_date={0} where pid={1}".format(tmp_date, region_id)
         self.pool.sumbit(sql)
 
-    def manager_scenece_people_situation(self, table_id, data, pid, date, ttime):
+    def manager_scenece_people_situation(self, table_id: int, scence_people_data: dict, pid: int, ddate: int,
+                                         ttime: str):
         """
         更新地区人口情况数据  ---这部分每次只有一条数据插入
         """
@@ -315,7 +318,7 @@ class ManagerScence(PositioningPeople):
 
         type_flag = 0
         pos = PositioningSituation()
-        instance = pos.get_count(data, date, ttime, pid)
+        instance = pos.get_scence_people_count(scence_people_data, ddate, ttime, pid)
         sql_format = "insert into digitalsmart.historyscenceflow{0}(pid, ddate, ttime, num)  " \
                      "values (%d,%d,'%s',%d) ".format(
             table_id)
