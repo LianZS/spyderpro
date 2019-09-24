@@ -144,7 +144,7 @@ class ManagerScence(PositioningPeople):
                     pass
                 # 获取趋势数据
                 result_objs = pos_trend.get_place_index(name=place, placeid=region_id, date_start=str_start,
-                                                   date_end=str_end)
+                                                        date_end=str_end)
                 # 用来缓存数据
                 mapping = dict()
                 # 插入数据以及缓存
@@ -248,6 +248,10 @@ class ManagerScence(PositioningPeople):
         更新地区人口分布数据---这部分每次有几k条数据插入
         :return:
         """
+        if table_id == 323 or table_id == 326:
+            pass
+        else:
+            return
         # 获取经纬度人数结构体迭代器
         pos = PositioningSituation()
         instances = pos.get_distribution_situation(data)
@@ -255,14 +259,16 @@ class ManagerScence(PositioningPeople):
         select_table: str = "insert into digitalsmart.peopleposition{0} (pid, tmp_date, lat, lon, num) VALUES".format(
             table_id)
         # 存放经纬度人数数据
-        list_data = list()
+        insert_mysql_data = list()
         redis_data = list()  # 缓存列表
         for item in instances:
-            list_data.append(
+            insert_mysql_data.append(
                 str((region_id, tmp_date, centerlat + item.latitude, centerlon + item.longitude, item.number)))
             redis_data.append(
                 {"lat": centerlat + item.latitude, "lng": centerlon + item.longitude, "count": item.number})
         # 缓存时间
+        if len(insert_mysql_data) == 0:
+            return None
         time_interval = datetime.timedelta(minutes=60)
         # 缓存key
         redis_key = "distribution:{0}".format(region_id)
@@ -273,30 +279,29 @@ class ManagerScence(PositioningPeople):
         self._redis_worker.expire(name=redis_key, time_interval=time_interval)
         # 一条条提交到话会话很多时间在日志生成上，占用太多IO了，拼接起来再写入，只用一次日志时间而已
         # 但是需要注意的是，一次性不能拼接太多，管道大小有限制---需要在MySQL中增大Max_allowed_packet，否则会报错
-        if len(list_data) > 20000:
+        if len(insert_mysql_data) > 20000:
             # 拆分成几次插入
-            count: int = int(len(list_data) / 20000)
+            count: int = int(len(insert_mysql_data) / 20000)
             i = 0
             # 切分插入
             for i in range(count):
                 # 数据拆分
-                slice_data = list_data[i * 20000:(i + 1) * 20000]
+                slice_data = insert_mysql_data[i * 20000:(i + 1) * 20000]
                 sql_value = ','.join(slice_data)
                 sql = select_table + sql_value
                 self.pool.sumbit(sql)
-            slice_data = list_data[(i + 1) * 20000:]
+            slice_data = insert_mysql_data[(i + 1) * 20000:]
             sql_value = ','.join(slice_data)
             sql = select_table + sql_value
-            # 提交数据
-            self.pool.sumbit(sql)
+
 
         else:
-            sql_value = ','.join(list_data)
+            sql_value = ','.join(insert_mysql_data)
 
             sql = select_table + sql_value
-            # 提交数据
 
-            self.pool.sumbit(sql)
+        # 提交数据
+        self.pool.sumbit(sql)
         # 更新人流分布管理表的修改时间
         sql = "update digitalsmart.tablemanager  " \
               "set last_date={0} where pid={1}".format(tmp_date, region_id)
@@ -332,6 +337,6 @@ if __name__ == "__main__":
     from multiprocessing import Process
 
     m = ManagerScence()
-    Process(target=m.manager_scence_trend).start()
-    Process(target=m.manager_scence_situation).start()
+    # Process(target=m.manager_scence_trend).start()
+    # Process(target=m.manager_scence_situation).start()
     Process(target=m.manager_scenece_people).start()
