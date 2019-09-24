@@ -33,7 +33,10 @@ class ManagerWeather:
         except TypeError:
             lasttime = ''
         weather = Weather()
-        city_map = weather.get_city_weather_pid()  # 获取城市天气id
+        iter_citys_waetherObjs = weather.get_city_weather_pid()  # 获取城市天气id
+        city_map = dict()
+        for obj in iter_citys_waetherObjs:
+            city_map[obj.city] = obj.aqi_pid
         thread_pool = ThreadPool(max_workers=10)
         count = len(result)  # 任务计数，0时通知更新时间
         time_interval = datetime.timedelta(minutes=60)
