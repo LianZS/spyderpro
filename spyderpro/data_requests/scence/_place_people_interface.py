@@ -7,7 +7,7 @@ from spyderpro.port_connect.internet_connect import Connect
 from spyderpro.port_connect.paramchecks import ParamTypeCheck
 
 
-class PlacePeopleParentInterface(Connect, ParamTypeCheck):
+class _PlacePeopleParentInterface(Connect, ParamTypeCheck):
     """
     通过腾讯地图获取景区客流量数据
     """
