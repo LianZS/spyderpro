@@ -11,8 +11,8 @@ from typing import Iterator
 from bs4 import BeautifulSoup
 from urllib.parse import urlencode
 from spyderpro.port_connect.internet_connect import Connect
-from spyderpro.instances.wechat import WechatPublic_Info, ArticleInfo, WechatSituation, ArticleKeyWord
-from spyderpro.instances.wechatpublic import WechatUrl
+from spyderpro.data_instances.wechat import WechatPublic_Info, ArticleInfo, WechatSituation, ArticleKeyWord
+from spyderpro.data_instances.wechatpublic import WechatUrl
 
 
 class WechatPublic(Connect):

@@ -5,7 +5,7 @@ import re
 from urllib.parse import urlencode
 from bs4 import BeautifulSoup
 from spyderpro.port_connect.internet_connect import Connect
-from spyderpro.instances.keyword_obj import BaiduKeyWordObject, WechatKeyWordObject, SougouKeyWordObject
+from spyderpro.data_instances.keyword_obj import BaiduKeyWordObject, WechatKeyWordObject, SougouKeyWordObject
 from typing import Iterable, Iterator
 
 

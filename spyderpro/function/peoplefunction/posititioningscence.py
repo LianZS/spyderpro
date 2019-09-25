@@ -6,7 +6,7 @@ from spyderpro.data_requests.locationdata.scencepeople import ScencePeopleFlow
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.port_connect.sql_connect import MysqlOperation
 
-from spyderpro.instances.lbs import Positioning
+from spyderpro.data_instances.lbs import Positioning
 
 
 class Parent(MysqlOperation):
@@ -47,7 +47,7 @@ class ScenceFlow(Parent):
         # 获取数据
         instances = flow.peopleflow_info(peoplepid, ddate)
         # 缓冲数据
-        # positioning_data = list(instances)
+        # positioning_data = list(data_instances)
         # self.__redis_cache(positioning_data)#缓存数据
         # 过滤已存在的数据
         info = self.__filter_peopleflow(db, instances, ddate, peoplepid, table_id)

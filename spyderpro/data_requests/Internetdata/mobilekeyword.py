@@ -3,7 +3,7 @@ import json
 import datetime
 from urllib.parse import urlencode
 from typing import Iterator
-from spyderpro.instances.keyword_obj import Mobile_Info
+from spyderpro.data_instances.keyword_obj import Mobile_Info
 
 
 class MobileKeyWord:

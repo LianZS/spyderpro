@@ -6,7 +6,7 @@ from typing import Iterator
 from urllib.parse import urlencode
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from spyderpro.instances.userportrait import UserPortrait, UserBehavior, AppRateBenchmark, AppUserHabit
+from spyderpro.data_instances.userportrait import UserPortrait, UserBehavior, AppRateBenchmark, AppUserHabit
 
 
 class UserHabit:

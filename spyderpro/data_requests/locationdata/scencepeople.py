@@ -2,7 +2,7 @@ import requests
 from typing import Iterator
 from urllib.parse import urlencode
 from spyderpro.port_connect.internet_connect import Connect
-from spyderpro.instances.lbs import Positioning
+from spyderpro.data_instances.lbs import Positioning
 
 
 class ScencePeopleFlow(Connect):

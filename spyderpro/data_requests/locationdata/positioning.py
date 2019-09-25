@@ -1,7 +1,7 @@
 import requests
 import json
 from spyderpro.port_connect.internet_connect import Connect
-from spyderpro.instances.lbs import Geographi
+from spyderpro.data_instances.lbs import Geographi
 
 
 class PeoplePositionin(Connect):

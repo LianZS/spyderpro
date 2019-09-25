@@ -6,7 +6,7 @@ from typing import Iterator, List
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.data_requests.traffic.road import Road, RoadData, RoadInfo
 from spyderpro.data_requests.traffic.citytraffic import DayilTraffic, YearTraffic
-from spyderpro.instances.infomation import CityInfo
+from spyderpro.data_instances.infomation import CityInfo
 from spyderpro.data_requests.traffic.trafficinterface import Traffic
 
 
