@@ -8,15 +8,15 @@ from spyderpro.data_instances.lbs import Geographi, Positioning
 from spyderpro.data_requests.scence._place_people_interface import PlacePeopleParentInterface
 
 
-class PlaceFlow(PlacePeopleParentInterface):
+class PlacePeopleNum(PlacePeopleParentInterface):
     """
     获取地区人口分布情况数据
     """
 
     def __init__(self, user_agent: str = None):
 
-        if not PlaceFlow.bool_instance_flag:
-            PlaceFlow.bool_instance_flag = True
+        if not PlacePeopleNum.bool_instance_flag:
+            PlacePeopleNum.bool_instance_flag = True
             self.headers = dict()
             if user_agent is None:
                 self.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/' \
