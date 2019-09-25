@@ -5,10 +5,10 @@ import json
 from urllib.parse import urlencode
 from typing import Iterator, Dict
 from spyderpro.data_instances.lbs import Geographi, Positioning
-from spyderpro.data_requests.scence._place_people_interface import PlacePeopleParentInterface
+from spyderpro.data_requests.scence._place_people_interface import _PlacePeopleParentInterface
 
 
-class PlacePeopleNum(PlacePeopleParentInterface):
+class PlacePeopleNum(_PlacePeopleParentInterface):
     """
     获取地区人口分布情况数据
     """
