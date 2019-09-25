@@ -11,7 +11,7 @@ from spyderpro.data_requests.scence._place_people_interface import _PlacePeopleP
 class PlaceTrend(_PlacePeopleParentInterface):
     """获取位置流量趋势"""
 
-    def __init__(self, date_begin: str = None, date_end: str = None, intervallong: int = 5, user_agent: str = None):
+    def __init__(self, date_begin: str, date_end: str, intervallong: int = 5, user_agent: str = None):
         """
         时间段最长15天，最小时间间隔是1分钟range，开始时间最早2016-07-18
         :type date_begin: str
@@ -23,6 +23,7 @@ class PlaceTrend(_PlacePeopleParentInterface):
         :param date_end:结束搜索时间,格式yyyy-mm-dd
         :param user_agent:浏览器头
         """
+
         self.yyyy_mm_dd_date_begin = date_begin
         self.yyyy_mm_dd_date_end = date_end
         self.intervallong = intervallong
