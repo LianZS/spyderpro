@@ -48,7 +48,7 @@ class PlacePeopleNum(_PlacePeopleParentInterface):
                                   num=int_total_num)
         return positioning
 
-    def complete_headata(self, heatmap_data: json) -> Iterator[Geographi]:
+    def complete_headata(self, heatmap_data: dict) -> Iterator[Geographi]:
         """
         处理每个经纬度对应的人数
         :param heatmap_data:热力图数据
@@ -70,16 +70,16 @@ class PlacePeopleNum(_PlacePeopleParentInterface):
                                   number=int_num)
             yield geographi
 
-    def complete_heatdata_simple(self, date: str, date_time: str, region_id: int) -> Iterator[Geographi]:
+    def complete_heatdata_simple(self, ddate: str, date_time: str, region_id: int) -> Iterator[Geographi]:
         """
            请求某一时刻的人数以及分布情况
-           :param date:日期：格式yyyy-mm-dd
+           :param ddate:日期：格式yyyy-mm-dd
            :param date_time:时间：格式hh:MM:SS
            :param region_id:地区唯一表示
            :return:dict格式： Iterator[Geographi]->与中心经纬度的距离与相应人数
            """
         # 请求热力图数据
-        heatmap_data = self.get_heatdata_bytime(date, date_time, region_id)
+        heatmap_data = self.get_heatdata_bytime(ddate, date_time, region_id)
         # 处理热力图经纬度差数据，转为（维度，经度）数组map
         map_tuple_coords = map(self.deal_coordinates, heatmap_data.keys())  # 围绕中心经纬度加减向四周扩展
 
@@ -116,7 +116,7 @@ class PlacePeopleNum(_PlacePeopleParentInterface):
     def get_heatdata_bytime(self, ddate: str, date_time: str, region_id: int):
         """
         某一时刻的人口分布详情
-        :param date:日期：格式yyyy-mm-dd
+        :param ddate:日期：格式yyyy-mm-dd
         :param date_time:时间：格式hh:MM:SS
         :param region_id:地区唯一标识
         :return: dict经纬度人数数据，可能为{}
