@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from urllib.parse import urlencode
 from typing import Iterator
 from spyderpro.data_instances.lbs import Trend
-from spyderpro.data_requests.scence.place_people_interface import PlacePeopleParentInterface
+from spyderpro.data_requests.scence._place_people_interface import PlacePeopleParentInterface
 
 
 class PlaceTrend(PlacePeopleParentInterface):

@@ -5,7 +5,7 @@ import json
 from urllib.parse import urlencode
 from typing import Iterator, Dict
 from spyderpro.data_instances.lbs import Geographi, Positioning
-from spyderpro.data_requests.scence.place_people_interface import PlacePeopleParentInterface
+from spyderpro.data_requests.scence._place_people_interface import PlacePeopleParentInterface
 
 
 class PlaceFlow(PlacePeopleParentInterface):
