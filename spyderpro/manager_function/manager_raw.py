@@ -1,5 +1,6 @@
 import datetime
 import copy
+import time
 import re
 from typing import Iterator, List
 from spyderpro.pool.redis_connect import RedisConnectPool
@@ -13,7 +14,7 @@ class ManagerRAW:
     """
 
     def __init__(self):
-        self._redis_worke = RedisConnectPool(max_workers=10)
+        self._redis_worke = RedisConnectPool(max_workers=1)
         self._mysql_worke = ConnectPool(max_workers=1)
 
     def __del__(self):
@@ -30,6 +31,26 @@ class ManagerRAW:
                                "count": item.number},......)
 
         """
+        now_time = datetime.datetime.now()
+        complete_keys_regular = "scence:%d:0"
+        search_regular = "scence:*:0"
+        comple_keys = self._get_complete_keys(complete_keys_regular, search_regular)
+        time_list = list()
+        for key in comple_keys:
+            redis_data = self._redis_worke.hash_get_all(key)
+            #  只要有出现了空数据，则需要调用检查
+            if not redis_data:
+                self.check_scence_people_num_complete()
+            max_time = max(redis_data.keys()).decode()
+            time_list.append(max_time)
+        min_time = min(time_list)
+        last_time = time.strptime(min_time, "%H:%M:%S")
+        redis_last_time = datetime.datetime(now_time.year, now_time.month, now_time.day, last_time.tm_hour,
+                                            last_time.tm_min,
+                                            last_time.tm_sec).timestamp()
+        # 相差35分钟必须检查数据完整性
+        if now_time.timestamp() - redis_last_time > 2100:
+            self.check_scence_people_num_complete()
 
     def check_scence_people_num_complete(self):
         """
@@ -146,3 +167,4 @@ class ManagerRAW:
         return comple_keys
 
 
+ManagerRAW().manager_scence_data_raw()
