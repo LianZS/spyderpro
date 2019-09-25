@@ -1,6 +1,6 @@
 import re
 from spyderpro.function.people_function.positioning_parent import PositiongParent
-from spyderpro.data_requests.scence.place_people import PlaceTrend
+from spyderpro.data_requests.scence.place_people_trend import PlaceTrend
 
 
 class PositioningTrend(PositiongParent):
