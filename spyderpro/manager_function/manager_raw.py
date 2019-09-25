@@ -41,15 +41,17 @@ class ManagerRAW:
             #  只要有出现了空数据，则需要调用检查
             if not redis_data:
                 self.check_scence_people_num_complete()
+                return
             max_time = max(redis_data.keys()).decode()
             time_list.append(max_time)
+
         min_time = min(time_list)
         last_time = time.strptime(min_time, "%H:%M:%S")
         redis_last_time = datetime.datetime(now_time.year, now_time.month, now_time.day, last_time.tm_hour,
                                             last_time.tm_min,
                                             last_time.tm_sec).timestamp()
         # 相差35分钟必须检查数据完整性
-        if now_time.timestamp() - redis_last_time > 2100:
+        if now_time.timestamp() - redis_last_time > 100:
             self.check_scence_people_num_complete()
 
     def check_scence_people_num_complete(self):
@@ -71,7 +73,6 @@ class ManagerRAW:
                 break
         complete_keys_regular = "scence:%d:0"
         search_regular = "scence:*:0"
-
         comple_keys = self._get_complete_keys(complete_keys_regular, search_regular)
         complete_obj = CompleteScenceData()
         for redis_key in comple_keys:
@@ -81,6 +82,8 @@ class ManagerRAW:
                 time_key = time_key.decode()
                 temp_complete_time.pop(time_key)  # pop已经存在的数据的时间点
             pid = int(re.match('scence:(\d+):0', redis_key).group(1))  # 提取景区pid
+            print(redis_key)
+
             # 补全缺少的数据
             complete_obj.complete_scence_people_num_data(redis_key, pid, temp_complete_time)
 
