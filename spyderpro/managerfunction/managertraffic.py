@@ -85,7 +85,7 @@ class ManagerTraffic(Traffic):
         sql = "select pid from digitalsmart.citymanager"
 
         data = pool.select(sql)  # pid集合
-        time_interval = datetime.timedelta(minutes=11)  # 缓存时间
+        time_interval = datetime.timedelta(minutes=30)  # 缓存时间
 
         for item in data:  # 这里最好不要并发进行，因为每个pid任务下都有10个子线程，在这里开并发 的话容易被封杀
 
@@ -137,7 +137,6 @@ class ManagerTraffic(Traffic):
 
     def manager_city_year_traffic(self):
         pool = ConnectPool(max_workers=10)
-        # sql = "select yearpid from digitalsmart.citymanager"
         sql = "select pid from digitalsmart.citymanager"
 
         thread_pool = ThreadPool(max_workers=10)
@@ -179,5 +178,5 @@ if __name__ == "__main__":
     m = ManagerTraffic()
     Process(target=m.manager_city_road_traffic).start()
 
-    Process(target=m.manager_city_traffic).start()
-    Process(target=m.manager_city_year_traffic).start()
+    # Process(target=m.manager_city_traffic).start()
+    # Process(target=m.manager_city_year_traffic).start()
