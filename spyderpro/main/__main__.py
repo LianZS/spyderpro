@@ -7,8 +7,8 @@ import datetime
 # sys.path[0] = os.path.abspath(os.path.join(os.path.curdir, "venv/lib/python3.7/site-packages"))  # 载入环境
 from threading import Semaphore, Timer
 
-from spyderpro.manager_function.managerscence import ManagerScence
-from spyderpro.manager_function.managertraffic import ManagerTraffic
+from spyderpro.manager_function.manager_scence import ManagerScence
+from spyderpro.manager_function.manager_traffic import ManagerTraffic
 
 manage_scenece = ManagerScence()
 manage_traffic = ManagerTraffic()
