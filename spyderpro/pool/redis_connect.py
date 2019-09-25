@@ -1,5 +1,6 @@
 import redis
 from threading import Semaphore
+from typing import List
 
 
 def check_state(func):
@@ -309,6 +310,7 @@ class RedisConnectPool(object):
         length: int = self._redis_pool.zcard(name)
         return length
 
+    @check_state
     def zrange_members(self, name) -> list:
         """
         获取zset里面的所有元素
@@ -319,11 +321,22 @@ class RedisConnectPool(object):
         result: list = self._redis_pool.zrange(name, 0, length, withscores=True)
         return result
 
+    @check_state
+    def get_keys(self, regular: str) -> List:
+        """
+        获取keys
+        :param regular: key正则表达式
+        :return:
+        """
+        result = self._redis_pool.keys(regular)
+        return result
+
     def shutdown(self):
         """
         关闭连接池
         :return:
         """
+
         self._shutdown = True
 
     def __del__(self):
