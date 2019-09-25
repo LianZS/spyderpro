@@ -1,5 +1,5 @@
-from spyderpro.function.people_function.positioningtrend import PositioningTrend
-from spyderpro.function.people_function.positioningsituation import PositioningSituation
+from spyderpro.function.people_function.positioning_trend import PositioningTrend
+from spyderpro.function.people_function.positioning_situation import PositioningSituation
 from spyderpro.function.people_function.monitoring_area import PositioningPeople
 
 

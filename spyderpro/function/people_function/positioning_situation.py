@@ -1,5 +1,5 @@
 import json
-from spyderpro.function.people_function.positioningparent import PositiongParent
+from spyderpro.function.people_function.positioning_parent import PositiongParent
 from spyderpro.data_requests.scence.place_people import PlaceFlow
 
 
