@@ -21,7 +21,7 @@ CELERYBEAT_SCHEDULE = {
     },
     'roadtraffic': {
         'task': 'celerytask.task4.monitoring_roadtraffic',
-        'schedule': crontab('*/10'),  # 12分钟执行一遍
+        'schedule': crontab('*/30'),  # 12分钟执行一遍
     },
     'yeartraffic': {
         'task': 'celerytask.task4.monitoring_yeartraffic',
