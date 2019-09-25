@@ -1,6 +1,6 @@
 import json
 from spyderpro.function.people_function._positioning_parent import PositiongParent
-from spyderpro.data_requests.scence.place_people_num import PlaceFlow
+from spyderpro.data_requests.scence.place_people_num import PlacePeopleNum
 
 
 class PositioningSituation(PositiongParent):
@@ -15,7 +15,7 @@ class PositioningSituation(PositiongParent):
         :param region_id:地区唯一表示
         :return:
         """
-        p = PlaceFlow()
+        p = PlacePeopleNum()
         response = p.get_heatdata_bytime(date, dateTime, region_id)
         return response
 
@@ -27,7 +27,7 @@ class PositioningSituation(PositiongParent):
         :param region_id:地区唯一表示
 
         """
-        p = PlaceFlow()
+        p = PlacePeopleNum()
         data_obj = p.count_headdata(data, date, dateTime,
                                     region_id)
         return data_obj
@@ -35,11 +35,9 @@ class PositioningSituation(PositiongParent):
     def get_scence_distribution_situation(self, data: json):
         """
         某一时刻的人数以及分布情况
-           :param date:日期：格式yyyy-mm-dd
-           :param dateTime:时间：格式hh:MM:SS
-           :param region_id:地区唯一表示
+           :param data:数据包
 
         """
-        p = PlaceFlow()
+        p = PlacePeopleNum()
         data_obj = p.complete_headata(data)
         return data_obj
