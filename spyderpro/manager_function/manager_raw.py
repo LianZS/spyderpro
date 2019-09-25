@@ -18,6 +18,7 @@ class ManagerRAW:
 
     def __del__(self):
         del self._redis_worke
+        del self._mysql_worke
 
     def manager_scence_data_raw(self):
         """
@@ -74,10 +75,11 @@ class ManagerRAW:
         comple_keys = self._get_complete_keys(complete_keys_regular, search_regular)
         complete_obj = CompleteScenceData()
         for redis_key in comple_keys:
-            complete_obj.complete_scence_people_trend_data()
-
-
-
+            self._redis_worke.hash_get_all(redis_key)
+            pid = int(re.match('trend:(\d+)', redis_key).group(1))  # 提取景区pid
+            sql = "select area from digitalsmart.scencemanager where pid=%s and type_flag=0" % (pid)
+            area = self._mysql_worke.select(sql)[0][0]
+            complete_obj.complete_scence_people_trend_data(redis_key, area, pid)
 
     def check_scence_people_distribution_complete(self):
         """
@@ -144,4 +146,3 @@ class ManagerRAW:
         return comple_keys
 
 
-ManagerRAW().check_scence_people_num_complete()
