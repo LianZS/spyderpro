@@ -5,10 +5,10 @@ from datetime import datetime, timedelta
 from urllib.parse import urlencode
 from typing import Iterator
 from spyderpro.data_instances.lbs import Trend
-from spyderpro.data_requests.scence._place_people_interface import PlacePeopleParentInterface
+from spyderpro.data_requests.scence._place_people_interface import _PlacePeopleParentInterface
 
 
-class PlaceTrend(PlacePeopleParentInterface):
+class PlaceTrend(_PlacePeopleParentInterface):
     """获取位置流量趋势"""
 
     def __init__(self, date_begin: str = None, date_end: str = None, intervallong: int = 5, user_agent: str = None):
@@ -67,7 +67,7 @@ class PlaceTrend(PlacePeopleParentInterface):
         # # 时间从00：00：00开始计算，不管日期，这里只是为了取时间
         datetime_starttime = datetime(2019, 1, 1, 0, 0, 0)
         # 获取用户需要请求的日期时间
-        for date in self.date_iterator():
+        for date in self._date_iterator():
             for index, detail_time in zip(dict_data[date],
                                           [str((datetime_starttime + intervallong * i).time()) for i in
                                            range(len(dict_data[date]))]):
@@ -78,7 +78,7 @@ class PlaceTrend(PlacePeopleParentInterface):
                               detailtime=detail_time)
                 yield trend
 
-    def date_iterator(self) -> Iterator[str]:
+    def _date_iterator(self) -> Iterator[str]:
         """
         解析用户需要请求的时间，将yyyymmdd转为 yyyy-mm-dd格式
         :return:日期迭代器
