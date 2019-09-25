@@ -6,8 +6,8 @@ from datetime import datetime, timedelta
 
 from urllib.parse import urlencode
 from typing import Iterator, List, Dict
-from spyderpro.portconnect.internetconnect import Connect
-from spyderpro.portconnect.paramchecks import ParamTypeCheck
+from spyderpro.port_connect.internetconnect import Connect
+from spyderpro.port_connect.paramchecks import ParamTypeCheck
 from spyderpro.instances.lbs import Trend, Geographi, Positioning
 
 

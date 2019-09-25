@@ -4,7 +4,7 @@ import time
 import re
 from urllib.parse import urlencode
 from bs4 import BeautifulSoup
-from spyderpro.portconnect.internetconnect import Connect
+from spyderpro.port_connect.internetconnect import Connect
 from spyderpro.instances.keyword_obj import BaiduKeyWordObject, WechatKeyWordObject, SougouKeyWordObject
 from typing import Iterable, Iterator
 

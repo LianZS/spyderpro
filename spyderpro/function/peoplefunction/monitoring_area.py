@@ -1,5 +1,5 @@
-from spyderpro.portconnect.paramchecks import ParamTypeCheck
-from spyderpro.portconnect.sqlconnect import MysqlOperation
+from spyderpro.port_connect.paramchecks import ParamTypeCheck
+from spyderpro.port_connect.sqlconnect import MysqlOperation
 from spyderpro.data_requests.locationdata.positioning import PeoplePositionin
 
 

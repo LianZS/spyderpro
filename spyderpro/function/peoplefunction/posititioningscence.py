@@ -4,7 +4,7 @@ from spyderpro.tool.redis_connect import RedisConnectPool
 from spyderpro.tool.mysql_connect import ConnectPool
 from spyderpro.data_requests.locationdata.scencepeople import ScencePeopleFlow
 from concurrent.futures import ThreadPoolExecutor
-from spyderpro.portconnect.sqlconnect import MysqlOperation
+from spyderpro.port_connect.sqlconnect import MysqlOperation
 
 from spyderpro.instances.lbs import Positioning
 
