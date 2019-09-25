@@ -1,9 +1,9 @@
 import datetime
 from threading import Semaphore
 from queue import Queue
-from spyderpro.tool.threadpool import ThreadPool
-from spyderpro.tool.redis_connect import RedisConnectPool
-from spyderpro.tool.mysql_connect import ConnectPool
+from spyderpro.pool.threadpool import ThreadPool
+from spyderpro.pool.redis_connect import RedisConnectPool
+from spyderpro.pool.mysql_connect import ConnectPool
 from spyderpro.function.weatherfunction.weather import Weather
 
 

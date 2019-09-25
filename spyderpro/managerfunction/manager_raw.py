@@ -1,4 +1,4 @@
-from spyderpro.tool.redis_connect import RedisConnectPool
+from spyderpro.pool.redis_connect import RedisConnectPool
 
 
 class ManagerRAW:
