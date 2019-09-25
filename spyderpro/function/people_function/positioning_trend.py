@@ -1,5 +1,5 @@
 import re
-from spyderpro.function.people_function.positioning_parent import PositiongParent
+from spyderpro.function.people_function._positioning_parent import PositiongParent
 from spyderpro.data_requests.scence.place_people_trend import PlaceTrend
 
 
