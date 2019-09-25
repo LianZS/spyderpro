@@ -1,8 +1,10 @@
 import datetime
 import copy
+import re
 from typing import Iterator, List
 from spyderpro.pool.redis_connect import RedisConnectPool
 from spyderpro.pool.mysql_connect import ConnectPool
+from spyderpro.complete_data.complete_scence_data import CompleteScenceData
 
 
 class ManagerRAW:
@@ -45,46 +47,37 @@ class ManagerRAW:
             init_time = init_time + time_interval
             if str(init_time.time()) > now_time:
                 break
-        # 缓存key模板
         complete_keys_regular = "scence:%d:0"
-        sql = "select pid from digitalsmart.scencemanager where type_flag=0"
-        # 获取完整的key
-        source_complete_keys = self._get_complete_keys(sql, complete_keys_regular)
-
-        # 进行一类数据key扫描
         search_regular = "scence:*:0"
-        keys = self._redis_worke.get_keys(search_regular)
-        target_keys = list()
-        for key in keys:  # 解码
-            key = key.decode()
-            target_keys.append(keys)
 
-        # 检查keys是否完整,获得最完整的keys
-        comple_keys = self._check_keys_complete(list(source_complete_keys), target_keys)
+        comple_keys = self._get_complete_keys(complete_keys_regular, search_regular)
+        complete_obj = CompleteScenceData()
         for redis_key in comple_keys:
             temp_complete_time = copy.deepcopy(complete_time)
             result = self._redis_worke.hash_get_all(redis_key)
             for time_key in result.keys():
                 time_key = time_key.decode()
-                temp_complete_time.pop(time_key)  # pop已经存在的数据
+                temp_complete_time.pop(time_key)  # pop已经存在的数据的时间点
+            pid = int(re.match('scence:(\d+):0', redis_key).group(1))  # 提取景区pid
             # 补全缺少的数据
-
-    def _get_complete_keys(self, sql, regular) -> Iterator:
-        """
-        获取完整的keys
-        :param sql: mysql查询语句
-        :param regular: key模板
-        :return:key
-        """
-        iter_pids = self._mysql_worke.select(sql)
-        for pid in iter_pids:
-            yield regular % pid
+            complete_obj.complete_scence_people_num_data(redis_key, pid, temp_complete_time)
 
     def check_scence_people_trend_complete(self):
         """
         检查景区人数趋势的完整性
         :return:
         """
+        complete_keys_regular = "trend:%d"
+
+        search_regular = "trend:*"
+
+        comple_keys = self._get_complete_keys(complete_keys_regular, search_regular)
+        complete_obj = CompleteScenceData()
+        for redis_key in comple_keys:
+            complete_obj.complete_scence_people_trend_data()
+
+
+
 
     def check_scence_people_distribution_complete(self):
         """
@@ -116,6 +109,39 @@ class ManagerRAW:
         检查数据的完整性
         :return:
         """
+
+    def _get_mysql_complete_keys(self, sql, regular) -> Iterator:
+        """
+        获取mysql数据组合成完整的缓存keys
+        :param sql: mysql查询语句
+        :param regular: key模板
+        :return:key
+        """
+        iter_pids = self._mysql_worke.select(sql)
+        for pid in iter_pids:
+            yield regular % pid
+
+    def _get_complete_keys(self, complete_keys_regular: str, search_regular: str) -> List:
+        """
+        对比mysql组成的key和redis缓存的key产生最完整的keys
+        :param complete_keys_regular: mysql组合的缓存key模板
+        :param search_regular: redis缓存的key模板
+        :return:
+        """
+        # 缓存key模板
+        sql = "select pid from digitalsmart.scencemanager where type_flag=0"
+        # 获取mysql组合成的完整的keys
+        source_complete_keys = self._get_mysql_complete_keys(sql, complete_keys_regular)
+
+        # redis key扫描
+        keys = self._redis_worke.get_keys(search_regular)
+        target_keys = list()
+        for key in keys:  # 解码
+            key = key.decode()
+            target_keys.append(key)
+        # 检查keys是否完整,获得最完整的keys
+        comple_keys = self._check_keys_complete(list(source_complete_keys), target_keys)
+        return comple_keys
 
 
 ManagerRAW().check_scence_people_num_complete()
