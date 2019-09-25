@@ -1,6 +1,6 @@
 from spyderpro.port_connect.paramchecks import ParamTypeCheck
 from spyderpro.port_connect.sql_connect import MysqlOperation
-from spyderpro.data_requests.locationdata.positioning import PeoplePositionin
+from spyderpro.data_requests.scence.positioning import PeoplePositionin
 
 
 class PositioningPeople(MysqlOperation, ParamTypeCheck):

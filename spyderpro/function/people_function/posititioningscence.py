@@ -2,7 +2,7 @@ import datetime
 from typing import Iterator, List
 from spyderpro.pool.redis_connect import RedisConnectPool
 from spyderpro.pool.mysql_connect import ConnectPool
-from spyderpro.data_requests.locationdata.scencepeople import ScencePeopleFlow
+from spyderpro.data_requests.scence.scencepeople import ScencePeopleFlow
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.port_connect.sql_connect import MysqlOperation
 
