@@ -81,11 +81,11 @@ class ConnectPool(ConnectInterface):
             print(e)
             cur.close()
             raise e
-        iterator_pid = cur.fetchall()
+        iterator_result = cur.fetchall()
         cur.close()
         self.work_queue.put(db)
 
-        return iterator_pid
+        return iterator_result
 
     def shutdown(self):
         self._shutdown = True

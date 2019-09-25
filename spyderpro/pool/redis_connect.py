@@ -1,6 +1,6 @@
 import redis
 from threading import Semaphore
-from typing import List
+from typing import List, Dict
 
 
 def check_state(func):
@@ -203,6 +203,11 @@ class RedisConnectPool(object):
         :return:
         """
         result: list = self._redis_pool.hkeys(name)
+        return result
+
+    @check_state
+    def hash_get_all(self, key) -> Dict:
+        result: list = self._redis_pool.hgetall(key)
         return result
 
     @check_state
