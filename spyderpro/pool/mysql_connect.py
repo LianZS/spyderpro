@@ -34,7 +34,7 @@ class ConnectPool(ConnectInterface):
         """
         for i in range(self._max_workers):
             db = pymysql.connect(host=host, user=user, password=password, database='digitalsmart',
-                                 port=port)
+                                 port=port,connect_timeout=400)
             self.work_queue.put(db)
 
     def sumbit(self, sql_cmd: str):
@@ -104,5 +104,4 @@ class ConnectPool(ConnectInterface):
                 break
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.close()
         self.work_queue.empty()
