@@ -113,7 +113,7 @@ class PlacePeopleNum(_PlacePeopleParentInterface):
         else:
             return {}
 
-    def get_heatdata_bytime(self, date: str, date_time: str, region_id: int):
+    def get_heatdata_bytime(self, ddate: str, date_time: str, region_id: int):
         """
         某一时刻的人口分布详情
         :param date:日期：格式yyyy-mm-dd
@@ -122,13 +122,13 @@ class PlacePeopleNum(_PlacePeopleParentInterface):
         :return: dict经纬度人数数据，可能为{}
         """
         # 类型检查
-        self.date_format_check(date)
+        self.date_format_check(ddate)
         self.time_format_check(date_time)
         self.type_check(region_id, int)
         # 请求参数
         dict_paramer = {
             'region_id': region_id,
-            'datetime': "".join([date, ' ', date_time]),
+            'datetime': "".join([ddate, ' ', date_time]),
             'sub_domain': ''
         }
         # https://heat.qq.com/api/getHeatDataByTime.php?region_id=5381&datetime=2019-01-01+01%3A10%3A00&sub_domain=
