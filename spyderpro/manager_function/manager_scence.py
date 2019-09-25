@@ -6,9 +6,9 @@ from threading import Thread
 from spyderpro.pool.threadpool import ThreadPool
 from spyderpro.pool.mysql_connect import ConnectPool
 from spyderpro.pool.redis_connect import RedisConnectPool
-from spyderpro.function.people_function.posititioningscence import ScenceFlow
-from spyderpro.function.people_function.positioningtrend import PositioningTrend
-from spyderpro.function.people_function.positioningsituation import PositioningSituation
+from spyderpro.function.people_function.posititioning_scence import ScenceFlow
+from spyderpro.function.people_function.positioning_trend import PositioningTrend
+from spyderpro.function.people_function.positioning_situation import PositioningSituation
 from spyderpro.function.people_function.monitoring_area import PositioningPeople
 
 
