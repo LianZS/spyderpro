@@ -53,7 +53,7 @@ class RedisConnectPool(object):
         """
 
         pool = redis.ConnectionPool(max_connections=self._max_workers, host='localhost', port=6379)
-        self._redis_pool = redis.Redis(connection_pool=pool)
+        self._redis_pool = redis.Redis(connection_pool=pool, socket_connect_timeout=100)
 
     @check_state
     def expire(self, name, time_interval) -> int:
@@ -207,7 +207,7 @@ class RedisConnectPool(object):
 
     @check_state
     def hash_get_all(self, key) -> Dict:
-        result: list = self._redis_pool.hgetall(key)
+        result: dict = self._redis_pool.hgetall(key)
         return result
 
     @check_state
