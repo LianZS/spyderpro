@@ -1,6 +1,6 @@
 from .celeryconfig import app
 import os
-from spyderpro.managerfunction.managerkeyword import ManagerMobileKey
+from spyderpro.manager_function.manager_keyword import ManagerMobileKey
 
 rootpath = os.path.dirname(os.path.abspath(os.path.pardir))
 

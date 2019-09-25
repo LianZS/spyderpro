@@ -1,6 +1,6 @@
 import os
 from .celeryconfig import app
-from spyderpro.managerfunction.managerappinfo import ManagerApp
+from spyderpro.manager_function.manager_appinfo import ManagerApp
 
 rootpath = os.path.dirname(os.path.abspath(os.path.pardir))
 mapp = ManagerApp()

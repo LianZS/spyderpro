@@ -1,7 +1,5 @@
 from .celeryconfig import app
-from spyderpro.managerfunction.managerscence import ManagerScence
-
-manage = ManagerScence()
+from spyderpro.manager_function.manager_scence import ManagerScence
 
 
 @app.task(queue='baidu_scence_people')
@@ -10,6 +8,8 @@ def monitoring_scencepeople():
     监控景区人流
   
     """
+    manage = ManagerScence()
+
     manage.manager_scence_situation()
 
     pass
@@ -21,6 +21,8 @@ def monitoring_scencepeople_trend():
     监控地区人口趋势
   
     """
+    manage = ManagerScence()
+
     manage.manager_scence_trend()
 
 
@@ -30,8 +32,9 @@ def monitoring_scencepeople_change():
     监控地区人口变化
   
     """
-    manage.manager_scenece_people()
+    manage = ManagerScence()
 
+    manage.manager_scenece_people()
 
 # @app.task(queue='location')
 # def people_positioning():
@@ -40,6 +43,3 @@ def monitoring_scencepeople_change():
 #
 #     """
 #     pass
-
-
-

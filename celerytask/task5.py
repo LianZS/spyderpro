@@ -1,5 +1,5 @@
 from .celeryconfig import app
-from spyderpro.managerfunction.managerweather import ManagerWeather
+from spyderpro.manager_function.manager_weather import ManagerWeather
 
 @app.task(queue='weather')
 def monitoring_weather_state():

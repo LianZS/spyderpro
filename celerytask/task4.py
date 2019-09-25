@@ -1,4 +1,4 @@
-from spyderpro.managerfunction.managertraffic import ManagerTraffic
+from spyderpro.manager_function.manager_traffic import ManagerTraffic
 
 from .celeryconfig import app
 
