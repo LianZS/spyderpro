@@ -1,8 +1,8 @@
 import csv
 import datetime
-from spyderpro.models.weather import WeatherHistory
+from spyderpro.data_requests.weather import WeatherHistory
 from concurrent import futures
-from spyderpro.models.locationdata import PlaceFlow
+from spyderpro.data_requests.locationdata import PlaceFlow
 
 
 def test_weather():

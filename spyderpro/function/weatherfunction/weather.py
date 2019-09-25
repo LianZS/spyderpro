@@ -1,6 +1,6 @@
 from typing import Iterator
-from spyderpro.models.weather.airstate import AirState
-from spyderpro.models.weather.aqi import AQIState, InfoOfCityOfAQI
+from spyderpro.data_requests.weather.airstate import AirState
+from spyderpro.data_requests.weather.aqi import AQIState, InfoOfCityOfAQI
 
 
 

@@ -1,6 +1,6 @@
 import csv
 import os
-from spyderpro.models.traffic.gaodetraffic import GaodeTraffic
+from spyderpro.data_requests.traffic.gaodetraffic import GaodeTraffic
 
 
 def get_new_year_traffic_data():

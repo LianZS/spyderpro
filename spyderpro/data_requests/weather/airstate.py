@@ -2,7 +2,7 @@ import requests
 import re
 from typing import Dict, Iterator
 from bs4 import BeautifulSoup
-from spyderpro.models.weather.aqi import AQIState, InfoOfCityOfAQI
+from spyderpro.data_requests.weather.aqi import AQIState, InfoOfCityOfAQI
 
 
 class AirState:

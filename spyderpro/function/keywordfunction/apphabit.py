@@ -1,4 +1,4 @@
-from spyderpro.models.Internetdata.userhabit import UserHabit
+from spyderpro.data_requests.Internetdata.userhabit import UserHabit
 
 
 class AppUserhabit:

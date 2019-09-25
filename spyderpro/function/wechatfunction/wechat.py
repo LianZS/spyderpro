@@ -1,7 +1,7 @@
 from threading import Thread, Event
 from queue import Queue
 
-from spyderpro.models.Internetdata.wechatpublic import WechatPublic
+from spyderpro.data_requests.Internetdata.wechatpublic import WechatPublic
 
 
 class Wechat:

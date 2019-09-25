@@ -1,6 +1,6 @@
 from spyderpro.portconnect.paramchecks import ParamTypeCheck
 from spyderpro.portconnect.sqlconnect import MysqlOperation
-from spyderpro.models.locationdata.positioning import PeoplePositionin
+from spyderpro.data_requests.locationdata.positioning import PeoplePositionin
 
 
 class PositioningPeople(MysqlOperation, ParamTypeCheck):
@@ -66,4 +66,4 @@ class PositioningPeople(MysqlOperation, ParamTypeCheck):
                 num = info.number
                 if start_lat <= lat <= end_lat and start_lon <= lon <= end_lon:
                     count += num
-        print(count)
+        return count

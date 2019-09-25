@@ -1,5 +1,5 @@
 import re
-from spyderpro.models.locationdata.placepeople import PlaceTrend
+from spyderpro.data_requests.locationdata.placepeople import PlaceTrend
 from spyderpro.portconnect.sqlconnect import MysqlOperation
 
 

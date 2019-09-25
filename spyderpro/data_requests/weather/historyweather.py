@@ -7,7 +7,7 @@ import datetime
 from typing import Iterator
 from threading import Thread, Semaphore
 from bs4 import BeautifulSoup
-from spyderpro.models.weather.province import WeatherOfProvinceLink, WeatherOfCityLink
+from spyderpro.data_requests.weather.province import WeatherOfProvinceLink, WeatherOfCityLink
 
 '''获取2k多个城市的历史天气情况'''
 

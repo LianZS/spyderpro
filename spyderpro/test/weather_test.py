@@ -20,8 +20,8 @@ for pid, city in cur.fetchall():
     city_map[city] = pid
 sql_file = open("./newweatherdb.sql", 'a+')
 sql_file.write("insert into digitalsmart.weatherdb(pid, ddate, weatherstate, template, wind) VALUES ")
-for filename in os.listdir("/Users/darkmoon/Project/SpyderPr/spyderpro/models/weather/Weather"):
-    filepath = "/Users/darkmoon/Project/SpyderPr/spyderpro/models/weather/Weather/" + filename
+for filename in os.listdir("/Users/darkmoon/Project/SpyderPr/spyderpro/data_requests/weather/Weather"):
+    filepath = "/Users/darkmoon/Project/SpyderPr/spyderpro/data_requests/weather/Weather/" + filename
     f = open(filepath, 'r', encoding="UTF-8")
     r = csv.reader(f)
     city = filename.split(".")[0]

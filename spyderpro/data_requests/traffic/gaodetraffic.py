@@ -4,9 +4,9 @@ import time
 from urllib.parse import urlencode
 from typing import Iterator, List
 from concurrent.futures import ThreadPoolExecutor
-from spyderpro.models.traffic.trafficinterface import Traffic
-from spyderpro.models.traffic.road import RoadData, RoadInfo, Road
-from spyderpro.models.traffic.citytraffic import DayilTraffic, YearTraffic
+from spyderpro.data_requests.traffic.trafficinterface import Traffic
+from spyderpro.data_requests.traffic.road import RoadData, RoadInfo, Road
+from spyderpro.data_requests.traffic.citytraffic import DayilTraffic, YearTraffic
 
 
 class GaodeTraffic(Traffic):

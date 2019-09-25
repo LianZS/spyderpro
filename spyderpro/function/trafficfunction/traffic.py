@@ -2,11 +2,11 @@ import time
 from typing import Iterator, List
 from pymysql.connections import Connection
 
-from spyderpro.models.traffic.baidutraffic import BaiduTraffic
-from spyderpro.models.traffic.gaodetraffic import GaodeTraffic
+from spyderpro.data_requests.traffic.baidutraffic import BaiduTraffic
+from spyderpro.data_requests.traffic.gaodetraffic import GaodeTraffic
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.portconnect.sqlconnect import MysqlOperation
-from spyderpro.models.traffic.citytraffic import DayilTraffic, YearTraffic
+from spyderpro.data_requests.traffic.citytraffic import DayilTraffic, YearTraffic
 
 
 class Traffic(MysqlOperation):

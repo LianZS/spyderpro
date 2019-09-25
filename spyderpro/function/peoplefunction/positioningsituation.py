@@ -1,6 +1,6 @@
 import json
 from spyderpro.function.peoplefunction.positioningparent import PositiongParent
-from spyderpro.models.locationdata.placepeople import PlaceFlow
+from spyderpro.data_requests.locationdata.placepeople import PlaceFlow
 
 
 class PositioningSituation(PositiongParent):

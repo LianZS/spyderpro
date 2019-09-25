@@ -23,6 +23,9 @@ class ManagerTraffic(Traffic):
     def __init__(self):
         self._redis_worker = RedisConnectPool(10)
 
+    def __del__(self):
+        del self._redis_worker
+
     def manager_city_traffic(self):
         """
         获取城市实时交通拥堵情况并写入数据库,半小时执行一次
@@ -104,14 +107,13 @@ class ManagerTraffic(Traffic):
                     road_traffic_rate_list = obj.road_index_data_list  # 拥堵指数集合
                     road_traffic_time_list = obj.time_data_list
                     num = obj.num
-                    data = json.dumps({"num": num, "time": road_traffic_time_list, "data": road_traffic_rate_list})
+                    data_pack = json.dumps({"num": num, "time": road_traffic_time_list, "data": road_traffic_rate_list})
                     rate = obj.rate  # 当前拥堵指数
                     roadid = obj.num  # 用排名表示道路id
-                    sql_insert = "insert into digitalsmart.roadtraffic(pid, roadname, up_date, speed, direction, bound, data," \
-                                 "roadid,rate) VALUE" \
-                                 "(%d,'%s',%d,%f,'%s','%s','%s',%d,%f) " % (
+                    sql_insert = "insert into digitalsmart.roadtraffic(pid, roadname, up_date, speed, direction, " \
+                                 "bound, data,roadid,rate) VALUE (%d,'%s',%d,%f,'%s','%s','%s',%d,%f) " % (
                                      region_id, roadname, up_date, speed, direction, bounds,
-                                     data, roadid, rate)
+                                     data_pack, roadid, rate)
                     pool.sumbit(sql_insert)
                     sql_cmd = "update  digitalsmart.roadmanager set up_date={0}  where pid={1} and roadid={2}" \
                         .format(up_date, region_id, roadid)
@@ -123,7 +125,7 @@ class ManagerTraffic(Traffic):
                     redis_key = "road:{pid}:{road_id}".format(pid=region_id, road_id=roadid)
                     mapping = {
                         "pid": pid, "roadname": roadname, "up_date": up_date, "speed": speed,
-                        "direction": direction, "bounds": bounds, "data": data,
+                        "direction": direction, "bounds": bounds, "data": data_pack,
                         "roadpid": roadid, "rate": rate
                     }
                     self._redis_worker.set(redis_key, str(mapping))
@@ -177,6 +179,5 @@ if __name__ == "__main__":
 
     m = ManagerTraffic()
     Process(target=m.manager_city_road_traffic).start()
-
-    # Process(target=m.manager_city_traffic).start()
-    # Process(target=m.manager_city_year_traffic).start()
+    Process(target=m.manager_city_traffic).start()
+    Process(target=m.manager_city_year_traffic).start()

@@ -1,7 +1,7 @@
 import csv
 import os
 import pymysql
-from spyderpro.models.traffic.baidutraffic import BaiduTraffic
+from spyderpro.data_requests.traffic.baidutraffic import BaiduTraffic
 
 user = 'root'
 password = 'lzs87724158'

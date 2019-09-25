@@ -4,10 +4,10 @@ import time
 from urllib.parse import urlencode
 from typing import Iterator, List
 from concurrent.futures import ThreadPoolExecutor
-from spyderpro.models.traffic.road import Road, RoadData, RoadInfo
-from spyderpro.models.traffic.citytraffic import DayilTraffic, YearTraffic
+from spyderpro.data_requests.traffic.road import Road, RoadData, RoadInfo
+from spyderpro.data_requests.traffic.citytraffic import DayilTraffic, YearTraffic
 from spyderpro.instances.infomation import CityInfo
-from spyderpro.models.traffic.trafficinterface import Traffic
+from spyderpro.data_requests.traffic.trafficinterface import Traffic
 
 
 class BaiduTraffic(Traffic):
