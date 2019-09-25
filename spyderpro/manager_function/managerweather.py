@@ -4,7 +4,7 @@ from queue import Queue
 from spyderpro.pool.threadpool import ThreadPool
 from spyderpro.pool.redis_connect import RedisConnectPool
 from spyderpro.pool.mysql_connect import ConnectPool
-from spyderpro.function.weatherfunction.weather import Weather
+from spyderpro.function.weather_function.weather import Weather
 
 
 class ManagerWeather:

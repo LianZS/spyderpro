@@ -3,7 +3,7 @@ import json
 from spyderpro.pool.threadpool import ThreadPool
 from spyderpro.pool.mysql_connect import ConnectPool
 from spyderpro.pool.redis_connect import RedisConnectPool
-from spyderpro.function.trafficfunction.traffic import Traffic
+from spyderpro.function.traffic_function.traffic import Traffic
 
 
 class ManagerTraffic(Traffic):

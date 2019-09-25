@@ -1,5 +1,5 @@
-from spyderpro.function.keywordfunction.mobilekey import MobileKey
-from spyderpro.function.keywordfunction.searchkeyword import SearchKeyword
+from spyderpro.function.keyword_function.mobilekey import MobileKey
+from spyderpro.function.keyword_function.searchkeyword import SearchKeyword
 
 
 def test1():

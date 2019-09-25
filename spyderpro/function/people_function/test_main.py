@@ -1,6 +1,6 @@
-from spyderpro.function.peoplefunction.positioningtrend import PositioningTrend
-from spyderpro.function.peoplefunction.positioningsituation import PositioningSituation
-from spyderpro.function.peoplefunction.monitoring_area import PositioningPeople
+from spyderpro.function.people_function.positioningtrend import PositioningTrend
+from spyderpro.function.people_function.positioningsituation import PositioningSituation
+from spyderpro.function.people_function.monitoring_area import PositioningPeople
 
 
 def test1():

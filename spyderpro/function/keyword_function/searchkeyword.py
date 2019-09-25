@@ -1,5 +1,5 @@
 from typing import List
-from spyderpro.function.keywordfunction.parent import Parent
+from spyderpro.function.keyword_function.parent import Parent
 
 from spyderpro.data_requests.Internetdata.keyword import KeyWord, BaiduKeyWordObject
 

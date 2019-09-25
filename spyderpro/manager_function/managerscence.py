@@ -6,10 +6,10 @@ from threading import Thread
 from spyderpro.pool.threadpool import ThreadPool
 from spyderpro.pool.mysql_connect import ConnectPool
 from spyderpro.pool.redis_connect import RedisConnectPool
-from spyderpro.function.peoplefunction.posititioningscence import ScenceFlow
-from spyderpro.function.peoplefunction.positioningtrend import PositioningTrend
-from spyderpro.function.peoplefunction.positioningsituation import PositioningSituation
-from spyderpro.function.peoplefunction.monitoring_area import PositioningPeople
+from spyderpro.function.people_function.posititioningscence import ScenceFlow
+from spyderpro.function.people_function.positioningtrend import PositioningTrend
+from spyderpro.function.people_function.positioningsituation import PositioningSituation
+from spyderpro.function.people_function.monitoring_area import PositioningPeople
 
 
 class ManagerScence(PositioningPeople):

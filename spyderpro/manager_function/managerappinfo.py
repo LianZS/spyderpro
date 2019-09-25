@@ -6,8 +6,8 @@ from queue import Queue
 from spyderpro.pool.mysql_connect import ConnectPool
 from spyderpro.port_connect.sql_connect import MysqlOperation
 from setting import *
-from spyderpro.function.keywordfunction.mobilekey import MobileKey
-from spyderpro.function.keywordfunction.apphabit import AppUserhabit
+from spyderpro.function.keyword_function.mobilekey import MobileKey
+from spyderpro.function.keyword_function.apphabit import AppUserhabit
 
 rootpath = os.path.dirname(os.path.abspath(os.path.pardir))
 

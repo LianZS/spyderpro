@@ -2,8 +2,8 @@ import datetime
 
 from spyderpro.port_connect.sql_connect import MysqlOperation
 from setting import *
-from spyderpro.function.keywordfunction.mobilekey import MobileKey
-from spyderpro.function.keywordfunction.searchkeyword import SearchKeyword
+from spyderpro.function.keyword_function.mobilekey import MobileKey
+from spyderpro.function.keyword_function.searchkeyword import SearchKeyword
 
 rootpath = os.path.dirname(os.path.abspath(os.path.pardir))
 db = pymysql.connect(host=host, user=user, password=password, database='digitalsmart',
