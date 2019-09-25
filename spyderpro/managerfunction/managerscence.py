@@ -1,6 +1,7 @@
 import datetime
 import time
 import json
+from typing import Iterator
 from threading import Thread
 from spyderpro.tool.threadpool import ThreadPool
 from spyderpro.tool.mysql_connect import ConnectPool
@@ -25,6 +26,9 @@ class ManagerScence(PositioningPeople):
 
     def __init__(self):
         self._redis_worker = RedisConnectPool(max_workers=10)
+
+    def __del__(self):
+        del self._redis_worker
 
     def manager_scence_situation(self):
         """
@@ -218,6 +222,7 @@ class ManagerScence(PositioningPeople):
                 region_id = item[0]  # 景区标识
                 float_lat = item[1]  # 景区纬度
                 float_lon = item[2]  # 景区经度
+
                 # 判断数据对应在哪张表插入
                 sql_cmd = "select table_id from digitalsmart.tablemanager where pid={0}".format(region_id)
 
@@ -247,72 +252,78 @@ class ManagerScence(PositioningPeople):
                                             centerlon: float,
                                             table_id: int):
         """
-        更新地区人口分布数据---这部分每次有几k条数据插入
+         更新地区人口分布数据---这部分每次有几k条数据插入
+        :param scence_people_data: 人流数据包
+        :param region_id: 景区标识
+        :param tmp_date: 时间戳
+        :param centerlat: 中心纬度
+        :param centerlon: 中心经度
+        :param table_id: 表序号
         :return:
         """
-        # 获取经纬度人数结构体迭代器
+        # scence_people_data中{',': 0}这类数据属于异常数据
+        if len(scence_people_data.keys()) == 1:
+            return
+
         pos = PositioningSituation()
-        instances = pos.get_scence_distribution_situation(scence_people_data)
+        # 获取经纬度人数结构体迭代器
+        iter_instances = pos.get_scence_distribution_situation(scence_people_data)
         # 确定哪张表
         select_table: str = "insert into digitalsmart.peopleposition{0} (pid, tmp_date, lat, lon, num) VALUES".format(
             table_id)
         # 存放经纬度人数数据
-        insert_mysql_data = list()
-        redis_data = list()  # 缓存列表
-        for item in instances:
-            insert_mysql_data.append(
-                str((region_id, tmp_date, centerlat + item.latitude, centerlon + item.longitude, item.number)))
-            redis_data.append(
-                {"lat": centerlat + item.latitude, "lng": centerlon + item.longitude, "count": item.number})
+        list_instances = list(iter_instances)
+        # 需要插入数据库的数据生成器
+        insert_mysql_datapack = self._generator_of_mysql_insert_data(list_instances, region_id, tmp_date, centerlat,
+                                                                     centerlon)
+        # 需要缓存的数据包生成器
+        redis_data = self._generator_of_redis_insert_data(list_instances, centerlat, centerlon)
+
         # 缓存时间
-        if len(insert_mysql_data) == 0:
-            return None
         time_interval = datetime.timedelta(minutes=60)
         # 缓存key
         redis_key = "distribution:{0}".format(region_id)
         # 缓存数据
-        value = json.dumps(redis_data)
+        value = json.dumps(list(redis_data))
         # 缓存
         self._redis_worker.set(name=redis_key, value=value)
         self._redis_worker.expire(name=redis_key, time_interval=time_interval)
         # 一条条提交到话会话很多时间在日志生成上，占用太多IO了，拼接起来再写入，只用一次日志时间而已
         # 但是需要注意的是，一次性不能拼接太多，管道大小有限制---需要在MySQL中增大Max_allowed_packet，否则会报错
-        if len(insert_mysql_data) > 20000:
-            # 拆分成几次插入
-            count: int = int(len(insert_mysql_data) / 20000)
-            i = 0
-            # 切分插入
-            for i in range(count):
-                # 数据拆分
-                slice_data = insert_mysql_data[i * 20000:(i + 1) * 20000]
-                sql_value = ','.join(slice_data)
+        count = 0  # 用来计数
+        insert_mysql_data = list()  # 存放需要写入数据库的数据
+        for item in insert_mysql_datapack:
+            count += 1
+            insert_mysql_data.append(item)
+            if count % 10000 == 0:
+                sql_value = ','.join(insert_mysql_data)
                 sql = select_table + sql_value
+                # 提交数据
+
                 self.pool.sumbit(sql)
-            slice_data = insert_mysql_data[(i + 1) * 20000:]
-            sql_value = ','.join(slice_data)
-            sql = select_table + sql_value
-
-
-        else:
-            sql_value = ','.join(insert_mysql_data)
-
-            sql = select_table + sql_value
-
-        # 提交数据
+                insert_mysql_data.clear()
+        sql_value = ','.join(insert_mysql_data)
+        sql = select_table + sql_value
         self.pool.sumbit(sql)
+
         # 更新人流分布管理表的修改时间
         sql = "update digitalsmart.tablemanager  " \
               "set last_date={0} where pid={1}".format(tmp_date, region_id)
         self.pool.sumbit(sql)
 
-    def manager_scenece_people_situation(self, table_id: int, scence_people_data: dict, pid: int, ddate: int,
+    def manager_scenece_people_situation(self, table_id: int, scence_people_data: dict, pid: int, ddate: str,
                                          ttime: str):
         """
         更新地区人口情况数据  ---这部分每次只有一条数据插入
+        :param table_id: 表序号
+        :param scence_people_data:人流数据包
+        :param pid: 景区标识
+        :param ddate: 日期：格式yyyy-mm-dd
+        :param ttime: 时间，格式HH:MM:SS
+        :return:
         """
-        # 景区数据源类别--百度为1，腾讯为0
 
-        type_flag = 0
+        type_flag = 0  # 景区数据源类别--百度为1，腾讯为0
         pos = PositioningSituation()
         instance = pos.get_scence_people_count(scence_people_data, ddate, ttime, pid)
         sql_format = "insert into digitalsmart.historyscenceflow{0}(pid, ddate, ttime, num)  " \
@@ -330,6 +341,35 @@ class ManagerScence(PositioningPeople):
         # 缓存
         self._redis_worker.hash_value_append(name=redis_key, mapping={instance.detailTime: instance.num})
         self._redis_worker.expire(name=redis_key, time_interval=time_interval)
+
+    @staticmethod
+    def _generator_of_mysql_insert_data(source_data: list, region_id: int, tmp_date: int, centerlat: float,
+                                        centerlon: float) -> Iterator[str]:
+        """
+        生产需要插入数据库的景区人流分布数据生成器
+        :param source_data: 对象数据包
+        :param region_id: 景区标识
+        :param tmp_date: 时间戳
+        :param centerlat: 中心纬度
+        :param centerlon: 中心经度
+        :return:
+        """
+        for instance in source_data:
+            yield str((region_id, tmp_date, centerlat + instance.latitude, centerlon + instance.longitude,
+                       instance.number))
+
+    @staticmethod
+    def _generator_of_redis_insert_data(source_data: list, centerlat: float, centerlon: float):
+        """
+        生成需要缓存再redis里的生成器
+        :param source_data: 对象数据包
+        :param centerlat: 中心纬度
+        :param centerlon: 中心经度
+        :return:
+        """
+        for instance in source_data:
+            yield {"lat": centerlat + instance.latitude, "lng": centerlon + instance.longitude,
+                   "count": instance.number}
 
 
 if __name__ == "__main__":
