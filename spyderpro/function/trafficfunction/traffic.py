@@ -5,7 +5,7 @@ from pymysql.connections import Connection
 from spyderpro.data_requests.traffic.baidutraffic import BaiduTraffic
 from spyderpro.data_requests.traffic.gaodetraffic import GaodeTraffic
 from concurrent.futures import ThreadPoolExecutor
-from spyderpro.port_connect.sqlconnect import MysqlOperation
+from spyderpro.port_connect.sql_connect import MysqlOperation
 from spyderpro.data_requests.traffic.citytraffic import DayilTraffic, YearTraffic
 
 

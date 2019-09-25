@@ -1,7 +1,7 @@
 import requests
 from typing import Iterator
 from urllib.parse import urlencode
-from spyderpro.port_connect.internetconnect import Connect
+from spyderpro.port_connect.internet_connect import Connect
 from spyderpro.instances.lbs import Positioning
 
 

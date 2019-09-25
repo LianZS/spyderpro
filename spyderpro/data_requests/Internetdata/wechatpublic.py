@@ -10,7 +10,7 @@ from selenium import webdriver
 from typing import Iterator
 from bs4 import BeautifulSoup
 from urllib.parse import urlencode
-from spyderpro.port_connect.internetconnect import Connect
+from spyderpro.port_connect.internet_connect import Connect
 from spyderpro.instances.wechat import WechatPublic_Info, ArticleInfo, WechatSituation, ArticleKeyWord
 from spyderpro.instances.wechatpublic import WechatUrl
 

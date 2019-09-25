@@ -1,6 +1,6 @@
 import re
 from spyderpro.data_requests.locationdata.placepeople import PlaceTrend
-from spyderpro.port_connect.sqlconnect import MysqlOperation
+from spyderpro.port_connect.sql_connect import MysqlOperation
 
 
 class PositiongParent(MysqlOperation):
