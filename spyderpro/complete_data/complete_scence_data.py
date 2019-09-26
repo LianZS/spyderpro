@@ -53,7 +53,8 @@ class CompleteScenceData:
         sql = sql_format + values
         self._mysql_work.sumbit(sql)
 
-    def _fast(self, pid: int, miss_time: str):
+    @staticmethod
+    def _fast(pid: int, miss_time: str):
         today = datetime.datetime.today()
         today_ddate = str(today.date())
         place = PlacePeopleNum()
@@ -92,5 +93,5 @@ class CompleteScenceData:
         self._redis_work.expire(key, redis_time)
         # 插入数据库
         values = ','.join(insert_values_list)
-        sql = "insert into digitalsmart.scencetrend(pid, ddate, ttime, rate) VALUES" + values
+        sql = "insert into digitalsmart.scencetrend (pid, ddate, ttime, rate) VALUES {data}".format(data=values)
         self._mysql_work.sumbit(sql)
