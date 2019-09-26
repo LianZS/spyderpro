@@ -24,9 +24,9 @@ class CompleteTraffic(CompleteDataInterface):
         """
         检查城市实时交通拥堵延迟指数数据是否完整
         :param city_type:1表示百度交通，2表示高德交通
-        :param now_time:
-        :param time_interval:
-        :param time_difference:
+        :param now_time:此时时间
+        :param time_interval:city_type 为1 是5分钟时间间隔，2时30分钟
+        :param time_difference:允许的时间差
         :return:
         """
         # 从mysql生产的完整的key模板
@@ -40,7 +40,7 @@ class CompleteTraffic(CompleteDataInterface):
         elif city_type == 2:
             sql = "select pid from digitalsmart.citymanager where pid>1000"
         complete_keys = self.get_complete_keys(sql, complete_keys_regular, search_regular)
-        check_status = True
+        check_status = True  # 判断是否补漏数据
         for key in complete_keys:
             # 获取缓存的数据
             redis_data = self.redis_worke.hash_get_all(key)
@@ -50,11 +50,16 @@ class CompleteTraffic(CompleteDataInterface):
                 break
         # 相差time_difference秒必须检查数据完整性
         if self.time_difference(now_time, complete_keys) > time_difference or not check_status:
-            result = self._check_citytraffic_check(complete_keys)
+            result = self._check_citytraffic_complete(complete_keys)
             return result
         return True
 
-    def _check_citytraffic_check(self, complete_keys: list) -> bool:
+    def _check_citytraffic_complete(self, complete_keys: list) -> bool:
+        """
+        提交补漏数据请求
+        :param complete_keys: 缓存key
+        :return:
+        """
         thread_pool = ThreadPool(max_workers=10)
         for key in complete_keys:
             thread_pool.submit(self._complete_citytraffic_data, key)
@@ -65,7 +70,7 @@ class CompleteTraffic(CompleteDataInterface):
 
     def _complete_citytraffic_data(self, key: str):
         """
-        补全缺失的数据
+        请求并补全缺失的数据
 
         :param key: 缓存key
         :return:
@@ -83,7 +88,7 @@ class CompleteTraffic(CompleteDataInterface):
             return
         mapping = dict()  # 存放需要缓存的数据
         insert_values_list = list()  # 存放插入数据库的数据
-        flag = 0
+        flag = 0  # 用来分割昨天和现在 的数据
         for dailytraffic in dailytraffic_iter:
             if dailytraffic.detailtime == "00:00:00":  # 将昨天的数据清除掉
                 flag = 1
@@ -103,5 +108,3 @@ class CompleteTraffic(CompleteDataInterface):
         sql = "insert into  digitalsmart.citytraffic(pid, ddate, ttime, rate)" \
               " values {data} ".format(data=values)
         self.mysql_worke.sumbit(sql)
-
-
