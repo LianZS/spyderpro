@@ -9,7 +9,8 @@ from spyderpro.complete_data._complete_data_interface import CompleteDataInterfa
 
 class CompleteScenceData(CompleteDataInterface):
     """
-            各类缓存key格式：
+    景区缓存数据补全
+        各类缓存key格式：
          景区人数： key= "scence:{0}:{1}".format(pid,type_flag),value={"HH:MM:SS":num,.....}
         人流趋势：key = "trend:{pid}".format(pid=region_id) ，value={'00:00:00':rate}
         人流分布： key = "distribution:{0}".format(pide)  value=str([{"lat": centerlat + item.latitude, "lng": centerlon + item.longitude,
@@ -104,7 +105,7 @@ class CompleteScenceData(CompleteDataInterface):
         景区类别完整性数据检查
         :param scence_type: 景区类别，第一类为0，第二类为1
         :param now_time: 此时时间
-        :param time_interval: redis中的缓存时间
+        :param time_interval: redis中的缓存时间间隔
         :param time_difference: 超时地底线
         :return:
         """
@@ -129,13 +130,21 @@ class CompleteScenceData(CompleteDataInterface):
             return result
         return True
 
-    def type_scence_people_trend_check(self, now_time: datetime, time_difference: int):
+    def type_scence_people_trend_check(self, now_time: datetime, time_interval: datetime.timedelta,
+                                       time_difference: int):
+        """
+        景区类别人流趋势完整性数据检查
+        :param now_time:此时时间
+        :param time_interval: redis中的缓存时间间隔
+
+        :param time_difference:时间差
+        :return:
+        """
         complete_keys_regular = "trend:%d"
         search_regular = "trend:*"
         # 缓存key模板
         sql = "select pid from digitalsmart.scencemanager where type_flag=0"
         complete_keys = self.get_complete_keys(sql, complete_keys_regular, search_regular)
-        time_interval = datetime.timedelta(minutes=5)  # 时间间隔
         check_status = True  # 判断数据是否完整
         for key in complete_keys:
             # 获取缓存的数据
