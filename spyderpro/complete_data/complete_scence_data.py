@@ -1,5 +1,5 @@
 import datetime
-from queue import Queue
+from threading import Lock
 from spyderpro.pool.redis_connect import RedisConnectPool
 from spyderpro.data_requests.scence.place_people_num import PlacePeopleNum
 from spyderpro.data_requests.scence.place_people_trend import PlaceTrend
@@ -8,8 +8,11 @@ from spyderpro.pool.threadpool import ThreadPool
 
 class CompleteScenceData:
     def __init__(self):
-        self._redis_work = RedisConnectPool(max_workers=1)
-        self._queue = Queue()
+        """
+        在使用redis的连接池访问redis里的资源时，连接池数必须大于等于并发数（二者同时小于redis可支持的最大连接数），
+        否则多出来的并发数将会因为分配不到redis的资源而收到报错信息
+        """
+        self._redis_work = RedisConnectPool(max_workers=10)
 
     def __del__(self):
         del self._redis_work
@@ -47,7 +50,6 @@ class CompleteScenceData:
         # 统计数据
         positioning = place.count_headdata(response_data, today_ddate, miss_time, pid)
         return positioning
-        # self._queue.put(positioning)
 
     def complete_scence_people_trend_data(self, key: str, area_name: str, pid: int):
         """
@@ -59,12 +61,11 @@ class CompleteScenceData:
         """
         # 缓存时间
         redis_time = datetime.timedelta(minutes=60)
-        now = datetime.datetime.today()
-        time_interval = datetime.timedelta(days=1)
-        tomorrow = now + time_interval
+        now = datetime.datetime.today()  # 现在时间
+        time_interval = datetime.timedelta(days=1)  # 时间间隔
+        tomorrow = now + time_interval  # 明天
         today = str(now.date())
         tomorrow_day = str(tomorrow.date())
-
         trend = PlaceTrend(today, tomorrow_day)
         # 获取这天的趋势数据
         result_objs = trend.get_trend(area_name, pid)
