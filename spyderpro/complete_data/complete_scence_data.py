@@ -20,7 +20,7 @@ class CompleteScenceData(CompleteDataInterface):
         """
         补全缺失的数据
         :param key: 缓存key
-        :param missing_time:缺失数据的时间点
+        :param all_missing_time:缺失数据的时间点
         :param pid:景区标识
         :return:
         """
@@ -113,9 +113,9 @@ class CompleteScenceData(CompleteDataInterface):
         # 从redis查询的keys模板
         search_regular = "scence:*:{scence_type}".format(scence_type=scence_type)
         sql = "select pid from digitalsmart.scencemanager where type_flag=%d" % scence_type
-
+        # 获取最全的缓存key
         complete_keys = self.get_complete_keys(sql, complete_keys_regular, search_regular)
-        check_status = True
+        check_status = True  # 判断是否需要补漏数据
         for key in complete_keys:
             # 获取缓存的数据
             redis_data = self.redis_worke.hash_get_all(key)
@@ -125,7 +125,7 @@ class CompleteScenceData(CompleteDataInterface):
                 break
         # 相差time_difference秒必须检查数据完整性
         if self.time_difference(now_time, complete_keys) > time_difference or not check_status:
-            result = self._check_scence_people_num_complete(0, time_interval)
+            result = self._check_scence_people_num_complete(0, time_interval)  # 补漏数据
             return result
         return True
 
