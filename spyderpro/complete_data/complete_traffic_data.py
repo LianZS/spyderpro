@@ -75,7 +75,7 @@ class CompleteTraffic(CompleteDataInterface):
         :param key: 缓存key
         :return:
         """
-        time_interval = datetime.timedelta(minutes=60)
+        time_interval = datetime.timedelta(minutes=120)
 
         citycode = int(re.match("traffic:(\d+)", key).group(1))  # 城市id
         if citycode > 1000:
