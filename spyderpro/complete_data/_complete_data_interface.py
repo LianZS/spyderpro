@@ -112,7 +112,7 @@ class CompleteDataInterface:
             redis_data = self.redis_worke.hash_get_all(key)
             #  只要有出现了空数据，则需要调用检查
             if not redis_data:
-                return 3600
+                return 1000000
             max_time = max(redis_data.keys()).decode()
             time_list.append(max_time)
 
