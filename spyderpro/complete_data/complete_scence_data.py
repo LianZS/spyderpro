@@ -8,6 +8,13 @@ from spyderpro.complete_data._complete_data_interface import CompleteDataInterfa
 
 
 class CompleteScenceData(CompleteDataInterface):
+    """
+            各类缓存key格式：
+         景区人数： key= "scence:{0}:{1}".format(pid,type_flag),value={"HH:MM:SS":num,.....}
+        人流趋势：key = "trend:{pid}".format(pid=region_id) ，value={'00:00:00':rate}
+        人流分布： key = "distribution:{0}".format(pide)  value=str([{"lat": centerlat + item.latitude, "lng": centerlon + item.longitude,
+                               "count": item.number},......)
+    """
 
     def _complete_scence_people_num_data(self, key: str, pid: int, all_missing_time: dict):
         """
