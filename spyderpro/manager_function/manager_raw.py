@@ -15,7 +15,7 @@ class ManagerRAW:
     """
 
     def __init__(self):
-        self._redis_worke = RedisConnectPool(max_workers=10)
+        self._redis_worke = RedisConnectPool(max_workers=1)
         self._mysql_worke = ConnectPool(max_workers=1)
 
     def __del__(self):
