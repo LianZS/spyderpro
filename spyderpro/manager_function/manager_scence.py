@@ -239,7 +239,6 @@ class ManagerScence(PositioningPeople):
                 self.manager_scenece_people_situation(table_id, last_people_data, region_id, ddate, detailtime)
 
             # 提交任务
-
             thread_pool.submit(fast, info)
         # 执行任务队列
         thread_pool.run()
@@ -264,7 +263,6 @@ class ManagerScence(PositioningPeople):
         # scence_people_data中{',': 0}这类数据属于异常数据
         if len(scence_people_data.keys()) == 1:
             return
-
         pos = PositioningSituation()
         # 获取经纬度人数结构体迭代器
         iter_instances = pos.get_scence_distribution_situation(scence_people_data)
@@ -299,7 +297,6 @@ class ManagerScence(PositioningPeople):
                 sql_value = ','.join(insert_mysql_data)
                 sql = select_table + sql_value
                 # 提交数据
-
                 self.pool.sumbit(sql)
                 insert_mysql_data.clear()
         sql_value = ','.join(insert_mysql_data)
