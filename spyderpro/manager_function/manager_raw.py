@@ -11,13 +11,15 @@ class ManagerRAW:
     def __init__(self):
         pass
 
-    def manager_scence_data_raw(self):
+    @staticmethod
+    def manager_scence_data_raw():
         """
         管理景区缓存数据，确保数据完整性,
         各类缓存key格式：
          景区人数： key= "scence:{0}:{1}".format(pid,type_flag),value={"HH:MM:SS":num,.....}
         人流趋势：key = "trend:{pid}".format(pid=region_id) ，value={'00:00:00':rate}
-        人流分布： key = "distribution:{0}".format(pide)  value=str([{"lat": centerlat + item.latitude, "lng": centerlon + item.longitude,
+        人流分布： key = "distribution:{0}".format(pide)  value=str([{"lat": centerlat + item.latitude,
+                                                                    "lng": centerlon + item.longitude,
                                "count": item.number},......)
 
         """
@@ -32,13 +34,16 @@ class ManagerRAW:
         time_interval = datetime.timedelta(minutes=30)  # 时间间隔
         complete.type_scence_people_num_check(1, now_time, time_interval, 3600)
 
-    def manager_citytraffic_data_raw(self):
+    @staticmethod
+    def manager_citytraffic_data_raw():
         complete = CompleteTraffic()
         now_time = datetime.datetime.now()
         # 检查一类城市交通延迟数据是否完整
         time_interval = datetime.timedelta(minutes=5)  # 时间间隔
-        complete.type_daily_citytraffic_check(0, now_time, time_interval, 2100)
+        # complete.type_daily_citytraffic_check(0, now_time, time_interval, 2100)
         # 检查第二类城市交通--数据间隔30分钟
-        time_interval = datetime.timedelta(minutes=30)  # 时间间隔
-        complete.type_daily_citytraffic_check(1, now_time, time_interval, 3600)
+        time_interval = datetime.timedelta(minutes=60)  # 时间间隔
+        complete.type_daily_citytraffic_check(1, now_time, time_interval, 3 * 3600)
 
+
+ManagerRAW().manager_citytraffic_data_raw()
