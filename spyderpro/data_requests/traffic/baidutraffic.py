@@ -20,13 +20,14 @@ class BaiduTraffic(Traffic):
 
         }
 
-    def city_daily_traffic_data(self, citycode: int, timetype='minute') -> Iterator[DayilTraffic]:
+    def city_daily_traffic_data(self, citycode: int) -> Iterator[DayilTraffic]:
         """获取实时交通状态，包括日期，拥堵指数，具体时刻
 
         :param citycode:城市id
         :param timetype:时间间隔单位，day 和minute，默认minute
         :return iterable(dict)
         dict->{'date': '2019-06-14', 'index': 1.49, 'detailTime': '14:00'}"""
+        timetype = 'minute'
         dict_parameter = {
             'cityCode': citycode,
             'type': timetype
