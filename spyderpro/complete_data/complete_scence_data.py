@@ -18,7 +18,7 @@ class CompleteScenceData:
     def __del__(self):
         del self._redis_work
 
-    def complete_scence_people_num_data(self, key: str, pid: int, missing_time: dict):
+    def complete_scence_people_num_data(self, key: str, pid: int, all_missing_time: dict):
         """
         补全缺失的数据
         :param key: 缓存key
@@ -26,9 +26,11 @@ class CompleteScenceData:
         :param pid:景区标识
         :return:
         """
+        if len(all_missing_time) == 0:
+            return
         time_interval = datetime.timedelta(minutes=60)
         pool = ThreadPool(max_workers=10)
-        for miss_time in missing_time.keys():
+        for miss_time in all_missing_time.keys():
             pool.submit(self._fast, pid, miss_time)
         pool.run()
         pool.close()
