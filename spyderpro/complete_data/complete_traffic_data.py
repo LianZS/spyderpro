@@ -23,9 +23,9 @@ class CompleteTraffic(CompleteDataInterface):
                                      time_difference: int):
         """
         检查城市实时交通拥堵延迟指数数据是否完整
-        :param city_type:1表示百度交通，2表示高德交通
+        :param city_type:0表示百度交通，1表示高德交通
         :param now_time:此时时间
-        :param time_interval:city_type 为1 是5分钟时间间隔，2时30分钟
+        :param time_interval:city_type 为0 是5分钟时间间隔，1时30分钟
         :param time_difference:允许的时间差
         :return:
         """
@@ -34,10 +34,10 @@ class CompleteTraffic(CompleteDataInterface):
         # 从redis查询的keys模板
         search_regular = "traffic:*"
         sql = None
-        if city_type == 1:
+        if city_type == 0:
 
             sql = "select pid from digitalsmart.citymanager where pid<1000"
-        elif city_type == 2:
+        elif city_type == 1:
             sql = "select pid from digitalsmart.citymanager where pid>1000"
         complete_keys = self.get_complete_keys(sql, complete_keys_regular, search_regular)
         check_status = True  # 判断是否补漏数据
