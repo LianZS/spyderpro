@@ -36,7 +36,7 @@ class ManagerTraffic(Traffic):
         data = pool.select(sql)
         # 千万不要开系统自带的线程池，占用的内存过大，而且每次线程退出后内存都没有释放，而是一直累加。使用自定义线程池，
         thread_pool = ThreadPool(max_workers=10)
-        time_interval = datetime.timedelta(minutes=30)  # 缓存时间
+        time_interval = datetime.timedelta(minutes=120)  # 缓存时间
         for item in data:
 
             pid = item[0]
@@ -88,7 +88,7 @@ class ManagerTraffic(Traffic):
         sql = "select pid from digitalsmart.citymanager"
 
         data = pool.select(sql)  # pid集合
-        time_interval = datetime.timedelta(minutes=30)  # 缓存时间
+        time_interval = datetime.timedelta(minutes=60)  # 缓存时间
 
         for item in data:  # 这里最好不要并发进行，因为每个pid任务下都有10个子线程，在这里开并发 的话容易被封杀
 
