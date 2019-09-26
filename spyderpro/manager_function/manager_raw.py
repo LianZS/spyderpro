@@ -6,6 +6,7 @@ from typing import Iterator, List
 from spyderpro.pool.redis_connect import RedisConnectPool
 from spyderpro.pool.mysql_connect import ConnectPool
 from spyderpro.complete_data.complete_scence_data import CompleteScenceData
+from spyderpro.pool.threadpool import ThreadPool
 
 
 class ManagerRAW:
@@ -14,7 +15,7 @@ class ManagerRAW:
     """
 
     def __init__(self):
-        self._redis_worke = RedisConnectPool(max_workers=1)
+        self._redis_worke = RedisConnectPool(max_workers=10)
         self._mysql_worke = ConnectPool(max_workers=1)
 
     def __del__(self):
@@ -51,7 +52,7 @@ class ManagerRAW:
                                             last_time.tm_min,
                                             last_time.tm_sec).timestamp()
         # 相差35分钟必须检查数据完整性
-        if now_time.timestamp() - redis_last_time > 100:
+        if now_time.timestamp() - redis_last_time > 2100:
             self.check_scence_people_num_complete()
 
     def check_scence_people_num_complete(self):
@@ -73,7 +74,9 @@ class ManagerRAW:
                 break
         complete_keys_regular = "scence:%d:0"
         search_regular = "scence:*:0"
-        comple_keys = self._get_complete_keys(complete_keys_regular, search_regular)
+        # 缓存key模板
+        sql = "select pid from digitalsmart.scencemanager where type_flag=0"
+        comple_keys = self._get_complete_keys(sql, complete_keys_regular, search_regular)
         complete_obj = CompleteScenceData()
         for redis_key in comple_keys:
             temp_complete_time = copy.deepcopy(complete_time)
@@ -82,7 +85,6 @@ class ManagerRAW:
                 time_key = time_key.decode()
                 temp_complete_time.pop(time_key)  # pop已经存在的数据的时间点
             pid = int(re.match('scence:(\d+):0', redis_key).group(1))  # 提取景区pid
-            print(redis_key)
 
             # 补全缺少的数据
             complete_obj.complete_scence_people_num_data(redis_key, pid, temp_complete_time)
@@ -95,15 +97,21 @@ class ManagerRAW:
         complete_keys_regular = "trend:%d"
 
         search_regular = "trend:*"
-
-        comple_keys = self._get_complete_keys(complete_keys_regular, search_regular)
+        # 缓存key模板
+        sql = "select pid from digitalsmart.scencemanager where type_flag=0"
+        comple_keys = self._get_complete_keys(sql, complete_keys_regular, search_regular)
         complete_obj = CompleteScenceData()
+        pool = ThreadPool(max_workers=10)
+        # 处理数据缺失问题
         for redis_key in comple_keys:
             self._redis_worke.hash_get_all(redis_key)
             pid = int(re.match('trend:(\d+)', redis_key).group(1))  # 提取景区pid
             sql = "select area from digitalsmart.scencemanager where pid=%s and type_flag=0" % (pid)
             area = self._mysql_worke.select(sql)[0][0]
-            complete_obj.complete_scence_people_trend_data(redis_key, area, pid)
+            pool.submit(complete_obj.complete_scence_people_trend_data, redis_key, area, pid)
+        pool.run()
+        pool.close()
+
 
     def check_scence_people_distribution_complete(self):
         """
@@ -147,15 +155,15 @@ class ManagerRAW:
         for pid in iter_pids:
             yield regular % pid
 
-    def _get_complete_keys(self, complete_keys_regular: str, search_regular: str) -> List:
+    def _get_complete_keys(self, sql: str, complete_keys_regular: str, search_regular: str) -> List:
         """
         对比mysql组成的key和redis缓存的key产生最完整的keys
+        :param sql:查询语句
         :param complete_keys_regular: mysql组合的缓存key模板
         :param search_regular: redis缓存的key模板
         :return:
         """
-        # 缓存key模板
-        sql = "select pid from digitalsmart.scencemanager where type_flag=0"
+
         # 获取mysql组合成的完整的keys
         source_complete_keys = self._get_mysql_complete_keys(sql, complete_keys_regular)
 
@@ -170,4 +178,4 @@ class ManagerRAW:
         return comple_keys
 
 
-ManagerRAW().manager_scence_data_raw()
+ManagerRAW().check_scence_people_trend_complete()
