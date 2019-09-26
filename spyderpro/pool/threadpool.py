@@ -36,6 +36,7 @@ class ThreadPool():
         self._thread_list = list()  # 线程列表
 
         self._create_thread()  # 初始化线程池
+        self._wait = Queue(max_workers)  # 线程所有任务结束通知
         self._state = False  # 是否执行过一遍任务，避免反复执行
         self.result = list()
 
@@ -75,7 +76,6 @@ class ThreadPool():
             self._work_queue.put(w)
         self._state = True  # 设置该任务集已经执行过一遍了
         self._work_list.clear()
-        # self.close()
 
     def _adjust_thread_count(self):
         """
@@ -85,6 +85,7 @@ class ThreadPool():
             w = self._work_queue.get()  # 获取任务
             response = w.run()  # 执行任务
             self.result.append(response)
+        self._wait.put(1)  # 一个线程的所有任务完成了，销毁
 
     def shut_down(self):
         """
@@ -93,27 +94,25 @@ class ThreadPool():
         """
         self._shutdown = True
 
-    def close(self):
+    def close_nowait(self):
         """
-        终止每个线程
+        终止每个线程，无需阻塞等待所有任务完成
+
         :return:
         """
         for i in range(self._max_workers):
             self._stop.put(0)  # 通知关闭线程
 
-
-def test(i):
-    print(i)
-    time.sleep(1)
-
-
-if __name__ == "__main__":
-    import time
-
-    pool = ThreadPool(max_workers=5)
-    for k in range(14):
-        pool.submit(test, k)
-    pool.run()
-    pool.submit(test,100)
-    pool.run()
-    pool.close()
+    def close(self):
+        """
+        终止每个线程，阻塞等待所有任务完成
+        :return:
+        """
+        for i in range(self._max_workers):
+            self._stop.put(0)  # 通知关闭线程
+        count = 0
+        while 1:
+            self._wait.get()
+            count += 1
+            if count == self._max_workers:
+                break
