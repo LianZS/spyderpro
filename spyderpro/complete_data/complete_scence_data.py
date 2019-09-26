@@ -29,19 +29,13 @@ class CompleteScenceData:
         pool.run()
         pool.close()
         mapping = dict()  # 存放需要缓存的数据
-        # while 1:
-        #     try:
-        #
-        #         positioning = self._queue.get(timeout=2)  # 所有数据之前已经放在队列里了
-        #         mapping[positioning.detailTime] = positioning.num
-        #     except Exception as e:
-        #         print(e)
-        #         break
-        "存在数据返回问题"
+
+        # 并发返回结果
+        for positioning in pool.result:
+            mapping[positioning.detailTime] = positioning.num
         #  缓存追加
-        pool.result  # 并发返回结果
-        # self._redis_work.hash_value_append(key, mapping)
-        # self._redis_work.expire(key, time_interval)
+        self._redis_work.hash_value_append(key, mapping)
+        self._redis_work.expire(key, time_interval)
 
     def _fast(self, pid: int, miss_time: str):
         today = datetime.datetime.today()
