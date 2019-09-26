@@ -35,6 +35,8 @@ class CompleteScenceData(CompleteDataInterface):
         insert_values_list = list()  # 存放插入数据库的数据
         # 并发返回结果
         for positioning in pool.result:
+            if positioning is None:
+                continue
             insert_values_list.append(str((pid, positioning.date, positioning.detailTime, positioning.num)))
             mapping[positioning.detailTime] = positioning.num
         #  缓存追加
@@ -53,7 +55,7 @@ class CompleteScenceData(CompleteDataInterface):
         place = PlacePeopleNum()
         response_data = place.get_heatdata_bytime(ddate=today_ddate, date_time=miss_time, region_id=pid)
         if not response_data:
-            return
+            return None
         # 统计数据
         positioning = place.count_headdata(response_data, today_ddate, miss_time, pid)
         return positioning
