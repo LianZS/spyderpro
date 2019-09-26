@@ -1,6 +1,6 @@
 import datetime
-from threading import Lock
 from spyderpro.pool.redis_connect import RedisConnectPool
+from spyderpro.pool.mysql_connect import ConnectPool
 from spyderpro.data_requests.scence.place_people_num import PlacePeopleNum
 from spyderpro.data_requests.scence.place_people_trend import PlaceTrend
 from spyderpro.pool.threadpool import ThreadPool
@@ -13,6 +13,7 @@ class CompleteScenceData:
         否则多出来的并发数将会因为分配不到redis的资源而收到报错信息
         """
         self._redis_work = RedisConnectPool(max_workers=10)
+        self._mysql_work = ConnectPool(max_workers=1)
 
     def __del__(self):
         del self._redis_work
@@ -32,13 +33,25 @@ class CompleteScenceData:
         pool.run()
         pool.close()
         mapping = dict()  # 存放需要缓存的数据
-
+        # 判断数据对应在哪张表插入
+        sql_cmd = "select table_id from digitalsmart.tablemanager where pid={0}".format(pid)
+        table_id = self._mysql_work.select(sql_cmd)[0][0]
+        # 插入数据库格式语句
+        sql_format = "insert into digitalsmart.historyscenceflow{table_id} (pid, ddate, ttime, num) values ".format(
+            table_id=table_id)
+        insert_values_list = list()  # 存放插入数据库的数据
         # 并发返回结果
         for positioning in pool.result:
+            insert_values_list.append(str((pid, positioning.date, positioning.detailTime, positioning.num)))
             mapping[positioning.detailTime] = positioning.num
         #  缓存追加
         self._redis_work.hash_value_append(key, mapping)
         self._redis_work.expire(key, time_interval)
+        # 插入mysql数据库
+
+        values = ','.join(insert_values_list)
+        sql = sql_format + values
+        self._mysql_work.sumbit(sql)
 
     def _fast(self, pid: int, miss_time: str):
         today = datetime.datetime.today()
@@ -70,8 +83,14 @@ class CompleteScenceData:
         # 获取这天的趋势数据
         result_objs = trend.get_trend(area_name, pid)
         redis_data = dict()
+        insert_values_list: list = list()  # 存放插入数据库的数据
         for obj in result_objs:
+            insert_values_list.append(str((pid, obj.ddate, obj.detailtime, obj.index)))
             redis_data[obj.detailtime] = obj.index
         # 缓存
         self._redis_work.hashset(key, redis_data)
         self._redis_work.expire(key, redis_time)
+        # 插入数据库
+        values = ','.join(insert_values_list)
+        sql = "insert into digitalsmart.scencetrend(pid, ddate, ttime, rate) VALUES" + values
+        self._mysql_work.sumbit(sql)
