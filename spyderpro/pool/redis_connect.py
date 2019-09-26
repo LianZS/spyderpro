@@ -53,7 +53,7 @@ class RedisConnectPool(object):
         """
 
         pool = redis.ConnectionPool(max_connections=self._max_workers, host='localhost', port=6379)
-        self._redis_pool = redis.Redis(connection_pool=pool, socket_connect_timeout=100)
+        self._redis_pool = redis.Redis(connection_pool=pool)
 
     @check_state
     def expire(self, name, time_interval) -> int:
