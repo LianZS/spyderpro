@@ -37,6 +37,7 @@ class ThreadPool():
 
         self._create_thread()  # 初始化线程池
         self._state = False  # 是否执行过一遍任务，避免反复执行
+        self.result = list()
 
     def _create_thread(self):
         """
@@ -82,7 +83,8 @@ class ThreadPool():
         """
         while self._stop.get():
             w = self._work_queue.get()  # 获取任务
-            w.run()  # 执行任务
+            response = w.run()  # 执行任务
+            self.result.append(response)
 
     def shut_down(self):
         """
