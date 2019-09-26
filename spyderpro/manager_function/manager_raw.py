@@ -33,16 +33,52 @@ class ManagerRAW:
 
         """
         now_time = datetime.datetime.now()
-        complete_keys_regular = "scence:%d:0"
-        search_regular = "scence:*:0"
-        comple_keys = self._get_complete_keys(complete_keys_regular, search_regular)
+        # 下面检查第一类景区---数据间隔5分钟
+        time_interval = datetime.timedelta(minutes=5)  # 时间间隔
+
+        self._type_scence_check(0, now_time, time_interval, 2100)
+        # 检查第二类景区--数据间隔30分钟
+        time_interval = datetime.timedelta(minutes=30)  # 时间间隔
+
+        self._type_scence_check(0, now_time, time_interval, 3600)
+
+    def _type_scence_check(self, scence_type: int, now_time: datetime, time_interval: datetime.timedelta,
+                           time_difference: int) -> bool:
+        """
+        景区类别完整性数据检查
+        :param scence_type: 景区类别，第一类为0，第二类为1
+        :param now_time: 此时
+        :param time_interval: redis中的缓存时间
+        :param time_difference: 超时地底线
+        :return:
+        """
+        # 从mysql生产的完整的key模板
+        complete_keys_regular = "scence:%d:{scence_type}".format(scence_type=scence_type)
+        # 从redis查询的keys模板
+        search_regular = "scence:*:{scence_type}".format(scence_type=scence_type)
+        sql = "select pid from digitalsmart.scencemanager where type_flag=%d" % scence_type
+
+        complete_keys = self._get_complete_keys(sql, complete_keys_regular, search_regular)
+
+        # 相差time_difference秒必须检查数据完整性
+        if self._time_difference(now_time, complete_keys) > time_difference:
+            result = self.check_scence_people_num_complete(0, time_interval)
+            return result
+        return True
+
+    def _time_difference(self, now_time: datetime, complete_keys) -> int:
+        """
+        获取redis数据缓存时间中偏离现在的最长时间
+        :param now_time: 此时
+        :param complete_keys:redis缓存的keys
+        :return:
+        """
         time_list = list()
-        for key in comple_keys:
+        for key in complete_keys:
             redis_data = self._redis_worke.hash_get_all(key)
             #  只要有出现了空数据，则需要调用检查
             if not redis_data:
-                self.check_scence_people_num_complete()
-                return
+                return 3600
             max_time = max(redis_data.keys()).decode()
             time_list.append(max_time)
 
@@ -50,21 +86,21 @@ class ManagerRAW:
         last_time = time.strptime(min_time, "%H:%M:%S")
         redis_last_time = datetime.datetime(now_time.year, now_time.month, now_time.day, last_time.tm_hour,
                                             last_time.tm_min,
-                                            last_time.tm_sec).timestamp()
-        # 相差35分钟必须检查数据完整性
-        if now_time.timestamp() - redis_last_time > 2100:
-            self.check_scence_people_num_complete()
+                                            last_time.tm_sec)
+        time_inv = now_time.timestamp() - redis_last_time.timestamp()
+        return time_inv
 
-    def check_scence_people_num_complete(self):
+    def check_scence_people_num_complete(self, scence_type: int, time_interval: datetime.timedelta) -> bool:
         """
         检查景区人数数据的完整性
+
+        :param scence_type: 第一类景区为0，第二类为1
         :return:
         """
         # 初始化一整天时间点列表
         init_time = datetime.datetime(2019, 1, 1, 0, 0, 0)  # 初始化时间，时间点以00：00：00为基准点
         now = datetime.datetime.now()
         now_time = str(now.time())
-        time_interval = datetime.timedelta(minutes=5)  # 时间间隔
         complete_time = dict()  # 存放一整天的时间点
 
         while 1:
@@ -72,22 +108,24 @@ class ManagerRAW:
             init_time = init_time + time_interval
             if str(init_time.time()) > now_time:
                 break
-        complete_keys_regular = "scence:%d:0"
-        search_regular = "scence:*:0"
+        # 从mysql生产的完整的key模板
+        complete_keys_regular = "scence:%d:{scence_type}".format(scence_type=scence_type)
+        # 从redis查询的keys模板
+        search_regular = "scence:*:{scence_type}".format(scence_type=scence_type)
         # 缓存key模板
-        sql = "select pid from digitalsmart.scencemanager where type_flag=0"
-        comple_keys = self._get_complete_keys(sql, complete_keys_regular, search_regular)
+        sql = "select pid from digitalsmart.scencemanager where type_flag=%d" % scence_type
+        complete_keys = self._get_complete_keys(sql, complete_keys_regular, search_regular)
         complete_obj = CompleteScenceData()
-        for redis_key in comple_keys:
+        for redis_key in complete_keys:
             temp_complete_time = copy.deepcopy(complete_time)
             result = self._redis_worke.hash_get_all(redis_key)
             for time_key in result.keys():
                 time_key = time_key.decode()
                 temp_complete_time.pop(time_key)  # pop已经存在的数据的时间点
-            pid = int(re.match('scence:(\d+):0', redis_key).group(1))  # 提取景区pid
-
+            pid = int(re.match('scence:(\d+):\d', redis_key).group(1))  # 提取景区pid
             # 补全缺少的数据
             complete_obj.complete_scence_people_num_data(redis_key, pid, temp_complete_time)
+        return True
 
     def check_scence_people_trend_complete(self):
         """
@@ -111,7 +149,6 @@ class ManagerRAW:
             pool.submit(complete_obj.complete_scence_people_trend_data, redis_key, area, pid)
         pool.run()
         pool.close()
-
 
     def check_scence_people_distribution_complete(self):
         """
@@ -178,4 +215,4 @@ class ManagerRAW:
         return comple_keys
 
 
-ManagerRAW().check_scence_people_trend_complete()
+ManagerRAW().manager_scence_data_raw()
