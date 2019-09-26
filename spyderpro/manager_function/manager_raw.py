@@ -33,17 +33,19 @@ class ManagerRAW:
 
         """
         now_time = datetime.datetime.now()
+        # 检查人流趋势是否完整
+        self._type_scence_people_trend_check(now_time, 2100)
         # 下面检查第一类景区---数据间隔5分钟
         time_interval = datetime.timedelta(minutes=5)  # 时间间隔
 
-        self._type_scence_check(0, now_time, time_interval, 2100)
+        self._type_scence_people_num_check(0, now_time, time_interval, 2100)
         # 检查第二类景区--数据间隔30分钟
         time_interval = datetime.timedelta(minutes=30)  # 时间间隔
 
-        self._type_scence_check(0, now_time, time_interval, 3600)
+        self._type_scence_people_num_check(1, now_time, time_interval, 3600)
 
-    def _type_scence_check(self, scence_type: int, now_time: datetime, time_interval: datetime.timedelta,
-                           time_difference: int) -> bool:
+    def _type_scence_people_num_check(self, scence_type: int, now_time: datetime, time_interval: datetime.timedelta,
+                                      time_difference: int) -> bool:
         """
         景区类别完整性数据检查
         :param scence_type: 景区类别，第一类为0，第二类为1
@@ -66,7 +68,19 @@ class ManagerRAW:
             return result
         return True
 
-    def _time_difference(self, now_time: datetime, complete_keys) -> int:
+    def _type_scence_people_trend_check(self, now_time: datetime, time_difference: int):
+        complete_keys_regular = "trend:%d"
+
+        search_regular = "trend:*"
+        # 缓存key模板
+        sql = "select pid from digitalsmart.scencemanager where type_flag=0"
+        complete_keys = self._get_complete_keys(sql, complete_keys_regular, search_regular)
+        if self._time_difference(now_time, complete_keys) > time_difference:
+            result = self.check_scence_people_trend_complete(complete_keys)
+            return result
+        return True
+
+    def _time_difference(self, now_time: datetime, complete_keys: list) -> int:
         """
         获取redis数据缓存时间中偏离现在的最长时间
         :param now_time: 此时
@@ -127,21 +141,16 @@ class ManagerRAW:
             complete_obj.complete_scence_people_num_data(redis_key, pid, temp_complete_time)
         return True
 
-    def check_scence_people_trend_complete(self):
+    def check_scence_people_trend_complete(self, complete_keys: list) -> bool:
         """
         检查景区人数趋势的完整性
         :return:
         """
-        complete_keys_regular = "trend:%d"
 
-        search_regular = "trend:*"
-        # 缓存key模板
-        sql = "select pid from digitalsmart.scencemanager where type_flag=0"
-        comple_keys = self._get_complete_keys(sql, complete_keys_regular, search_regular)
         complete_obj = CompleteScenceData()
         pool = ThreadPool(max_workers=10)
         # 处理数据缺失问题
-        for redis_key in comple_keys:
+        for redis_key in complete_keys:
             self._redis_worke.hash_get_all(redis_key)
             pid = int(re.match('trend:(\d+)', redis_key).group(1))  # 提取景区pid
             sql = "select area from digitalsmart.scencemanager where pid=%s and type_flag=0" % (pid)
@@ -149,6 +158,7 @@ class ManagerRAW:
             pool.submit(complete_obj.complete_scence_people_trend_data, redis_key, area, pid)
         pool.run()
         pool.close()
+        return True
 
     def check_scence_people_distribution_complete(self):
         """
@@ -213,6 +223,3 @@ class ManagerRAW:
         # 检查keys是否完整,获得最完整的keys
         comple_keys = self._check_keys_complete(list(source_complete_keys), target_keys)
         return comple_keys
-
-
-ManagerRAW().manager_scence_data_raw()
