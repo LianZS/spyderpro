@@ -8,7 +8,7 @@ from spyderpro.data_requests.traffic.gaodetraffic import GaodeTraffic
 
 class CompleteTraffic(CompleteDataInterface):
     """
-        缓存数据：
+        交通缓存数据补全
         日常交通拥堵延迟指数：key= "traffic:{0}".format(region_id),mapping ={"HH:MM:SS":rate,....}
         道路交通数据：key ="road:{pid}:{road_id}".format(pid=region_id, road_id=roadid)
                         value =str( {
