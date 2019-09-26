@@ -60,9 +60,16 @@ class ManagerRAW:
         sql = "select pid from digitalsmart.scencemanager where type_flag=%d" % scence_type
 
         complete_keys = self._get_complete_keys(sql, complete_keys_regular, search_regular)
-
+        check_status = True
+        for key in complete_keys:
+            # 获取缓存的数据
+            redis_data = self._redis_worke.hash_get_all(key)
+            # 检查数据是否完整
+            check_status = self._check_data_complete(list(redis_data.keys()), time_interval)
+            if not check_status:
+                break
         # 相差time_difference秒必须检查数据完整性
-        if self._time_difference(now_time, complete_keys) > time_difference:
+        if self._time_difference(now_time, complete_keys) > time_difference or not check_status:
             result = self.check_scence_people_num_complete(0, time_interval)
             return result
         return True
@@ -92,9 +99,9 @@ class ManagerRAW:
         获取redis数据缓存时间中偏离现在的最长时间
         :param now_time: 此时
         :param complete_keys:redis缓存的keys
-        :return:
+        :return:时间差
         """
-        time_list = list()
+        time_list = list()  # 存放缓存数据的key的最大时间
         for key in complete_keys:
             redis_data = self._redis_worke.hash_get_all(key)
             #  只要有出现了空数据，则需要调用检查
@@ -108,7 +115,7 @@ class ManagerRAW:
         redis_last_time = datetime.datetime(now_time.year, now_time.month, now_time.day, last_time.tm_hour,
                                             last_time.tm_min,
                                             last_time.tm_sec)
-        time_inv = now_time.timestamp() - redis_last_time.timestamp()
+        time_inv = now_time.timestamp() - redis_last_time.timestamp()  # 时间差
         return time_inv
 
     def check_scence_people_num_complete(self, scence_type: int, time_interval: datetime.timedelta) -> bool:
