@@ -37,7 +37,6 @@ class ManagerRAW:
         self._type_scence_people_trend_check(now_time, 2100)
         # 下面检查第一类景区---数据间隔5分钟
         time_interval = datetime.timedelta(minutes=5)  # 时间间隔
-
         self._type_scence_people_num_check(0, now_time, time_interval, 2100)
         # 检查第二类景区--数据间隔30分钟
         time_interval = datetime.timedelta(minutes=30)  # 时间间隔
@@ -49,7 +48,7 @@ class ManagerRAW:
         """
         景区类别完整性数据检查
         :param scence_type: 景区类别，第一类为0，第二类为1
-        :param now_time: 此时
+        :param now_time: 此时时间
         :param time_interval: redis中的缓存时间
         :param time_difference: 超时地底线
         :return:
@@ -70,12 +69,20 @@ class ManagerRAW:
 
     def _type_scence_people_trend_check(self, now_time: datetime, time_difference: int):
         complete_keys_regular = "trend:%d"
-
         search_regular = "trend:*"
         # 缓存key模板
         sql = "select pid from digitalsmart.scencemanager where type_flag=0"
         complete_keys = self._get_complete_keys(sql, complete_keys_regular, search_regular)
-        if self._time_difference(now_time, complete_keys) > time_difference:
+        time_interval = datetime.timedelta(minutes=5)  # 时间间隔
+        check_status = True  # 判断数据是否完整
+        for key in complete_keys:
+            # 获取缓存的数据
+            redis_data = self._redis_worke.hash_get_all(key)
+            # 检查数据是否完整
+            check_status = self._check_data_complete(list(redis_data.keys()), time_interval)
+            if not check_status:
+                break
+        if self._time_difference(now_time, complete_keys) > time_difference or not check_status:
             result = self.check_scence_people_trend_complete(complete_keys)
             return result
         return True
@@ -150,6 +157,7 @@ class ManagerRAW:
         complete_obj = CompleteScenceData()
         pool = ThreadPool(max_workers=10)
         # 处理数据缺失问题
+
         for redis_key in complete_keys:
             self._redis_worke.hash_get_all(redis_key)
             pid = int(re.match('trend:(\d+)', redis_key).group(1))  # 提取景区pid
@@ -166,7 +174,8 @@ class ManagerRAW:
         :return:
         """
 
-    def _check_keys_complete(self, source_keys: list, target_keys: list) -> List:
+    @staticmethod
+    def _check_keys_complete(source_keys: list, target_keys: list) -> List:
         """
         检查缓存key的完整性
         :param source_keys: 完整的keys
@@ -185,11 +194,31 @@ class ManagerRAW:
 
             return source_keys
 
-    def _check_data_complete(self):
+    @staticmethod
+    def _check_data_complete(source_data: list, time_interval: datetime.timedelta) -> bool:
         """
-        检查数据的完整性
-        :return:
+         检查数据的完整性
+         :param source_data: 此处采用检查redis缓存的时间序列时间序列,格式HH:MM:SS
+        :param time_interval: 时间序列的间隔
+        :return:true表示数据完整
         """
+        now_time = datetime.datetime.now()
+        temp_collection = list()
+        for item in source_data:
+            temp_collection.append(item.decode())
+        source_data = temp_collection
+        max_time = max(source_data)  # 最大的时间
+        last_time = time.strptime(max_time, "%H:%M:%S")
+        redis_last_time = datetime.datetime(now_time.year, now_time.month, now_time.day, last_time.tm_hour,
+                                            last_time.tm_min,
+                                            last_time.tm_sec)
+        init_time = datetime.datetime(now_time.year, now_time.month, now_time.day, 0, 0, 0)  # 数据的起始时间
+        standard_length = int(
+            (redis_last_time.timestamp() - init_time.timestamp()) / time_interval.seconds) + 1  # 完整数据的长度
+        if len(source_data) < standard_length:
+            return False
+        else:
+            return True
 
     def _get_mysql_complete_keys(self, sql, regular) -> Iterator:
         """
@@ -223,3 +252,6 @@ class ManagerRAW:
         # 检查keys是否完整,获得最完整的keys
         comple_keys = self._check_keys_complete(list(source_complete_keys), target_keys)
         return comple_keys
+
+
+ManagerRAW().manager_scence_data_raw()
