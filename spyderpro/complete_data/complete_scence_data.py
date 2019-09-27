@@ -17,88 +17,6 @@ class CompleteScenceData(CompleteDataInterface):
                                "count": item.number},......)
     """
 
-    def _complete_scence_people_num_data(self, key: str, pid: int, all_missing_time: dict):
-        """
-        补全缺失的数据
-        :param key: 缓存key
-        :param all_missing_time:缺失数据的时间点
-        :param pid:景区标识
-        :return:
-        """
-        if len(all_missing_time) == 0:
-            return
-        time_interval = datetime.timedelta(minutes=60)
-        pool = ThreadPool(max_workers=10)
-        for miss_time in all_missing_time.keys():
-            pool.submit(self._fast, pid, miss_time)
-        pool.run()
-        pool.close()
-        mapping = dict()  # 存放需要缓存的数据
-        # 判断数据对应在哪张表插入
-        sql_cmd = "select table_id from digitalsmart.tablemanager where pid={0}".format(pid)
-        table_id = self.mysql_worke.select(sql_cmd)[0][0]
-        # 插入数据库格式语句
-        sql_format = "insert into digitalsmart.historyscenceflow{table_id} (pid, ddate, ttime, num) values ".format(
-            table_id=table_id)
-        insert_values_list = list()  # 存放插入数据库的数据
-        # 并发返回结果
-        for positioning in pool.result:
-            if positioning is None:
-                continue
-            insert_values_list.append(str((pid, positioning.date, positioning.detailTime, positioning.num)))
-            mapping[positioning.detailTime] = positioning.num
-        #  缓存追加
-        self.redis_worke.hash_value_append(key, mapping)
-        self.redis_worke.expire(key, time_interval)
-        # 插入mysql数据库
-
-        values = ','.join(insert_values_list)
-        sql = sql_format + values
-        self.mysql_worke.sumbit(sql)
-
-    @staticmethod
-    def _fast(pid: int, miss_time: str):
-        today = datetime.datetime.today()
-        today_ddate = str(today.date())
-        place = PlacePeopleNum()
-        response_data = place.get_heatdata_bytime(ddate=today_ddate, date_time=miss_time, region_id=pid)
-        if not response_data:
-            return None
-        # 统计数据
-        positioning = place.count_headdata(response_data, today_ddate, miss_time, pid)
-        return positioning
-
-    def _complete_scence_people_trend_data(self, key: str, area_name: str, pid: int):
-        """
-         补全数据，这里直接将之前所有的数据写入
-        :param key: 缓存key
-        :param area_name: 景区名
-        :param pid: 景区标识
-        :return:
-        """
-        # 缓存时间
-        redis_time = datetime.timedelta(minutes=60)
-        now = datetime.datetime.today()  # 现在时间
-        time_interval = datetime.timedelta(days=1)  # 时间间隔
-        tomorrow = now + time_interval  # 明天
-        today = str(now.date())
-        tomorrow_day = str(tomorrow.date())
-        trend = PlaceTrend(today, tomorrow_day)
-        # 获取这天的趋势数据
-        result_objs = trend.get_trend(area_name, pid)
-        redis_data = dict()
-        insert_values_list: list = list()  # 存放插入数据库的数据
-        for obj in result_objs:
-            insert_values_list.append(str((pid, obj.ddate, obj.detailtime, obj.index)))
-            redis_data[obj.detailtime] = obj.index
-        # 缓存
-        self.redis_worke.hashset(key, redis_data)
-        self.redis_worke.expire(key, redis_time)
-        # 插入数据库
-        values = ','.join(insert_values_list)
-        sql = "insert into digitalsmart.scencetrend (pid, ddate, ttime, rate) VALUES {data}".format(data=values)
-        self.mysql_worke.sumbit(sql)
-
     def type_scence_people_num_check(self, scence_type: int, now_time: datetime, time_interval: datetime.timedelta,
                                      time_difference: int) -> bool:
         """
@@ -154,7 +72,7 @@ class CompleteScenceData(CompleteDataInterface):
             if not check_status:
                 break
         if self.time_difference(now_time, complete_keys) > time_difference or not check_status:
-            result = self._check_scence_people_trend_complete(complete_keys)
+            result = self._check_scence_people_trend_complete(complete_keys, time_interval)
             return result
         return True
 
@@ -192,12 +110,14 @@ class CompleteScenceData(CompleteDataInterface):
                 temp_complete_time.pop(time_key)  # pop已经存在的数据的时间点
             pid = int(re.match('scence:(\d+):\d', redis_key).group(1))  # 提取景区pid
             # 补全缺少的数据
-            self._complete_scence_people_num_data(redis_key, pid, temp_complete_time)
+            self._complete_scence_people_num_data(redis_key, pid, temp_complete_time, time_interval)
         return True
 
-    def _check_scence_people_trend_complete(self, complete_keys: list) -> bool:
+    def _check_scence_people_trend_complete(self, complete_keys: list, time_interval: datetime.timedelta) -> bool:
         """
         检查景区人数趋势的完整性
+        :param complete_keys:缓存key
+        :param time_interval: 缓存时间
         :return:
         """
 
@@ -207,9 +127,9 @@ class CompleteScenceData(CompleteDataInterface):
         for redis_key in complete_keys:
             self.redis_worke.hash_get_all(redis_key)
             pid = int(re.match('trend:(\d+)', redis_key).group(1))  # 提取景区pid
-            sql = "select area from digitalsmart.scencemanager where pid=%s and type_flag=0" % (pid)
+            sql = "select area from digitalsmart.scencemanager where pid={pid} and type_flag=0".format(pid=pid)
             area = self.mysql_worke.select(sql)[0][0]
-            pool.submit(self._complete_scence_people_trend_data, redis_key, area, pid)
+            pool.submit(self._complete_scence_people_trend_data, redis_key, area, pid, time_interval)
         pool.run()
         pool.close()
         return True
@@ -219,3 +139,87 @@ class CompleteScenceData(CompleteDataInterface):
         检查景区人流分布的完整性
         :return:
         """
+
+    def _complete_scence_people_num_data(self, key: str, pid: int, all_missing_time: dict,
+                                         time_interval: datetime.timedelta):
+        """
+        补全缺失的数据
+        :param key: 缓存key
+        :param all_missing_time:缺失数据的时间点
+        :param pid:景区标识
+        :param time_interval: 缓存时间
+
+        :return:
+        """
+        if len(all_missing_time) == 0:
+            return
+        pool = ThreadPool(max_workers=10)
+        for miss_time in all_missing_time.keys():
+            pool.submit(self._fast, pid, miss_time)
+        pool.run()
+        pool.close()
+        mapping = dict()  # 存放需要缓存的数据
+        # 判断数据对应在哪张表插入
+        sql_cmd = "select table_id from digitalsmart.tablemanager where pid={0}".format(pid)
+        table_id = self.mysql_worke.select(sql_cmd)[0][0]
+        # 插入数据库格式语句
+        sql_format = "insert into digitalsmart.historyscenceflow{table_id} (pid, ddate, ttime, num) values ".format(
+            table_id=table_id)
+        insert_values_list = list()  # 存放插入数据库的数据
+        # 并发返回结果
+        for positioning in pool.result:
+            if positioning is None:
+                continue
+            insert_values_list.append(str((pid, positioning.date, positioning.detailTime, positioning.num)))
+            mapping[positioning.detailTime] = positioning.num
+        #  缓存追加
+        self.redis_worke.hash_value_append(key, mapping)
+        self.redis_worke.expire(key, time_interval)
+        # 插入mysql数据库
+
+        values = ','.join(insert_values_list)
+        sql = sql_format + values
+        self.mysql_worke.sumbit(sql)
+
+    @staticmethod
+    def _fast(pid: int, miss_time: str):
+        today = datetime.datetime.today()
+        today_ddate = str(today.date())
+        place = PlacePeopleNum()
+        response_data = place.get_heatdata_bytime(ddate=today_ddate, date_time=miss_time, region_id=pid)
+        if not response_data:
+            return None
+        # 统计数据
+        positioning = place.count_headdata(response_data, today_ddate, miss_time, pid)
+        return positioning
+
+    def _complete_scence_people_trend_data(self, key: str, area_name: str, pid: int, time_interval: datetime.timedelta):
+        """
+         补全数据，这里直接将之前所有的数据写入
+        :param key: 缓存key
+        :param area_name: 景区名
+        :param pid: 景区标识
+        :param time_interval: 缓存时间
+
+        :return:
+        """
+        # 缓存时间
+        now = datetime.datetime.today()  # 现在时间
+        tomorrow = now + datetime.timedelta(days=1)  # 明天
+        today = str(now.date())
+        tomorrow_day = str(tomorrow.date())
+        trend = PlaceTrend(today, tomorrow_day)
+        # 获取这天的趋势数据
+        result_objs = trend.get_trend(area_name, pid)
+        redis_data = dict()
+        insert_values_list: list = list()  # 存放插入数据库的数据
+        for obj in result_objs:
+            insert_values_list.append(str((pid, obj.ddate, obj.detailtime, obj.index)))
+            redis_data[obj.detailtime] = obj.index
+        # 缓存
+        self.redis_worke.hashset(key, redis_data)
+        self.redis_worke.expire(key, time_interval)
+        # 插入数据库
+        values = ','.join(insert_values_list)
+        sql = "insert into digitalsmart.scencetrend (pid, ddate, ttime, rate) VALUES {data}".format(data=values)
+        self.mysql_worke.sumbit(sql)
