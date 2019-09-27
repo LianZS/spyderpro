@@ -1,11 +1,12 @@
+from .celeryconfig import app
+
 import os
 import re
-from .celeryconfig import app
 
 rootpath = os.path.dirname(os.path.abspath(os.path.pardir))
 
 
-@app(queue='default')
+@app.task(queue='clear')
 def clear_mysql_log_bin():
     root = "/var/lib/mysql/"
     log_regular = "mysql_log_bin."
