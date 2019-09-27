@@ -3,7 +3,9 @@ import os
 
 # sys.path[0] = os.path.abspath(os.path.join(os.path.pardir,
 #                                            "/Users/darkmoon/Project/SpyderPr/venv/lib/python3.7/site-packages/"))  # 载入环境from celery.schedules import crontab
-sys.path[0] = os.path.abspath("./venv/lib/python3.7/site-packages/")
+# sys.path[0] = os.path.abspath("./venv/lib/python3.7/site-packages/")
+sys.path[0] ="/home/spyder/lib/python3.7/site-packages/"
+
 from celery.schedules import crontab
 from celery import Celery
 from kombu import Queue, Exchange
@@ -13,7 +15,7 @@ BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/1'
 CELERY_IMPORTS = (
     'celerytask.appinfo_task', 'celerytask.keyword_task', 'celerytask.scence_task', 'celerytask.traffic_task',
-    'celerytask.weather_task', 'celerytask.raw_task',)  # 导入指定任务墨模块
+    'celerytask.weather_task', 'celerytask.raw_task','celerytask.clear_logs',)  # 导入指定任务墨模块
 
 CELERYBEAT_SCHEDULE = {
     'dailycitytraffic': {
@@ -71,6 +73,11 @@ CELERYBEAT_SCHEDULE = {
     "raw_traffic_state": {
         "task": "celerytask.raw_task.monitoring_traffic_raw",
         'schedule': crontab(minute=0, hour='*/2')	,  # 缓存数据交通检测
+
+    },
+    "clear": {
+        "task": "celerytask.clear_logs.clear_mysql_log_bin",
+        'schedule': crontab(minute=0, hour='*/3')	,
 
     },
 
