@@ -19,6 +19,10 @@ class ManagerWeather:
         self._redis_work = RedisConnectPool(10)  # redis连接池
 
     def manager_city_airstate(self):
+        """
+        更新空气质量数据
+        :return:
+        """
         semaphore = Semaphore(1)
         queue = Queue(1)  # 用来通知更新时间
         pool = ConnectPool(max_workers=10)  # mysql数据库连接池
@@ -31,11 +35,11 @@ class ManagerWeather:
         try:
             lasttime = pool.select(sql)[0][0]  # 最近更新时间
         except TypeError:
-            lasttime = ''
+            lasttime = None
         weather = Weather()
-        iter_citys_waetherObjs = weather.get_city_weather_pid()  # 获取城市天气id
+        iter_citys_waether_objs = weather.get_city_weather_pid()  # 获取城市天气id
         city_map = dict()
-        for obj in iter_citys_waetherObjs:
+        for obj in iter_citys_waether_objs:
             city_map[obj.city] = obj.aqi_pid
         thread_pool = ThreadPool(max_workers=10)
         count = len(result)  # 任务计数，0时通知更新时间
@@ -78,9 +82,10 @@ class ManagerWeather:
         thread_pool.run()
         thread_pool.close()
         # 更新时间
-        sql = "update digitalsmart.airstate set flag=0 where lasttime='{0}'".format(lasttime)
-        queue.get()
-        pool.sumbit(sql)
+        if lasttime:
+            sql = "update digitalsmart.airstate set flag=0 where lasttime='{0}'".format(lasttime)
+            queue.get()
+            pool.sumbit(sql)
         pool.close()
         print("天气数据写入成功")
 
