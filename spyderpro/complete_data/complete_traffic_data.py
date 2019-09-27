@@ -106,7 +106,7 @@ class CompleteTraffic(CompleteDataInterface):
         if not mapping:
             return
         #  缓存追加
-        self.redis_worke.hash_value_append(key, mapping)
+        self.redis_worke.hashset(key, mapping)
         self.redis_worke.expire(key, cache_time)
         # 插入mysql数据库
 
