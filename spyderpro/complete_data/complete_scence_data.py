@@ -44,6 +44,7 @@ class CompleteScenceData(CompleteDataInterface):
             check_status = self.check_data_complete(list(redis_data.keys()), time_interval)
             if not check_status:
                 break
+
         # 相差time_difference秒必须检查数据完整性
         if self.time_difference(now_time, complete_keys) > time_difference or not check_status:
             result = self._check_scence_people_num_complete(complete_keys, scence_type, cache_time)  # 补漏数据
@@ -57,8 +58,8 @@ class CompleteScenceData(CompleteDataInterface):
         景区类别人流趋势完整性数据检查
         :param now_time:此时时间
         :param cache_time: redis中的缓存时间间隔
-
-        :param time_difference:时间差
+        :param time_difference:允许的时间差
+        :param time_interval: 缓存数据的时间间隔
         :return:
         """
         complete_keys_regular = "trend:%d"
@@ -93,13 +94,14 @@ class CompleteScenceData(CompleteDataInterface):
         now = datetime.datetime.now()
         now_time = str(now.time())
         complete_time = dict()  # 存放一整天的时间点
-        if scence_type == 0:
+        if scence_type == 0:  # 生成完整数据的时间序列
             while 1:
                 complete_time[str(init_time.time())] = 0  # 键值0表示该时间点还没有数据，1表示有
                 init_time = init_time + datetime.timedelta(minutes=5)
                 if str(init_time.time()) > now_time:
                     break
         temp_complete_time = dict()
+        # x处理缺失数据
         for redis_key in complete_keys:
             if scence_type == 0:
                 temp_complete_time = copy.deepcopy(complete_time)
@@ -170,21 +172,20 @@ class CompleteScenceData(CompleteDataInterface):
         sql_format = "insert into digitalsmart.historyscenceflow{table_id} (pid, ddate, ttime, num) values ".format(
             table_id=table_id)
         insert_values_list = list()  # 存放插入数据库的数据
-        # 并发返回结果
-        for item in pool.result:
-
-            if item is None:
-                continue
+        # 并发返回结果， 如果scence_type为0的话，pool.result结果是一个以positioning为元素的列表，否则元素是一个positioning的生成器
+        for positioning in pool.result:
             if scence_type == 0:
-                positioning = item
                 insert_values_list.append(str((pid, positioning.date, positioning.detailTime, positioning.num)))
                 mapping[positioning.detailTime] = positioning.num
             else:
-                for positioning in item:
-                    insert_values_list.append(str((pid, positioning.date, positioning.detailTime, positioning.num)))
-                    mapping[positioning.detailTime] = positioning.num
+                for item in positioning:
+                    insert_values_list.append(str((pid, item.date, item.detailTime, item.num)))
+                    mapping[item.detailTime] = item.num
         #  缓存追加
-        self.redis_worke.hash_value_append(key, mapping)
+        if scence_type == 0:
+            self.redis_worke.hash_value_append(key, mapping)
+        else:
+            self.redis_worke.hashset(key, mapping)
         self.redis_worke.expire(key, cache_time)
         # 插入mysql数据库
 
@@ -194,6 +195,13 @@ class CompleteScenceData(CompleteDataInterface):
 
     @staticmethod
     def _fast(scence_type: int, pid: int, miss_time: str):
+        """
+        网络爬虫，返回数据对象
+        :param scence_type:景区类别0，1
+        :param pid: 景区id
+        :param miss_time:缺失的时间
+        :return:
+        """
 
         today = datetime.datetime.today()
         today_ddate = str(today.date())
@@ -205,11 +213,10 @@ class CompleteScenceData(CompleteDataInterface):
                 return None
             positioning = place.count_headdata(response_data, today_ddate, miss_time, pid)
 
+
         else:
             scence = ScencePeopleFlow()
             positioning = scence.peopleflow_info(pid, int(today_ddate.replace("-", '')))
-            if not positioning:
-                return None
 
         return positioning
 
