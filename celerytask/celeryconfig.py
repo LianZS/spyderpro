@@ -13,16 +13,16 @@ BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/1'
 CELERY_IMPORTS = (
     'celerytask.appinfo_task', 'celerytask.keyword_task', 'celerytask.scence_task', 'celerytask.traffic_task',
-    'celerytask.weather_task')  # 导入指定任务墨模块
+    'celerytask.weather_task', 'celerytask.raw_task',)  # 导入指定任务墨模块
 
 CELERYBEAT_SCHEDULE = {
     'dailycitytraffic': {
         'task': 'celerytask.traffic_task.monitoring_dailycitytraffic',
-        'schedule': crontab('*/30'),  # 5分钟执行一遍
+        'schedule': crontab('*/30'),  # 30分钟执行一遍
     },
     'roadtraffic': {
         'task': 'celerytask.traffic_task.monitoring_roadtraffic',
-        'schedule': crontab('*/30'),  # 12分钟执行一遍
+        'schedule': crontab('*/30'),  # 30分钟执行一遍
     },
     'yeartraffic': {
         'task': 'celerytask.traffic_task.monitoring_yeartraffic',
@@ -39,7 +39,7 @@ CELERYBEAT_SCHEDULE = {
     },
     'scencepeople_change': {
         'task': 'celerytask.scence_task.monitoring_scencepeople_change',
-        'schedule': crontab('*/5'),  # 每天12min运行一次
+        'schedule': crontab('*/5'),  # 每5min运行一次
     },
     'scencepeople_history': {
         'task': 'celerytask.scence_task.statistics_scencepeople',
@@ -58,8 +58,23 @@ CELERYBEAT_SCHEDULE = {
         'task': 'celerytask.weather_task.monitoring_weather_state',
         'schedule': crontab('*/60'),  # 空气监测。
     },
+    "raw_air_state": {
+        "task": "celerytask.raw_task.monitoring_airstatus_raw",
+        'schedule': crontab(minute=0, hour='*/3')	,  # 缓存数据空气质量检测
 
-}  # 默认的定时调度程   序
+    },
+    "raw_scence_state": {
+        "task": "celerytask.raw_task.monitoring_scence_raw",
+        'schedule': crontab(minute=7, hour='*/2')	,  # 缓存数据景区流量检测
+
+    },
+    "raw_traffic_state": {
+        "task": "celerytask.raw_task.monitoring_traffic_raw",
+        'schedule': crontab(minute=0, hour='*/2')	,  # 缓存数据交通检测
+
+    },
+
+}  # 默认的定时调度程序
 CELERY_QUEUES = (
     Queue('default', exchange=Exchange('default', type='direct', delivery_mode=1, durable=False)),
     Queue('app', routing_key='celerytask.tasappinfo_task.#', exchange=Exchange('appinfo_task', type='direct')),
@@ -80,6 +95,7 @@ CELERY_QUEUES = (
           exchange=Exchange('traffic_task', type='direct')),
 
     Queue('weather', routing_key='celerytask.weather_task.#', exchange=Exchange('weather_task', type='direct')),
+    Queue('raw_status', routing_key='celerytask.raw_task.#', exchange=Exchange('raw_status', type='direct')),
 
 )  # 自定义队列
 CELERY_TASK_DEFAULT_QUEUE = 'default'  # 默认队列
@@ -98,9 +114,10 @@ CELERY_ROUTES = {
     'celerytask.traffic_task.monitoring_yeartraffic': {'queue': 'year_traffic'},
 
     'celerytask.weather_task.*': {'queue': 'weather'},
+    'celerytask.raw_task.*': {'queue': 'raw_status'},
 
 }  # 路由器列表
-CELERYD_CONCURRENCY = 7  # 设置并发的worker数量
+CELERYD_CONCURRENCY = 30  # 设置并发的worker数量
 
 CELERYD_MAX_TASKS_PER_CHILD = 100  # 每个worker最多执行100个任务被销毁，可以防止内存泄漏
 CELERY_TASK_ACKS_LATE = True  # 允许重试
