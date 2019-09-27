@@ -12,11 +12,11 @@ class CompleteAirStatus(CompleteDataInterface):
                          "flag": 1, "lasttime": str(now)}
     """
 
-    def type_airstatus_check(self, now_time: datetime, time_interval: datetime.timedelta, time_difference: int):
+    def type_airstatus_check(self, now_time: datetime, cache_time: datetime.timedelta, time_difference: int):
         """
         检查空气质量数据并补全
         :param now_time: 此时时间
-        :param time_interval: 缓存时间
+        :param cache_time: 缓存时间
         :param time_difference: 允许的超时时长
         :return:
         """
@@ -31,21 +31,21 @@ class CompleteAirStatus(CompleteDataInterface):
             # 检查数据是否完整
 
             if not lasttime:
-                self._check_airstatus_complete(complete_keys, time_interval, now_time)
+                self._check_airstatus_complete(complete_keys, cache_time, now_time)
                 return
         # 之前数据更新时间与现在的时间差
         timedelta = (now_time - lasttime).seconds
         if timedelta > time_difference:
-            self._check_airstatus_complete(complete_keys, time_interval, now_time)
+            self._check_airstatus_complete(complete_keys, cache_time, now_time)
 
         return True
 
-    def _check_airstatus_complete(self, complete_keys: list, time_interval: datetime.timedelta,
+    def _check_airstatus_complete(self, complete_keys: list, cache_time: datetime.timedelta,
                                   now_time: datetime.datetime) -> bool:
         """
         提交补全空气质量数据请求
         :param complete_keys:缓存keys
-        :param time_interval:缓存时间
+        :param cache_time:缓存时间
         :param now_time:此时时间
         :return:
         """
@@ -66,7 +66,7 @@ class CompleteAirStatus(CompleteDataInterface):
         for citypid, city_name in city_info:
             redis_key = citypid_key_map[str(citypid)]
             city_weather_pid = city_air_map[city_name]
-            self._complete_airstatus_data(redis_key, citypid, city_weather_pid, time_interval, now_time)
+            self._complete_airstatus_data(redis_key, citypid, city_weather_pid, cache_time, now_time)
         sql = "select lasttime from digitalsmart.airstate where flag=1"
         try:
             lasttime = self.mysql_worke.select(sql)[0][0]  # 最近更新时间
@@ -79,13 +79,13 @@ class CompleteAirStatus(CompleteDataInterface):
         return True
 
     def _complete_airstatus_data(self, key: str, city_pid: int, city_weather_pid: int,
-                                 time_interval: datetime.timedelta, now_time: datetime.datetime):
+                                 cache_time: datetime.timedelta, now_time: datetime.datetime):
         """
         补全空气中质量数据
         :param key:缓存key
         :param city_pid:城市表示
         :param city_weather_pid:城市天气pid表示
-        :param time_interval:缓存时间
+        :param cache_time:缓存时间
         :param now_time:此时时间
         :return:
         """
@@ -104,7 +104,7 @@ class CompleteAirStatus(CompleteDataInterface):
         value = {"pid": city_pid, "aqi": aqi, "pm2": pm2, "pm10": pm10, "co": co, "no2": no2, "o3": o3, "so2": so2,
                  "flag": 1, "lasttime": str(now_time)}
         self.redis_worke.hashset(key, value)
-        self.redis_worke.expire(name=key, time_interval=time_interval)
+        self.redis_worke.expire(name=key, time_interval=cache_time)
         # 更新数据库
         sql = "insert into digitalsmart.airstate(pid, aqi, pm2, pm10, co, no2, o3, so2, flag, lasttime) " \
               "value (%d,%d,%d,%d,%f,%d,%d,%d,%d,'%s')" % (city_pid, aqi, pm2, pm10, co, no2, o3, so2, 1, now_time)
