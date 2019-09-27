@@ -3,8 +3,8 @@ import os
 
 # sys.path[0] = os.path.abspath(os.path.join(os.path.pardir,
 #                                            "/Users/darkmoon/Project/SpyderPr/venv/lib/python3.7/site-packages/"))  # 载入环境from celery.schedules import crontab
-# sys.path[0] = os.path.abspath("./venv/lib/python3.7/site-packages/")
-sys.path[0] ="/home/spyder/lib/python3.7/site-packages/"
+sys.path[0] = os.path.abspath("./venv/lib/python3.7/site-packages/")
+# sys.path[0] ="/home/spyder/lib/python3.7/site-packages/"
 
 from celery.schedules import crontab
 from celery import Celery
@@ -83,7 +83,7 @@ CELERYBEAT_SCHEDULE = {
 
 }  # 默认的定时调度程序
 CELERY_QUEUES = (
-    Queue('default', exchange=Exchange('default', type='direct', delivery_mode=1, durable=False)),
+    # Queue('clear', routing_key='celerytask.clear_logs.clear_mysql_log_bin',exchange=Exchange('clear', type='direct')),
     Queue('app', routing_key='celerytask.appinfo_task.#', exchange=Exchange('appinfo_task', type='direct')),
     Queue('Internet', routing_key='celerytask.keyword_task.#', exchange=Exchange('keyword_task', type='direct')),
     Queue('scence_people_change', routing_key='celerytask.scence_task.monitoring_scencepeople_change',
@@ -105,7 +105,6 @@ CELERY_QUEUES = (
     Queue('raw_status', routing_key='celerytask.raw_task.#', exchange=Exchange('raw_status', type='direct')),
 
 )  # 自定义队列
-CELERY_TASK_DEFAULT_QUEUE = 'default'  # 默认队列
 CELERY_ROUTES = {
     'celerytask.appinfo_task.*': {'queue': 'app'},
     'celerytask.keyword_task.*': {'queue': 'Internet'},
@@ -122,7 +121,7 @@ CELERY_ROUTES = {
 
     'celerytask.weather_task.*': {'queue': 'weather'},
     'celerytask.raw_task.*': {'queue': 'raw_status'},
-    "celerytask.clear_logs.clear_mysql_log_bin":{"queue":"default"},
+    # "celerytask.clear_logs.clear_mysql_log_bin":{"queue":"clear"},
 
 }  # 路由器列表
 CELERYD_CONCURRENCY = 30  # 设置并发的worker数量
