@@ -77,7 +77,7 @@ CELERYBEAT_SCHEDULE = {
 }  # 默认的定时调度程序
 CELERY_QUEUES = (
     Queue('default', exchange=Exchange('default', type='direct', delivery_mode=1, durable=False)),
-    Queue('app', routing_key='celerytask.tasappinfo_task.#', exchange=Exchange('appinfo_task', type='direct')),
+    Queue('app', routing_key='celerytask.appinfo_task.#', exchange=Exchange('appinfo_task', type='direct')),
     Queue('Internet', routing_key='celerytask.keyword_task.#', exchange=Exchange('keyword_task', type='direct')),
     Queue('scence_people_change', routing_key='celerytask.scence_task.monitoring_scencepeople_change',
           exchange=Exchange('scence_task', type='direct')),
