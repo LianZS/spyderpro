@@ -122,6 +122,7 @@ CELERY_ROUTES = {
 
     'celerytask.weather_task.*': {'queue': 'weather'},
     'celerytask.raw_task.*': {'queue': 'raw_status'},
+    "celerytask.clear_logs.clear_mysql_log_bin":{"queue":"default"},
 
 }  # 路由器列表
 CELERYD_CONCURRENCY = 30  # 设置并发的worker数量
