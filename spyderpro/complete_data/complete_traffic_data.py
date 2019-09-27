@@ -50,32 +50,35 @@ class CompleteTraffic(CompleteDataInterface):
                 break
         # 相差time_difference秒必须检查数据完整性
         if self.time_difference(now_time, complete_keys) > time_difference or not check_status:
-            result = self._check_citytraffic_complete(complete_keys)
+            result = self._check_citytraffic_complete(complete_keys, time_interval)
             return result
         return True
 
-    def _check_citytraffic_complete(self, complete_keys: list) -> bool:
+    def _check_citytraffic_complete(self, complete_keys: list, time_interval: datetime.timedelta) -> bool:
         """
         提交补漏数据请求
         :param complete_keys: 缓存key
+        :param time_interval: 缓存时间
+
         :return:
         """
         thread_pool = ThreadPool(max_workers=10)
         for key in complete_keys:
-            thread_pool.submit(self._complete_citytraffic_data, key)
+            thread_pool.submit(self._complete_citytraffic_data, key, time_interval)
         thread_pool.run()
         thread_pool.close()
 
         return True
 
-    def _complete_citytraffic_data(self, key: str):
+    def _complete_citytraffic_data(self, key: str, time_interval: datetime.timedelta):
         """
         请求并补全缺失的数据
 
         :param key: 缓存key
+        :param time_interval: 缓存时间
+
         :return:
         """
-        time_interval = datetime.timedelta(minutes=120)
 
         citycode = int(re.match("traffic:(\d+)", key).group(1))  # 城市id
         if citycode > 1000:
