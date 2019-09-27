@@ -1,6 +1,6 @@
 import requests
 import re
-from typing import Dict, Iterator
+from typing import Iterator
 from bs4 import BeautifulSoup
 from spyderpro.data_requests.weather.aqi import AQIState, InfoOfCityOfAQI
 
@@ -39,25 +39,30 @@ class AirState:
             pid = int(item[1])
             yield InfoOfCityOfAQI(city=city, aqi_pid=pid)
 
-    def get_city_air_state(self, citypid) -> AQIState:
+    def get_city_air_state(self, city_waether_pid) ->AQIState:
+        """
+
+        :param city_waether_pid: 城市天气专属pid
+        :return:
+        """
         # 获取城市最新的空气数据
-        href = "http://tianqi.2345.com/t/his/" + str(citypid) + "his.js"
+        href = "http://tianqi.2345.com/t/his/" + str(city_waether_pid) + "his.js"
         response = self.request.get(url=href, headers=self.headers)
         if response.status_code != 200:
-            return None
+            return AQIState(0, 0, 0, 0, 0, 0, 0)
         soup = BeautifulSoup(response.text, 'lxml')
         aqi = int(soup.find(name="span").text)  # AQI  指数
-        href = "http://tianqi.2345.com/air-" + str(citypid) + ".htm"
+        href = "http://tianqi.2345.com/air-" + str(city_waether_pid) + ".htm"
         try:
             response = self.request.get(url=href, headers=self.headers)
         except requests.exceptions.ConnectionError:
             print("网络链接error")
-            return None
+            return AQIState(0, 0, 0, 0, 0, 0, 0)
         except requests.exceptions.ChunkedEncodingError:
             print("网络链接error")
-            return None
+            return AQIState(0, 0, 0, 0, 0, 0, 0)
         if response.status_code != 200:
-            return None
+            return AQIState(0, 0, 0, 0, 0, 0, 0)
         soup = BeautifulSoup(response.text, 'lxml')
         ul = soup.find(name="ul", attrs={"class": "clearfix"})
         air_map = dict()
