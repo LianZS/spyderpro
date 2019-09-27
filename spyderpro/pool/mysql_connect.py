@@ -1,5 +1,6 @@
 from setting import *
 from queue import Queue
+from threading import Lock
 from spyderpro.pool.connect_interface import ConnectInterface
 
 
@@ -20,6 +21,7 @@ class ConnectPool(ConnectInterface):
                 max_workers = 10
             if max_workers <= 0:
                 raise ValueError("连接池必须大于0")
+            self._lock = Lock()
             self._max_workers = max_workers
             self.work_queue = Queue(max_workers)
             self._broken = False
@@ -34,7 +36,7 @@ class ConnectPool(ConnectInterface):
         """
         for i in range(self._max_workers):
             db = pymysql.connect(host=host, user=user, password=password, database='digitalsmart',
-                                 port=port,connect_timeout=20)
+                                 port=port, connect_timeout=20)
             self.work_queue.put(db)
 
     def sumbit(self, sql_cmd: str):
@@ -49,9 +51,10 @@ class ConnectPool(ConnectInterface):
         db = self.work_queue.get()
         cur = db.cursor()
         try:
-
+            self._lock.acquire()
             cur.execute(sql_cmd)
             db.commit()
+            self._lock.release()
         except Exception as e:
             print(e)
             db.rollback()
