@@ -19,13 +19,16 @@ class CompleteTraffic(CompleteDataInterface):
         季度交通数据：key = "yeartraffic:{pid}".format(pid=region_id) ,value={'yyyymmdd':rate,....}
     """
 
-    def type_daily_citytraffic_check(self, city_type: int, now_time: datetime, time_interval: datetime.timedelta,
+    def type_daily_citytraffic_check(self, city_type: int, now_time: datetime, cache_time: datetime.timedelta,
+                                     time_interval: datetime.timedelta,
                                      time_difference: int):
         """
         检查城市实时交通拥堵延迟指数数据是否完整
         :param city_type:0表示百度交通，1表示高德交通
         :param now_time:此时时间
-        :param time_interval:city_type 为0 是5分钟时间间隔，1时30分钟
+        :param time_interval:缓存时间的间隔city_type 为0 是5分钟时间间隔，1时30分钟
+        :param cache_time:缓存时间
+
         :param time_difference:允许的时间差
         :return:
         """
@@ -50,32 +53,32 @@ class CompleteTraffic(CompleteDataInterface):
                 break
         # 相差time_difference秒必须检查数据完整性
         if self.time_difference(now_time, complete_keys) > time_difference or not check_status:
-            result = self._check_citytraffic_complete(complete_keys, time_interval)
+            result = self._check_citytraffic_complete(complete_keys, cache_time)
             return result
         return True
 
-    def _check_citytraffic_complete(self, complete_keys: list, time_interval: datetime.timedelta) -> bool:
+    def _check_citytraffic_complete(self, complete_keys: list, cache_time: datetime.timedelta) -> bool:
         """
         提交补漏数据请求
         :param complete_keys: 缓存key
-        :param time_interval: 缓存时间
+        :param cache_time: 缓存时间
 
         :return:
         """
         thread_pool = ThreadPool(max_workers=10)
         for key in complete_keys:
-            thread_pool.submit(self._complete_citytraffic_data, key, time_interval)
+            thread_pool.submit(self._complete_citytraffic_data, key, cache_time)
         thread_pool.run()
         thread_pool.close()
 
         return True
 
-    def _complete_citytraffic_data(self, key: str, time_interval: datetime.timedelta):
+    def _complete_citytraffic_data(self, key: str, cache_time: datetime.timedelta):
         """
         请求并补全缺失的数据
 
         :param key: 缓存key
-        :param time_interval: 缓存时间
+        :param cache_time: 缓存时间
 
         :return:
         """
@@ -104,7 +107,7 @@ class CompleteTraffic(CompleteDataInterface):
             return
         #  缓存追加
         self.redis_worke.hash_value_append(key, mapping)
-        self.redis_worke.expire(key, time_interval)
+        self.redis_worke.expire(key, cache_time)
         # 插入mysql数据库
 
         values = ','.join(insert_values_list)
