@@ -15,7 +15,7 @@ class ConnectPool(ConnectInterface):
         return cls._instance
 
     def __init__(self, max_workers, host, user, password, database,
-                 port, connect_timeout=50):
+                 port, connect_timeout=360):
         """
 
         :param max_workers: 最大连接数
