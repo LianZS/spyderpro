@@ -1,5 +1,4 @@
 import datetime
-from multiprocessing import Process
 from spyderpro.complete_data.complete_scence_data import CompleteScenceData
 from spyderpro.complete_data.complete_traffic_data import CompleteTraffic
 from spyderpro.complete_data.complete_airstatus_data import CompleteAirStatus
@@ -35,7 +34,6 @@ class ManagerRAW:
         time_interval = datetime.timedelta(minutes=5)  # 缓存数据的时间间隔
         # 检查一类景区人流趋势是否完整
         complete.type_scence_people_trend_check(now_time, cache_time, time_interval, 2100)
-        exit()
         # 下面检查第一类景区---数据间隔5分钟
         complete.type_scence_people_num_check(0, now_time, cache_time, time_interval, 2100)
 
@@ -78,5 +76,3 @@ class ManagerRAW:
         now_time = datetime.datetime.now()
         cache_time = datetime.timedelta(minutes=60)  # 数据缓存时间
         complete.type_airstatus_check(now_time, cache_time, 2 * 3600)
-
-
