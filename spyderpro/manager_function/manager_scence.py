@@ -164,6 +164,8 @@ class ManagerScence(PositioningPeople):
                     mysql_pool.sumbit(sql_cmd)  # 写入数据库
                     mapping[ttime] = rate
                 # 缓存key
+                if not mapping:
+                    return
                 redis_key = "trend:{pid}".format(pid=region_id)
                 # 缓存数据
                 self._redis_worker.hash_value_append(name=redis_key, mapping=mapping)
