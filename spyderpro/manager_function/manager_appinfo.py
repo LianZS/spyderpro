@@ -102,11 +102,12 @@ class ManagerApp(MobileKey, MysqlOperation):
 
     def manager_app_active_data(self):  # 每个月一次
         """    获取app的用户画像数据,性别占比,年龄分布,省份覆盖率,app用户关键词"""
-        pool = ConnectPool(max_workers=10)
+        mysql_pool = ConnectPool(max_workers=10, host=host, user=user, password=password, port=port,
+                                 database=database)
         app = AppUserhabit()
         sql = "select id,name from digitalsmart.appinfo"
 
-        result = pool.select(sql)
+        result = mysql_pool.select(sql)
         if not result:
             return None
         today = datetime.datetime.today()
@@ -124,4 +125,4 @@ class ManagerApp(MobileKey, MysqlOperation):
             rate_low = obj.rate_low  # 行业均值
             sql_cmd = "insert into digitalsmart.appactive(pid, ddate, activenum, activerate, base_activerate, aver_activerate) " \
                       "VALUE (%d,'%s',%d,%f,%f,%f)" % (pid, date, active_num, active_rate, rate_hight, rate_low)
-            pool.sumbit(sql_cmd)
+            mysql_pool.sumbit(sql_cmd)
