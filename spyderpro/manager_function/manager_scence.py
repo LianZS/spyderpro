@@ -3,6 +3,7 @@ import time
 import json
 from typing import Iterator
 from threading import Thread
+from setting import *
 from spyderpro.pool.threadpool import ThreadPool
 from spyderpro.pool.mysql_connect import ConnectPool
 from spyderpro.pool.redis_connect import RedisConnectPool
@@ -38,12 +39,13 @@ class ManagerScence(PositioningPeople):
         # 景区数据源类别--百度为1，腾讯为0
         type_flag = 1
         # 接连接池
-        pool = ConnectPool(max_workers=10)
+
+        mysql_pool = ConnectPool(max_workers=10, host=host, user=user, password=password, port=port, database=database)
         # 获取需要获取实时客流量数据的景区信息
         sql = "select ds.pid,dt.table_id from digitalsmart.scencemanager as ds inner join digitalsmart.tablemanager " \
               "as dt on ds.type_flag=dt.flag   and ds.pid=dt.pid where ds.type_flag=1"
         # 提交mysql查询
-        iterator_pids = pool.select(sql)
+        iterator_pids = mysql_pool.select(sql)
         # 线程池
         thread_pool = ThreadPool(max_workers=10)
         # 缓存时间
@@ -58,12 +60,9 @@ class ManagerScence(PositioningPeople):
                 :param table_index: 景区所处表序号
                 :return:
                 """
-                # 从队列取出db实例
-                db = pool.work_queue.get()
                 # 获取最新的客流量数据
-                instances = scence.get_scence_situation(db=db, peoplepid=area_id, table_id=table_index)
+                instances = scence.get_scence_situation(mysql_pool, peoplepid=area_id, table_id=table_index)
                 # 从db实例放回队列
-                pool.work_queue.put(db)
                 # 确定插入哪张表
                 sql_format = "insert into digitalsmart.historyscenceflow{0}(pid, ddate, ttime, num) " \
                              "values ('%d','%d','%s','%d')".format(table_index)
@@ -76,7 +75,7 @@ class ManagerScence(PositioningPeople):
                     sql_cmd = sql_format % (
                         info.region_id, info.date, info.detailTime, info.num)
                     # 提交
-                    pool.sumbit(sql_cmd)
+                    mysql_pool.sumbit(sql_cmd)
                     mapping[info.detailTime] = info.num
                 # 缓存
                 self._redis_worker.hash_value_append(name=redis_key, mapping=mapping)
@@ -89,7 +88,7 @@ class ManagerScence(PositioningPeople):
         # 关闭线程池
         thread_pool.close()
         # 关闭mysql连接池
-        pool.close()
+        mysql_pool.close()
 
         print("百度资源景区数据挖掘完毕")
 
@@ -110,11 +109,11 @@ class ManagerScence(PositioningPeople):
         # 结束日期
         str_end = str(date_tomorrow.date())
         # mysql 连接池
-        pool = ConnectPool(10)
+        mysql_pool = ConnectPool(max_workers=10, host=host, user=user, password=password, port=port, database=database)
         # 查询需要获取客流量趋势的景区信息
         sql = "select pid,area from digitalsmart.scencemanager where type_flag=0 "
         # 提交查询请求
-        data = pool.select(sql)
+        data = mysql_pool.select(sql)
         # 连接线程池
         thread_pool = ThreadPool(max_workers=10)
         # 缓存时间
@@ -142,7 +141,7 @@ class ManagerScence(PositioningPeople):
 
                 try:
                     # 提交查询请求获取最近记录的时间
-                    table_last_time = pool.select(sql_cmd)[-1][0]
+                    table_last_time = mysql_pool.select(sql_cmd)[-1][0]
                     last_ttime = str(table_last_time)
                 except IndexError:
                     pass
@@ -162,7 +161,7 @@ class ManagerScence(PositioningPeople):
                     rate = obj.index  # 该时间点指数
                     sql_cmd = "insert into digitalsmart.scencetrend(pid, ddate, ttime, rate) VALUE(%d,%d,'%s',%f)" % (
                         region_id, ddate, ttime, rate)
-                    pool.sumbit(sql_cmd)  # 写入数据库
+                    mysql_pool.sumbit(sql_cmd)  # 写入数据库
                     mapping[ttime] = rate
                 # 缓存key
                 redis_key = "trend:{pid}".format(pid=region_id)
@@ -177,7 +176,7 @@ class ManagerScence(PositioningPeople):
         # 关闭线程池
         thread_pool.close()
         # 关闭mysql连接池
-        pool.close()
+        mysql_pool.close()
         print("景区趋势挖掘完毕")
 
     def manager_scenece_people(self):
@@ -186,13 +185,14 @@ class ManagerScence(PositioningPeople):
         :return:
         """
         # mysql连接池
-        self.pool = ConnectPool(10)
+        self.mysql_pool = ConnectPool(max_workers=10, host=host, user=user, password=password, port=port,
+                                      database=database)
         # 获取当前时间戳
         up_date = int(datetime.datetime.now().timestamp())
         # 查询需要查询的景区信息
         sql: str = "select pid,latitude,longitude from digitalsmart.scencemanager where type_flag=0"
 
-        data = self.pool.select(sql)
+        data = self.mysql_pool.select(sql)
         # 今天日期
         date_today = datetime.datetime.today()
         ddate = str(date_today.date())
@@ -226,7 +226,7 @@ class ManagerScence(PositioningPeople):
                 # 判断数据对应在哪张表插入
                 sql_cmd = "select table_id from digitalsmart.tablemanager where pid={0}".format(region_id)
 
-                table_id = self.pool.select(sql_cmd)[0][0]
+                table_id = self.mysql_pool.select(sql_cmd)[0][0]
                 # 请求数据
                 last_people_data = pos.get_scenece_people_json_data(date=ddate, dateTime=detailtime,
                                                                     region_id=region_id)
@@ -244,7 +244,7 @@ class ManagerScence(PositioningPeople):
         thread_pool.run()
         # 关闭线程池
         thread_pool.close()
-        self.pool.close()
+        self.mysql_pool.close()
         print("景区人流数据挖掘完毕")
 
     def manager_scenece_people_distribution(self, scence_people_data: dict, region_id, tmp_date: int, centerlat: float,
@@ -297,16 +297,16 @@ class ManagerScence(PositioningPeople):
                 sql_value = ','.join(insert_mysql_data)
                 sql = select_table + sql_value
                 # 提交数据
-                self.pool.sumbit(sql)
+                self.mysql_pool.sumbit(sql)
                 insert_mysql_data.clear()
         sql_value = ','.join(insert_mysql_data)
         sql = select_table + sql_value
-        self.pool.sumbit(sql)
+        self.mysql_pool.sumbit(sql)
 
         # 更新人流分布管理表的修改时间
         sql = "update digitalsmart.tablemanager  " \
               "set last_date={0} where pid={1}".format(tmp_date, region_id)
-        self.pool.sumbit(sql)
+        self.mysql_pool.sumbit(sql)
 
     def manager_scenece_people_situation(self, table_id: int, scence_people_data: dict, pid: int, ddate: str,
                                          ttime: str):
@@ -323,14 +323,13 @@ class ManagerScence(PositioningPeople):
         type_flag = 0  # 景区数据源类别--百度为1，腾讯为0
         pos = PositioningSituation()
         instance = pos.get_scence_people_count(scence_people_data, ddate, ttime, pid)
-        sql_format = "insert into digitalsmart.historyscenceflow{0}(pid, ddate, ttime, num)  " \
-                     "values (%d,%d,'%s',%d) ".format(
+        sql_format = "insert into digitalsmart.historyscenceflow{0}(pid, ddate, ttime, num) values (%d,%d,'%s',%d) ".format(
             table_id)
 
         sql = sql_format % (
             instance.region_id, instance.date, instance.detailTime, instance.num)
         # 插入mysql数据库
-        self.pool.sumbit(sql)
+        self.mysql_pool.sumbit(sql)
         # 缓存时间
         time_interval = datetime.timedelta(minutes=60)
         # 缓存key
