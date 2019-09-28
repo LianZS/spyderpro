@@ -83,7 +83,7 @@ CELERYBEAT_SCHEDULE = {
 
 }  # 默认的定时调度程序
 CELERY_QUEUES = (
-    # Queue('clear', routing_key='celerytask.clear_logs.clear_mysql_log_bin',exchange=Exchange('clear', type='direct')),
+    Queue('clear', routing_key='celerytask.clear_logs.clear_mysql_log_bin',exchange=Exchange('clear', type='direct')),
     Queue('app', routing_key='celerytask.appinfo_task.#', exchange=Exchange('appinfo_task', type='direct')),
     Queue('Internet', routing_key='celerytask.keyword_task.#', exchange=Exchange('keyword_task', type='direct')),
     Queue('scence_people_change', routing_key='celerytask.scence_task.monitoring_scencepeople_change',
@@ -121,7 +121,7 @@ CELERY_ROUTES = {
 
     'celerytask.weather_task.*': {'queue': 'weather'},
     'celerytask.raw_task.*': {'queue': 'raw_status'},
-    # "celerytask.clear_logs.clear_mysql_log_bin":{"queue":"clear"},
+    "celerytask.clear_logs.clear_mysql_log_bin":{"queue":"clear"},
 
 }  # 路由器列表
 CELERYD_CONCURRENCY = 30  # 设置并发的worker数量
