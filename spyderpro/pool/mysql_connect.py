@@ -67,6 +67,8 @@ class ConnectPool(ConnectInterface):
             except Exception as e:
                 print(e, sql)
                 db.rollback()
+        cur.close()
+        db.close()
 
     def sumbit(self, sql_cmd: str):
         """
