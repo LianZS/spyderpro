@@ -36,10 +36,12 @@ class Parent(MysqlOperation):
 
 class ScenceFlow(Parent):
 
-    def get_scence_situation(self, db, peoplepid, table_id) -> List[Positioning]:
+    def get_scence_situation(self, mysql_pool: ConnectPool, peoplepid: int, table_id: int) -> List[Positioning]:
         """
         请求某个景区实时客流量
+        :param mysql_pool:mysql连接池
         :param peoplepid: 景区id
+        :param table_id:表序列号
         :return: bool
         """
         ddate: int = int(str(datetime.datetime.today().date()).replace("-", ''))
@@ -50,7 +52,7 @@ class ScenceFlow(Parent):
         # positioning_data = list(data_instances)
         # self.__redis_cache(positioning_data)#缓存数据
         # 过滤已存在的数据
-        info = self.__filter_peopleflow(db, instances, ddate, peoplepid, table_id)
+        info = self.__filter_peopleflow(mysql_pool, instances, ddate, peoplepid, table_id)
 
         return info
 
@@ -73,11 +75,12 @@ class ScenceFlow(Parent):
         redis_pool.hashset(name=key, mapping=dict_data)
 
     # 检查数据库是否存在部分数据，存在则不再插入
-    def __filter_peopleflow(self, db_connect, objs: Iterator[Positioning], ddate: int, peoplepid: int, table_id: int) -> \
+    def __filter_peopleflow(self, mysql_pool: ConnectPool, objs: Iterator[Positioning], ddate: int, peoplepid: int,
+                            table_id: int) -> \
             List[Positioning]:
         """
         检查数据库是否存在部分数据，存在则不再插入
-        :param db_connect:  数据库实例
+        :param mysql_pool:  mysql连接池
         :param objs: Positioning列表
         :param ddate: 日期
         :param peoplepid: 数据库查询条件
@@ -86,12 +89,8 @@ class ScenceFlow(Parent):
         sql_cmd = "select ttime from digitalsmart.historyscenceflow{table_id} where pid={pid} and  ddate={ddate} ".format(
             table_id=table_id, pid=peoplepid,
             ddate=ddate)
-        cursor = self.get_cursor(db_connect, sql_cmd)  # 从数据库获取当天已存在的数据
-        if cursor == "error":
-            return []
-        data = cursor.fetchall()  # 从数据库获取已经存在的数据
 
-        cursor.close()
+        data = mysql_pool.select(sql_cmd)  # 从数据库获取已经存在的数据
         dic = {}
         for info in objs:  # 构造对象字典
             dic[info.detailTime] = info
