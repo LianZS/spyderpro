@@ -4,7 +4,7 @@ import abc
 class ConnectInterface(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
-    def _init_pool_(self):
+    def _init_pool_(self, host, user, password, database, port, connect_timeout):
         """
         初始化连接池
         :return:
