@@ -1,6 +1,7 @@
 import datetime
 from threading import Semaphore
 from queue import Queue
+from setting import *
 from spyderpro.pool.threadpool import ThreadPool
 from spyderpro.pool.redis_connect import RedisConnectPool
 from spyderpro.pool.mysql_connect import ConnectPool
@@ -25,15 +26,15 @@ class ManagerWeather:
         """
         semaphore = Semaphore(1)
         queue = Queue(1)  # 用来通知更新时间
-        pool = ConnectPool(max_workers=10)  # mysql数据库连接池
-
+        mysql_pool = ConnectPool(max_workers=10, host=host, user=user, password=password, port=port,
+                                 database=database)
         now = datetime.datetime.now()
 
         sql = "select pid,name from digitalsmart.citymanager"
-        result = list(pool.select(sql))
+        result = list(mysql_pool.select(sql))
         sql = "select lasttime from digitalsmart.airstate where flag=1"
         try:
-            lasttime = pool.select(sql)[0][0]  # 最近更新时间
+            lasttime = mysql_pool.select(sql)[0][0]  # 最近更新时间
         except TypeError:
             lasttime = None
         weather = Weather()
@@ -69,7 +70,7 @@ class ManagerWeather:
                 sql_cmd = "insert into digitalsmart.airstate(pid, aqi, pm2, pm10, co, no2, o3, so2, flag, lasttime) " \
                           "value (%d,%d,%d,%d,%f,%d,%d,%d,%d,'%s')" % (pid, aqi, pm2, pm10, co, no2, o3, so2, 1, now)
 
-                pool.sumbit(sql_cmd)
+                mysql_pool.sumbit(sql_cmd)
                 semaphore.acquire()
                 nonlocal count
                 count -= 1  # 计数
@@ -85,8 +86,8 @@ class ManagerWeather:
         if lasttime:
             sql = "update digitalsmart.airstate set flag=0 where lasttime='{0}'".format(lasttime)
             queue.get()
-            pool.sumbit(sql)
-        pool.close()
+            mysql_pool.sumbit(sql)
+        mysql_pool.close()
         print("天气数据写入成功")
 
 
