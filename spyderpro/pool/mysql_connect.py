@@ -1,6 +1,6 @@
 from setting import *
 from queue import Queue
-from threading import Lock
+from threading import Lock, Thread
 from spyderpro.pool.connect_interface import ConnectInterface
 
 
@@ -14,30 +14,59 @@ class ConnectPool(ConnectInterface):
             cls._bool_instance_flag = True
         return cls._instance
 
-    def __init__(self, max_workers=None):
+    def __init__(self, max_workers, host, user, password, database,
+                 port, connect_timeout=50):
+        """
+
+        :param max_workers: 最大连接数
+        :param host:
+        :param user:
+        :param password:
+        :param database:
+        :param port:
+        :param connect_timeout:
+        """
 
         if ConnectPool._bool_instance_flag:
-            if max_workers is None:
-                max_workers = 10
-            if max_workers <= 0:
-                raise ValueError("连接池必须大于0")
             self._lock = Lock()
             self._max_workers = max_workers
             self.work_queue = Queue(max_workers)
             self._broken = False
             self._shutdown = False
-            self._init_pool_()
+            self.select_connect = pymysql.connect(host=host, user=user, password=password, database=database,
+                                                  port=port, connect_timeout=connect_timeout)  # 专门用来处理查询操作
+            self._stop = Queue(max_workers)  # 通知连接池里的所有连接关闭
+            self._init_pool_(host, user, password, database, port, connect_timeout)
             ConnectPool._bool_instance_flag = False
 
-    def _init_pool_(self):
+    def _init_pool_(self, host, user, password, database, port, connect_timeout):
         """
         初始化连接池
+        :param host:
+        :param user:
+        :param password:
+        :param database:
+        :param port:
+        :param connect_timeout:
         :return:
         """
         for i in range(self._max_workers):
-            db = pymysql.connect(host=host, user=user, password=password, database='digitalsmart',
-                                 port=port, connect_timeout=20)
-            self.work_queue.put(db)
+            Thread(target=self.connect, args=(host, user, password, database,
+                                              port, connect_timeout)).start()
+
+    def connect(self, host, user, password, database,
+                port, connect_timeout):
+        db = pymysql.connect(host=host, user=user, password=password, database=database,
+                             port=port, connect_timeout=connect_timeout)
+        cur = db.cursor()
+        while self._stop.get():
+            sql = self.work_queue.get()  # 接受命令
+            try:
+                cur.execute(sql)
+                db.commit()
+            except Exception as e:
+                print(e, sql)
+                db.rollback()
 
     def sumbit(self, sql_cmd: str):
         """
@@ -47,19 +76,8 @@ class ConnectPool(ConnectInterface):
         """
         if self._shutdown:
             raise RuntimeError('连接池已经关闭，无法创建新的连接')
-
-        db = self.work_queue.get()
-        cur = db.cursor()
-        try:
-            self._lock.acquire()
-            cur.execute(sql_cmd)
-            db.commit()
-            self._lock.release()
-        except Exception as e:
-            print(e)
-            db.rollback()
-        cur.close()
-        self.work_queue.put(db)
+        self._stop.put(1)
+        self.work_queue.put(sql_cmd)
 
     def select(self, sql_cmd: str):
         """
@@ -69,24 +87,18 @@ class ConnectPool(ConnectInterface):
         """
         if self._shutdown:
             raise RuntimeError('连接池已经关闭，无法创建新的连接')
-        db = self.work_queue.get()
-        cur = db.cursor()
-
+        cur = self.select_connect.cursor()
+        iterator_result = []
         try:
-
+            self._lock.acquire()
             cur.execute(sql_cmd)
+            iterator_result = cur.fetchall()
+            self._lock.release()
 
-        except pymysql.err.ProgrammingError as e:
-            print(e)
-            cur.close()
-            raise e
-        except pymysql.err.IntegrityError as e:
-            print(e)
-            cur.close()
-            raise e
-        iterator_result = cur.fetchall()
+        except Exception as e:
+            print(e, sql_cmd)
+
         cur.close()
-        self.work_queue.put(db)
 
         return iterator_result
 
@@ -98,13 +110,9 @@ class ConnectPool(ConnectInterface):
         关闭连接池所有连接
         :return:
         """
-        while 1:
-            try:
-                db = self.work_queue.get_nowait()
 
-                db.close()
-            except Exception:
-                break
+        for i in range(self._max_workers):
+            self._stop.put(0)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.work_queue.empty()
