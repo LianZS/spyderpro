@@ -1,5 +1,6 @@
 import datetime
 import json
+from setting import *
 from spyderpro.pool.threadpool import ThreadPool
 from spyderpro.pool.mysql_connect import ConnectPool
 from spyderpro.pool.redis_connect import RedisConnectPool
@@ -31,9 +32,10 @@ class ManagerTraffic(Traffic):
         获取城市实时交通拥堵情况并写入数据库,半小时执行一次
         :return:
         """
-        pool = ConnectPool(max_workers=10)
+        mysql_pool = ConnectPool(max_workers=10, host=host, user=user, password=password, port=port,
+                                 database=database)
         sql = "select pid, name from digitalsmart.citymanager"
-        data = pool.select(sql)
+        data = mysql_pool.select(sql)
         # 千万不要开系统自带的线程池，占用的内存过大，而且每次线程退出后内存都没有释放，而是一直累加。使用自定义线程池，
         thread_pool = ThreadPool(max_workers=10)
         time_interval = datetime.timedelta(minutes=120)  # 缓存时间
@@ -44,11 +46,9 @@ class ManagerTraffic(Traffic):
 
             def fast(region_id, cityname):
 
-                db = pool.work_queue.get()
                 # 完整数据，过滤后的数据
 
-                filter_info = self.get_city_traffic(citycode=region_id, db=db)  # 获取交通数据
-                pool.work_queue.put(db)
+                filter_info = self.get_city_traffic(citycode=region_id, mysql_pool=mysql_pool)  # 获取交通数据
 
                 if filter_info is None:
                     print("pid:%d -- city:%s 没有数据" % (region_id, cityname))
@@ -63,7 +63,7 @@ class ManagerTraffic(Traffic):
                               " values('%d', '%d', '%s', '%f');" % (
                                   region_id, it.date, it.detailtime, it.index)
                     mapping[it.detailtime] = it.index
-                    pool.sumbit(sql_cmd)
+                    mysql_pool.sumbit(sql_cmd)
                 # 缓存数据
                 redis_key = "traffic:{0}".format(region_id)
 
@@ -73,7 +73,7 @@ class ManagerTraffic(Traffic):
             thread_pool.submit(fast, pid, city)
         thread_pool.run()
         thread_pool.close()
-        pool.close()
+        mysql_pool.close()
         print("城市交通数据挖掘完毕")
 
     def manager_city_road_traffic(self):
@@ -81,13 +81,13 @@ class ManagerTraffic(Traffic):
         获取每个城市实时前10名拥堵道路数据-----10分钟执行一遍
         :return:
         """
-        pool = ConnectPool(max_workers=10)
-
+        mysql_pool = ConnectPool(max_workers=10, host=host, user=user, password=password, port=port,
+                                 database=database)
         up_date = int(datetime.datetime.now().timestamp())  # 记录最新的更新时间
 
         sql = "select pid from digitalsmart.citymanager"
 
-        data = pool.select(sql)  # pid集合
+        data = mysql_pool.select(sql)  # pid集合
         time_interval = datetime.timedelta(minutes=60)  # 缓存时间
 
         for item in data:  # 这里最好不要并发进行，因为每个pid任务下都有10个子线程，在这里开并发 的话容易被封杀
@@ -114,11 +114,11 @@ class ManagerTraffic(Traffic):
                                  "bound, data,roadid,rate) VALUE (%d,'%s',%d,%f,'%s','%s','%s',%d,%f) " % (
                                      region_id, roadname, up_date, speed, direction, bounds,
                                      data_pack, roadid, rate)
-                    pool.sumbit(sql_insert)
+                    mysql_pool.sumbit(sql_insert)
                     sql_cmd = "update  digitalsmart.roadmanager set up_date={0}  where pid={1} and roadid={2}" \
                         .format(up_date, region_id, roadid)
 
-                    pool.sumbit(sql_cmd)  # 更新最近更新时间
+                    mysql_pool.sumbit(sql_cmd)  # 更新最近更新时间
                     # 缓存数据
                     # if data is None or bounds is None:  # 道路拥堵指数数据包请求失败情况下
                     #     continue
@@ -133,25 +133,24 @@ class ManagerTraffic(Traffic):
 
             fast(pid)
 
-        pool.close()
+        mysql_pool.close()
 
         print("城市道路交通数据挖掘完毕")
 
     def manager_city_year_traffic(self):
-        pool = ConnectPool(max_workers=10)
+        mysql_pool = ConnectPool(max_workers=10, host=host, user=user, password=password, port=port,
+                                 database=database)
         sql = "select pid from digitalsmart.citymanager"
 
         thread_pool = ThreadPool(max_workers=10)
-        data = pool.select(sql)
+        data = mysql_pool.select(sql)
         for item in data:
             yearpid = item[0]
 
             def fast(region_id):
 
-                db = pool.work_queue.get()
-                result_objs = self.yeartraffic(region_id, db)
+                result_objs = self.yeartraffic(region_id, mysql_pool)
 
-                pool.work_queue.put(db)
                 if len(result_objs) == 0 or result_objs is None:  # 此次请求没有数据
                     return
                 mapping = dict()
@@ -162,7 +161,7 @@ class ManagerTraffic(Traffic):
                     index = it.index
                     sql_cmd = "insert into digitalsmart.yeartraffic(pid, tmp_date, rate) VALUE (%d,%d,%f)" % (
                         region_id, date, index)
-                    pool.sumbit(sql_cmd)
+                    mysql_pool.sumbit(sql_cmd)
                     mapping[date] = index
 
                 redis_key = "yeartraffic:{pid}".format(pid=region_id)
@@ -171,7 +170,8 @@ class ManagerTraffic(Traffic):
             thread_pool.submit(fast, yearpid)
         thread_pool.run()
         thread_pool.close()
-        pool.close()
+        mysql_pool.close()
+        print("城市季度交通数据挖掘完毕")
 
 
 if __name__ == "__main__":
