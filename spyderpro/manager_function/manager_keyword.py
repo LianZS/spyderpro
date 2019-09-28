@@ -144,9 +144,10 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
         关键词网络我搜索频率----这里没要使用并发，因为一天才进行一次
         :return:
         """
-        pool = ConnectPool(max_workers=5)
+        mysql_pool = ConnectPool(max_workers=5, host=host, user=user, password=password, port=port,
+                                 database=database)
         sql = "select pid,area,flag from digitalsmart.scencemanager "
-        data = pool.select(sql)
+        data = mysql_pool.select(sql)
 
         search = SearchKeyword()
         today = datetime.datetime.today()
@@ -164,7 +165,7 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
                 continue
             last_date = self._get_last_date(pid, area, "baidu")  # 最近更新时间,0表示数据库里没有任何数据
             for sql_cmd in self._sql_format(last_date, baidu, pid, area, flag):
-                pool.sumbit(sql_cmd)
+                mysql_pool.sumbit(sql_cmd)
 
             last_date = self._get_last_date(pid, area, "wechat")
             wechat = search.wechat_browser_keyword_frequency(searcharea, startdate=pre_yesterday,
@@ -175,7 +176,7 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
             sougou = search.sougou_browser_keyword_frequency(searcharea, startdate=pre_yesterday,
                                                              enddate=yesterday)  # 获取前两天的数据
             self.sumbit_commit(pid, area, last_date, sougou, flag)
-        pool.close()
+        mysql_pool.close()
 
     def _get_last_date(self, region_id, place, company) -> int:
         """
@@ -187,14 +188,14 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
         """
         sql = "select tmp_date from digitalsmart.searchrate where pid={0} and area='{1}' and name='{2}' order by tmp_date".format(
             region_id, place, company)
-        pool = ConnectPool(max_workers=1)
-        last_date = pool.select(sql)
+        mysql_pool = ConnectPool(max_workers=1, host=host, user=user, password=password, port=port,
+                                 database=database)
+        last_date = mysql_pool.select(sql)
         if len(last_date) == 0:
             last_date = 0
-            print(last_date)
         else:
             last_date = last_date[0][0]
-        pool.close()
+        mysql_pool.close()
         return last_date
 
     def _sql_format(self, last_date, obj, region_id, place, flag):
@@ -240,8 +241,8 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
 
     @staticmethod
     def sumbit_commit(pid, area, lastdate, objs, flag):
-        pool = ConnectPool(max_workers=1)
-        # 搜索频率录入数据库
+        mysql_pool = ConnectPool(max_workers=10, host=host, user=user, password=password, port=port,
+                                 database=database)  # 搜索频率录入数据库
         for item in objs:
             tmp_date = item.update
             if lastdate >= tmp_date:
@@ -251,5 +252,5 @@ class ManagerMobileKey(MobileKey, MysqlOperation):
             name = item.company
             sql = "insert into digitalsmart.searchrate(pid, tmp_date, area, rate, name,flag) values " \
                   "(%d,%d,'%s',%d,'%s',%d)" % (pid, tmp_date, area, rate, name, flag)
-            pool.sumbit(sql)
-        pool.close()
+            mysql_pool.sumbit(sql)
+        mysql_pool.close()
