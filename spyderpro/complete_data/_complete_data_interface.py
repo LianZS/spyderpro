@@ -1,6 +1,8 @@
 import datetime
 import time
 from typing import Iterator, List
+from setting import *
+
 from spyderpro.pool.redis_connect import RedisConnectPool
 from spyderpro.pool.mysql_connect import ConnectPool
 
@@ -13,9 +15,11 @@ class CompleteDataInterface:
 
     def __init__(self):
         self.redis_worke = RedisConnectPool(max_workers=10)
-        self.mysql_worke = ConnectPool(max_workers=1)
+        self.mysql_worke = ConnectPool(max_workers=1, host=host, user=user, password=password, port=port,
+                                       database=database)
 
     def __del__(self):
+        self.mysql_worke.close()
         del self.redis_worke
         del self.mysql_worke
 
