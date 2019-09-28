@@ -1,6 +1,7 @@
 import time
 from typing import Iterator, List
 from pymysql.connections import Connection
+from spyderpro.pool.mysql_connect import ConnectPool
 
 from spyderpro.data_requests.traffic.baidutraffic import BaiduTraffic
 from spyderpro.data_requests.traffic.gaodetraffic import GaodeTraffic
@@ -19,7 +20,7 @@ class Traffic(MysqlOperation):
                 cls.instance = super().__new__(cls)
             cls.instance.programmerpool(cls.instance.get_city_traffic, citycodelist)
 
-    def get_city_traffic(self, citycode: int, db: Connection) -> List[DayilTraffic]:
+    def get_city_traffic(self, citycode: int, mysql_pool: ConnectPool) -> List[DayilTraffic]:
         """
         获取城市实时交通拥堵指数数据
         :param citycode:
@@ -40,16 +41,16 @@ class Traffic(MysqlOperation):
         result = traffic.city_daily_traffic_data(citycode)
         if result is None:
             return None
-        info = self.__dealwith_daily_traffic(result, citycode, db, today, yesterday)  # 过滤掉昨天和已经存在的数据
+        info = self.__dealwith_daily_traffic(result, citycode, mysql_pool, today, yesterday)  # 过滤掉昨天和已经存在的数据
 
         return info
 
-    def __dealwith_daily_traffic(self, info, pid, db, today, yesterday) -> List[DayilTraffic]:
+    def __dealwith_daily_traffic(self, info, pid, mysql_pool: ConnectPool, today, yesterday) -> List[DayilTraffic]:
         """
         重复数据处理
         :param info: 数据包
         :param pid: 城市id
-        :param db: 数据库实例
+        :param mysql_pool: mysql连接词
         :param today: 今天日期
         :param yesterday: 昨天日期
         :return: list
@@ -64,21 +65,13 @@ class Traffic(MysqlOperation):
         "下面是过滤今天已经存在的数据---今天重复的数据剔除"
         sql = "select ttime from  digitalsmart.citytraffic where pid={0} and ddate={1} order by ttime".format(pid,
                                                                                                               today)
-        cursor = self.get_cursor(db, sql)
+        data = mysql_pool.select(sql)
 
-        if cursor == "error":  # cursor()失败
-            print("error")
-            return []
-
-
+        if len(data):
+            ttime = str(data[len(data) - 1][0]) if len(str(data[len(data) - 1][0])) == 8 else "0" + str(
+                data[len(data) - 1][0])  # 最新的时间  xx:xx:xx
         else:
-            data = cursor.fetchall()
-            if len(data):
-                ttime = str(data[len(data) - 1][0]) if len(str(data[len(data) - 1][0])) == 8 else "0" + str(
-                    data[len(data) - 1][0])  # 最新的时间  xx:xx:xx
-            else:
-                ttime = "-1:00:00"  # 今天还未录入数据的情况
-        cursor.close()
+            ttime = "-1:00:00"  # 今天还未录入数据的情况
         # 剔除今天重复的数据
 
         info = self.filter(objs, ttime)
@@ -100,7 +93,7 @@ class Traffic(MysqlOperation):
 
         return result
 
-    def yeartraffic(self, yearpid: int, db: Connection):
+    def yeartraffic(self, yearpid: int, mysql_pool: ConnectPool):
 
         g = None
         if yearpid > 1000:
@@ -110,31 +103,27 @@ class Traffic(MysqlOperation):
         result = g.city_year_traffic_data(yearpid)
         if result is None:
             return None
-        result = self.__dealwith_year_traffic(result, yearpid, db,
+        result = self.__dealwith_year_traffic(result, yearpid, mysql_pool,
                                               lastdate=int(time.strftime("%Y%m%d",
                                                                          time.localtime(time.time() - 24 * 3600))))
         return result
 
-    def __dealwith_year_traffic(self, info: Iterator, pid: int, db: Connection, lastdate: int) -> List[YearTraffic]:
+    def __dealwith_year_traffic(self, info: Iterator, pid: int, mysql_pool: ConnectPool, lastdate: int) -> List[
+        YearTraffic]:
         sql = "select tmp_date from digitalsmart.yeartraffic where pid={0} and tmp_date>= {1} order by tmp_date".format(
             pid, lastdate)
-        cursor = self.get_cursor(db, sql)
+        data = mysql_pool.select(sql)
 
-        if cursor == "error":
-            print("年度数据查询日期数据失败！")
-            return []
-        data = cursor.fetchall()
-
-        if not data:
+        if len(data) == 0:
             return list(info)
-        result: int = data[-1]  # 最近的日期
+        last_date: int = data[-1]  # 最近的日期
 
         info = list(info)
         if len(info) == 0:  # 请求失败情况下
             return []
         i = -1
         for i in range(len(info)):
-            if info[i].date == result:
+            if info[i].date == last_date:
                 break
 
         return info[i + 1:]
