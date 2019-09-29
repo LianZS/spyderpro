@@ -1,5 +1,6 @@
 import time
 import json
+import datetime
 from typing import Iterator, List, Union
 from spyderpro.pool.mysql_connect import ConnectPool
 
@@ -166,7 +167,8 @@ class Traffic(MysqlOperation):
                 break
         return dayiltraffic_instances
 
-    def get_and_write_dailytraffic_into_database(self, mysql_pool, city_pid, cityname, time_interval):
+    def get_and_write_dailytraffic_into_database(self, mysql_pool: ConnectPool, city_pid: int, cityname: str,
+                                                 time_interval: datetime.timedelta):
         """
 
         :param mysql_pool: 连接池实例
@@ -211,7 +213,8 @@ class Traffic(MysqlOperation):
                           city_pid, dailytraffic.date, dailytraffic.detailtime, dailytraffic.index)
             mysql_pool.sumbit(sql_cmd)
 
-    def get_and_write_roadtraffic_into_database(self, mysql_pool, city_pid, up_date, time_interval):
+    def get_and_write_roadtraffic_into_database(self, mysql_pool: ConnectPool, city_pid: int, up_date: int,
+                                                time_interval: datetime.timedelta):
         road_instances = self.road_manager(city_pid)  # 获取道路数据
         if road_instances is None:
             return
@@ -247,3 +250,27 @@ class Traffic(MysqlOperation):
             }
             self._redis_worker.set(redis_key, str(cache_road_data_mapping))
             self._redis_worker.expire(name=redis_key, time_interval=time_interval)
+
+    def get_and_write_yeartraffic_into_database(self, mysql_pool: ConnectPool, city_pid: int,
+                                                time_interval: datetime.timedelta):
+        yeartraffic_instances = self.yeartraffic(city_pid, mysql_pool)
+
+        if len(yeartraffic_instances) == 0 or yeartraffic_instances is None:  # 此次请求没有数据
+            return
+
+        for yeartraffic in yeartraffic_instances:
+            region_id = yeartraffic.region_id
+            date = yeartraffic.date
+            index = yeartraffic.index
+            sql_cmd = "insert into digitalsmart.yeartraffic(pid, tmp_date, rate) VALUE (%d,%d,%f)" % (
+                region_id, date, index)
+            mysql_pool.sumbit(sql_cmd)
+        sql = "select tmp_date,rate from digitalsmart.yeartraffic where pid={pid} and tmp_date>=20190101;".format(
+            pid=city_pid)
+        yeartraffic_data = mysql_pool.select(sql)
+        cache_yeartraffic_mapping = dict()
+        for tmp_date, rate in yeartraffic_data:
+            cache_yeartraffic_mapping[tmp_date] = rate
+        redis_key = "yeartraffic:{pid}".format(pid=city_pid)
+        self._redis_worker.set(redis_key, json.dumps(cache_yeartraffic_mapping))
+        self._redis_worker.expire(name=redis_key, time_interval=time_interval)
