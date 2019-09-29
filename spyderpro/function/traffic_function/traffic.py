@@ -1,6 +1,5 @@
 import time
-from typing import Iterator, List
-from pymysql.connections import Connection
+from typing import Iterator, List, Union
 from spyderpro.pool.mysql_connect import ConnectPool
 
 from spyderpro.data_requests.traffic.baidutraffic import BaiduTraffic
@@ -20,7 +19,7 @@ class Traffic(MysqlOperation):
                 cls.instance = super().__new__(cls)
             cls.instance.programmerpool(cls.instance.get_city_traffic, citycodelist)
 
-    def get_city_traffic(self, citycode: int, mysql_pool: ConnectPool) -> List[DayilTraffic]:
+    def get_city_traffic(self, citycode: int) -> Union[None, Iterator[DayilTraffic]]:
         """
         获取城市实时交通拥堵指数数据
         :param citycode:
@@ -33,19 +32,15 @@ class Traffic(MysqlOperation):
 
             traffic = BaiduTraffic()
         else:
-            return []
-        t = time.time()  # 现在的时间
-        # 分好昨今以便分类过滤
-        today = int(time.strftime('%Y%m%d', time.localtime(t)))
-        yesterday = int(time.strftime('%Y%m%d', time.localtime(t - 3600 * 24)))
-        result = traffic.city_daily_traffic_data(citycode)
-        if result is None:
             return None
-        info = self.__dealwith_daily_traffic(result, citycode, mysql_pool, today, yesterday)  # 过滤掉昨天和已经存在的数据
 
-        return info
+        daily_traffic_instances = traffic.city_daily_traffic_data(citycode)
+        if daily_traffic_instances is None:
+            return None
 
-    def __dealwith_daily_traffic(self, info, pid, mysql_pool: ConnectPool, today, yesterday) -> List[DayilTraffic]:
+        return daily_traffic_instances
+
+    def dealwith_daily_traffic(self, daily_traffic_instances, pid, mysql_pool: ConnectPool, today, yesterday) -> List[DayilTraffic]:
         """
         重复数据处理
         :param info: 数据包
@@ -56,10 +51,10 @@ class Traffic(MysqlOperation):
         :return: list
         """
         # 将昨天的数据全部剔除
-        objs = list(info)
-        for i in range(len(objs)):
-            if objs[i].date > yesterday:
-                objs = objs[i:]
+        daily_traffic_instances = list(daily_traffic_instances)
+        for i in range(len(daily_traffic_instances)):
+            if daily_traffic_instances[i].date > yesterday:
+                objs = daily_traffic_instances[i:]
                 break
 
         "下面是过滤今天已经存在的数据---今天重复的数据剔除"
