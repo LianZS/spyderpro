@@ -1,4 +1,5 @@
 import time
+import json
 from typing import Iterator, List, Union
 from spyderpro.pool.mysql_connect import ConnectPool
 
@@ -7,10 +8,17 @@ from spyderpro.data_requests.traffic.gaodetraffic import GaodeTraffic
 from concurrent.futures import ThreadPoolExecutor
 from spyderpro.port_connect.sql_connect import MysqlOperation
 from spyderpro.data_requests.traffic.citytraffic import DayilTraffic, YearTraffic
+from spyderpro.pool.redis_connect import RedisConnectPool
 
 
 class Traffic(MysqlOperation):
     instance = None
+
+    def __init__(self):
+        self._redis_worker = RedisConnectPool(10)
+
+    def __del__(self):
+        del self._redis_worker
 
     @classmethod
     def dailycitytraffic(cls, citycodelist: list):
@@ -40,15 +48,16 @@ class Traffic(MysqlOperation):
 
         return daily_traffic_instances
 
-    def dealwith_daily_traffic(self, daily_traffic_instances, pid, mysql_pool: ConnectPool, today, yesterday) -> List[DayilTraffic]:
+    def dealwith_daily_traffic(self, daily_traffic_instances: List[DayilTraffic], pid: int, mysql_pool: ConnectPool,
+                               today: int, yesterday: int) -> List[DayilTraffic]:
         """
         重复数据处理
-        :param info: 数据包
+        :param daily_traffic_instances: 交通延迟数据对象包
         :param pid: 城市id
         :param mysql_pool: mysql连接词
-        :param today: 今天日期
-        :param yesterday: 昨天日期
-        :return: list
+        :param today: 今天日期,格式yyyymmdd
+        :param yesterday: 昨天日期，格式yyyymmdd
+        :return:
         """
         # 将昨天的数据全部剔除
         daily_traffic_instances = list(daily_traffic_instances)
@@ -77,16 +86,16 @@ class Traffic(MysqlOperation):
         """
         获取城市道路拥堵数据并写入数据库
         :param citycode: 城市id
-        :return: bool
+        :return:
         """
-        g = None
+        traffic = None
         if citycode > 1000:
-            g = GaodeTraffic()
+            traffic = GaodeTraffic()
         elif citycode < 1000:
-            g = BaiduTraffic()
-        result = g.city_road_traffic_data(citycode)
+            traffic = BaiduTraffic()
+        road_instances = traffic.city_road_traffic_data(citycode)
 
-        return result
+        return road_instances
 
     def yeartraffic(self, yearpid: int, mysql_pool: ConnectPool):
 
@@ -143,37 +152,98 @@ class Traffic(MysqlOperation):
 
     # 数据过滤器
     @staticmethod
-    def filter(info: list, detailtime: str) -> List[DayilTraffic]:
+    def filter(dayiltraffic_instances: list, detailtime: str) -> List[DayilTraffic]:
         """
         过滤数据，清空已存在的数据
-        :param info:数据包
+        :param dayiltraffic_instances:交通延迟指数对象包
         :param detailtime:具体时间段
         :return:list
         """
-        for i in range(len(info)):
+        for i in range(len(dayiltraffic_instances)):
 
-            if info[i].detailtime == detailtime:
-                info = info[i + 1:]
+            if dayiltraffic_instances[i].detailtime == detailtime:
+                dayiltraffic_instances = dayiltraffic_instances[i + 1:]
                 break
-        return info
+        return dayiltraffic_instances
 
-    # def find_name(self, citycode: int, db) -> str:
-    #     """
-    #     查询城市名字
-    #     :param citycode:  城市id
-    #     :param db: 数据库实例
-    #     :return: str ->城市名
-    #     """
-    #     sql = "select  name from trafficdatabase.MainTrafficInfo where cityCode=" + str(citycode) + ";"
-    #     cursor = db.cursor()
-    #     cityname = None
-    #     try:
-    #         cursor.execute(sql)
-    #         db.commit()
-    #         cityname = cursor.fetchone()[0]
-    #
-    #     except TypeError as e:
-    #         print("数据库执行出错:%s" % e)
-    #         db.rollback()
-    #         cursor.close()
-    #     return cityname
+    def get_and_write_dailytraffic_into_database(self, mysql_pool, city_pid, cityname, time_interval):
+        """
+
+        :param mysql_pool: 连接池实例
+        :param city_pid: 城市id
+        :param cityname: 城市名
+        :param time_interval: 缓存时间
+        :return:
+        """
+
+        dailytraffic_instances = self.get_city_traffic(citycode=city_pid)  # 获取交通数据
+
+        if dailytraffic_instances is None:
+            print("pid:%d -- city:%s 没有数据" % (city_pid, cityname))
+
+            return
+
+        now = time.time()  # 现在的时间
+        # 分好昨今以便分类过滤
+        today = int(time.strftime('%Y%m%d', time.localtime(now)))
+        yesterday = int(time.strftime('%Y%m%d', time.localtime(now - 3600 * 24)))
+        dailytraffic_instances = list(dailytraffic_instances)
+        # 缓存数据
+        cache_traffic_data = dict()
+        for dailytraffic in dailytraffic_instances:
+            detailtime = dailytraffic.detailtime  # 时间点
+            index = dailytraffic.index  # 拥堵指数
+            cache_traffic_data[detailtime] = index
+        # 缓存数据
+        redis_key = "traffic:{0}".format(city_pid)
+
+        self._redis_worker.hashset(name=redis_key, mapping=cache_traffic_data)
+        self._redis_worker.expire(name=redis_key, time_interval=time_interval)
+        # 过滤掉昨天和已经存在的数据
+        filter_dailytraffic_instances = self.dealwith_daily_traffic(dailytraffic_instances, city_pid,
+                                                                    mysql_pool, today,
+                                                                    yesterday)
+
+        # 数据写入mysql
+        for dailytraffic in filter_dailytraffic_instances:
+            sql_cmd = "insert into  digitalsmart.citytraffic(pid, ddate, ttime, rate)" \
+                      " values('%d', '%d', '%s', '%f');" % (
+                          city_pid, dailytraffic.date, dailytraffic.detailtime, dailytraffic.index)
+            mysql_pool.sumbit(sql_cmd)
+
+    def get_and_write_roadtraffic_into_database(self, mysql_pool, city_pid, up_date, time_interval):
+        road_instances = self.road_manager(city_pid)  # 获取道路数据
+        if road_instances is None:
+            return
+        for road in road_instances:
+            region_id = road.region_id  # 标识
+            roadname = road.roadname  # 路名
+            speed = road.speed  # 速度
+            direction = road.direction  # 方向
+            bounds = road.bounds  # 经纬度数据集
+            road_traffic_rate_list = road.road_index_data_list  # 拥堵指数集合
+            road_traffic_time_list = road.time_data_list
+            num = road.num
+            data_pack = json.dumps({"num": num, "time": road_traffic_time_list, "data": road_traffic_rate_list})
+            rate = road.rate  # 当前拥堵指数
+            roadid = road.num  # 用排名表示道路id
+            sql_insert = "insert into digitalsmart.roadtraffic(pid, roadname, up_date, speed, direction, " \
+                         "bound, data,roadid,rate) VALUE (%d,'%s',%d,%f,'%s','%s','%s',%d,%f) " % (
+                             region_id, roadname, up_date, speed, direction, bounds,
+                             data_pack, roadid, rate)
+            mysql_pool.sumbit(sql_insert)
+            sql_cmd = "update  digitalsmart.roadmanager set up_date={0}  where pid={1} and roadid={2}" \
+                .format(up_date, region_id, roadid)
+
+            mysql_pool.sumbit(sql_cmd)  # 更新最近更新时间
+            # 缓存数据
+            # if data is None or bounds is None:  # 道路拥堵指数数据包请求失败情况下
+            #     continue
+            redis_key = "road:{pid}:{road_id}".format(pid=city_pid, road_id=roadid)
+            cache_road_data_mapping = {
+                "pid": city_pid, "roadname": roadname, "up_date": up_date, "speed": speed,
+                "direction": direction, "bounds": bounds, "data": data_pack,
+                "roadpid": roadid, "rate": rate
+            }
+            self._redis_worker.set(redis_key, str(cache_road_data_mapping))
+            self._redis_worker.expire(name=redis_key, time_interval=time_interval)
