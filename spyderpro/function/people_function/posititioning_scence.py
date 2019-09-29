@@ -36,7 +36,7 @@ class Parent(MysqlOperation):
 
 class ScenceFlow(Parent):
 
-    def get_scence_situation(self, mysql_pool: ConnectPool, peoplepid: int, table_id: int) -> List[Positioning]:
+    def get_scence_situation(self, area_pid: int, ) -> List[Positioning]:
         """
         请求某个景区实时客流量
         :param mysql_pool:mysql连接池
@@ -47,36 +47,19 @@ class ScenceFlow(Parent):
         ddate: int = int(str(datetime.datetime.today().date()).replace("-", ''))
         flow = ScencePeopleFlow()
         # 获取数据
-        instances = flow.peopleflow_info(peoplepid, ddate)
+        positioning_instances = flow.peopleflow_info(area_pid, ddate)
         # 缓冲数据
-        # positioning_data = list(data_instances)
-        # self.__redis_cache(positioning_data)#缓存数据
         # 过滤已存在的数据
-        info = self.__filter_peopleflow(mysql_pool, instances, ddate, peoplepid, table_id)
+        # ddate: int = int(str(datetime.datetime.today().date()).replace("-", ''))
+        #
+        # info = self.filter_peopleflow(mysql_pool, positioning_instances, ddate, peoplepid, table_id)
 
-        return info
-
-    @staticmethod
-    def __redis_cache(data_objs: List[Positioning]):
-        """
-        缓存数据,缓存key格式为 scence:pid
-        :param data_objs: 数据实例Positioning
-        :return:
-        """
-        dict_data = dict()  # {"HH:MM:SS":num}
-        pid = 0
-        for obj in data_objs:
-            pid = obj.region_id
-            detail_time = obj.detailTime
-            num = obj.num
-            dict_data[detail_time] = num
-        redis_pool = RedisConnectPool(max_workers=1)
-        key = "scence:{0}".format(pid)
-        redis_pool.hashset(name=key, mapping=dict_data)
+        return list(positioning_instances)
 
     # 检查数据库是否存在部分数据，存在则不再插入
-    def __filter_peopleflow(self, mysql_pool: ConnectPool, objs: Iterator[Positioning], ddate: int, peoplepid: int,
-                            table_id: int) -> \
+    def filter_peopleflow(self, mysql_pool: ConnectPool, positioning_instances: Iterator[Positioning], ddate: int,
+                          peoplepid: int,
+                          table_id: int) -> \
             List[Positioning]:
         """
         检查数据库是否存在部分数据，存在则不再插入
@@ -90,15 +73,15 @@ class ScenceFlow(Parent):
             table_id=table_id, pid=peoplepid,
             ddate=ddate)
 
-        data = mysql_pool.select(sql_cmd)  # 从数据库获取已经存在的数据
+        mysql_positioning_data = mysql_pool.select(sql_cmd)  # 从数据库获取已经存在的数据
         dic = {}
-        for info in objs:  # 构造对象字典
-            dic[info.detailTime] = info
+        for positioning in positioning_instances:  # 构造对象字典
+            dic[positioning.detailTime] = positioning
 
-        for item in data:  # 将存在的数据淘汰掉
-            item = str(item[0])
+        for positioning_data in mysql_positioning_data:  # 将存在的数据淘汰掉
+            positioning_data = str(positioning_data[0])
             # 因为从数据库取出来数据时不知为什么变为 、 0：00：00这种格式不适合
-            detailtime: str = item if len(item) == 8 else "0" + item
+            detailtime: str = positioning_data if len(positioning_data) == 8 else "0" + positioning_data
             try:
                 dic.pop(detailtime)
             except KeyError:
