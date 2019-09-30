@@ -175,8 +175,11 @@ class CompleteScenceData(CompleteDataInterface):
         # 并发返回结果， 如果scence_type为0的话，pool.result结果是一个以positioning为元素的列表，否则元素是一个positioning的生成器
         for positioning in pool.result:
             if scence_type == 0:
-                insert_values_list.append(str((pid, positioning.date, positioning.detailTime, positioning.num)))
-                mapping[positioning.detailTime] = positioning.num
+                if positioning is None:
+                    continue
+                if positioning.date is not None:
+                    insert_values_list.append(str((pid, positioning.date, positioning.detailTime, positioning.num)))
+                    mapping[positioning.detailTime] = positioning.num
             else:
                 for item in positioning:
                     insert_values_list.append(str((pid, item.date, item.detailTime, item.num)))
