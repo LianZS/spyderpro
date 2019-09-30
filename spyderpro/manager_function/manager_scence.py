@@ -3,7 +3,6 @@ import time
 import json
 import gc
 from typing import Iterator
-from threading import Thread
 from setting import *
 from spyderpro.pool.threadpool import ThreadPool
 from spyderpro.pool.mysql_connect import ConnectPool
@@ -27,7 +26,7 @@ class ManagerScence(PositioningPeople):
     """
 
     def __init__(self):
-        self._redis_worker = RedisConnectPool(max_workers=10)
+        self._redis_worker = RedisConnectPool(max_workers=7)
 
     def __del__(self):
         del self._redis_worker
@@ -82,7 +81,7 @@ class ManagerScence(PositioningPeople):
                 self._redis_worker.expire(name=redis_key, time_interval=time_interval)
 
                 # 确定插入哪张表
-                sql_format = "insert into digitalsmart.historyscenceflow{table_index}(pid, ddate, ttime, num) " \
+                sql_format = "insert into digitalsmart.historyscenceflow{table_index} (pid, ddate, ttime, num) " \
                              "values ('%d','%d','%s','%d')".format(table_index=table_index)
                 # 开始插入mysql数据库
                 for positioning in filter_positioning_instances:
@@ -199,7 +198,7 @@ class ManagerScence(PositioningPeople):
         :return:
         """
         # mysql连接池
-        self.mysql_pool = ConnectPool(max_workers=10, host=host, user=user, password=password, port=port,
+        self.mysql_pool = ConnectPool(max_workers=8, host=host, user=user, password=password, port=port,
                                       database=database)
         # 获取当前时间戳
         up_date = int(datetime.datetime.now().timestamp())
@@ -361,6 +360,8 @@ class ManagerScence(PositioningPeople):
             num = people_flow[1]  # 客流数
             cache_data_mapping[str(ttime)] = num
         # 缓存时间
+        if not cache_data_mapping:
+            return
         time_interval = datetime.timedelta(minutes=60)
         # 缓存key
         redis_key = "scence:{0}:{1}".format(pid, type_flag)
