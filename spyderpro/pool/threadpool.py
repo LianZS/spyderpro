@@ -15,13 +15,13 @@ class _Worker(object):
         try:
             result = self.fn(*self.args, **self.kwargs)
 
-        except Exception  as e:
+        except Exception as e:
             print(e)
             result = None
         return result
 
 
-class ThreadPool():
+class ThreadPool:
 
     def __init__(self, max_workers=None):
         if max_workers is None:
