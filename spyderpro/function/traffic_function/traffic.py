@@ -271,6 +271,8 @@ class Traffic(MysqlOperation):
         cache_yeartraffic_mapping = dict()
         for tmp_date, rate in yeartraffic_data:
             cache_yeartraffic_mapping[tmp_date] = rate
+        if not cache_yeartraffic_mapping:
+            return
         redis_key = "yeartraffic:{pid}".format(pid=city_pid)
         self._redis_worker.set(redis_key, json.dumps(cache_yeartraffic_mapping))
         self._redis_worker.expire(name=redis_key, time_interval=time_interval)
