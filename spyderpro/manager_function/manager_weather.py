@@ -17,7 +17,7 @@ class ManagerWeather:
     """
 
     def __init__(self):
-        self._redis_work = RedisConnectPool(10)  # redis连接池
+        self._redis_work = RedisConnectPool(8)  # redis连接池
 
     def manager_city_airstate(self):
         """
@@ -26,7 +26,7 @@ class ManagerWeather:
         """
         semaphore = Semaphore(1)
         queue = Queue(1)  # 用来通知更新时间
-        mysql_pool = ConnectPool(max_workers=10, host=host, user=user, password=password, port=port,
+        mysql_pool = ConnectPool(max_workers=7, host=host, user=user, password=password, port=port,
                                  database=database)
         now = datetime.datetime.now()
 
@@ -42,7 +42,7 @@ class ManagerWeather:
         city_map = dict()
         for obj in iter_citys_waether_objs:
             city_map[obj.city] = obj.aqi_pid
-        thread_pool = ThreadPool(max_workers=10)
+        thread_pool = ThreadPool(max_workers=6)
         count = len(result)  # 任务计数，0时通知更新时间
         time_interval = datetime.timedelta(minutes=60)
         for item in result:
