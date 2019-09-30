@@ -51,9 +51,8 @@ class RedisConnectPool(object):
         初始化连接池
         :return:
         """
-
         pool = redis.ConnectionPool(max_connections=self._max_workers, host='localhost', port=6379)
-        self._redis_pool = redis.Redis(connection_pool=pool)
+        self._redis_pool = redis.Redis(connection_pool=pool, socket_connect_timeout=100, socket_timeout=100)
 
     @check_state
     def expire(self, name, time_interval) -> int:
@@ -85,7 +84,6 @@ class RedisConnectPool(object):
             if it already exists.
         :return:
         """
-
         with self._redis_pool.pipeline() as pipe:
             try:
 
@@ -95,8 +93,8 @@ class RedisConnectPool(object):
                 pipe.execute()
                 return resuslt
 
-            except redis.exceptions.WatchError:
-                print("%s --WatchError" % name)
+            except Exception:
+                print("%s  redis-error" % name)
 
     @check_state
     def ttl(self, name) -> int:
