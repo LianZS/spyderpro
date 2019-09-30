@@ -1,7 +1,6 @@
 import datetime
 import time
 import json
-import gc
 from typing import Iterator
 from setting import *
 from spyderpro.pool.threadpool import ThreadPool
@@ -276,7 +275,7 @@ class ManagerScence(PositioningPeople):
         :return:
         """
         # scence_people_data中{',': 0}这类数据属于异常数据
-        if len(scence_people_data.keys()) == 1:
+        if len(scence_people_data.keys()) <= 1:
             return
         pos = PositioningSituation()
         # 获取经纬度人数结构体迭代器
@@ -292,15 +291,18 @@ class ManagerScence(PositioningPeople):
                                                                                centerlon)
         # 需要缓存的数据包生成器
         redis_data = self._generator_of_redis_insert_data(geographi_instances, centerlat, centerlon)
-        del geographi_instances
-        gc.collect()
+
         # 缓存时间
         time_interval = datetime.timedelta(minutes=60)
         # 缓存key
         redis_key = "distribution:{0}".format(region_id)
         # 缓存数据
-        value = json.dumps(list(redis_data))
-        # 缓存
+        try:
+            value = json.dumps(list(redis_data))
+        except Exception as e:
+            print("列表序列化失败", e, region_id)
+            return
+            # 缓存
         self._redis_worker.set(name=redis_key, value=value)
         self._redis_worker.expire(name=redis_key, time_interval=time_interval)
         # 一条条提交到话会话很多时间在日志生成上，占用太多IO了，拼接起来再写入，只用一次日志时间而已
@@ -316,14 +318,15 @@ class ManagerScence(PositioningPeople):
                 # 提交数据
                 self.mysql_pool.sumbit(sql)
                 geographi_data.clear()
-        sql_value = ','.join(geographi_data)
+        if len(geographi_data) > 0:
+            sql_value = ','.join(geographi_data)
 
-        sql = select_table + sql_value
-        self.mysql_pool.sumbit(sql)
+            sql = select_table + sql_value
+            self.mysql_pool.sumbit(sql)
 
         # 更新人流分布管理表的修改时间
         sql = "update digitalsmart.tablemanager  " \
-              "set last_date={0} where pid={1}".format(tmp_date, region_id)
+              "set last_date={0} where pid={1};".format(tmp_date, region_id)
         self.mysql_pool.sumbit(sql)
 
     def manager_scenece_people_situation(self, table_id: int, scence_people_data: dict, pid: int, ddate: str,
@@ -350,7 +353,7 @@ class ManagerScence(PositioningPeople):
         # 插入mysql数据库
         self.mysql_pool.sumbit(sql)
         format_int_of_ddate = int(ddate.replace("-", ''))
-        sql = "select ttime,num from digitalsmart.historyscenceflow{table_id} where ddate={ddate}".format(
+        sql = "select ttime,num from digitalsmart.historyscenceflow{table_id} where ddate={ddate};".format(
             table_id=table_id, ddate=format_int_of_ddate)
         # 需要缓存的数据
         people_flow_data = self.mysql_pool.select(sql)
