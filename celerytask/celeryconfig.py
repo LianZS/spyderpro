@@ -3,8 +3,8 @@ import os
 
 # sys.path[0] = os.path.abspath(os.path.join(os.path.pardir,
 #                                            "/Users/darkmoon/Project/SpyderPr/venv/lib/python3.7/site-packages/"))  # 载入环境from celery.schedules import crontab
-sys.path[0] = os.path.abspath("./venv/lib/python3.7/site-packages/")
-# sys.path[0] ="/home/spyder/lib/python3.7/site-packages/"
+# sys.path[0] = os.path.abspath("./venv/lib/python3.7/site-packages/")
+sys.path[0] ="/home/spyder/lib/python3.7/site-packages/"
 
 from celery.schedules import crontab
 from celery import Celery
@@ -20,11 +20,11 @@ CELERY_IMPORTS = (
 CELERYBEAT_SCHEDULE = {
     'dailycitytraffic': {
         'task': 'celerytask.traffic_task.monitoring_dailycitytraffic',
-        'schedule': crontab('*/30'),  # 30分钟执行一遍
+        'schedule': crontab('*/39'),  # 30分钟执行一遍
     },
     'roadtraffic': {
         'task': 'celerytask.traffic_task.monitoring_roadtraffic',
-        'schedule': crontab('*/30'),  # 30分钟执行一遍
+        'schedule': crontab('*/37'),  # 30分钟执行一遍
     },
     'yeartraffic': {
         'task': 'celerytask.traffic_task.monitoring_yeartraffic',
@@ -37,7 +37,7 @@ CELERYBEAT_SCHEDULE = {
     },
     'scencepeople_trend': {
         'task': 'celerytask.scence_task.monitoring_scencepeople_trend',
-        'schedule': crontab('*/5'),  # 每天5min运行一次
+        'schedule': crontab('*/31'),  # 每天5min运行一次
     },
     'scencepeople_change': {
         'task': 'celerytask.scence_task.monitoring_scencepeople_change',
@@ -58,23 +58,23 @@ CELERYBEAT_SCHEDULE = {
     },
     'weather_air_state': {
         'task': 'celerytask.weather_task.monitoring_weather_state',
-        'schedule': crontab('*/60'),  # 空气监测。
+        'schedule': crontab('*/49'),  # 空气监测。
     },
-    "raw_air_state": {
-        "task": "celerytask.raw_task.monitoring_airstatus_raw",
-        'schedule': crontab(minute=0, hour='*/3')	,  # 缓存数据空气质量检测
-
-    },
-    "raw_scence_state": {
-        "task": "celerytask.raw_task.monitoring_scence_raw",
-        'schedule': crontab(minute=7, hour='*/2')	,  # 缓存数据景区流量检测
-
-    },
-    "raw_traffic_state": {
-        "task": "celerytask.raw_task.monitoring_traffic_raw",
-        'schedule': crontab(minute=0, hour='*/2')	,  # 缓存数据交通检测
-
-    },
+    # "raw_air_state": {
+    #     "task": "celerytask.raw_task.monitoring_airstatus_raw",
+    #     'schedule': crontab(minute=0, hour='*/3')	,  # 缓存数据空气质量检测
+    #
+    # },
+    # "raw_scence_state": {
+    #     "task": "celerytask.raw_task.monitoring_scence_raw",
+    #     'schedule': crontab(minute=7, hour='*/2')	,  # 缓存数据景区流量检测
+    #
+    # },
+    # "raw_traffic_state": {
+    #     "task": "celerytask.raw_task.monitoring_traffic_raw",
+    #     'schedule': crontab(minute=0, hour='*/2')	,  # 缓存数据交通检测
+    #
+    # },
     "clear": {
         "task": "celerytask.clear_logs.clear_mysql_log_bin",
         'schedule': crontab(minute=0, hour='*/3')	,
@@ -124,9 +124,9 @@ CELERY_ROUTES = {
     "celerytask.clear_logs.clear_mysql_log_bin":{"queue":"clear"},
 
 }  # 路由器列表
-CELERYD_CONCURRENCY = 30  # 设置并发的worker数量
+CELERYD_CONCURRENCY = 10  # 设置并发的worker数量
 
-CELERYD_MAX_TASKS_PER_CHILD = 100  # 每个worker最多执行100个任务被销毁，可以防止内存泄漏
+CELERYD_MAX_TASKS_PER_CHILD = 10000  # 每个worker最多执行100个任务被销毁，可以防止内存泄漏
 CELERY_TASK_ACKS_LATE = True  # 允许重试
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT = ['json']
