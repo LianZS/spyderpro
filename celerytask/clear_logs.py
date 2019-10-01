@@ -1,4 +1,5 @@
 from .celeryconfig import app
+import pymysql
 
 import os
 import re
@@ -24,3 +25,24 @@ def clear_mysql_log_bin():
     for file in sort_file_list[:-1]:
         filepath = root + file
         os.remove(filepath)
+
+
+@app.task(queue='clear')
+def clear_mysql():
+    """
+    情况人流数据分布表
+    :return:
+    """
+    user = 'root'
+    password = 'lzs87724158'
+    host = "localhost"
+    port = 3306
+    database = 'digitalsmart'
+
+    db = pymysql.connect(host=host, user=user, password=password, database=database,
+                         port=port)
+    cur = db.cursor()
+    for i in range(1, 444):
+        sql = "truncate table peopleposition{table_id} ;".format(table_id=i)
+        cur.execute(sql)
+        db.commit()
