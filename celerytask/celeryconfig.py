@@ -3,8 +3,8 @@ import os
 
 # sys.path[0] = os.path.abspath(os.path.join(os.path.pardir,
 #                                            "/Users/darkmoon/Project/SpyderPr/venv/lib/python3.7/site-packages/"))  # 载入环境from celery.schedules import crontab
-# sys.path[0] = os.path.abspath("./venv/lib/python3.7/site-packages/")
-sys.path[0] ="/home/spyder/lib/python3.7/site-packages/"
+sys.path[0] = os.path.abspath("./venv/lib/python3.7/site-packages/")
+# sys.path[0] ="/home/spyder/lib/python3.7/site-packages/"
 
 from celery.schedules import crontab
 from celery import Celery
@@ -15,12 +15,12 @@ BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/1'
 CELERY_IMPORTS = (
     'celerytask.appinfo_task', 'celerytask.keyword_task', 'celerytask.scence_task', 'celerytask.traffic_task',
-    'celerytask.weather_task', 'celerytask.raw_task','celerytask.clear_logs',)  # 导入指定任务墨模块
+    'celerytask.weather_task', 'celerytask.raw_task', 'celerytask.clear_logs',)  # 导入指定任务墨模块
 
 CELERYBEAT_SCHEDULE = {
     'dailycitytraffic': {
         'task': 'celerytask.traffic_task.monitoring_dailycitytraffic',
-        'schedule': crontab('*/39'),  # 30分钟执行一遍
+        'schedule': crontab('*/51'),  # 30分钟执行一遍
     },
     'roadtraffic': {
         'task': 'celerytask.traffic_task.monitoring_roadtraffic',
@@ -37,7 +37,7 @@ CELERYBEAT_SCHEDULE = {
     },
     'scencepeople_trend': {
         'task': 'celerytask.scence_task.monitoring_scencepeople_trend',
-        'schedule': crontab('*/31'),  # 每天5min运行一次
+        'schedule': crontab('*/29'),  # 每天5min运行一次
     },
     'scencepeople_change': {
         'task': 'celerytask.scence_task.monitoring_scencepeople_change',
@@ -77,13 +77,18 @@ CELERYBEAT_SCHEDULE = {
     # },
     "clear": {
         "task": "celerytask.clear_logs.clear_mysql_log_bin",
-        'schedule': crontab(minute=0, hour='*/3')	,
+        'schedule': crontab(minute=0, hour='*/3'),
+
+    },
+    "clear_mysql": {
+        "task": "celerytask.clear_logs.clear_mysql",
+        'schedule': crontab(minute=0, hour='*/8'),
 
     },
 
 }  # 默认的定时调度程序
 CELERY_QUEUES = (
-    Queue('clear', routing_key='celerytask.clear_logs.clear_mysql_log_bin',exchange=Exchange('clear', type='direct')),
+    Queue('clear', routing_key='celerytask.clear_logs.#', exchange=Exchange('clear', type='direct')),
     Queue('app', routing_key='celerytask.appinfo_task.#', exchange=Exchange('appinfo_task', type='direct')),
     Queue('Internet', routing_key='celerytask.keyword_task.#', exchange=Exchange('keyword_task', type='direct')),
     Queue('scence_people_change', routing_key='celerytask.scence_task.monitoring_scencepeople_change',
@@ -121,12 +126,12 @@ CELERY_ROUTES = {
 
     'celerytask.weather_task.*': {'queue': 'weather'},
     'celerytask.raw_task.*': {'queue': 'raw_status'},
-    "celerytask.clear_logs.clear_mysql_log_bin":{"queue":"clear"},
+    "celerytask.clear_logs.*": {"queue": "clear"},
 
 }  # 路由器列表
 CELERYD_CONCURRENCY = 10  # 设置并发的worker数量
 
-CELERYD_MAX_TASKS_PER_CHILD = 10000  # 每个worker最多执行100个任务被销毁，可以防止内存泄漏
+CELERYD_MAX_TASKS_PER_CHILD = 1  # 每个worker最多执行1个任务被销毁，可以防止内存泄漏
 CELERY_TASK_ACKS_LATE = True  # 允许重试
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT = ['json']
