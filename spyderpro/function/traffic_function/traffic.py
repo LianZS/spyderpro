@@ -64,7 +64,7 @@ class Traffic(MysqlOperation):
         daily_traffic_instances = list(daily_traffic_instances)
         for i in range(len(daily_traffic_instances)):
             if daily_traffic_instances[i].date > yesterday:
-                objs = daily_traffic_instances[i:]
+                daily_traffic_instances = daily_traffic_instances[i:]
                 break
 
         "下面是过滤今天已经存在的数据---今天重复的数据剔除"
@@ -78,8 +78,7 @@ class Traffic(MysqlOperation):
         else:
             ttime = "-1:00:00"  # 今天还未录入数据的情况
         # 剔除今天重复的数据
-
-        info = self.filter(objs, ttime)
+        info = self.filter(daily_traffic_instances, ttime)
 
         return info
 
