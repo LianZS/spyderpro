@@ -41,12 +41,13 @@ class PlaceTrend(_PlacePeopleParentInterface):
 
             self.request = requests.Session()
 
-    def get_trend(self, region_name: str, pid: int, predict: bool = False) -> Iterator[Trend]:
+    def get_trend(self, region_name: str, pid: int, predict: bool = False):
         """
 
         获取地点的位置流量趋势指数，返回list({地点, 日期，趋势列表},,,)
         :param region_name:  地名
         :param pid: 地点id
+        :param predict:是否获取预测数据
 
         :return  Iterator[Trend]
         """
@@ -61,21 +62,71 @@ class PlaceTrend(_PlacePeopleParentInterface):
         # 请求链接
         str_href = "https://heat.qq.com/api/getLocation_uv_percent_new.php?" + urlencode(dict_parameter)
         par: str = None
-        # 获取返回数据
-        dict_data = self.connect(par, str_href)
+        # 获取趋势数据
+        trend_data: dict = self.connect(par, str_href)
+        area_trend_data = None
+        if not predict:
+            area_trend_data = self.actual_trend_data(trend_data, region_name, pid)
+        else:
+            area_trend_data = self.contain_predict_trend_data(trend_data, region_name, pid)
+        return area_trend_data
+
+    def actual_trend_data(self, trend_data: dict, region_name: str, pid: int) -> Iterator[Trend]:
+        """
+
+        :param trend_data: 趋势数据dict包，键值为「2019-10-08」与『2019-10-08预测』这样的格式
+        :param region_name: 景区名
+        :param pid: 景区标识
+        :return:
+        """
         # 获取间隔日期 ----仅限于最大周期15天
         intervallong = timedelta(minutes=5)
         # # 时间从00：00：00开始计算，不管日期，这里只是为了取时间
         datetime_starttime = datetime(2019, 1, 1, 0, 0, 0)
         # 获取用户需要请求的日期时间
-        for date in self._date_iterator():
-            for index, detail_time in zip(dict_data[date],
+        for ddate in self._date_iterator():
+            for index, detail_time in zip(trend_data[ddate],
                                           [str((datetime_starttime + intervallong * i).time()) for i in
-                                           range(len(dict_data[date]))]):
+                                           range(len(trend_data[ddate]))]):
                 if index == "null":
                     break
                 # 趋势结构体
-                trend = Trend(pid=pid, place=region_name, date=int(date.replace("-", "")), index=float(index),
+                trend = Trend(pid=pid, place=region_name, date=int(ddate.replace("-", "")), index=float(index),
+                              detailtime=detail_time)
+                yield trend
+
+    def contain_predict_trend_data(self, trend_data: dict, region_name: str, pid: int) -> Iterator[Trend]:
+        """
+
+        :param trend_data: 趋势数据dict包，键值为「2019-10-08」与『2019-10-08预测』这样的格式
+        :param region_name: 景区名
+        :param pid: 景区标识
+        :return:
+         """
+        # 获取间隔日期 ----仅限于最大周期15天
+        intervallong = timedelta(minutes=5)
+        # # 时间从00：00：00开始计算，不管日期，这里只是为了取时间
+        datetime_starttime = datetime(2019, 1, 1, 0, 0, 0)
+        # 获取用户需要请求的日期时间
+
+        for ddate in self._date_iterator():
+            actual_trend_data: list = trend_data[ddate]
+            predict_trend_data: list = trend_data[ddate + "预测"]
+            all_trend_data = list()
+            for rate in actual_trend_data:
+                if rate == "null":
+                    break
+                all_trend_data.append(rate)
+            for rate in predict_trend_data:
+                if rate == "null":
+                    continue
+                all_trend_data.append(rate)
+
+            for index, detail_time in zip(all_trend_data,
+                                          [str((datetime_starttime + intervallong * i).time()) for i in
+                                           range(len(trend_data[ddate]))]):
+                # 趋势结构体
+                trend = Trend(pid=pid, place=region_name, date=int(ddate.replace("-", "")), index=float(index),
                               detailtime=detail_time)
                 yield trend
 
