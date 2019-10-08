@@ -41,7 +41,7 @@ class PlaceTrend(_PlacePeopleParentInterface):
 
             self.request = requests.Session()
 
-    def get_trend(self, region_name: str, pid: int) -> Iterator[Trend]:
+    def get_trend(self, region_name: str, pid: int, predict: bool = False) -> Iterator[Trend]:
         """
 
         获取地点的位置流量趋势指数，返回list({地点, 日期，趋势列表},,,)
@@ -56,7 +56,7 @@ class PlaceTrend(_PlacePeopleParentInterface):
             'date_begin': self.yyyy_mm_dd_date_begin,
             'date_end': self.yyyy_mm_dd_date_end,
             'range': self.intervallong,
-            'predict': False  # 是否获取预测数据,若为true，预测那天的键需要加上「预测」两字
+            'predict': predict  # 是否获取预测数据,若为true，预测那天的键需要加上「预测」两字
         }
         # 请求链接
         str_href = "https://heat.qq.com/api/getLocation_uv_percent_new.php?" + urlencode(dict_parameter)
