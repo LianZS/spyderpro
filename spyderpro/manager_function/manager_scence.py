@@ -1,7 +1,8 @@
 import datetime
 import time
 import json
-from typing import Iterator
+from typing import Iterator, Tuple
+from threading import Thread
 from setting import *
 from spyderpro.pool.threadpool import ThreadPool
 from spyderpro.pool.mysql_connect import ConnectPool
@@ -105,34 +106,28 @@ class ManagerScence(PositioningPeople):
         地区人口趋势数据管理---5分钟一次
         :return:
         """
-        # 今天
-        date_today = datetime.datetime.today()
-        # 时间间隔
-        time_inv = datetime.timedelta(days=1)
-        # 明天
-        date_tomorrow = date_today + time_inv
-        # 今天日期
-        str_start = str(date_today.date())
 
-        # 结束日期
-        str_end = str(date_tomorrow.date())
+        date_today = datetime.datetime.today()  # 今天
+        time_inv = datetime.timedelta(days=1)  # 时间间隔
+        date_tomorrow = date_today + time_inv  # 明天
+        str_start = str(date_today.date())  # 今天日期
+        str_end = str(date_tomorrow.date())  # 结束日期
+        now_time = datetime.datetime.now()  # 现在时间
+        hour = now_time.hour
+        minuties = now_time.minute
+        minuties = minuties - minuties % 5  # 将分钟转为5的整数倍
+        dividing_time_line = str(datetime.datetime(2019, 1, 1, hour, minuties, 0).time())  # 作为分割实际和预测的时间线
         # mysql 连接池
         mysql_pool = ConnectPool(max_workers=6, host=host, user=user, password=password, port=port, database=database)
-        # 查询需要获取客流量趋势的景区信息
-        sql = "select pid,area from digitalsmart.scencemanager where type_flag=0 "
-        # 提交查询请求
-        data = mysql_pool.select(sql)
-        # 连接线程池
-        thread_pool = ThreadPool(max_workers=6)
-        # 缓存时间
-        time_interval = datetime.timedelta(minutes=33)
+        sql = "select pid,area from digitalsmart.scencemanager where type_flag=0 "  # 查询需要获取客流量趋势的景区信息
+        scence_info_data: Tuple = mysql_pool.select(sql)  # 提交查询请求
+        thread_pool = ThreadPool(max_workers=6)  # 连接线程池
+        time_interval = datetime.timedelta(minutes=33)  # 缓存时间
         pos_trend = PositioningTrend()
-        # 更新数据
-        for item in data:
-            # 景区唯一标识
-            pid = item[0]
-            # 景区名字
-            area = item[1]
+        predict = True  # 是否获取预测数据
+        for item in scence_info_data:  # 更新数据
+            pid = item[0]  # 景区唯一标识
+            area = item[1]  # 景区名字
 
             def fast(region_id, place):
                 """
@@ -141,11 +136,10 @@ class ManagerScence(PositioningPeople):
                 :param place: 景区名
                 :return:
                 """
-                # 景区数据最近的更新时间
+
                 sql_cmd = "select ttime from digitalsmart.scencetrend where pid={0} and ddate='{1}' " \
-                          "order by ttime".format(region_id, int(str_start.replace("-", "")))
-                # 默认-1点，当为-1时表示目前没有当天的任何数据
-                last_ttime: str = "-1:00:00"
+                          "order by ttime".format(region_id, int(str_start.replace("-", "")))  # 景区数据最近的更新时间
+                last_ttime: str = "-1:00:00"  # 默认-1点，当为-1时表示目前没有当天的任何数据
 
                 try:
                     # 提交查询请求获取最近记录的时间
@@ -153,20 +147,16 @@ class ManagerScence(PositioningPeople):
                     last_ttime = str(table_last_time)
                 except IndexError:
                     pass
-                # 获取趋势数据
                 trend_instances = pos_trend.get_place_index(name=place, placeid=region_id, date_start=str_start,
-                                                            date_end=str_end)
-                # 用来缓存数据
-                cache_data_mapping = dict()
-                # 插入数据以及缓存
-                for trend in trend_instances:
+                                                            date_end=str_end, predict=predict)  # 获取趋势数据
+                cache_data_mapping = dict()  # 用来缓存数据
+
+                for trend in trend_instances:  # 插入数据以及缓存--将实际的数据插入数据库，实际和预测的放在内存
                     ttime = trend.detailtime  # 该时间点
                     rate = trend.index  # 该时间点指数
-
                     cache_data_mapping[ttime] = rate
-                    if ttime <= last_ttime:  # 过滤最近记录时间前的数据
+                    if ttime <= last_ttime or ttime >dividing_time_line:  # 过滤最近记录时间前的数据
                         continue
-
                     region_id = trend.region_id  # 景区标识
                     ddate = trend.ddate  # 目前日期
                     sql_cmd = "insert into digitalsmart.scencetrend(pid, ddate, ttime, rate) VALUE(%d,%d,'%s',%f)" % (
@@ -182,6 +172,7 @@ class ManagerScence(PositioningPeople):
 
             # 提交任务
             thread_pool.submit(fast, pid, area)
+            break
         # 执行任务队列
         thread_pool.run()
         # 关闭线程池
@@ -247,10 +238,10 @@ class ManagerScence(PositioningPeople):
                 # 更新人流分布情况数据
                 self.manager_scenece_people_distribution(last_positioning_data, region_id, up_date, float_lat,
                                                          float_lon, table_id)
-                # Thread(target=self.manager_scenece_people_distribution,
-                #        args=(last_positioning_data, region_id, up_date, float_lat, float_lon, table_id)).start()
-                # 更新客流量数据
+
                 self.manager_scenece_people_situation(table_id, last_positioning_data, region_id, ddate, detailtime)
+
+                # 更新客流量数据
 
             # 提交任务
             thread_pool.submit(fast, info)
@@ -407,5 +398,5 @@ if __name__ == "__main__":
 
     m = ManagerScence()
     Process(target=m.manager_scence_trend).start()
-    Process(target=m.manager_scence_situation).start()
-    Process(target=m.manager_scenece_people).start()
+    # Process(target=m.manager_scence_situation).start()
+    # Process(target=m.manager_scenece_people).start()
