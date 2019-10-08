@@ -1,8 +1,8 @@
 import datetime
 import time
 import json
+import re
 from typing import Iterator, Tuple
-from threading import Thread
 from setting import *
 from spyderpro.pool.threadpool import ThreadPool
 from spyderpro.pool.mysql_connect import ConnectPool
@@ -155,7 +155,7 @@ class ManagerScence(PositioningPeople):
                     ttime = trend.detailtime  # 该时间点
                     rate = trend.index  # 该时间点指数
                     cache_data_mapping[ttime] = rate
-                    if ttime <= last_ttime or ttime >dividing_time_line:  # 过滤最近记录时间前的数据
+                    if ttime <= last_ttime or ttime > dividing_time_line:  # 过滤最近记录时间前的数据
                         continue
                     region_id = trend.region_id  # 景区标识
                     ddate = trend.ddate  # 目前日期
@@ -170,15 +170,11 @@ class ManagerScence(PositioningPeople):
                 self._redis_worker.hashset(name=redis_key, mapping=cache_data_mapping)
                 self._redis_worker.expire(name=redis_key, time_interval=time_interval)
 
-            # 提交任务
-            thread_pool.submit(fast, pid, area)
-            break
-        # 执行任务队列
-        thread_pool.run()
-        # 关闭线程池
-        thread_pool.close()
-        # 关闭mysql连接池
-        mysql_pool.close()
+            thread_pool.submit(fast, pid, area)  # 提交任务
+
+        thread_pool.run()  # 执行任务队列
+        thread_pool.close()  # 关闭线程池
+        mysql_pool.close()  # 关闭mysql连接池
 
         print("景区趋势挖掘完毕")
 
@@ -187,68 +183,52 @@ class ManagerScence(PositioningPeople):
         更新某时刻的人流数据
         :return:
         """
-        # mysql连接池
         self.mysql_pool = ConnectPool(max_workers=8, host=host, user=user, password=password, port=port,
-                                      database=database)
-        # 获取当前时间戳
-        up_date = int(datetime.datetime.now().timestamp())
-        # 查询需要查询的景区信息
-        sql: str = "select pid,latitude,longitude from digitalsmart.scencemanager where type_flag=0"
+                                      database=database)  # mysql连接池
+
+        up_date = int(datetime.datetime.now().timestamp())  # 获取当前时间戳
+
+        sql: str = "select pid,latitude,longitude from digitalsmart.scencemanager where type_flag=0"  # 查询需要查询的景区信息
 
         data = self.mysql_pool.select(sql)
-        # 今天日期
-        date_today = datetime.datetime.today()
+        date_today = datetime.datetime(2019, 10, 8, 1, 1, 0)  # 今天日期
         ddate = str(date_today.date())
-        # 今天时间戳
-        tmp_date = date_today.timestamp()
+        tmp_date = date_today.timestamp()  # 今天时间戳
         if date_today.time().minute % 5 > 0:  # 纠正计算挤时间，分钟必须事5的倍数
-            # 当前时间点
-            now_time = date_today.time()
-            # 调整当前时间点的分钟
-            minute = now_time.minute - now_time.minute % 5
+            now_time = date_today.time()  # 当前时间点
+            minute = now_time.minute - now_time.minute % 5  # 调整当前时间点的分钟
             detailtime = "{0:0>2}:{1:0>2}:00".format(now_time.hour, minute)
         else:
             detailtime = time.strftime("%H:%M:00", time.localtime(tmp_date))
-        # 开启线程池
-        thread_pool = ThreadPool(max_workers=6)
+        thread_pool = ThreadPool(max_workers=6)  # 开启线程池
         pos = PositioningSituation()
-        # 更新数据
-        for info in data:  #
-
+        for info in data:  # 更新数据
             def fast(item):
                 """
                 请求景区客流量趋势，写入数据库以及内存
-
                 :param item: 景区基本信息字典
                 :return:
                 """
                 region_id = item[0]  # 景区标识
                 float_lat = item[1]  # 景区纬度
                 float_lon = item[2]  # 景区经度
+                sql_cmd = "select table_id from digitalsmart.tablemanager where pid={0}".format(
+                    region_id)  # 判断数据对应在哪张表插入
 
-                # 判断数据对应在哪张表插入
-                sql_cmd = "select table_id from digitalsmart.tablemanager where pid={0}".format(region_id)
-
-                table_id = self.mysql_pool.select(sql_cmd)[0][0]
-                # 请求最新的人流分布数据
+                table_id = self.mysql_pool.select(sql_cmd)[0][0]  # 数据对应插在那张表
                 last_positioning_data = pos.get_scenece_people_json_data(date=ddate, dateTime=detailtime,
-                                                                         region_id=region_id)
+                                                                         region_id=region_id)  # 请求最新的人流分布数据
+
                 if not last_positioning_data:  # 请求失败
                     return
-                # 更新人流分布情况数据
                 self.manager_scenece_people_distribution(last_positioning_data, region_id, up_date, float_lat,
-                                                         float_lon, table_id)
-
+                                                         float_lon, table_id)  # 更新人流分布情况数据
                 self.manager_scenece_people_situation(table_id, last_positioning_data, region_id, ddate, detailtime)
 
-                # 更新客流量数据
+            thread_pool.submit(fast, info)  # 提交任务
 
-            # 提交任务
-            thread_pool.submit(fast, info)
-        # 执行任务队列
-        thread_pool.run()
-        # 关闭线程池
-        thread_pool.close()
+        thread_pool.run()  # 执行任务队列
+        thread_pool.close()  # 关闭线程池
         self.mysql_pool.close()
         print("景区人流数据挖掘完毕")
 
@@ -269,32 +249,25 @@ class ManagerScence(PositioningPeople):
         if len(scence_people_data.keys()) <= 1:
             return
         pos = PositioningSituation()
-        # 获取经纬度人数结构体迭代器
-        geographi_instances = pos.get_scence_distribution_situation(scence_people_data)
-        # 确定哪张表
+        geographi_instances = pos.get_scence_distribution_situation(scence_people_data)  # 获取经纬度人数结构体迭代器
+
         select_table: str = "insert into digitalsmart.peopleposition{table_id} (pid, tmp_date, lat, lon, num) VALUES" \
-            .format(table_id=table_id)
-        # 存放经纬度人数数据
-        geographi_instances = list(geographi_instances)
-        # 需要插入数据库的数据生成器
+            .format(table_id=table_id)  # 确定哪张表
+        geographi_instances = list(geographi_instances)  # 存放经纬度人数数据
         insert_mysql_geographi_datapack = self._generator_of_mysql_insert_data(geographi_instances, region_id, tmp_date,
                                                                                centerlat,
-                                                                               centerlon)
-        # 需要缓存的数据包生成器
-        redis_data = self._generator_of_redis_insert_data(geographi_instances, centerlat, centerlon)
+                                                                               centerlon)  # 需要插入数据库的数据生成器
+        redis_data = self._generator_of_redis_insert_data(geographi_instances, centerlat, centerlon)  # 需要缓存的数据包生成器
+        time_interval = datetime.timedelta(minutes=60)  # 缓存时间
+        redis_key = "distribution:{0}".format(region_id)  # 缓存key
 
-        # 缓存时间
-        time_interval = datetime.timedelta(minutes=60)
-        # 缓存key
-        redis_key = "distribution:{0}".format(region_id)
         # 缓存数据
         try:
             value = json.dumps(list(redis_data))
         except Exception as e:
             print("列表序列化失败", e, region_id)
             return
-            # 缓存
-        self._redis_worker.set(name=redis_key, value=value)
+        self._redis_worker.set(name=redis_key, value=value)  # 缓存
         self._redis_worker.expire(name=redis_key, time_interval=time_interval)
         # 一条条提交到话会话很多时间在日志生成上，占用太多IO了，拼接起来再写入，只用一次日志时间而已
         # 但是需要注意的是，一次性不能拼接太多，管道大小有限制---需要在MySQL中增大Max_allowed_packet，否则会报错
@@ -311,13 +284,11 @@ class ManagerScence(PositioningPeople):
                 geographi_data.clear()
         if len(geographi_data) > 0:
             sql_value = ','.join(geographi_data)
-
             sql = select_table + sql_value
             self.mysql_pool.sumbit(sql)
-
-        # 更新人流分布管理表的修改时间
         sql = "update digitalsmart.tablemanager  " \
-              "set last_date={0} where pid={1};".format(tmp_date, region_id)
+              "set last_date={0} where pid={1};".format(tmp_date, region_id)  # 更新人流分布管理表的修改时间
+
         self.mysql_pool.sumbit(sql)
 
     def manager_scenece_people_situation(self, table_id: int, scence_people_data: dict, pid: int, ddate: str,
@@ -341,25 +312,30 @@ class ManagerScence(PositioningPeople):
         sql = sql_format % (
             positioning_instance.region_id, positioning_instance.date, positioning_instance.detailTime,
             positioning_instance.num)
-        # 插入mysql数据库
-        self.mysql_pool.sumbit(sql)
+        self.mysql_pool.sumbit(sql)  # 插入mysql数据库
         format_int_of_ddate = int(ddate.replace("-", ''))
         sql = "select ttime,num from digitalsmart.historyscenceflow{table_id} where ddate={ddate};".format(
             table_id=table_id, ddate=format_int_of_ddate)
-        # 需要缓存的数据
-        people_flow_data = self.mysql_pool.select(sql)
+        people_flow_data = self.mysql_pool.select(sql)  # 需要缓存的数据
         cache_data_mapping = dict()
         for people_flow in people_flow_data:
-            ttime = people_flow[0]  # 时间
+            ttime = str(people_flow[0])  # 时间
+            match_ttime_format = re.match("(\d+):(\d+):(\d+)", ttime)
+            hour = match_ttime_format.group(1)
+            minutiue = match_ttime_format.group(2)
+            second = match_ttime_format.group(3)
+            if len(hour) == 1:
+                hour = "0" + hour
+            ttime = "{0}:{1}:{2}".format(hour, minutiue, second)  # 格式化
             num = people_flow[1]  # 客流数
-            cache_data_mapping[str(ttime)] = num
+
+            cache_data_mapping[ttime] = num
         # 缓存时间
         if not cache_data_mapping:
             return
         time_interval = datetime.timedelta(minutes=60)
-        # 缓存key
-        redis_key = "scence:{0}:{1}".format(pid, type_flag)
         # 缓存
+        redis_key = "scence:{0}:{1}".format(pid, type_flag)
         self._redis_worker.hashset(name=redis_key, mapping=cache_data_mapping)
         self._redis_worker.expire(name=redis_key, time_interval=time_interval)
 
@@ -397,6 +373,6 @@ if __name__ == "__main__":
     from multiprocessing import Process
 
     m = ManagerScence()
-    Process(target=m.manager_scence_trend).start()
+    # Process(target=m.manager_scence_trend).start()
     # Process(target=m.manager_scence_situation).start()
-    # Process(target=m.manager_scenece_people).start()
+    Process(target=m.manager_scenece_people).start()
